@@ -1,0 +1,111 @@
+{
+  "actions": [],
+  "creation": "2026-01-30 10:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "participant_type",
+    "participant_name",
+    "email",
+    "is_moderator",
+    "column_break_1",
+    "link_doctype",
+    "link_name",
+    "join_url",
+    "column_break_2",
+    "invitation_sent",
+    "invitation_sent_on",
+    "attended",
+    "join_time"
+  ],
+  "fields": [
+    {
+      "default": "External",
+      "fieldname": "participant_type",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "label": "Type",
+      "options": "Internal\nExternal"
+    },
+    {
+      "fieldname": "participant_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Name"
+    },
+    {
+      "fieldname": "email",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Email",
+      "options": "Email"
+    },
+    {
+      "default": "0",
+      "fieldname": "is_moderator",
+      "fieldtype": "Check",
+      "in_list_view": 1,
+      "label": "Moderator"
+    },
+    {
+      "fieldname": "column_break_1",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "link_doctype",
+      "fieldtype": "Link",
+      "label": "Link DocType",
+      "options": "DocType"
+    },
+    {
+      "fieldname": "link_name",
+      "fieldtype": "Dynamic Link",
+      "label": "Linked Document",
+      "options": "link_doctype"
+    },
+    {
+      "fieldname": "join_url",
+      "fieldtype": "Data",
+      "label": "Join URL"
+    },
+    {
+      "fieldname": "column_break_2",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "0",
+      "fieldname": "invitation_sent",
+      "fieldtype": "Check",
+      "label": "Invitation Sent"
+    },
+    {
+      "fieldname": "invitation_sent_on",
+      "fieldtype": "Datetime",
+      "label": "Sent On"
+    },
+    {
+      "default": "0",
+      "fieldname": "attended",
+      "fieldtype": "Check",
+      "label": "Attended"
+    },
+    {
+      "fieldname": "join_time",
+      "fieldtype": "Datetime",
+      "label": "Join Time"
+    }
+  ],
+  "index_web_pages_for_search": 1,
+  "istable": 1,
+  "links": [],
+  "modified": "2026-01-30 10:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Arrowz",
+  "name": "AZ Meeting Participant",
+  "owner": "Administrator",
+  "permissions": [],
+  "sort_field": "creation",
+  "sort_order": "ASC",
+  "states": [],
+  "track_changes": 0
+}

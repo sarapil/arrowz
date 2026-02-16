@@ -1,0 +1,426 @@
+/**
+ * Arrowz Screen Pop Styles
+ * CRM Screen Pop Sidebar and Modal Styles
+ */
+
+/* ============================================
+   Screen Pop Sidebar
+   ============================================ */
+.screenpop-sidebar {
+    position: fixed;
+    right: 0;
+    top: 60px;
+    width: 340px;
+    height: calc(100vh - 60px);
+    background: var(--fg-color);
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+    z-index: 1040;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--border-color);
+}
+
+.screenpop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #0066cc 0%, #004999 100%);
+    color: white;
+}
+
+.screenpop-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.screenpop-title .event-icon {
+    font-size: 18px;
+}
+
+.screenpop-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+    line-height: 1;
+}
+
+.screenpop-close:hover {
+    opacity: 1;
+}
+
+/* ============================================
+   Caller Card
+   ============================================ */
+.screenpop-body {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.caller-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    background: var(--bg-color);
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.caller-card.unknown {
+    border: 2px dashed var(--border-color);
+    background: transparent;
+}
+
+.caller-avatar {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #0066cc, #4a90d9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 600;
+    color: white;
+    flex-shrink: 0;
+}
+
+.caller-card.unknown .caller-avatar {
+    background: var(--text-muted);
+}
+
+.caller-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.caller-name {
+    margin: 0 0 4px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.caller-type {
+    font-size: 12px;
+    color: var(--primary);
+    background: var(--control-bg);
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 4px;
+}
+
+.caller-phone {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-family: 'SF Mono', 'Menlo', monospace;
+}
+
+/* ============================================
+   Quick Info Section
+   ============================================ */
+.quick-info {
+    background: var(--bg-color);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.info-value {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+/* ============================================
+   Other Matches
+   ============================================ */
+.other-matches {
+    margin-bottom: 16px;
+}
+
+.matches-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+.match-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    background: var(--bg-color);
+    border-radius: 6px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.match-item:hover {
+    background: var(--control-bg);
+    transform: translateX(4px);
+}
+
+.match-name {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.match-type {
+    font-size: 11px;
+    color: var(--text-muted);
+    background: var(--fg-color);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* ============================================
+   Actions
+   ============================================ */
+.screenpop-actions {
+    padding: 16px 20px;
+    display: flex;
+    gap: 12px;
+    border-top: 1px solid var(--border-color);
+    background: var(--fg-color);
+}
+
+.screenpop-actions .btn {
+    flex: 1;
+}
+
+.unknown-actions {
+    text-align: center;
+    padding: 20px;
+}
+
+/* ============================================
+   Modal Content
+   ============================================ */
+.screenpop-modal-content {
+    padding: 16px 0;
+}
+
+.screenpop-modal-content .caller-card {
+    margin: 0;
+}
+
+/* ============================================
+   Call History in Sidebar
+   ============================================ */
+.screenpop-history {
+    margin-top: 16px;
+}
+
+.screenpop-history .history-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    background: var(--bg-color);
+    border-radius: 6px;
+    margin-bottom: 6px;
+}
+
+.history-item .call-icon {
+    font-size: 14px;
+}
+
+.history-item .call-icon.inbound {
+    color: #2196F3;
+}
+
+.history-item .call-icon.outbound {
+    color: #4CAF50;
+}
+
+.history-item .call-icon.missed {
+    color: #f44336;
+}
+
+.history-item .call-info {
+    flex: 1;
+}
+
+.history-item .call-time {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.history-item .call-duration {
+    font-size: 11px;
+    color: var(--text-light);
+}
+
+/* ============================================
+   Open Tickets/Orders Section
+   ============================================ */
+.screenpop-tickets {
+    margin-top: 16px;
+}
+
+.ticket-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--bg-color);
+    border-radius: 6px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.ticket-item:hover {
+    background: var(--control-bg);
+}
+
+.ticket-status {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.ticket-status.open {
+    background: #ff9800;
+}
+
+.ticket-status.closed {
+    background: #4CAF50;
+}
+
+.ticket-status.urgent {
+    background: #f44336;
+}
+
+.ticket-info {
+    flex: 1;
+}
+
+.ticket-id {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.ticket-subject {
+    font-size: 11px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ============================================
+   Animation
+   ============================================ */
+.screenpop-sidebar.arrowz-fade-in {
+    animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ============================================
+   Dark Mode
+   ============================================ */
+[data-theme="dark"] .screenpop-sidebar {
+    background: var(--card-bg);
+}
+
+[data-theme="dark"] .caller-card {
+    background: var(--bg-dark);
+}
+
+[data-theme="dark"] .quick-info {
+    background: var(--bg-dark);
+}
+
+/* ============================================
+   Mobile Responsive
+   ============================================ */
+@media (max-width: 768px) {
+    .screenpop-sidebar {
+        width: 100%;
+        left: 0;
+        right: 0;
+    }
+}
+
+/* ============================================
+   Notification Badge on Tab
+   ============================================ */
+.screenpop-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 18px;
+    height: 18px;
+    background: #f44336;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}

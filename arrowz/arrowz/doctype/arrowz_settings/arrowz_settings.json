@@ -1,0 +1,340 @@
+{
+  "actions": [],
+  "creation": "2026-01-13 10:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "general_section",
+    "enabled",
+    "company",
+    "column_break_general",
+    "default_server",
+    "webrtc_section",
+    "enable_webrtc",
+    "auto_answer_internal",
+    "ring_timeout",
+    "column_break_webrtc",
+    "default_ringtone",
+    "show_desktop_notifications",
+    "screen_pop_section",
+    "enable_screen_pop",
+    "screen_pop_mode",
+    "ai_section",
+    "enable_ai_features",
+    "openai_api_key",
+    "ai_model",
+    "column_break_ai",
+    "enable_transcription",
+    "transcription_language",
+    "enable_sentiment",
+    "crm_section",
+    "enable_crm_integration",
+    "auto_create_leads",
+    "auto_popup_customer",
+    "column_break_crm",
+    "search_contacts_first",
+    "link_calls_to_opportunities",
+    "recording_section",
+    "enable_recording_playback",
+    "enable_call_recording",
+    "recording_storage_type",
+    "recording_base_path",
+    "column_break_recording",
+    "recording_retention_days",
+    "sms_section",
+    "enable_sms",
+    "default_sms_provider",
+    "sla_section",
+    "sla_threshold_seconds",
+    "sla_warning_threshold"
+  ],
+  "fields": [
+    {
+      "fieldname": "general_section",
+      "fieldtype": "Section Break",
+      "label": "General Settings"
+    },
+    {
+      "default": "1",
+      "fieldname": "enabled",
+      "fieldtype": "Check",
+      "label": "Enabled"
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "Company",
+      "options": "Company"
+    },
+    {
+      "fieldname": "column_break_general",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "default_server",
+      "fieldtype": "Link",
+      "label": "Default PBX Server",
+      "options": "AZ Server Config"
+    },
+    {
+      "fieldname": "webrtc_section",
+      "fieldtype": "Section Break",
+      "label": "WebRTC Settings"
+    },
+    {
+      "default": "1",
+      "fieldname": "enable_webrtc",
+      "fieldtype": "Check",
+      "label": "Enable WebRTC Softphone"
+    },
+    {
+      "default": "0",
+      "depends_on": "enable_webrtc",
+      "fieldname": "auto_answer_internal",
+      "fieldtype": "Check",
+      "label": "Auto-Answer Internal Calls"
+    },
+    {
+      "default": "30",
+      "depends_on": "enable_webrtc",
+      "fieldname": "ring_timeout",
+      "fieldtype": "Int",
+      "label": "Ring Timeout (seconds)"
+    },
+    {
+      "fieldname": "column_break_webrtc",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "default",
+      "depends_on": "enable_webrtc",
+      "fieldname": "default_ringtone",
+      "fieldtype": "Select",
+      "label": "Default Ringtone",
+      "options": "default\nclassic\nmodern\nsubtle\nsilent"
+    },
+    {
+      "default": "1",
+      "fieldname": "show_desktop_notifications",
+      "fieldtype": "Check",
+      "label": "Show Desktop Notifications"
+    },
+    {
+      "fieldname": "screen_pop_section",
+      "fieldtype": "Section Break",
+      "label": "Screen Pop"
+    },
+    {
+      "default": "1",
+      "fieldname": "enable_screen_pop",
+      "fieldtype": "Check",
+      "label": "Enable Screen Pop"
+    },
+    {
+      "default": "sidebar",
+      "depends_on": "enable_screen_pop",
+      "fieldname": "screen_pop_mode",
+      "fieldtype": "Select",
+      "label": "Screen Pop Mode",
+      "options": "sidebar\nmodal\nnewtab"
+    },
+    {
+      "fieldname": "ai_section",
+      "fieldtype": "Section Break",
+      "label": "AI Features"
+    },
+    {
+      "default": "0",
+      "fieldname": "enable_ai_features",
+      "fieldtype": "Check",
+      "label": "Enable AI Features"
+    },
+    {
+      "depends_on": "enable_ai_features",
+      "fieldname": "openai_api_key",
+      "fieldtype": "Password",
+      "label": "OpenAI API Key"
+    },
+    {
+      "default": "gpt-4o-mini",
+      "depends_on": "enable_ai_features",
+      "fieldname": "ai_model",
+      "fieldtype": "Select",
+      "label": "AI Model",
+      "options": "gpt-4o-mini\ngpt-4o\ngpt-4-turbo\ngpt-3.5-turbo"
+    },
+    {
+      "fieldname": "column_break_ai",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "0",
+      "depends_on": "enable_ai_features",
+      "fieldname": "enable_transcription",
+      "fieldtype": "Check",
+      "label": "Enable Live Transcription"
+    },
+    {
+      "default": "en-US",
+      "depends_on": "enable_transcription",
+      "fieldname": "transcription_language",
+      "fieldtype": "Select",
+      "label": "Transcription Language",
+      "options": "en-US\nar-SA\nes-ES\nfr-FR\nde-DE"
+    },
+    {
+      "default": "0",
+      "depends_on": "enable_ai_features",
+      "fieldname": "enable_sentiment",
+      "fieldtype": "Check",
+      "label": "Enable Sentiment Analysis"
+    },
+    {
+      "fieldname": "crm_section",
+      "fieldtype": "Section Break",
+      "label": "CRM Integration"
+    },
+    {
+      "default": "1",
+      "fieldname": "enable_crm_integration",
+      "fieldtype": "Check",
+      "label": "Enable CRM Integration"
+    },
+    {
+      "default": "0",
+      "depends_on": "enable_crm_integration",
+      "fieldname": "auto_create_leads",
+      "fieldtype": "Check",
+      "label": "Auto-Create Leads from Unknown Callers"
+    },
+    {
+      "default": "1",
+      "depends_on": "enable_crm_integration",
+      "fieldname": "auto_popup_customer",
+      "fieldtype": "Check",
+      "label": "Show Customer Popup on Incoming Calls"
+    },
+    {
+      "fieldname": "column_break_crm",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "1",
+      "depends_on": "enable_crm_integration",
+      "fieldname": "search_contacts_first",
+      "fieldtype": "Check",
+      "label": "Search Contacts First"
+    },
+    {
+      "default": "1",
+      "depends_on": "enable_crm_integration",
+      "fieldname": "link_calls_to_opportunities",
+      "fieldtype": "Check",
+      "label": "Link Calls to Opportunities"
+    },
+    {
+      "fieldname": "recording_section",
+      "fieldtype": "Section Break",
+      "label": "Recording Settings"
+    },
+    {
+      "default": "1",
+      "fieldname": "enable_call_recording",
+      "fieldtype": "Check",
+      "label": "Enable Call Recording"
+    },
+    {
+      "default": "1",
+      "fieldname": "enable_recording_playback",
+      "fieldtype": "Check",
+      "label": "Enable Recording Playback"
+    },
+    {
+      "default": "docker_volume",
+      "depends_on": "enable_recording_playback",
+      "fieldname": "recording_storage_type",
+      "fieldtype": "Select",
+      "label": "Recording Storage Type",
+      "options": "docker_volume\nhttp_api\nlocal"
+    },
+    {
+      "default": "/home/frappe/recordings/freepbx",
+      "depends_on": "enable_recording_playback",
+      "fieldname": "recording_base_path",
+      "fieldtype": "Data",
+      "label": "Recording Base Path"
+    },
+    {
+      "fieldname": "column_break_recording",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "90",
+      "fieldname": "recording_retention_days",
+      "fieldtype": "Int",
+      "label": "Recording Retention (Days)"
+    },
+    {
+      "fieldname": "sms_section",
+      "fieldtype": "Section Break",
+      "label": "SMS Settings"
+    },
+    {
+      "default": "0",
+      "fieldname": "enable_sms",
+      "fieldtype": "Check",
+      "label": "Enable SMS Integration"
+    },
+    {
+      "depends_on": "enable_sms",
+      "fieldname": "default_sms_provider",
+      "fieldtype": "Link",
+      "label": "Default SMS Provider",
+      "options": "AZ SMS Provider"
+    },
+    {
+      "fieldname": "sla_section",
+      "fieldtype": "Section Break",
+      "label": "SLA Settings"
+    },
+    {
+      "default": "20",
+      "fieldname": "sla_threshold_seconds",
+      "fieldtype": "Int",
+      "label": "SLA Threshold (seconds)",
+      "description": "Calls answered within this time count as within SLA"
+    },
+    {
+      "default": "15",
+      "fieldname": "sla_warning_threshold",
+      "fieldtype": "Int",
+      "label": "SLA Warning Threshold (seconds)"
+    }
+  ],
+  "issingle": 1,
+  "links": [],
+  "modified": "2026-01-13 10:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Arrowz",
+  "name": "Arrowz Settings",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "print": 1,
+      "read": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    },
+    {
+      "read": 1,
+      "role": "All"
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "track_changes": 1
+}

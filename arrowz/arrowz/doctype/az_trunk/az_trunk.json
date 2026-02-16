@@ -1,0 +1,246 @@
+{
+  "actions": [],
+  "autoname": "format:TRUNK-{####}",
+  "creation": "2026-01-28 10:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "trunk_info_section",
+    "trunk_name",
+    "trunk_type",
+    "provider",
+    "status",
+    "column_break_info",
+    "server",
+    "priority",
+    "max_channels",
+    "current_channels",
+    "connection_section",
+    "host",
+    "port",
+    "transport",
+    "column_break_conn",
+    "username",
+    "password",
+    "auth_type",
+    "codecs_section",
+    "codecs",
+    "dtmf_mode",
+    "column_break_codecs",
+    "qualify",
+    "qualify_frequency",
+    "routing_section",
+    "inbound_context",
+    "outbound_prefix",
+    "column_break_routing",
+    "default_caller_id",
+    "strip_digits",
+    "prepend_digits"
+  ],
+  "fields": [
+    {
+      "fieldname": "trunk_info_section",
+      "fieldtype": "Section Break",
+      "label": "Trunk Information"
+    },
+    {
+      "fieldname": "trunk_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Trunk Name",
+      "reqd": 1
+    },
+    {
+      "fieldname": "trunk_type",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "label": "Trunk Type",
+      "options": "SIP\nPJSIP\nIAX2\nDAHDI\nPRI",
+      "reqd": 1
+    },
+    {
+      "fieldname": "provider",
+      "fieldtype": "Data",
+      "label": "Provider Name"
+    },
+    {
+      "default": "Inactive",
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "label": "Status",
+      "options": "Active\nInactive\nError\nRegistering"
+    },
+    {
+      "fieldname": "column_break_info",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "server",
+      "fieldtype": "Link",
+      "label": "PBX Server",
+      "options": "AZ Server Config",
+      "reqd": 1
+    },
+    {
+      "default": "1",
+      "fieldname": "priority",
+      "fieldtype": "Int",
+      "label": "Priority"
+    },
+    {
+      "default": "30",
+      "fieldname": "max_channels",
+      "fieldtype": "Int",
+      "label": "Max Channels"
+    },
+    {
+      "default": "0",
+      "fieldname": "current_channels",
+      "fieldtype": "Int",
+      "label": "Current Channels",
+      "read_only": 1
+    },
+    {
+      "fieldname": "connection_section",
+      "fieldtype": "Section Break",
+      "label": "Connection Settings"
+    },
+    {
+      "fieldname": "host",
+      "fieldtype": "Data",
+      "label": "Host / IP",
+      "reqd": 1
+    },
+    {
+      "default": "5060",
+      "fieldname": "port",
+      "fieldtype": "Int",
+      "label": "Port"
+    },
+    {
+      "default": "UDP",
+      "fieldname": "transport",
+      "fieldtype": "Select",
+      "label": "Transport",
+      "options": "UDP\nTCP\nTLS"
+    },
+    {
+      "fieldname": "column_break_conn",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "username",
+      "fieldtype": "Data",
+      "label": "Username"
+    },
+    {
+      "fieldname": "password",
+      "fieldtype": "Password",
+      "label": "Password"
+    },
+    {
+      "default": "MD5",
+      "fieldname": "auth_type",
+      "fieldtype": "Select",
+      "label": "Auth Type",
+      "options": "MD5\nPlain\nIP Based"
+    },
+    {
+      "fieldname": "codecs_section",
+      "fieldtype": "Section Break",
+      "label": "Codec Settings"
+    },
+    {
+      "default": "ulaw,alaw,g729,opus",
+      "fieldname": "codecs",
+      "fieldtype": "Data",
+      "label": "Codecs"
+    },
+    {
+      "default": "rfc2833",
+      "fieldname": "dtmf_mode",
+      "fieldtype": "Select",
+      "label": "DTMF Mode",
+      "options": "rfc2833\ninband\ninfo\nauto"
+    },
+    {
+      "fieldname": "column_break_codecs",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": 1,
+      "fieldname": "qualify",
+      "fieldtype": "Check",
+      "label": "Qualify (Check Status)"
+    },
+    {
+      "default": "60",
+      "fieldname": "qualify_frequency",
+      "fieldtype": "Int",
+      "label": "Qualify Frequency (sec)"
+    },
+    {
+      "fieldname": "routing_section",
+      "fieldtype": "Section Break",
+      "label": "Routing Settings"
+    },
+    {
+      "fieldname": "inbound_context",
+      "fieldtype": "Data",
+      "label": "Inbound Context"
+    },
+    {
+      "fieldname": "outbound_prefix",
+      "fieldtype": "Data",
+      "label": "Outbound Prefix"
+    },
+    {
+      "fieldname": "column_break_routing",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "default_caller_id",
+      "fieldtype": "Data",
+      "label": "Default Caller ID"
+    },
+    {
+      "default": "0",
+      "fieldname": "strip_digits",
+      "fieldtype": "Int",
+      "label": "Strip Digits"
+    },
+    {
+      "fieldname": "prepend_digits",
+      "fieldtype": "Data",
+      "label": "Prepend Digits"
+    }
+  ],
+  "index_web_pages_for_search": 1,
+  "links": [],
+  "modified": "2026-01-28 10:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Arrowz",
+  "name": "AZ Trunk",
+  "naming_rule": "Expression",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": [],
+  "title_field": "trunk_name",
+  "track_changes": 1
+}

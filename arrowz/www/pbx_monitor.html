@@ -1,0 +1,380 @@
+{% extends "templates/web.html" %}
+
+{% block title %}PBX Monitor{% endblock %}
+
+{% block page_content %}
+<div class="pbx-monitor-container">
+    <div class="page-header">
+        <h1>
+            <i class="fa fa-server"></i> PBX Monitor
+        </h1>
+        <p class="text-muted">Real-time FreePBX/Asterisk monitoring and diagnostics</p>
+    </div>
+    
+    {% if servers %}
+    <div class="row">
+        <!-- Server Selection -->
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Servers</h4>
+                </div>
+                <div class="card-body">
+                    <select id="server-select" class="form-control">
+                        {% for server in servers %}
+                        <option value="{{ server.name }}" {% if server.name == default_server %}selected{% endif %}>
+                            {{ server.server_name }} ({{ server.server_type }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <button id="test-connection-btn" class="btn btn-primary btn-block mt-3">
+                        <i class="fa fa-plug"></i> Test Connection
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h4>Quick Actions</h4>
+                </div>
+                <div class="card-body">
+                    <button id="refresh-status-btn" class="btn btn-info btn-block">
+                        <i class="fa fa-refresh"></i> Refresh Status
+                    </button>
+                    <button id="enable-trace-btn" class="btn btn-warning btn-block mt-2">
+                        <i class="fa fa-bug"></i> Enable SIP Trace
+                    </button>
+                    <button id="disable-trace-btn" class="btn btn-secondary btn-block mt-2">
+                        <i class="fa fa-stop"></i> Disable SIP Trace
+                    </button>
+                    <button id="diagnose-btn" class="btn btn-danger btn-block mt-2">
+                        <i class="fa fa-stethoscope"></i> Run Diagnostics
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <!-- Connection Status -->
+            <div class="card" id="connection-status-card">
+                <div class="card-header">
+                    <h4><i class="fa fa-heartbeat"></i> Connection Status</h4>
+                </div>
+                <div class="card-body">
+                    <div id="connection-status">Click "Test Connection" to check</div>
+                </div>
+            </div>
+            
+            <!-- Endpoints & Contacts -->
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4><i class="fa fa-phone"></i> Endpoints</h4>
+                        </div>
+                        <div class="card-body">
+                            <div id="endpoints-list">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4><i class="fa fa-user"></i> Registered Contacts</h4>
+                        </div>
+                        <div class="card-body">
+                            <div id="contacts-list">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Active Calls -->
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h4><i class="fa fa-phone-volume"></i> Active Calls</h4>
+                </div>
+                <div class="card-body">
+                    <div id="active-calls">Loading...</div>
+                </div>
+            </div>
+            
+            <!-- Logs -->
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h4><i class="fa fa-file-text"></i> Recent Logs</h4>
+                    <div class="btn-group float-right">
+                        <button class="btn btn-sm btn-outline-primary log-filter active" data-filter="recent">All</button>
+                        <button class="btn btn-sm btn-outline-primary log-filter" data-filter="errors">Errors</button>
+                        <button class="btn btn-sm btn-outline-primary log-filter" data-filter="sip">SIP</button>
+                        <button class="btn btn-sm btn-outline-primary log-filter" data-filter="ice">ICE</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <pre id="logs-content" style="max-height: 400px; overflow-y: auto; font-size: 12px; background: #1e1e1e; color: #d4d4d4; padding: 10px; border-radius: 5px;">Loading...</pre>
+                </div>
+            </div>
+            
+            <!-- Diagnostics Results -->
+            <div class="card mt-3" id="diagnostics-card" style="display: none;">
+                <div class="card-header">
+                    <h4><i class="fa fa-stethoscope"></i> Diagnostics Results</h4>
+                </div>
+                <div class="card-body">
+                    <div id="diagnostics-results"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% else %}
+    <div class="alert alert-warning">
+        <i class="fa fa-exclamation-triangle"></i>
+        No SSH-enabled servers found. Please configure SSH settings in AZ Server Config.
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.pbx-monitor-container {
+    padding: 20px;
+}
+.card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+.card-header {
+    background: #f8f9fa;
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+.card-header h4 {
+    margin: 0;
+    font-size: 16px;
+}
+.card-body {
+    padding: 15px;
+}
+.status-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+.status-available { background: #28a745; color: white; }
+.status-unavailable { background: #dc3545; color: white; }
+.status-busy { background: #ffc107; color: black; }
+.endpoint-item, .contact-item {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+}
+.endpoint-item:last-child, .contact-item:last-child {
+    border-bottom: none;
+}
+</style>
+
+<script>
+frappe.ready(function() {
+    const serverSelect = document.getElementById('server-select');
+    
+    function getSelectedServer() {
+        return serverSelect.value;
+    }
+    
+    // Test Connection
+    document.getElementById('test-connection-btn').addEventListener('click', function() {
+        const btn = this;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Testing...';
+        
+        frappe.call({
+            method: 'arrowz.pbx_monitor.test_pbx_connection',
+            args: { server_name: getSelectedServer() },
+            callback: function(r) {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa fa-plug"></i> Test Connection';
+                
+                const status = document.getElementById('connection-status');
+                if (r.message && r.message.success) {
+                    status.innerHTML = `
+                        <span class="status-badge status-available">Connected</span>
+                        <p class="mt-2"><strong>Hostname:</strong> ${r.message.hostname}</p>
+                        <p><strong>Asterisk:</strong> ${r.message.asterisk_version}</p>
+                    `;
+                } else {
+                    status.innerHTML = `
+                        <span class="status-badge status-unavailable">Failed</span>
+                        <p class="mt-2 text-danger">${r.message?.error || 'Connection failed'}</p>
+                    `;
+                }
+            }
+        });
+    });
+    
+    // Refresh Status
+    document.getElementById('refresh-status-btn').addEventListener('click', refreshStatus);
+    
+    function refreshStatus() {
+        const btn = document.getElementById('refresh-status-btn');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Loading...';
+        
+        frappe.call({
+            method: 'arrowz.pbx_monitor.get_pbx_status',
+            args: { server_name: getSelectedServer() },
+            callback: function(r) {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa fa-refresh"></i> Refresh Status';
+                
+                if (r.message) {
+                    // Endpoints
+                    const endpoints = r.message.endpoints || [];
+                    let endpointsHtml = endpoints.length === 0 ? '<p class="text-muted">No endpoints found</p>' : '';
+                    endpoints.forEach(ep => {
+                        const statusClass = ep.status === 'Available' ? 'status-available' : 
+                                           ep.status === 'Unavailable' ? 'status-unavailable' : 'status-busy';
+                        endpointsHtml += `
+                            <div class="endpoint-item">
+                                <strong>${ep.extension}</strong>
+                                <span class="status-badge ${statusClass} float-right">${ep.status}</span>
+                            </div>
+                        `;
+                    });
+                    document.getElementById('endpoints-list').innerHTML = endpointsHtml;
+                    
+                    // Contacts
+                    const contacts = r.message.contacts || [];
+                    let contactsHtml = contacts.length === 0 ? '<p class="text-muted">No registered contacts</p>' : '';
+                    contacts.forEach(c => {
+                        const statusClass = c.status === 'Avail' ? 'status-available' : 'status-unavailable';
+                        contactsHtml += `
+                            <div class="contact-item">
+                                <small>${c.contact}</small>
+                                <span class="status-badge ${statusClass} float-right">${c.status}</span>
+                            </div>
+                        `;
+                    });
+                    document.getElementById('contacts-list').innerHTML = contactsHtml;
+                    
+                    // Active Calls
+                    document.getElementById('active-calls').innerHTML = `
+                        <h3>${r.message.active_calls || 0}</h3>
+                        <p class="text-muted">Active calls</p>
+                    `;
+                }
+            }
+        });
+    }
+    
+    // Load Logs
+    function loadLogs(filter = 'recent') {
+        frappe.call({
+            method: 'arrowz.pbx_monitor.get_pbx_logs',
+            args: { 
+                server_name: getSelectedServer(),
+                log_type: filter,
+                lines: 100
+            },
+            callback: function(r) {
+                if (r.message) {
+                    document.getElementById('logs-content').textContent = r.message.logs || 'No logs';
+                }
+            }
+        });
+    }
+    
+    // Log filter buttons
+    document.querySelectorAll('.log-filter').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.log-filter').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            loadLogs(this.dataset.filter);
+        });
+    });
+    
+    // Enable/Disable SIP Trace
+    document.getElementById('enable-trace-btn').addEventListener('click', function() {
+        frappe.call({
+            method: 'arrowz.pbx_monitor.enable_sip_trace',
+            args: { server_name: getSelectedServer(), verbose: true },
+            callback: function(r) {
+                frappe.show_alert({ message: 'SIP Trace enabled', indicator: 'green' });
+            }
+        });
+    });
+    
+    document.getElementById('disable-trace-btn').addEventListener('click', function() {
+        frappe.call({
+            method: 'arrowz.pbx_monitor.disable_sip_trace',
+            args: { server_name: getSelectedServer() },
+            callback: function(r) {
+                frappe.show_alert({ message: 'SIP Trace disabled', indicator: 'blue' });
+            }
+        });
+    });
+    
+    // Run Diagnostics
+    document.getElementById('diagnose-btn').addEventListener('click', function() {
+        const btn = this;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Diagnosing...';
+        
+        frappe.call({
+            method: 'arrowz.pbx_monitor.diagnose_ringing_issue',
+            args: { server_name: getSelectedServer() },
+            callback: function(r) {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa fa-stethoscope"></i> Run Diagnostics';
+                
+                const card = document.getElementById('diagnostics-card');
+                const results = document.getElementById('diagnostics-results');
+                
+                if (r.message) {
+                    card.style.display = 'block';
+                    
+                    let html = `<p><strong>Timestamp:</strong> ${r.message.timestamp}</p>`;
+                    
+                    if (r.message.possible_causes && r.message.possible_causes.length > 0) {
+                        html += '<h5>Possible Causes:</h5><ul class="text-danger">';
+                        r.message.possible_causes.forEach(c => {
+                            html += `<li>${c}</li>`;
+                        });
+                        html += '</ul>';
+                    }
+                    
+                    if (r.message.recommendations && r.message.recommendations.length > 0) {
+                        html += '<h5>Recommendations:</h5><ul class="text-info">';
+                        r.message.recommendations.forEach(r => {
+                            html += `<li>${r}</li>`;
+                        });
+                        html += '</ul>';
+                    }
+                    
+                    if (r.message.webrtc_check) {
+                        html += '<h5>WebRTC Check:</h5>';
+                        html += `<p>Ready: <strong>${r.message.webrtc_check.webrtc_ready ? 'Yes' : 'No'}</strong></p>`;
+                        if (r.message.webrtc_check.issues && r.message.webrtc_check.issues.length > 0) {
+                            html += '<ul class="text-warning">';
+                            r.message.webrtc_check.issues.forEach(i => {
+                                html += `<li>${i}</li>`;
+                            });
+                            html += '</ul>';
+                        }
+                    }
+                    
+                    results.innerHTML = html;
+                }
+            }
+        });
+    });
+    
+    // Initial load
+    refreshStatus();
+    loadLogs();
+});
+</script>
+{% endblock %}

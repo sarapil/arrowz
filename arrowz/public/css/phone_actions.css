@@ -1,0 +1,244 @@
+/**
+ * Arrowz Phone Actions CSS
+ * Styles for phone action buttons
+ */
+
+/* ============================================
+   Phone Action Buttons
+   ============================================ */
+.arrowz-phone-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.arrowz-phone-actions .arrowz-phone-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 24px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    background: var(--bg-color);
+}
+
+.arrowz-phone-actions .arrowz-phone-action:hover {
+    transform: scale(1.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Individual action styles */
+.arrowz-phone-actions .arrowz-phone-action[data-action="show_number"] {
+    background: #f8f9fa;
+    border-color: #dee2e6;
+}
+
+.arrowz-phone-actions .arrowz-phone-action[data-action="show_number"]:hover {
+    background: #e9ecef;
+}
+
+.arrowz-phone-actions .arrowz-phone-action[data-action="sms"] {
+    background: #e8f5e9;
+    border-color: #c8e6c9;
+}
+
+.arrowz-phone-actions .arrowz-phone-action[data-action="sms"]:hover {
+    background: #c8e6c9;
+}
+
+.arrowz-phone-actions .arrowz-phone-action[data-action="whatsapp"] {
+    background: #e8f5e9;
+    border-color: #25D366;
+}
+
+.arrowz-phone-actions .arrowz-phone-action[data-action="whatsapp"]:hover {
+    background: #25D366;
+    color: white;
+}
+
+.arrowz-phone-actions .arrowz-phone-action[data-action="telegram"] {
+    background: #e3f2fd;
+    border-color: #90caf9;
+}
+
+.arrowz-phone-actions .arrowz-phone-action[data-action="telegram"]:hover {
+    background: #0088cc;
+    color: white;
+}
+
+.arrowz-phone-actions .arrowz-phone-action[data-action="call"] {
+    background: #e3f2fd;
+    border-color: #2196F3;
+}
+
+.arrowz-phone-actions .arrowz-phone-action[data-action="call"]:hover {
+    background: #2196F3;
+    color: white;
+}
+
+/* Mini buttons for list views */
+.arrowz-phone-actions-mini {
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.list-row:hover .arrowz-phone-actions-mini {
+    opacity: 1;
+}
+
+.arrowz-phone-actions-mini .arrowz-phone-action {
+    font-size: 14px;
+    padding: 0;
+    background: transparent;
+    border: none;
+}
+
+.arrowz-phone-actions-mini .arrowz-phone-action:hover {
+    transform: scale(1.3);
+}
+
+/* ============================================
+   Phone Field Enhancements
+   ============================================ */
+.frappe-control[data-fieldtype="Phone"] .control-value,
+.frappe-control[data-fieldtype="Phone"] .like-disabled-input,
+.frappe-control[data-fieldtype="Data"][data-fieldname*="mobile"] .control-value,
+.frappe-control[data-fieldtype="Data"][data-fieldname*="phone"] .control-value {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ============================================
+   Call History Button in Softphone
+   ============================================ */
+.softphone-call-history-btn {
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+
+.softphone-call-history-btn:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* ============================================
+   Call History Modal
+   ============================================ */
+.call-history-modal .modal-dialog {
+    max-width: 700px;
+}
+
+.call-history-filters {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.call-history-filters select {
+    padding: 6px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--bg-color);
+}
+
+.call-history-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.call-history-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid var(--border-color);
+    gap: 12px;
+}
+
+.call-history-item:last-child {
+    border-bottom: none;
+}
+
+.call-history-item:hover {
+    background: var(--bg-color);
+}
+
+.call-history-icon {
+    font-size: 24px;
+    width: 40px;
+    text-align: center;
+}
+
+.call-history-icon.incoming {
+    color: #4CAF50;
+}
+
+.call-history-icon.outgoing {
+    color: #2196F3;
+}
+
+.call-history-icon.missed {
+    color: #f44336;
+}
+
+.call-history-details {
+    flex: 1;
+}
+
+.call-history-number {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.call-history-time {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.call-history-duration {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.call-history-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.call-history-actions button {
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 768px) {
+    .arrowz-phone-actions {
+        flex-wrap: wrap;
+    }
+    
+    .arrowz-phone-actions .arrowz-phone-action {
+        min-width: 32px;
+        height: 32px;
+    }
+    
+    .call-history-filters {
+        flex-direction: column;
+    }
+}

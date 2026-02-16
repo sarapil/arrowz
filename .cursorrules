@@ -1,0 +1,204 @@
+# Arrowz - Cursor AI Rules
+
+## Project Overview
+Arrowz is an enterprise VoIP call management application for Frappe Framework. It provides WebRTC softphone, Omni-Channel messaging (WhatsApp, Telegram), and video conferencing via OpenMeetings.
+
+## Tech Stack
+- **Backend**: Python 3.10+, Frappe Framework v15
+- **Frontend**: JavaScript ES6+, jQuery (Frappe default)
+- **Database**: MariaDB (via Frappe ORM)
+- **WebRTC**: JsSIP library
+- **Real-time**: Socket.IO (Frappe realtime)
+
+## Code Style
+
+### Python
+- Follow PEP 8
+- Use type hints for function parameters
+- Docstrings for all public functions (Google style)
+- Use `frappe.` utilities, not raw Python equivalents
+- Example:
+```python
+@frappe.whitelist()
+def get_call_log(call_id: str) -> dict:
+    """Get call log details.
+    
+    Args:
+        call_id: The unique call identifier
+        
+    Returns:
+        dict: Call log document as dictionary
+    """
+    return frappe.get_doc("AZ Call Log", call_id).as_dict()
+```
+
+### JavaScript
+- Use ES6+ features (arrow functions, template literals, destructuring)
+- Namespace all code under `arrowz.`
+- Use `frappe.call()` for API calls, not raw fetch
+- Use `frappe.realtime.on()` for Socket.IO events
+- Example:
+```javascript
+arrowz.myFeature = {
+    init() {
+        this.setupEventListeners();
+    },
+    
+    async loadData() {
+        const { message } = await frappe.call({
+            method: 'arrowz.api.myfeature.get_data'
+        });
+        return message;
+    }
+};
+```
+
+## File Locations
+
+### Adding New API
+Create in: `arrowz/api/<feature>.py`
+Register in: `arrowz/hooks.py` if guest access needed
+
+### Adding New DocType
+Create via: `bench new-doctype <name>` in Arrowz module
+Location: `arrowz/arrowz/doctype/<doctype_name>/`
+
+### Adding Frontend JS
+Location: `arrowz/public/js/<feature>.js`
+Register in: `arrowz/hooks.py` under `app_include_js`
+
+### Adding CSS
+Location: `arrowz/public/css/<feature>.css`
+Register in: `arrowz/hooks.py` under `app_include_css`
+
+## Key Patterns
+
+### API Response Format
+```python
+return {
+    "success": True,
+    "data": {...},
+    "message": "Optional message"
+}
+# Or for errors:
+frappe.throw(_("Error message"), exc=frappe.ValidationError)
+```
+
+### Document Operations
+```python
+# Create
+doc = frappe.get_doc({
+    "doctype": "AZ Call Log",
+    "caller": "1234567890"
+})
+doc.insert(ignore_permissions=True)
+
+# Read
+doc = frappe.get_doc("AZ Call Log", name)
+
+# Update
+frappe.db.set_value("AZ Call Log", name, "status", "Completed")
+
+# Delete
+frappe.delete_doc("AZ Call Log", name)
+
+# Query
+logs = frappe.get_all("AZ Call Log", 
+    filters={"status": "Completed"},
+    fields=["name", "caller", "duration"],
+    limit=10
+)
+```
+
+### Real-time Events
+```python
+# Publish from Python
+frappe.publish_realtime(
+    event="arrowz_call_started",
+    message={"call_id": call_id, "caller": caller},
+    user=frappe.session.user  # or room=, doctype=
+)
+```
+
+```javascript
+// Subscribe in JavaScript
+frappe.realtime.on("arrowz_call_started", (data) => {
+    console.log("Call started:", data);
+});
+```
+
+### Background Jobs
+```python
+# Enqueue job
+frappe.enqueue(
+    "arrowz.tasks.process_recording",
+    queue="long",
+    call_id=call_id
+)
+
+# In tasks.py
+def process_recording(call_id):
+    # Long-running task
+    pass
+```
+
+## DocType Naming Convention
+- Prefix: `AZ` (Arrowz)
+- Examples: `AZ Call Log`, `AZ Extension`, `AZ SMS Message`
+
+## Error Handling
+```python
+try:
+    result = external_api_call()
+except Exception as e:
+    frappe.log_error(
+        message=str(e),
+        title="External API Error"
+    )
+    frappe.throw(_("Failed to connect to external service"))
+```
+
+## Testing Commands
+```bash
+# Run app tests
+bench --site dev.localhost run-tests --app arrowz
+
+# Test specific module
+bench --site dev.localhost run-tests --app arrowz --module arrowz.api.webrtc
+
+# Console testing
+bench --site dev.localhost console
+```
+
+## Build Commands
+```bash
+# Build assets
+bench build --app arrowz
+
+# Watch mode
+bench watch --app arrowz
+
+# Clear cache
+bench --site dev.localhost clear-cache
+
+# Migrate after DocType changes
+bench --site dev.localhost migrate
+```
+
+## Important Files
+- `hooks.py` - All Frappe integrations
+- `boot.py` - Session initialization data
+- `tasks.py` - Scheduled background jobs
+- `notifications.py` - Notification rules
+
+## Integrations to Remember
+1. **FreePBX**: WebSocket for WebRTC, AMI for events
+2. **WhatsApp**: Meta Cloud API with webhooks
+3. **Telegram**: Bot API with webhooks
+4. **OpenMeetings**: REST API for video conferences
+
+## When Making Changes
+1. For Python API: Restart bench or use `bench restart`
+2. For JavaScript: Run `bench build --app arrowz`
+3. For DocType JSON: Run `bench migrate`
+4. For workspace: Run `bench migrate` and clear cache

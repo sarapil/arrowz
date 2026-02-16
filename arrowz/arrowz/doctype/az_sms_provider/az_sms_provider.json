@@ -1,0 +1,218 @@
+{
+  "actions": [],
+  "autoname": "field:provider_name",
+  "creation": "2026-01-13 10:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "provider_section",
+    "provider_name",
+    "provider_type",
+    "is_active",
+    "is_default",
+    "column_break_provider",
+    "api_base_url",
+    "sender_id",
+    "credentials_section",
+    "api_key",
+    "api_secret",
+    "column_break_creds",
+    "account_sid",
+    "auth_token",
+    "features_section",
+    "supports_mms",
+    "supports_unicode",
+    "max_message_length",
+    "column_break_features",
+    "supports_delivery_reports",
+    "webhook_url",
+    "limits_section",
+    "rate_limit_per_minute",
+    "daily_limit",
+    "column_break_limits",
+    "current_daily_usage",
+    "last_usage_reset"
+  ],
+  "fields": [
+    {
+      "fieldname": "provider_section",
+      "fieldtype": "Section Break",
+      "label": "Provider Information"
+    },
+    {
+      "fieldname": "provider_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Provider Name",
+      "reqd": 1,
+      "unique": 1
+    },
+    {
+      "fieldname": "provider_type",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "label": "Provider Type",
+      "options": "Twilio\nVonage\nMessageBird\nPlivo\nInfobip\nClickSend\nCustom API",
+      "reqd": 1
+    },
+    {
+      "default": "1",
+      "fieldname": "is_active",
+      "fieldtype": "Check",
+      "in_list_view": 1,
+      "label": "Is Active"
+    },
+    {
+      "default": "0",
+      "fieldname": "is_default",
+      "fieldtype": "Check",
+      "label": "Is Default Provider"
+    },
+    {
+      "fieldname": "column_break_provider",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "api_base_url",
+      "fieldtype": "Data",
+      "label": "API Base URL",
+      "description": "Required for Custom API provider type"
+    },
+    {
+      "fieldname": "sender_id",
+      "fieldtype": "Data",
+      "label": "Sender ID / From Number"
+    },
+    {
+      "fieldname": "credentials_section",
+      "fieldtype": "Section Break",
+      "label": "Credentials"
+    },
+    {
+      "fieldname": "api_key",
+      "fieldtype": "Password",
+      "label": "API Key"
+    },
+    {
+      "fieldname": "api_secret",
+      "fieldtype": "Password",
+      "label": "API Secret"
+    },
+    {
+      "fieldname": "column_break_creds",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "account_sid",
+      "fieldtype": "Data",
+      "label": "Account SID",
+      "description": "For Twilio"
+    },
+    {
+      "fieldname": "auth_token",
+      "fieldtype": "Password",
+      "label": "Auth Token"
+    },
+    {
+      "fieldname": "features_section",
+      "fieldtype": "Section Break",
+      "label": "Features"
+    },
+    {
+      "default": "0",
+      "fieldname": "supports_mms",
+      "fieldtype": "Check",
+      "label": "Supports MMS"
+    },
+    {
+      "default": "1",
+      "fieldname": "supports_unicode",
+      "fieldtype": "Check",
+      "label": "Supports Unicode"
+    },
+    {
+      "default": "160",
+      "fieldname": "max_message_length",
+      "fieldtype": "Int",
+      "label": "Max Message Length"
+    },
+    {
+      "fieldname": "column_break_features",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "1",
+      "fieldname": "supports_delivery_reports",
+      "fieldtype": "Check",
+      "label": "Supports Delivery Reports"
+    },
+    {
+      "fieldname": "webhook_url",
+      "fieldtype": "Data",
+      "label": "Webhook URL",
+      "read_only": 1
+    },
+    {
+      "collapsible": 1,
+      "fieldname": "limits_section",
+      "fieldtype": "Section Break",
+      "label": "Rate Limits"
+    },
+    {
+      "default": "60",
+      "fieldname": "rate_limit_per_minute",
+      "fieldtype": "Int",
+      "label": "Rate Limit (per minute)"
+    },
+    {
+      "default": "0",
+      "fieldname": "daily_limit",
+      "fieldtype": "Int",
+      "label": "Daily Limit",
+      "description": "0 = unlimited"
+    },
+    {
+      "fieldname": "column_break_limits",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "0",
+      "fieldname": "current_daily_usage",
+      "fieldtype": "Int",
+      "label": "Current Daily Usage",
+      "read_only": 1
+    },
+    {
+      "fieldname": "last_usage_reset",
+      "fieldtype": "Date",
+      "label": "Last Usage Reset",
+      "read_only": 1
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "links": [],
+  "modified": "2026-01-13 10:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Arrowz",
+  "name": "AZ SMS Provider",
+  "naming_rule": "By fieldname",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    }
+  ],
+  "sort_field": "creation",
+  "sort_order": "DESC",
+  "track_changes": 1
+}

@@ -1,0 +1,206 @@
+{
+  "actions": [],
+  "autoname": "format:XFER-{YYYY}-{#####}",
+  "creation": "2026-01-13 10:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "transfer_section",
+    "call_log",
+    "transfer_type",
+    "status",
+    "column_break_xfer",
+    "initiated_by",
+    "initiated_at",
+    "parties_section",
+    "from_extension",
+    "from_user",
+    "column_break_parties",
+    "to_extension",
+    "to_user",
+    "to_external_number",
+    "attended_section",
+    "consultation_start",
+    "consultation_duration",
+    "column_break_attended",
+    "consultation_ended",
+    "transfer_completed",
+    "result_section",
+    "result",
+    "failure_reason",
+    "column_break_result",
+    "new_call_log"
+  ],
+  "fields": [
+    {
+      "fieldname": "transfer_section",
+      "fieldtype": "Section Break",
+      "label": "Transfer Information"
+    },
+    {
+      "fieldname": "call_log",
+      "fieldtype": "Link",
+      "in_list_view": 1,
+      "label": "Original Call",
+      "options": "AZ Call Log",
+      "reqd": 1
+    },
+    {
+      "fieldname": "transfer_type",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "label": "Transfer Type",
+      "options": "Blind\nAttended",
+      "reqd": 1
+    },
+    {
+      "default": "Initiated",
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "label": "Status",
+      "options": "Initiated\nConsulting\nCompleted\nFailed\nCancelled"
+    },
+    {
+      "fieldname": "column_break_xfer",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "initiated_by",
+      "fieldtype": "Link",
+      "label": "Initiated By",
+      "options": "User"
+    },
+    {
+      "fieldname": "initiated_at",
+      "fieldtype": "Datetime",
+      "in_list_view": 1,
+      "label": "Initiated At"
+    },
+    {
+      "fieldname": "parties_section",
+      "fieldtype": "Section Break",
+      "label": "Transfer Parties"
+    },
+    {
+      "fieldname": "from_extension",
+      "fieldtype": "Data",
+      "label": "From Extension"
+    },
+    {
+      "fieldname": "from_user",
+      "fieldtype": "Link",
+      "label": "From User",
+      "options": "User"
+    },
+    {
+      "fieldname": "column_break_parties",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "to_extension",
+      "fieldtype": "Data",
+      "label": "To Extension"
+    },
+    {
+      "fieldname": "to_user",
+      "fieldtype": "Link",
+      "label": "To User",
+      "options": "User"
+    },
+    {
+      "fieldname": "to_external_number",
+      "fieldtype": "Data",
+      "label": "To External Number"
+    },
+    {
+      "depends_on": "eval:doc.transfer_type=='Attended'",
+      "fieldname": "attended_section",
+      "fieldtype": "Section Break",
+      "label": "Attended Transfer Details"
+    },
+    {
+      "fieldname": "consultation_start",
+      "fieldtype": "Datetime",
+      "label": "Consultation Started"
+    },
+    {
+      "fieldname": "consultation_duration",
+      "fieldtype": "Int",
+      "label": "Consultation Duration (sec)"
+    },
+    {
+      "fieldname": "column_break_attended",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "consultation_ended",
+      "fieldtype": "Datetime",
+      "label": "Consultation Ended"
+    },
+    {
+      "fieldname": "transfer_completed",
+      "fieldtype": "Datetime",
+      "label": "Transfer Completed At"
+    },
+    {
+      "fieldname": "result_section",
+      "fieldtype": "Section Break",
+      "label": "Result"
+    },
+    {
+      "fieldname": "result",
+      "fieldtype": "Select",
+      "label": "Result",
+      "options": "\nTransferred\nNo Answer\nBusy\nRejected\nCancelled"
+    },
+    {
+      "fieldname": "failure_reason",
+      "fieldtype": "Small Text",
+      "label": "Failure Reason"
+    },
+    {
+      "fieldname": "column_break_result",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "new_call_log",
+      "fieldtype": "Link",
+      "label": "New Call Log",
+      "options": "AZ Call Log",
+      "description": "Call log created after successful transfer"
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "links": [],
+  "modified": "2026-01-13 10:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Arrowz",
+  "name": "AZ Call Transfer Log",
+  "naming_rule": "Expression",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    },
+    {
+      "read": 1,
+      "report": 1,
+      "role": "All"
+    }
+  ],
+  "sort_field": "initiated_at",
+  "sort_order": "DESC",
+  "track_changes": 1
+}

@@ -1,0 +1,73 @@
+# Arrowz - Aider AI Rules
+
+## Project Information
+- App: Arrowz - Enterprise VoIP & Omni-Channel Communications
+- Framework: Frappe v15+
+- Languages: Python 3.10+, JavaScript ES6+
+- Database: MariaDB via Frappe ORM
+
+## Important Directories
+- API endpoints: arrowz/api/
+- DocTypes: arrowz/arrowz/doctype/
+- Integrations: arrowz/integrations/
+- Frontend JS: arrowz/public/js/
+- Frontend CSS: arrowz/public/css/
+
+## Code Patterns
+
+### Python API Pattern
+```python
+@frappe.whitelist()
+def function_name(param: str) -> dict:
+    """Docstring."""
+    frappe.only_for(["Role"])
+    return {"status": "success"}
+```
+
+### JavaScript Pattern
+```javascript
+arrowz.module = {
+    init() { ... },
+    async callApi() {
+        const { message } = await frappe.call({
+            method: 'arrowz.api.module.function'
+        });
+    }
+};
+```
+
+### Real-time Events
+```python
+# Server
+frappe.publish_realtime("event_name", data, user=user)
+```
+```javascript
+// Client
+frappe.realtime.on("event_name", (data) => { ... });
+```
+
+## Key Files
+- hooks.py: App configuration
+- tasks.py: Background jobs
+- boot.py: Session data
+- softphone_v2.js: WebRTC softphone
+- omni_panel.js: Chat UI
+
+## Naming Conventions
+- DocTypes: AZ <Name> (e.g., AZ Call Log)
+- Python: snake_case
+- JavaScript: camelCase in arrowz.* namespace
+- CSS: arrowz-* prefix
+
+## Testing Commands
+```bash
+bench --site dev.localhost run-tests --app arrowz
+bench build --app arrowz
+bench --site dev.localhost clear-cache
+```
+
+## Context Files
+- CONTEXT.md: Full technical context
+- INTEGRATIONS.md: External systems
+- AI_GUIDELINES.md: Coding guidelines
+- ARCHITECTURE.md: System diagrams

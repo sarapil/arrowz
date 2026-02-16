@@ -1,0 +1,27 @@
+{
+  "creation": "2026-01-13 10:00:00.000000",
+  "docstatus": 0,
+  "doctype": "Page",
+  "icon": "comments",
+  "idx": 0,
+  "modified": "2026-01-30 10:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Arrowz",
+  "name": "arrowz-communications",
+  "owner": "Administrator",
+  "page_name": "arrowz-communications",
+  "roles": [
+    {
+      "role": "System Manager"
+    },
+    {
+      "role": "Call Center Agent"
+    },
+    {
+      "role": "Call Center Manager"
+    }
+  ],
+  "standard": "Yes",
+  "system_page": 0,
+  "title": "Communications Hub"
+}

@@ -1,0 +1,204 @@
+{
+  "actions": [],
+  "autoname": "format:OR-{####}",
+  "creation": "2026-01-28 10:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "route_info_section",
+    "route_name",
+    "description",
+    "is_enabled",
+    "priority",
+    "column_break_info",
+    "server",
+    "match_section",
+    "dial_pattern",
+    "prefix",
+    "match_cid",
+    "column_break_match",
+    "prepend",
+    "strip_digits",
+    "trunk_section",
+    "primary_trunk",
+    "failover_trunk",
+    "column_break_trunk",
+    "trunk_sequence",
+    "time_section",
+    "use_time_condition",
+    "time_group",
+    "column_break_time",
+    "after_hours_trunk"
+  ],
+  "fields": [
+    {
+      "fieldname": "route_info_section",
+      "fieldtype": "Section Break",
+      "label": "Route Information"
+    },
+    {
+      "fieldname": "route_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Route Name",
+      "reqd": 1
+    },
+    {
+      "fieldname": "description",
+      "fieldtype": "Small Text",
+      "label": "Description"
+    },
+    {
+      "default": 1,
+      "fieldname": "is_enabled",
+      "fieldtype": "Check",
+      "in_list_view": 1,
+      "label": "Enabled"
+    },
+    {
+      "default": "100",
+      "fieldname": "priority",
+      "fieldtype": "Int",
+      "label": "Priority"
+    },
+    {
+      "fieldname": "column_break_info",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "server",
+      "fieldtype": "Link",
+      "label": "PBX Server",
+      "options": "AZ Server Config",
+      "reqd": 1
+    },
+    {
+      "fieldname": "match_section",
+      "fieldtype": "Section Break",
+      "label": "Dial Pattern Match"
+    },
+    {
+      "fieldname": "dial_pattern",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Dial Pattern",
+      "description": "e.g., _0X., _00X., _+X., 9|.",
+      "reqd": 1
+    },
+    {
+      "fieldname": "prefix",
+      "fieldtype": "Data",
+      "label": "Prefix",
+      "description": "Optional prefix to match"
+    },
+    {
+      "fieldname": "match_cid",
+      "fieldtype": "Data",
+      "label": "Match Caller ID",
+      "description": "Optional: Only match specific extensions"
+    },
+    {
+      "fieldname": "column_break_match",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "prepend",
+      "fieldtype": "Data",
+      "label": "Prepend",
+      "description": "Digits to prepend before dialing"
+    },
+    {
+      "default": "0",
+      "fieldname": "strip_digits",
+      "fieldtype": "Int",
+      "label": "Strip Digits",
+      "description": "Number of digits to strip from beginning"
+    },
+    {
+      "fieldname": "trunk_section",
+      "fieldtype": "Section Break",
+      "label": "Trunk Selection"
+    },
+    {
+      "fieldname": "primary_trunk",
+      "fieldtype": "Link",
+      "in_list_view": 1,
+      "label": "Primary Trunk",
+      "options": "AZ Trunk",
+      "reqd": 1
+    },
+    {
+      "fieldname": "failover_trunk",
+      "fieldtype": "Link",
+      "label": "Failover Trunk",
+      "options": "AZ Trunk"
+    },
+    {
+      "fieldname": "column_break_trunk",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "Primary First",
+      "fieldname": "trunk_sequence",
+      "fieldtype": "Select",
+      "label": "Trunk Selection",
+      "options": "Primary First\nRound Robin\nLeast Used"
+    },
+    {
+      "collapsible": 1,
+      "fieldname": "time_section",
+      "fieldtype": "Section Break",
+      "label": "Time Conditions"
+    },
+    {
+      "default": 0,
+      "fieldname": "use_time_condition",
+      "fieldtype": "Check",
+      "label": "Use Time Condition"
+    },
+    {
+      "depends_on": "eval:doc.use_time_condition",
+      "fieldname": "time_group",
+      "fieldtype": "Data",
+      "label": "Time Group"
+    },
+    {
+      "fieldname": "column_break_time",
+      "fieldtype": "Column Break"
+    },
+    {
+      "depends_on": "eval:doc.use_time_condition",
+      "fieldname": "after_hours_trunk",
+      "fieldtype": "Link",
+      "label": "After Hours Trunk",
+      "options": "AZ Trunk"
+    }
+  ],
+  "index_web_pages_for_search": 1,
+  "links": [],
+  "modified": "2026-01-28 10:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Arrowz",
+  "name": "AZ Outbound Route",
+  "naming_rule": "Expression",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    }
+  ],
+  "sort_field": "priority",
+  "sort_order": "ASC",
+  "states": [],
+  "title_field": "route_name",
+  "track_changes": 1
+}

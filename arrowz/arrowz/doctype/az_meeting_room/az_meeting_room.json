@@ -1,0 +1,380 @@
+{
+  "actions": [],
+  "autoname": "format:ROOM-{####}",
+  "creation": "2026-01-30 10:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "basic_section",
+    "room_name",
+    "room_type",
+    "status",
+    "column_break_basic",
+    "external_room_id",
+    "server_config",
+    "is_permanent",
+    "scheduling_section",
+    "scheduled_start",
+    "scheduled_end",
+    "column_break_schedule",
+    "timezone",
+    "auto_start_recording",
+    "linking_section",
+    "link_doctype",
+    "link_name",
+    "column_break_link",
+    "organizer",
+    "department",
+    "access_section",
+    "is_moderated",
+    "allow_recording",
+    "require_password",
+    "column_break_access",
+    "room_password",
+    "max_participants",
+    "waiting_room",
+    "capabilities_section",
+    "enable_chat",
+    "enable_whiteboard",
+    "enable_screen_share",
+    "column_break_caps",
+    "enable_file_share",
+    "enable_breakout_rooms",
+    "enable_polls",
+    "urls_section",
+    "moderator_url",
+    "participant_url",
+    "column_break_urls",
+    "recording_url",
+    "participants_section",
+    "participants",
+    "recording_section",
+    "recordings"
+  ],
+  "fields": [
+    {
+      "fieldname": "basic_section",
+      "fieldtype": "Section Break",
+      "label": "Room Information"
+    },
+    {
+      "fieldname": "room_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Room Name",
+      "reqd": 1
+    },
+    {
+      "default": "Conference",
+      "fieldname": "room_type",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "label": "Room Type",
+      "options": "Conference\nWebinar\nInterview\nPresentation\nRestricted"
+    },
+    {
+      "default": "Scheduled",
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "label": "Status",
+      "options": "Draft\nScheduled\nActive\nCompleted\nCancelled"
+    },
+    {
+      "fieldname": "column_break_basic",
+      "fieldtype": "Column Break"
+    },
+    {
+      "description": "Room ID from OpenMeetings",
+      "fieldname": "external_room_id",
+      "fieldtype": "Data",
+      "label": "External Room ID",
+      "read_only": 1
+    },
+    {
+      "fieldname": "server_config",
+      "fieldtype": "Link",
+      "label": "Server Configuration",
+      "options": "AZ Server Config"
+    },
+    {
+      "default": "0",
+      "description": "Permanent rooms are not deleted after meeting ends",
+      "fieldname": "is_permanent",
+      "fieldtype": "Check",
+      "label": "Permanent Room"
+    },
+    {
+      "fieldname": "scheduling_section",
+      "fieldtype": "Section Break",
+      "label": "Scheduling"
+    },
+    {
+      "fieldname": "scheduled_start",
+      "fieldtype": "Datetime",
+      "in_list_view": 1,
+      "label": "Scheduled Start"
+    },
+    {
+      "fieldname": "scheduled_end",
+      "fieldtype": "Datetime",
+      "label": "Scheduled End"
+    },
+    {
+      "fieldname": "column_break_schedule",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "Africa/Cairo",
+      "fieldname": "timezone",
+      "fieldtype": "Select",
+      "label": "Timezone",
+      "options": "Africa/Cairo\nAsia/Dubai\nAsia/Riyadh\nEurope/London\nAmerica/New_York\nAsia/Kolkata\nUTC"
+    },
+    {
+      "default": "0",
+      "fieldname": "auto_start_recording",
+      "fieldtype": "Check",
+      "label": "Auto-Start Recording"
+    },
+    {
+      "fieldname": "linking_section",
+      "fieldtype": "Section Break",
+      "label": "Document Linking"
+    },
+    {
+      "fieldname": "link_doctype",
+      "fieldtype": "Link",
+      "label": "Link DocType",
+      "options": "DocType"
+    },
+    {
+      "fieldname": "link_name",
+      "fieldtype": "Dynamic Link",
+      "label": "Linked Document",
+      "options": "link_doctype"
+    },
+    {
+      "fieldname": "column_break_link",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "organizer",
+      "fieldtype": "Link",
+      "label": "Organizer",
+      "options": "User"
+    },
+    {
+      "fieldname": "department",
+      "fieldtype": "Link",
+      "label": "Department",
+      "options": "Department"
+    },
+    {
+      "fieldname": "access_section",
+      "fieldtype": "Section Break",
+      "label": "Access Control"
+    },
+    {
+      "default": "1",
+      "fieldname": "is_moderated",
+      "fieldtype": "Check",
+      "label": "Moderated Room"
+    },
+    {
+      "default": "1",
+      "fieldname": "allow_recording",
+      "fieldtype": "Check",
+      "label": "Allow Recording"
+    },
+    {
+      "default": "0",
+      "fieldname": "require_password",
+      "fieldtype": "Check",
+      "label": "Require Password"
+    },
+    {
+      "fieldname": "column_break_access",
+      "fieldtype": "Column Break"
+    },
+    {
+      "depends_on": "require_password",
+      "fieldname": "room_password",
+      "fieldtype": "Password",
+      "label": "Room Password"
+    },
+    {
+      "default": "50",
+      "fieldname": "max_participants",
+      "fieldtype": "Int",
+      "label": "Max Participants"
+    },
+    {
+      "default": "0",
+      "fieldname": "waiting_room",
+      "fieldtype": "Check",
+      "label": "Enable Waiting Room"
+    },
+    {
+      "collapsible": 1,
+      "fieldname": "capabilities_section",
+      "fieldtype": "Section Break",
+      "label": "Room Capabilities"
+    },
+    {
+      "default": "1",
+      "fieldname": "enable_chat",
+      "fieldtype": "Check",
+      "label": "Enable Chat"
+    },
+    {
+      "default": "1",
+      "fieldname": "enable_whiteboard",
+      "fieldtype": "Check",
+      "label": "Enable Whiteboard"
+    },
+    {
+      "default": "1",
+      "fieldname": "enable_screen_share",
+      "fieldtype": "Check",
+      "label": "Enable Screen Share"
+    },
+    {
+      "fieldname": "column_break_caps",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "1",
+      "fieldname": "enable_file_share",
+      "fieldtype": "Check",
+      "label": "Enable File Sharing"
+    },
+    {
+      "default": "0",
+      "fieldname": "enable_breakout_rooms",
+      "fieldtype": "Check",
+      "label": "Enable Breakout Rooms"
+    },
+    {
+      "default": "0",
+      "fieldname": "enable_polls",
+      "fieldtype": "Check",
+      "label": "Enable Polls"
+    },
+    {
+      "fieldname": "urls_section",
+      "fieldtype": "Section Break",
+      "label": "Access URLs"
+    },
+    {
+      "fieldname": "moderator_url",
+      "fieldtype": "Data",
+      "label": "Moderator URL",
+      "read_only": 1
+    },
+    {
+      "fieldname": "participant_url",
+      "fieldtype": "Data",
+      "label": "Participant URL",
+      "read_only": 1
+    },
+    {
+      "fieldname": "column_break_urls",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "recording_url",
+      "fieldtype": "Data",
+      "label": "Recording URL",
+      "read_only": 1
+    },
+    {
+      "fieldname": "participants_section",
+      "fieldtype": "Section Break",
+      "label": "Participants"
+    },
+    {
+      "fieldname": "participants",
+      "fieldtype": "Table",
+      "label": "Participants",
+      "options": "AZ Meeting Participant"
+    },
+    {
+      "collapsible": 1,
+      "fieldname": "recording_section",
+      "fieldtype": "Section Break",
+      "label": "Recordings"
+    },
+    {
+      "fieldname": "recordings",
+      "fieldtype": "Table",
+      "label": "Recordings",
+      "options": "AZ Meeting Recording"
+    }
+  ],
+  "index_web_pages_for_search": 1,
+  "links": [
+    {
+      "link_doctype": "Event",
+      "link_fieldname": "custom_meeting_room"
+    }
+  ],
+  "modified": "2026-01-30 10:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Arrowz",
+  "name": "AZ Meeting Room",
+  "naming_rule": "Expression",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    },
+    {
+      "create": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "All",
+      "share": 1,
+      "write": 1
+    }
+  ],
+  "sort_field": "scheduled_start",
+  "sort_order": "DESC",
+  "states": [
+    {
+      "color": "gray",
+      "title": "Draft"
+    },
+    {
+      "color": "blue",
+      "title": "Scheduled"
+    },
+    {
+      "color": "green",
+      "title": "Active"
+    },
+    {
+      "color": "purple",
+      "title": "Completed"
+    },
+    {
+      "color": "red",
+      "title": "Cancelled"
+    }
+  ],
+  "title_field": "room_name",
+  "track_changes": 1
+}

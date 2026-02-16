@@ -1,0 +1,279 @@
+{
+  "actions": [],
+  "autoname": "format:EXT-{extension}",
+  "creation": "2026-01-13 10:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "basic_section",
+    "extension",
+    "display_name",
+    "user",
+    "column_break_basic",
+    "server",
+    "is_active",
+    "extension_type",
+    "pbx_sync_section",
+    "auto_provision",
+    "sync_status",
+    "column_break_sync",
+    "last_synced",
+    "pbx_extension_id",
+    "auth_section",
+    "sip_username",
+    "sip_password",
+    "column_break_auth",
+    "auth_realm",
+    "features_section",
+    "enable_recording",
+    "enable_voicemail",
+    "voicemail_pin",
+    "column_break_features",
+    "max_concurrent_calls",
+    "can_transfer_blind",
+    "enable_video",
+    "status_section",
+    "status",
+    "current_call",
+    "column_break_status",
+    "last_registered",
+    "registration_ip"
+  ],
+  "fields": [
+    {
+      "fieldname": "basic_section",
+      "fieldtype": "Section Break",
+      "label": "Basic Information"
+    },
+    {
+      "fieldname": "extension",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "label": "Extension Number",
+      "reqd": 1
+    },
+    {
+      "fieldname": "display_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Display Name"
+    },
+    {
+      "fieldname": "user",
+      "fieldtype": "Link",
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "label": "Assigned User",
+      "options": "User"
+    },
+    {
+      "fieldname": "column_break_basic",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "server",
+      "fieldtype": "Link",
+      "in_standard_filter": 1,
+      "label": "PBX Server",
+      "options": "AZ Server Config",
+      "reqd": 1
+    },
+    {
+      "default": "1",
+      "fieldname": "is_active",
+      "fieldtype": "Check",
+      "in_list_view": 1,
+      "label": "Is Active"
+    },
+    {
+      "default": "WebRTC",
+      "fieldname": "extension_type",
+      "fieldtype": "Select",
+      "label": "Extension Type",
+      "options": "WebRTC\nSIP Phone\nSoftphone\nMobile"
+    },
+    {
+      "fieldname": "pbx_sync_section",
+      "fieldtype": "Section Break",
+      "label": "PBX Synchronization",
+      "collapsible": 1
+    },
+    {
+      "default": "1",
+      "fieldname": "auto_provision",
+      "fieldtype": "Check",
+      "label": "Auto Provision to PBX",
+      "description": "Automatically create/update/delete this extension in FreePBX"
+    },
+    {
+      "fieldname": "sync_status",
+      "fieldtype": "Select",
+      "label": "Sync Status",
+      "options": "\nPending\nSynced\nFailed\nNot Synced",
+      "read_only": 1
+    },
+    {
+      "fieldname": "column_break_sync",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "last_synced",
+      "fieldtype": "Datetime",
+      "label": "Last Synced",
+      "read_only": 1
+    },
+    {
+      "fieldname": "pbx_extension_id",
+      "fieldtype": "Data",
+      "label": "PBX Extension ID",
+      "read_only": 1,
+      "description": "Internal ID in FreePBX"
+    },
+    {
+      "fieldname": "auth_section",
+      "fieldtype": "Section Break",
+      "label": "Authentication"
+    },
+    {
+      "fieldname": "sip_username",
+      "fieldtype": "Data",
+      "label": "SIP Username",
+      "description": "Usually same as extension number"
+    },
+    {
+      "fieldname": "sip_password",
+      "fieldtype": "Password",
+      "label": "SIP Password",
+      "description": "Auto-generated if left empty"
+    },
+    {
+      "fieldname": "column_break_auth",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "auth_realm",
+      "fieldtype": "Data",
+      "label": "Auth Realm",
+      "description": "Leave empty to use SIP Domain from server"
+    },
+    {
+      "fieldname": "features_section",
+      "fieldtype": "Section Break",
+      "label": "Features"
+    },
+    {
+      "default": "1",
+      "fieldname": "enable_recording",
+      "fieldtype": "Check",
+      "label": "Enable Call Recording"
+    },
+    {
+      "default": "1",
+      "fieldname": "enable_voicemail",
+      "fieldtype": "Check",
+      "label": "Enable Voicemail"
+    },
+    {
+      "fieldname": "voicemail_pin",
+      "fieldtype": "Data",
+      "label": "Voicemail PIN",
+      "description": "PIN code for voicemail access (4-6 digits)"
+    },
+    {
+      "fieldname": "column_break_features",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "2",
+      "fieldname": "max_concurrent_calls",
+      "fieldtype": "Int",
+      "label": "Max Concurrent Calls"
+    },
+    {
+      "default": "0",
+      "description": "Only supervisors should have blind transfer",
+      "fieldname": "can_transfer_blind",
+      "fieldtype": "Check",
+      "label": "Can Do Blind Transfer"
+    },
+    {
+      "default": "0",
+      "fieldname": "enable_video",
+      "fieldtype": "Check",
+      "label": "Enable Video Calling"
+    },
+    {
+      "fieldname": "status_section",
+      "fieldtype": "Section Break",
+      "label": "Current Status"
+    },
+    {
+      "default": "offline",
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "label": "Status",
+      "options": "offline\navailable\non_call\nwrap_up\nbreak\nbusy",
+      "read_only": 1
+    },
+    {
+      "fieldname": "current_call",
+      "fieldtype": "Link",
+      "label": "Current Call",
+      "options": "AZ Call Log",
+      "read_only": 1
+    },
+    {
+      "fieldname": "column_break_status",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "last_registered",
+      "fieldtype": "Datetime",
+      "label": "Last Registered",
+      "read_only": 1
+    },
+    {
+      "fieldname": "registration_ip",
+      "fieldtype": "Data",
+      "label": "Registration IP",
+      "read_only": 1
+    }
+  ],
+  "links": [
+    {
+      "link_doctype": "AZ Call Log",
+      "link_fieldname": "extension"
+    }
+  ],
+  "modified": "2026-01-13 10:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Arrowz",
+  "name": "AZ Extension",
+  "naming_rule": "Expression",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    },
+    {
+      "read": 1,
+      "role": "All",
+      "if_owner": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "title_field": "display_name",
+  "track_changes": 1
+}

@@ -1,0 +1,460 @@
+{
+  "actions": [],
+  "autoname": "field:server_name",
+  "creation": "2026-01-13 10:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "basic_section",
+    "server_name",
+    "server_type",
+    "is_active",
+    "is_default",
+    "column_break_basic",
+    "display_name",
+    "priority",
+    "connection_section",
+    "host",
+    "port",
+    "protocol",
+    "column_break_connection",
+    "websocket_url",
+    "sip_domain",
+    "webrtc_section",
+    "webrtc_enabled",
+    "stun_server",
+    "column_break_webrtc",
+    "turn_server",
+    "turn_username",
+    "turn_password",
+    "ami_section",
+    "ami_enabled",
+    "ami_host",
+    "ami_port",
+    "column_break_ami",
+    "ami_username",
+    "ami_password",
+    "graphql_section",
+    "graphql_enabled",
+    "graphql_url",
+    "graphql_client_id",
+    "graphql_client_secret",
+    "column_break_graphql",
+    "verify_ssl",
+    "token_status",
+    "ssh_section",
+    "ssh_enabled",
+    "ssh_host",
+    "ssh_port",
+    "column_break_ssh",
+    "ssh_username",
+    "ssh_auth_type",
+    "ssh_password",
+    "ssh_private_key",
+    "openmeetings_section",
+    "om_enabled",
+    "om_url",
+    "om_admin_user",
+    "om_admin_password",
+    "column_break_om",
+    "om_webapp_path",
+    "om_default_room_type",
+    "om_moderator_id",
+    "om_verify_ssl",
+    "status_section",
+    "connection_status",
+    "last_health_check",
+    "last_error"
+  ],
+  "fields": [
+    {
+      "fieldname": "basic_section",
+      "fieldtype": "Section Break",
+      "label": "Basic Information"
+    },
+    {
+      "fieldname": "server_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Server Name",
+      "reqd": 1,
+      "unique": 1
+    },
+    {
+      "fieldname": "server_type",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "label": "Server Type",
+      "options": "FreePBX\nAsterisk\nIssabel\n3CX\nCustom SIP\nOpenMeetings",
+      "reqd": 1
+    },
+    {
+      "default": "1",
+      "fieldname": "is_active",
+      "fieldtype": "Check",
+      "in_list_view": 1,
+      "label": "Is Active"
+    },
+    {
+      "default": "0",
+      "fieldname": "is_default",
+      "fieldtype": "Check",
+      "label": "Is Default Server"
+    },
+    {
+      "fieldname": "column_break_basic",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "display_name",
+      "fieldtype": "Data",
+      "label": "Display Name"
+    },
+    {
+      "default": "5",
+      "fieldname": "priority",
+      "fieldtype": "Int",
+      "label": "Priority (lower = higher)"
+    },
+    {
+      "fieldname": "connection_section",
+      "fieldtype": "Section Break",
+      "label": "Connection Settings"
+    },
+    {
+      "fieldname": "host",
+      "fieldtype": "Data",
+      "label": "Host/IP Address",
+      "reqd": 1
+    },
+    {
+      "default": "8089",
+      "fieldname": "port",
+      "fieldtype": "Int",
+      "label": "WebSocket Port"
+    },
+    {
+      "default": "WSS",
+      "fieldname": "protocol",
+      "fieldtype": "Select",
+      "label": "Protocol",
+      "options": "WSS\nWS"
+    },
+    {
+      "fieldname": "column_break_connection",
+      "fieldtype": "Column Break"
+    },
+    {
+      "description": "Full WebSocket URL (e.g., wss://pbx.example.com:8089/ws)",
+      "fieldname": "websocket_url",
+      "fieldtype": "Data",
+      "label": "WebSocket URL"
+    },
+    {
+      "fieldname": "sip_domain",
+      "fieldtype": "Data",
+      "label": "SIP Domain"
+    },
+    {
+      "fieldname": "webrtc_section",
+      "fieldtype": "Section Break",
+      "label": "WebRTC Settings"
+    },
+    {
+      "default": "1",
+      "fieldname": "webrtc_enabled",
+      "fieldtype": "Check",
+      "label": "WebRTC Enabled"
+    },
+    {
+      "default": "stun:stun.l.google.com:19302",
+      "fieldname": "stun_server",
+      "fieldtype": "Data",
+      "label": "STUN Server"
+    },
+    {
+      "fieldname": "column_break_webrtc",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "turn_server",
+      "fieldtype": "Data",
+      "label": "TURN Server"
+    },
+    {
+      "depends_on": "turn_server",
+      "fieldname": "turn_username",
+      "fieldtype": "Data",
+      "label": "TURN Username"
+    },
+    {
+      "depends_on": "turn_server",
+      "fieldname": "turn_password",
+      "fieldtype": "Password",
+      "label": "TURN Password"
+    },
+    {
+      "fieldname": "ami_section",
+      "fieldtype": "Section Break",
+      "label": "AMI Settings (Asterisk Manager Interface)"
+    },
+    {
+      "default": "0",
+      "fieldname": "ami_enabled",
+      "fieldtype": "Check",
+      "label": "Enable AMI"
+    },
+    {
+      "depends_on": "ami_enabled",
+      "fieldname": "ami_host",
+      "fieldtype": "Data",
+      "label": "AMI Host"
+    },
+    {
+      "default": "5038",
+      "depends_on": "ami_enabled",
+      "fieldname": "ami_port",
+      "fieldtype": "Int",
+      "label": "AMI Port"
+    },
+    {
+      "fieldname": "column_break_ami",
+      "fieldtype": "Column Break"
+    },
+    {
+      "depends_on": "ami_enabled",
+      "fieldname": "ami_username",
+      "fieldtype": "Data",
+      "label": "AMI Username"
+    },
+    {
+      "depends_on": "ami_enabled",
+      "fieldname": "ami_password",
+      "fieldtype": "Password",
+      "label": "AMI Password"
+    },
+    {
+      "fieldname": "graphql_section",
+      "fieldtype": "Section Break",
+      "label": "FreePBX GraphQL API"
+    },
+    {
+      "default": "0",
+      "fieldname": "graphql_enabled",
+      "fieldtype": "Check",
+      "label": "Enable GraphQL API"
+    },
+    {
+      "depends_on": "graphql_enabled",
+      "description": "e.g., https://172.21.0.2/admin/api/api/gql",
+      "fieldname": "graphql_url",
+      "fieldtype": "Data",
+      "label": "GraphQL Endpoint URL"
+    },
+    {
+      "depends_on": "graphql_enabled",
+      "description": "OAuth2 Client ID from FreePBX API Application",
+      "fieldname": "graphql_client_id",
+      "fieldtype": "Data",
+      "label": "Client ID"
+    },
+    {
+      "depends_on": "graphql_enabled",
+      "description": "OAuth2 Client Secret from FreePBX API Application",
+      "fieldname": "graphql_client_secret",
+      "fieldtype": "Password",
+      "label": "Client Secret"
+    },
+    {
+      "fieldname": "column_break_graphql",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "0",
+      "depends_on": "graphql_enabled",
+      "description": "Disable for self-signed certificates on internal networks",
+      "fieldname": "verify_ssl",
+      "fieldtype": "Check",
+      "label": "Verify SSL Certificate"
+    },
+    {
+      "depends_on": "graphql_enabled",
+      "fieldname": "token_status",
+      "fieldtype": "Data",
+      "label": "Token Status",
+      "read_only": 1,
+      "description": "Shows current token status (Valid/Expired/None)"
+    },
+    {
+      "fieldname": "ssh_section",
+      "fieldtype": "Section Break",
+      "label": "SSH Access (for fwconsole)"
+    },
+    {
+      "default": "0",
+      "description": "Used for Trunks/Outbound Routes (not in GraphQL)",
+      "fieldname": "ssh_enabled",
+      "fieldtype": "Check",
+      "label": "Enable SSH for fwconsole"
+    },
+    {
+      "depends_on": "ssh_enabled",
+      "fieldname": "ssh_host",
+      "fieldtype": "Data",
+      "label": "SSH Host"
+    },
+    {
+      "default": "22",
+      "depends_on": "ssh_enabled",
+      "fieldname": "ssh_port",
+      "fieldtype": "Int",
+      "label": "SSH Port"
+    },
+    {
+      "fieldname": "column_break_ssh",
+      "fieldtype": "Column Break"
+    },
+    {
+      "depends_on": "ssh_enabled",
+      "fieldname": "ssh_username",
+      "fieldtype": "Data",
+      "label": "SSH Username"
+    },
+    {
+      "default": "Private Key",
+      "depends_on": "ssh_enabled",
+      "fieldname": "ssh_auth_type",
+      "fieldtype": "Select",
+      "label": "SSH Authentication",
+      "options": "Password\nPrivate Key"
+    },
+    {
+      "depends_on": "eval:doc.ssh_enabled && doc.ssh_auth_type=='Password'",
+      "fieldname": "ssh_password",
+      "fieldtype": "Password",
+      "label": "SSH Password"
+    },
+    {
+      "depends_on": "eval:doc.ssh_enabled && doc.ssh_auth_type=='Private Key'",
+      "fieldname": "ssh_private_key",
+      "fieldtype": "Text",
+      "label": "SSH Private Key"
+    },
+    {
+      "collapsible": 1,
+      "depends_on": "eval:doc.server_type=='OpenMeetings'",
+      "fieldname": "openmeetings_section",
+      "fieldtype": "Section Break",
+      "label": "OpenMeetings Settings"
+    },
+    {
+      "default": "0",
+      "depends_on": "eval:doc.server_type=='OpenMeetings'",
+      "fieldname": "om_enabled",
+      "fieldtype": "Check",
+      "label": "Enable OpenMeetings"
+    },
+    {
+      "depends_on": "eval:doc.server_type=='OpenMeetings' && doc.om_enabled",
+      "description": "e.g., https://meetings.example.com:5443",
+      "fieldname": "om_url",
+      "fieldtype": "Data",
+      "label": "OpenMeetings URL"
+    },
+    {
+      "depends_on": "eval:doc.server_type=='OpenMeetings' && doc.om_enabled",
+      "fieldname": "om_admin_user",
+      "fieldtype": "Data",
+      "label": "Admin Username"
+    },
+    {
+      "depends_on": "eval:doc.server_type=='OpenMeetings' && doc.om_enabled",
+      "fieldname": "om_admin_password",
+      "fieldtype": "Password",
+      "label": "Admin Password"
+    },
+    {
+      "fieldname": "column_break_om",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "/openmeetings",
+      "depends_on": "eval:doc.server_type=='OpenMeetings' && doc.om_enabled",
+      "description": "Usually /openmeetings",
+      "fieldname": "om_webapp_path",
+      "fieldtype": "Data",
+      "label": "Webapp Path"
+    },
+    {
+      "default": "Conference",
+      "depends_on": "eval:doc.server_type=='OpenMeetings' && doc.om_enabled",
+      "fieldname": "om_default_room_type",
+      "fieldtype": "Select",
+      "label": "Default Room Type",
+      "options": "Conference\nPresentation\nInterview\nRestricted"
+    },
+    {
+      "depends_on": "eval:doc.server_type=='OpenMeetings' && doc.om_enabled",
+      "description": "OpenMeetings user ID for moderator (usually 1 for admin)",
+      "fieldname": "om_moderator_id",
+      "fieldtype": "Int",
+      "label": "Default Moderator ID"
+    },
+    {
+      "default": "1",
+      "depends_on": "eval:doc.server_type=='OpenMeetings' && doc.om_enabled",
+      "fieldname": "om_verify_ssl",
+      "fieldtype": "Check",
+      "label": "Verify SSL Certificate"
+    },
+    {
+      "fieldname": "status_section",
+      "fieldtype": "Section Break",
+      "label": "Status"
+    },
+    {
+      "default": "Unknown",
+      "fieldname": "connection_status",
+      "fieldtype": "Select",
+      "label": "Connection Status",
+      "options": "Unknown\nConnected\nDisconnected\nError",
+      "read_only": 1
+    },
+    {
+      "fieldname": "last_health_check",
+      "fieldtype": "Datetime",
+      "label": "Last Health Check",
+      "read_only": 1
+    },
+    {
+      "fieldname": "last_error",
+      "fieldtype": "Small Text",
+      "label": "Last Error Message",
+      "read_only": 1
+    }
+  ],
+  "links": [],
+  "modified": "2026-01-13 10:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Arrowz",
+  "name": "AZ Server Config",
+  "naming_rule": "By fieldname",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "track_changes": 1
+}

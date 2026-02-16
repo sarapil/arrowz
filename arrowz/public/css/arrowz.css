@@ -1,0 +1,752 @@
+/**
+ * Arrowz Styles
+ * Main CSS for all Arrowz components
+ */
+
+/* ============================================
+   Variables
+   ============================================ */
+:root {
+    --arrowz-primary: #0066cc;
+    --arrowz-success: #4CAF50;
+    --arrowz-warning: #ff9800;
+    --arrowz-danger: #f44336;
+    --arrowz-info: #2196F3;
+    --arrowz-purple: #9c27b0;
+    --arrowz-cyan: #00bcd4;
+}
+
+/* ============================================
+   Call Log Styles
+   ============================================ */
+.call-log-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: var(--fg-color);
+    border-radius: 8px;
+    margin-bottom: 24px;
+}
+
+.call-direction-badge {
+    font-size: 32px;
+}
+
+.call-party-info h3 {
+    margin: 0 0 4px 0;
+}
+
+.call-party-info .text-muted {
+    font-size: 13px;
+}
+
+.call-status-badge {
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.call-status-badge.completed {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.call-status-badge.missed {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.call-status-badge.in-progress {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+/* ============================================
+   Recording Player
+   ============================================ */
+.recording-player {
+    background: var(--bg-color);
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+}
+
+.recording-player audio {
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.recording-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.recording-player .waveform {
+    height: 60px;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        var(--primary) 50%,
+        transparent 100%
+    );
+    opacity: 0.3;
+    border-radius: 4px;
+    margin-bottom: 12px;
+}
+
+/* ============================================
+   Dashboard Cards
+   ============================================ */
+.arrowz-stat-card {
+    background: var(--fg-color);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: var(--shadow-base);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.arrowz-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.arrowz-stat-card .stat-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.arrowz-stat-card .stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.arrowz-stat-card .stat-label {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.arrowz-stat-card .stat-change {
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.arrowz-stat-card .stat-change.positive {
+    color: var(--arrowz-success);
+}
+
+.arrowz-stat-card .stat-change.negative {
+    color: var(--arrowz-danger);
+}
+
+/* ============================================
+   Call Action Buttons
+   ============================================ */
+.arrowz-call-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.arrowz-call-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+}
+
+.arrowz-call-btn.call {
+    background: var(--arrowz-success);
+    color: white;
+}
+
+.arrowz-call-btn.sms {
+    background: var(--arrowz-info);
+    color: white;
+}
+
+.arrowz-call-btn.hangup {
+    background: var(--arrowz-danger);
+    color: white;
+}
+
+.arrowz-call-btn.transfer {
+    background: var(--arrowz-warning);
+    color: white;
+}
+
+.arrowz-call-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* ============================================
+   Phone Field Enhancement
+   ============================================ */
+.arrowz-phone-field {
+    position: relative;
+}
+
+.arrowz-call-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.arrowz-call-icon:hover {
+    opacity: 1;
+}
+
+/* ============================================
+   Wallboard Styles
+   ============================================ */
+.arrowz-wallboard {
+    padding: 20px;
+}
+
+.arrowz-wallboard .card {
+    border: none;
+    box-shadow: var(--shadow-base);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.arrowz-wallboard .card-header {
+    background: var(--fg-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 12px 16px;
+}
+
+.arrowz-wallboard .card-header h6 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.arrowz-wallboard .card-body {
+    padding: 16px;
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.arrowz-wallboard .active-calls-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.arrowz-wallboard .agent-status-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* Stat cards in wallboard */
+.arrowz-wallboard .stat-active-calls,
+.arrowz-wallboard .stat-available-agents,
+.arrowz-wallboard .stat-waiting-calls,
+.arrowz-wallboard .stat-calls-today {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.arrowz-wallboard .row > .col-md-3 .card {
+    height: 120px;
+}
+
+.arrowz-wallboard .row > .col-md-6 .card {
+    height: auto;
+    min-height: 200px;
+}
+
+/* Active call item in wallboard */
+.arrowz-wallboard .active-call-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--bg-color);
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.arrowz-wallboard .active-call-item .call-icon {
+    font-size: 24px;
+}
+
+.arrowz-wallboard .active-call-item .call-info {
+    flex: 1;
+}
+
+.arrowz-wallboard .active-call-item .call-duration {
+    font-family: monospace;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+/* Agent status badge */
+.arrowz-wallboard .badge {
+    font-size: 11px;
+    padding: 4px 8px;
+}
+
+/* ============================================
+   Workspace Hero Section
+   ============================================ */
+.arrowz-hero {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px 0;
+}
+
+.arrowz-hero .hero-icon {
+    font-size: 48px;
+}
+
+/* Workspace Shortcut Cards Enhancement */
+.workspace-container .shortcut-widget-box {
+    transition: all 0.3s ease;
+    border-radius: 10px !important;
+}
+
+.workspace-container .shortcut-widget-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.workspace-container .widget-head .widget-title {
+    font-weight: 600;
+}
+
+/* Stats Cards in Workspace */
+.workspace-container .number-widget-box {
+    background: linear-gradient(135deg, var(--card-bg) 0%, var(--subtle-fg) 100%);
+    border-radius: 12px !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.workspace-container .number-widget-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+/* Quick Action Buttons */
+.arrowz-quick-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 15px 0;
+}
+
+.arrowz-quick-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 20px;
+    border-radius: 12px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    color: var(--text-color);
+    min-width: 100px;
+}
+
+.arrowz-quick-action-btn:hover {
+    border-color: var(--primary);
+    background: var(--subtle-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.arrowz-quick-action-btn .action-icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.arrowz-quick-action-btn .action-label {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Section Headers */
+.arrowz-section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 25px 0 15px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary);
+}
+
+.arrowz-section-header .section-icon {
+    font-size: 20px;
+}
+
+.arrowz-section-header h3 {
+    margin: 0;
+    font-weight: 600;
+}
+
+/* Live Counter Badge */
+.arrowz-live-counter {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+    background: var(--primary);
+    color: white;
+    animation: pulse 2s infinite;
+}
+
+.arrowz-live-counter.success { background: var(--arrowz-success); }
+.arrowz-live-counter.warning { background: var(--arrowz-warning); }
+.arrowz-live-counter.danger { background: var(--arrowz-danger); }
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Sidebar Module Shortcuts */
+.arrowz-sidebar-module {
+    padding: 10px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.arrowz-sidebar-module .module-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.arrowz-sidebar-module .module-links {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.arrowz-sidebar-module .module-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--text-color);
+    transition: background 0.2s;
+}
+
+.arrowz-sidebar-module .module-link:hover {
+    background: var(--subtle-fg);
+}
+
+.arrowz-sidebar-module .link-count {
+    background: var(--subtle-accent);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* ============================================
+   List View Enhancements
+   ============================================ */
+.arrowz-call-log-list .list-row {
+    border-left: 3px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.arrowz-call-log-list .list-row.inbound {
+    border-left-color: var(--arrowz-info);
+}
+
+.arrowz-call-log-list .list-row.outbound {
+    border-left-color: var(--arrowz-success);
+}
+
+.arrowz-call-log-list .list-row.missed {
+    border-left-color: var(--arrowz-danger);
+}
+
+.arrowz-call-log-list .call-direction-icon {
+    font-size: 18px;
+    margin-right: 8px;
+}
+
+.arrowz-call-log-list .call-duration {
+    font-family: monospace;
+    color: var(--text-muted);
+}
+
+/* ============================================
+   Sentiment Badges
+   ============================================ */
+.sentiment-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.sentiment-badge.positive {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.sentiment-badge.neutral {
+    background: #fff3e0;
+    color: #ef6c00;
+}
+
+.sentiment-badge.negative {
+    background: #ffebee;
+    color: #c62828;
+}
+
+/* ============================================
+   Workspace Styles
+   ============================================ */
+.arrowz-workspace-header {
+    background: linear-gradient(135deg, #0066cc 0%, #004999 100%);
+    color: white;
+    padding: 32px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+}
+
+.arrowz-workspace-header h1 {
+    margin: 0 0 8px 0;
+    font-size: 28px;
+}
+
+.arrowz-workspace-header p {
+    margin: 0;
+    opacity: 0.9;
+}
+
+.arrowz-quick-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.arrowz-quick-action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 20px;
+    background: var(--fg-color);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.arrowz-quick-action:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.arrowz-quick-action .action-icon {
+    font-size: 32px;
+}
+
+.arrowz-quick-action .action-label {
+    font-weight: 500;
+}
+
+/* ============================================
+   Mobile Responsiveness
+   ============================================ */
+@media (max-width: 768px) {
+    .arrowz-stat-card .stat-value {
+        font-size: 22px;
+    }
+    
+    .arrowz-call-actions {
+        flex-direction: column;
+    }
+    
+    .arrowz-call-btn {
+        justify-content: center;
+    }
+    
+    .arrowz-workspace-header {
+        padding: 20px;
+    }
+    
+    .arrowz-workspace-header h1 {
+        font-size: 22px;
+    }
+}
+
+/* ============================================
+   Dark Mode Support
+   ============================================ */
+[data-theme="dark"] .arrowz-stat-card {
+    background: var(--card-bg);
+}
+
+[data-theme="dark"] .call-status-badge.completed {
+    background: rgba(76, 175, 80, 0.2);
+}
+
+[data-theme="dark"] .call-status-badge.missed {
+    background: rgba(244, 67, 54, 0.2);
+}
+
+[data-theme="dark"] .sentiment-badge.positive {
+    background: rgba(76, 175, 80, 0.2);
+}
+
+[data-theme="dark"] .sentiment-badge.neutral {
+    background: rgba(255, 152, 0, 0.2);
+}
+
+[data-theme="dark"] .sentiment-badge.negative {
+    background: rgba(244, 67, 54, 0.2);
+}
+
+/* ============================================
+   Animation Classes
+   ============================================ */
+.arrowz-fade-in {
+    animation: arrowzFadeIn 0.3s ease-out;
+}
+
+@keyframes arrowzFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.arrowz-pulse {
+    animation: arrowzPulse 2s infinite;
+}
+
+@keyframes arrowzPulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
+.arrowz-ring {
+    animation: arrowzRing 1s ease-in-out infinite;
+}
+
+@keyframes arrowzRing {
+    0%, 100% {
+        transform: rotate(-5deg);
+    }
+    50% {
+        transform: rotate(5deg);
+    }
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+@media print {
+    .arrowz-call-actions,
+    .arrowz-quick-actions {
+        display: none;
+    }
+    
+    .arrowz-stat-card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+}
+
+/* ============================================
+   Click to Call Menu
+   ============================================ */
+.arrowz-call-menu {
+    min-width: 200px;
+    padding: 8px 0;
+    background: var(--fg-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    border: 1px solid var(--border-color);
+}
+
+.arrowz-call-menu .dropdown-item {
+    padding: 10px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: var(--text-color);
+    transition: background 0.2s;
+}
+
+.arrowz-call-menu .dropdown-item:hover {
+    background: var(--bg-color);
+    color: var(--primary);
+}
+
+.arrowz-call-menu .dropdown-divider {
+    margin: 4px 0;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Phone field click to call styling */
+[data-fieldtype="Phone"] .like-disabled-input,
+[data-fieldtype="Phone"] .control-value {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+[data-fieldtype="Phone"] .like-disabled-input:hover,
+[data-fieldtype="Phone"] .control-value:hover {
+    color: var(--primary) !important;
+    text-decoration: underline;
+}
+
+/* Call icon in phone fields */
+.arrowz-call-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.arrowz-call-icon:hover {
+    opacity: 1;
+}

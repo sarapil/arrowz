@@ -1,0 +1,252 @@
+{
+  "actions": [],
+  "autoname": "format:SMS-{YYYY}-{#####}",
+  "creation": "2026-01-13 10:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "message_section",
+    "direction",
+    "status",
+    "phone_number",
+    "column_break_msg",
+    "provider",
+    "provider_message_id",
+    "sent_time",
+    "content_section",
+    "message_content",
+    "message_type",
+    "column_break_content",
+    "character_count",
+    "segment_count",
+    "has_media",
+    "media_url",
+    "crm_section",
+    "contact_name",
+    "party_type",
+    "party",
+    "column_break_crm",
+    "related_call",
+    "related_to_type",
+    "related_to",
+    "delivery_section",
+    "delivery_status",
+    "delivered_time",
+    "column_break_delivery",
+    "error_code",
+    "error_message"
+  ],
+  "fields": [
+    {
+      "fieldname": "message_section",
+      "fieldtype": "Section Break",
+      "label": "Message Information"
+    },
+    {
+      "fieldname": "direction",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "label": "Direction",
+      "options": "Outbound\nInbound",
+      "reqd": 1
+    },
+    {
+      "default": "Pending",
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "label": "Status",
+      "options": "Pending\nSent\nDelivered\nFailed\nReceived"
+    },
+    {
+      "fieldname": "phone_number",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Phone Number",
+      "reqd": 1
+    },
+    {
+      "fieldname": "column_break_msg",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "provider",
+      "fieldtype": "Link",
+      "in_standard_filter": 1,
+      "label": "Provider",
+      "options": "AZ SMS Provider"
+    },
+    {
+      "fieldname": "provider_message_id",
+      "fieldtype": "Data",
+      "label": "Provider Message ID",
+      "read_only": 1
+    },
+    {
+      "fieldname": "sent_time",
+      "fieldtype": "Datetime",
+      "in_list_view": 1,
+      "label": "Sent/Received Time"
+    },
+    {
+      "fieldname": "content_section",
+      "fieldtype": "Section Break",
+      "label": "Content"
+    },
+    {
+      "fieldname": "message_content",
+      "fieldtype": "Small Text",
+      "in_list_view": 1,
+      "label": "Message",
+      "reqd": 1
+    },
+    {
+      "default": "SMS",
+      "fieldname": "message_type",
+      "fieldtype": "Select",
+      "label": "Type",
+      "options": "SMS\nMMS"
+    },
+    {
+      "fieldname": "column_break_content",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "0",
+      "fieldname": "character_count",
+      "fieldtype": "Int",
+      "label": "Character Count",
+      "read_only": 1
+    },
+    {
+      "default": "1",
+      "fieldname": "segment_count",
+      "fieldtype": "Int",
+      "label": "Segment Count",
+      "read_only": 1
+    },
+    {
+      "default": "0",
+      "fieldname": "has_media",
+      "fieldtype": "Check",
+      "label": "Has Media"
+    },
+    {
+      "depends_on": "has_media",
+      "fieldname": "media_url",
+      "fieldtype": "Data",
+      "label": "Media URL"
+    },
+    {
+      "fieldname": "crm_section",
+      "fieldtype": "Section Break",
+      "label": "CRM Information"
+    },
+    {
+      "fieldname": "contact_name",
+      "fieldtype": "Data",
+      "label": "Contact Name",
+      "read_only": 1
+    },
+    {
+      "fieldname": "party_type",
+      "fieldtype": "Link",
+      "label": "Party Type",
+      "options": "DocType"
+    },
+    {
+      "fieldname": "party",
+      "fieldtype": "Dynamic Link",
+      "label": "Party",
+      "options": "party_type"
+    },
+    {
+      "fieldname": "column_break_crm",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "related_call",
+      "fieldtype": "Link",
+      "label": "Related Call",
+      "options": "AZ Call Log"
+    },
+    {
+      "fieldname": "related_to_type",
+      "fieldtype": "Link",
+      "label": "Related DocType",
+      "options": "DocType"
+    },
+    {
+      "fieldname": "related_to",
+      "fieldtype": "Dynamic Link",
+      "label": "Related Document",
+      "options": "related_to_type"
+    },
+    {
+      "collapsible": 1,
+      "fieldname": "delivery_section",
+      "fieldtype": "Section Break",
+      "label": "Delivery Details"
+    },
+    {
+      "fieldname": "delivery_status",
+      "fieldtype": "Select",
+      "label": "Delivery Status",
+      "options": "\nqueued\nsending\nsent\ndelivered\nundelivered\nfailed"
+    },
+    {
+      "fieldname": "delivered_time",
+      "fieldtype": "Datetime",
+      "label": "Delivered Time"
+    },
+    {
+      "fieldname": "column_break_delivery",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "error_code",
+      "fieldtype": "Data",
+      "label": "Error Code"
+    },
+    {
+      "fieldname": "error_message",
+      "fieldtype": "Small Text",
+      "label": "Error Message"
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "links": [],
+  "modified": "2026-01-13 10:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Arrowz",
+  "name": "AZ SMS Message",
+  "naming_rule": "Expression",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    },
+    {
+      "create": 1,
+      "read": 1,
+      "role": "All",
+      "write": 1
+    }
+  ],
+  "search_fields": "phone_number,contact_name,message_content",
+  "sort_field": "sent_time",
+  "sort_order": "DESC",
+  "title_field": "phone_number",
+  "track_changes": 1
+}

@@ -1,0 +1,1214 @@
+/**
+ * Arrowz Softphone Styles
+ * WebRTC Softphone UI Components
+ */
+
+/* ============================================
+   Variables
+   ============================================ */
+:root {
+    --sp-bg: #1a1a2e;
+    --sp-bg-light: #16213e;
+    --sp-primary: #4fd1c5;
+    --sp-success: #68d391;
+    --sp-danger: #fc8181;
+    --sp-warning: #f6e05e;
+    --sp-text: #ffffff;
+    --sp-text-muted: #a0aec0;
+    --sp-border: rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================
+   Navbar Icon
+   ============================================ */
+.navbar-phone-icon {
+    position: relative;
+    cursor: pointer;
+    padding: 8px;
+    margin: 0 4px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.navbar-phone-icon:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.navbar-phone-icon .phone-icon {
+    font-size: 18px;
+    transition: all 0.3s;
+}
+
+.navbar-phone-icon.ringing .phone-icon {
+    animation: phoneRing 0.5s ease-in-out infinite;
+}
+
+.navbar-phone-icon.in-call .phone-icon {
+    color: var(--arrowz-success);
+}
+
+.navbar-phone-icon .call-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--arrowz-danger);
+    color: white;
+    font-size: 10px;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-phone-icon .status-dot {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1.5px solid white;
+}
+
+.navbar-phone-icon .status-dot.online {
+    background: var(--arrowz-success);
+}
+
+.navbar-phone-icon .status-dot.offline {
+    background: var(--arrowz-danger);
+}
+
+.navbar-phone-icon .status-dot.connecting {
+    background: var(--arrowz-warning);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes phoneRing {
+    0%, 100% { transform: rotate(-15deg); }
+    50% { transform: rotate(15deg); }
+}
+
+/* ============================================
+   Softphone Container
+   ============================================ */
+.softphone-container {
+    position: fixed;
+    right: 20px;
+    top: 60px;
+    width: 320px;
+    max-height: calc(100vh - 80px);
+    background: var(--sp-bg);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    z-index: 1050;
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+}
+
+.softphone-container.visible {
+    display: flex;
+    animation: softphoneSlideIn 0.3s ease-out;
+}
+
+@keyframes softphoneSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ============================================
+   Softphone Header
+   ============================================ */
+.softphone-header {
+    background: var(--sp-bg-light);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--sp-border);
+}
+
+.softphone-header .extension-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.softphone-header .ext-avatar {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--sp-primary), #4a90d9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--sp-bg);
+    font-weight: 600;
+}
+
+.softphone-header .ext-name {
+    font-weight: 500;
+    color: var(--sp-text);
+}
+
+.softphone-header .ext-number {
+    font-size: 12px;
+    color: var(--sp-text-muted);
+}
+
+.softphone-header .header-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.softphone-header .header-btn {
+    background: transparent;
+    border: none;
+    color: var(--sp-text-muted);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.softphone-header .header-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--sp-text);
+}
+
+/* ============================================
+   Dialer
+   ============================================ */
+.softphone-dialer {
+    padding: 20px;
+}
+
+.dial-input-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.dial-input {
+    width: 100%;
+    background: var(--sp-bg-light);
+    border: 1px solid var(--sp-border);
+    border-radius: 12px;
+    padding: 16px 50px 16px 16px;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--sp-text);
+    text-align: center;
+    letter-spacing: 2px;
+    outline: none;
+}
+
+.dial-input:focus {
+    border-color: var(--sp-primary);
+}
+
+.dial-input::placeholder {
+    color: var(--sp-text-muted);
+    letter-spacing: 0;
+    font-size: 16px;
+}
+
+.dial-backspace {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: var(--sp-text-muted);
+    cursor: pointer;
+    font-size: 20px;
+    padding: 8px;
+}
+
+.dial-backspace:hover {
+    color: var(--sp-danger);
+}
+
+/* Keypad */
+.dial-keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.dial-key {
+    aspect-ratio: 1;
+    background: var(--sp-bg-light);
+    border: 1px solid var(--sp-border);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.dial-key:hover {
+    background: rgba(79, 209, 197, 0.2);
+    border-color: var(--sp-primary);
+    transform: scale(1.05);
+}
+
+.dial-key:active {
+    transform: scale(0.95);
+}
+
+.dial-key .key-digit {
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--sp-text);
+}
+
+.dial-key .key-letters {
+    font-size: 9px;
+    color: var(--sp-text-muted);
+    letter-spacing: 2px;
+    margin-top: 2px;
+}
+
+/* Call Button */
+.dial-call-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--sp-success), #48bb78);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.dial-call-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(104, 211, 145, 0.4);
+}
+
+.dial-call-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* ============================================
+   Active Call View
+   ============================================ */
+.softphone-call {
+    padding: 24px;
+    text-align: center;
+    display: none;
+}
+
+.softphone-call.active {
+    display: block;
+}
+
+.call-party-avatar {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--sp-primary), #4a90d9);
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    color: var(--sp-bg);
+    font-weight: 600;
+}
+
+.call-party-avatar.ringing {
+    animation: avatarRing 1s ease-in-out infinite;
+}
+
+@keyframes avatarRing {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(79, 209, 197, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 20px rgba(79, 209, 197, 0);
+    }
+}
+
+.call-party-name {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--sp-text);
+    margin-bottom: 4px;
+}
+
+.call-party-number {
+    font-size: 14px;
+    color: var(--sp-text-muted);
+    margin-bottom: 16px;
+}
+
+.call-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    margin-bottom: 24px;
+}
+
+.call-status.ringing {
+    background: rgba(246, 224, 94, 0.2);
+    color: var(--sp-warning);
+}
+
+.call-status.connected {
+    background: rgba(104, 211, 145, 0.2);
+    color: var(--sp-success);
+}
+
+.call-status.on-hold {
+    background: rgba(79, 209, 197, 0.2);
+    color: var(--sp-primary);
+}
+
+.call-timer {
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--sp-text);
+    font-family: 'SF Mono', 'Menlo', monospace;
+    margin-bottom: 24px;
+}
+
+/* Call Controls */
+.call-controls {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.call-control-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 12px;
+    background: var(--sp-bg-light);
+    border: 1px solid var(--sp-border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.call-control-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.call-control-btn.active {
+    background: var(--sp-primary);
+    border-color: var(--sp-primary);
+}
+
+.call-control-btn .control-icon {
+    font-size: 20px;
+    color: var(--sp-text);
+}
+
+.call-control-btn .control-label {
+    font-size: 11px;
+    color: var(--sp-text-muted);
+}
+
+.call-control-btn.active .control-label {
+    color: var(--sp-bg);
+}
+
+/* Hangup Button */
+.call-hangup-btn {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, var(--sp-danger), #e53e3e);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.call-hangup-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(252, 129, 129, 0.4);
+}
+
+/* ============================================
+   Incoming Call View
+   ============================================ */
+.softphone-incoming {
+    padding: 24px;
+    text-align: center;
+    display: none;
+}
+
+.softphone-incoming.active {
+    display: block;
+}
+
+.incoming-actions {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+}
+
+.incoming-btn {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    transition: all 0.2s;
+}
+
+.incoming-btn.answer {
+    background: linear-gradient(135deg, var(--sp-success), #48bb78);
+    color: white;
+    animation: incomingPulse 1.5s ease-in-out infinite;
+}
+
+.incoming-btn.reject {
+    background: linear-gradient(135deg, var(--sp-danger), #e53e3e);
+    color: white;
+}
+
+.incoming-btn:hover {
+    transform: scale(1.1);
+}
+
+@keyframes incomingPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(104, 211, 145, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 0 15px rgba(104, 211, 145, 0);
+    }
+}
+
+/* ============================================
+   Transfer Dialog
+   ============================================ */
+.transfer-dialog {
+    position: absolute;
+    inset: 0;
+    background: var(--sp-bg);
+    display: none;
+    flex-direction: column;
+}
+
+.transfer-dialog.active {
+    display: flex;
+}
+
+.transfer-header {
+    padding: 16px;
+    background: var(--sp-bg-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.transfer-header h4 {
+    margin: 0;
+    color: var(--sp-text);
+}
+
+.transfer-body {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+}
+
+.transfer-input {
+    width: 100%;
+    background: var(--sp-bg-light);
+    border: 1px solid var(--sp-border);
+    border-radius: 8px;
+    padding: 12px;
+    color: var(--sp-text);
+    margin-bottom: 16px;
+    outline: none;
+}
+
+.transfer-input:focus {
+    border-color: var(--sp-primary);
+}
+
+.transfer-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.transfer-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.transfer-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.transfer-item .item-avatar {
+    width: 36px;
+    height: 36px;
+    background: var(--sp-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--sp-bg);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.transfer-item .item-name {
+    color: var(--sp-text);
+    font-weight: 500;
+}
+
+.transfer-item .item-ext {
+    color: var(--sp-text-muted);
+    font-size: 12px;
+}
+
+.transfer-actions {
+    padding: 16px;
+    display: flex;
+    gap: 8px;
+}
+
+.transfer-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.transfer-btn.blind {
+    background: var(--sp-primary);
+    color: var(--sp-bg);
+}
+
+.transfer-btn.attended {
+    background: var(--sp-bg-light);
+    border: 1px solid var(--sp-border);
+    color: var(--sp-text);
+}
+
+.transfer-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   DTMF Keypad (In-call)
+   ============================================ */
+.dtmf-keypad {
+    position: absolute;
+    inset: 0;
+    background: var(--sp-bg);
+    display: none;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.dtmf-keypad.active {
+    display: flex;
+}
+
+.dtmf-display {
+    background: var(--sp-bg-light);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    font-size: 24px;
+    color: var(--sp-primary);
+    font-family: 'SF Mono', 'Menlo', monospace;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+    min-height: 60px;
+}
+
+/* ============================================
+   Recent Calls Tab
+   ============================================ */
+.softphone-recents {
+    flex: 1;
+    overflow-y: auto;
+    display: none;
+}
+
+.softphone-recents.active {
+    display: block;
+}
+
+.recents-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.recent-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--sp-border);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.recent-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.recent-item .call-icon {
+    font-size: 16px;
+}
+
+.recent-item .call-icon.inbound {
+    color: var(--sp-primary);
+}
+
+.recent-item .call-icon.outbound {
+    color: var(--sp-success);
+}
+
+.recent-item .call-icon.missed {
+    color: var(--sp-danger);
+}
+
+.recent-item .caller-info {
+    flex: 1;
+}
+
+.recent-item .caller-name {
+    color: var(--sp-text);
+    font-weight: 500;
+}
+
+.recent-item .caller-number {
+    font-size: 12px;
+    color: var(--sp-text-muted);
+}
+
+.recent-item .call-time {
+    font-size: 11px;
+    color: var(--sp-text-muted);
+}
+
+/* ============================================
+   Navigation Tabs
+   ============================================ */
+.softphone-tabs {
+    display: flex;
+    background: var(--sp-bg-light);
+    border-top: 1px solid var(--sp-border);
+}
+
+.softphone-tab {
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    color: var(--sp-text-muted);
+    transition: all 0.2s;
+    border-top: 2px solid transparent;
+}
+
+.softphone-tab:hover {
+    color: var(--sp-text);
+}
+
+.softphone-tab.active {
+    color: var(--sp-primary);
+    border-top-color: var(--sp-primary);
+}
+
+.softphone-tab .tab-icon {
+    font-size: 18px;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.softphone-tab .tab-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ============================================
+   Light Theme Override
+   ============================================ */
+.softphone-container.light-theme {
+    --sp-bg: #ffffff;
+    --sp-bg-light: #f7fafc;
+    --sp-text: #1a202c;
+    --sp-text-muted: #718096;
+    --sp-border: #e2e8f0;
+}
+
+/* ============================================
+   Mini Call Panel (Floating)
+   ============================================ */
+.mini-call-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--sp-bg);
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: none;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    z-index: 1049;
+}
+
+.mini-call-panel.visible {
+    display: flex;
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.mini-call-panel .caller {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mini-call-panel .mini-avatar {
+    width: 36px;
+    height: 36px;
+    background: var(--sp-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--sp-bg);
+    font-weight: 600;
+}
+
+.mini-call-panel .mini-timer {
+    font-family: 'SF Mono', 'Menlo', monospace;
+    color: var(--sp-text);
+    font-size: 14px;
+}
+
+.mini-call-panel .mini-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.mini-call-panel .mini-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: transform 0.2s;
+}
+
+.mini-call-panel .mini-btn:hover {
+    transform: scale(1.1);
+}
+
+.mini-call-panel .mini-btn.mute {
+    background: var(--sp-bg-light);
+    color: var(--sp-text);
+}
+
+.mini-call-panel .mini-btn.hangup {
+    background: var(--sp-danger);
+    color: white;
+}
+
+.mini-call-panel .mini-btn.expand {
+    background: var(--sp-bg-light);
+    color: var(--sp-text);
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 400px) {
+    .softphone-container {
+        right: 10px;
+        width: calc(100vw - 20px);
+    }
+}
+
+/* ============================================
+   Softphone Footer
+   ============================================ */
+.softphone-footer {
+    padding: 12px 16px;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    background: var(--bg-color);
+}
+
+.softphone-history-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.softphone-history-btn i {
+    font-size: 14px;
+}
+
+/* ============================================
+   Call History Container
+   ============================================ */
+.call-history-container {
+    padding: 0;
+}
+
+.call-history-filters {
+    display: flex;
+    gap: 10px;
+    padding: 12px;
+    background: var(--bg-color);
+    border-bottom: 1px solid var(--border-color);
+    flex-wrap: wrap;
+}
+
+.call-history-list {
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+.call-history-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+    gap: 12px;
+    transition: background 0.2s;
+}
+
+.call-history-item:hover {
+    background: var(--bg-color);
+}
+
+.call-history-item:last-child {
+    border-bottom: none;
+}
+
+.call-history-icon {
+    font-size: 24px;
+    width: 40px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.call-history-icon.incoming {
+    color: #4CAF50;
+}
+
+.call-history-icon.outgoing {
+    color: #2196F3;
+}
+
+.call-history-icon.missed {
+    color: #f44336;
+}
+
+.call-history-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.call-history-number {
+    font-weight: 500;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.call-history-time {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.call-history-duration {
+    font-size: 12px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    width: 50px;
+    text-align: right;
+}
+
+.call-history-actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+/* ============================================
+   Active Call UI
+   ============================================ */
+.arrowz-active-call {
+    padding: 0;
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+}
+
+.call-status-header {
+    background: linear-gradient(180deg, var(--sp-bg-light) 0%, var(--sp-bg) 100%);
+    padding: 30px 20px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.call-avatar {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--sp-primary), #4a90d9);
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    animation: callPulse 2s ease-in-out infinite;
+}
+
+@keyframes callPulse {
+    0%, 100% { 
+        box-shadow: 0 0 0 0 rgba(79, 209, 197, 0.4);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 0 0 15px rgba(79, 209, 197, 0);
+        transform: scale(1.02);
+    }
+}
+
+.call-number-display {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--sp-text);
+    margin-bottom: 8px;
+    direction: ltr;
+}
+
+.call-status-text {
+    font-size: 14px;
+    color: var(--sp-primary);
+    font-weight: 500;
+}
+
+.call-timer-display {
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--sp-text);
+    font-family: 'SF Mono', 'Monaco', monospace;
+    letter-spacing: 2px;
+}
+
+.call-actions-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    background: var(--sp-bg);
+    flex-shrink: 0;
+}
+
+.call-action-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--sp-text);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    transition: all 0.2s;
+}
+
+.call-action-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.call-action-btn.active {
+    background: var(--sp-primary);
+    color: var(--sp-bg);
+}
+
+.call-action-btn .action-icon {
+    font-size: 20px;
+}
+
+.call-action-btn .action-label {
+    font-size: 10px;
+    opacity: 0.8;
+}
+
+/* DTMF Pad in Active Call */
+.dtmf-pad-wrapper {
+    padding: 10px 20px;
+    background: var(--sp-bg);
+    display: none;
+}
+
+.dtmf-pad-wrapper.visible {
+    display: block;
+}
+
+.dtmf-pad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.dtmf-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--sp-text);
+}
+
+.dtmf-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.dtmf-btn:active {
+    background: var(--sp-primary);
+    transform: scale(0.95);
+}
+
+.dtmf-btn .digit {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.dtmf-btn .letters {
+    font-size: 8px;
+    opacity: 0.6;
+    letter-spacing: 1px;
+}
+
+/* Hangup Section */
+.hangup-section {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    background: var(--sp-bg);
+    margin-top: auto;
+}
+
+.hangup-btn {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #f44336, #c62828);
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(244, 67, 54, 0.4);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hangup-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 30px rgba(244, 67, 54, 0.5);
+}
+
+.hangup-btn:active {
+    transform: scale(0.95);
+}
+
+/* Call Status Animations */
+.call-status-text.calling {
+    animation: statusBlink 1.5s ease-in-out infinite;
+}
+
+@keyframes statusBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Muted/Hold states */
+.call-action-btn.muted {
+    background: var(--sp-danger);
+}
+
+.call-action-btn.on-hold {
+    background: var(--sp-warning);
+    color: var(--sp-bg);
+}

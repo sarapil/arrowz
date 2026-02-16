@@ -1,0 +1,224 @@
+{
+  "actions": [],
+  "autoname": "format:IR-{####}",
+  "creation": "2026-01-28 10:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "route_info_section",
+    "route_name",
+    "description",
+    "is_enabled",
+    "priority",
+    "column_break_info",
+    "server",
+    "trunk",
+    "match_section",
+    "did_pattern",
+    "caller_id_pattern",
+    "time_condition",
+    "column_break_match",
+    "time_group",
+    "destination_section",
+    "destination_type",
+    "destination",
+    "column_break_dest",
+    "ivr_menu",
+    "ring_group",
+    "queue",
+    "extension",
+    "advanced_section",
+    "set_caller_id",
+    "set_caller_id_name",
+    "column_break_adv",
+    "add_prefix",
+    "alert_info"
+  ],
+  "fields": [
+    {
+      "fieldname": "route_info_section",
+      "fieldtype": "Section Break",
+      "label": "Route Information"
+    },
+    {
+      "fieldname": "route_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Route Name",
+      "reqd": 1
+    },
+    {
+      "fieldname": "description",
+      "fieldtype": "Small Text",
+      "label": "Description"
+    },
+    {
+      "default": 1,
+      "fieldname": "is_enabled",
+      "fieldtype": "Check",
+      "in_list_view": 1,
+      "label": "Enabled"
+    },
+    {
+      "default": "100",
+      "fieldname": "priority",
+      "fieldtype": "Int",
+      "label": "Priority"
+    },
+    {
+      "fieldname": "column_break_info",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "server",
+      "fieldtype": "Link",
+      "label": "PBX Server",
+      "options": "AZ Server Config",
+      "reqd": 1
+    },
+    {
+      "fieldname": "trunk",
+      "fieldtype": "Link",
+      "label": "Trunk",
+      "options": "AZ Trunk"
+    },
+    {
+      "fieldname": "match_section",
+      "fieldtype": "Section Break",
+      "label": "Match Criteria"
+    },
+    {
+      "fieldname": "did_pattern",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "DID Pattern",
+      "description": "e.g., _X., +49XXXXXXX, or exact number"
+    },
+    {
+      "fieldname": "caller_id_pattern",
+      "fieldtype": "Data",
+      "label": "Caller ID Pattern",
+      "description": "Optional: Match specific caller IDs"
+    },
+    {
+      "fieldname": "time_condition",
+      "fieldtype": "Check",
+      "label": "Use Time Condition"
+    },
+    {
+      "fieldname": "column_break_match",
+      "fieldtype": "Column Break"
+    },
+    {
+      "depends_on": "eval:doc.time_condition",
+      "fieldname": "time_group",
+      "fieldtype": "Data",
+      "label": "Time Group"
+    },
+    {
+      "fieldname": "destination_section",
+      "fieldtype": "Section Break",
+      "label": "Destination"
+    },
+    {
+      "fieldname": "destination_type",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "label": "Destination Type",
+      "options": "Extension\nRing Group\nQueue\nIVR\nVoicemail\nExternal Number\nTerminate",
+      "reqd": 1
+    },
+    {
+      "depends_on": "eval:doc.destination_type=='External Number'",
+      "fieldname": "destination",
+      "fieldtype": "Data",
+      "label": "External Destination"
+    },
+    {
+      "fieldname": "column_break_dest",
+      "fieldtype": "Column Break"
+    },
+    {
+      "depends_on": "eval:doc.destination_type=='IVR'",
+      "fieldname": "ivr_menu",
+      "fieldtype": "Data",
+      "label": "IVR Menu"
+    },
+    {
+      "depends_on": "eval:doc.destination_type=='Ring Group'",
+      "fieldname": "ring_group",
+      "fieldtype": "Data",
+      "label": "Ring Group"
+    },
+    {
+      "depends_on": "eval:doc.destination_type=='Queue'",
+      "fieldname": "queue",
+      "fieldtype": "Data",
+      "label": "Queue"
+    },
+    {
+      "depends_on": "eval:doc.destination_type=='Extension'",
+      "fieldname": "extension",
+      "fieldtype": "Link",
+      "label": "Extension",
+      "options": "AZ Extension"
+    },
+    {
+      "collapsible": 1,
+      "fieldname": "advanced_section",
+      "fieldtype": "Section Break",
+      "label": "Advanced Options"
+    },
+    {
+      "fieldname": "set_caller_id",
+      "fieldtype": "Data",
+      "label": "Override Caller ID Number"
+    },
+    {
+      "fieldname": "set_caller_id_name",
+      "fieldtype": "Data",
+      "label": "Override Caller ID Name"
+    },
+    {
+      "fieldname": "column_break_adv",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "add_prefix",
+      "fieldtype": "Data",
+      "label": "Add Prefix to CID"
+    },
+    {
+      "fieldname": "alert_info",
+      "fieldtype": "Data",
+      "label": "Alert Info"
+    }
+  ],
+  "index_web_pages_for_search": 1,
+  "links": [],
+  "modified": "2026-01-28 10:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Arrowz",
+  "name": "AZ Inbound Route",
+  "naming_rule": "Expression",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    }
+  ],
+  "sort_field": "priority",
+  "sort_order": "ASC",
+  "states": [],
+  "title_field": "route_name",
+  "track_changes": 1
+}

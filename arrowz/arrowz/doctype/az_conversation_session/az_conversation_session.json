@@ -1,0 +1,383 @@
+{
+  "actions": [],
+  "autoname": "format:CONV-{YYYY}-{#####}",
+  "creation": "2026-01-30 10:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "basic_section",
+    "session_id",
+    "channel",
+    "status",
+    "column_break_basic",
+    "participant_id",
+    "participant_name",
+    "participant_phone",
+    "linking_section",
+    "link_doctype",
+    "link_name",
+    "column_break_link",
+    "contact",
+    "customer",
+    "lead",
+    "timing_section",
+    "session_start",
+    "session_end",
+    "last_activity",
+    "column_break_timing",
+    "window_expires",
+    "is_window_active",
+    "response_deadline",
+    "assignment_section",
+    "assigned_to",
+    "team",
+    "column_break_assign",
+    "priority",
+    "escalation_level",
+    "metrics_section",
+    "message_count",
+    "first_response_time",
+    "column_break_metrics",
+    "resolution_time",
+    "satisfaction_rating",
+    "context_section",
+    "last_message_preview",
+    "unread_count",
+    "column_break_context",
+    "tags",
+    "notes",
+    "history_section",
+    "messages"
+  ],
+  "fields": [
+    {
+      "fieldname": "basic_section",
+      "fieldtype": "Section Break",
+      "label": "Session Information"
+    },
+    {
+      "description": "Unique session identifier from provider",
+      "fieldname": "session_id",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Session ID",
+      "unique": 1
+    },
+    {
+      "fieldname": "channel",
+      "fieldtype": "Link",
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "label": "Channel",
+      "options": "AZ Omni Channel",
+      "reqd": 1
+    },
+    {
+      "default": "Active",
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "label": "Status",
+      "options": "Active\nPending\nResolved\nExpired\nTransferred\nEscalated"
+    },
+    {
+      "fieldname": "column_break_basic",
+      "fieldtype": "Column Break"
+    },
+    {
+      "description": "Remote participant ID (phone number, chat ID, etc.)",
+      "fieldname": "participant_id",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Participant ID"
+    },
+    {
+      "fieldname": "participant_name",
+      "fieldtype": "Data",
+      "label": "Participant Name"
+    },
+    {
+      "fieldname": "participant_phone",
+      "fieldtype": "Data",
+      "label": "Phone Number"
+    },
+    {
+      "fieldname": "linking_section",
+      "fieldtype": "Section Break",
+      "label": "Document Linking"
+    },
+    {
+      "fieldname": "link_doctype",
+      "fieldtype": "Link",
+      "label": "Link DocType",
+      "options": "DocType"
+    },
+    {
+      "fieldname": "link_name",
+      "fieldtype": "Dynamic Link",
+      "label": "Linked Document",
+      "options": "link_doctype"
+    },
+    {
+      "fieldname": "column_break_link",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "contact",
+      "fieldtype": "Link",
+      "label": "Contact",
+      "options": "Contact"
+    },
+    {
+      "fieldname": "customer",
+      "fieldtype": "Link",
+      "label": "Customer",
+      "options": "Customer"
+    },
+    {
+      "fieldname": "lead",
+      "fieldtype": "Link",
+      "label": "Lead",
+      "options": "Lead"
+    },
+    {
+      "fieldname": "timing_section",
+      "fieldtype": "Section Break",
+      "label": "Timing"
+    },
+    {
+      "default": "Now",
+      "fieldname": "session_start",
+      "fieldtype": "Datetime",
+      "label": "Session Start",
+      "read_only": 1
+    },
+    {
+      "fieldname": "session_end",
+      "fieldtype": "Datetime",
+      "label": "Session End",
+      "read_only": 1
+    },
+    {
+      "fieldname": "last_activity",
+      "fieldtype": "Datetime",
+      "label": "Last Activity"
+    },
+    {
+      "fieldname": "column_break_timing",
+      "fieldtype": "Column Break"
+    },
+    {
+      "description": "24-hour window expiry for WhatsApp",
+      "fieldname": "window_expires",
+      "fieldtype": "Datetime",
+      "label": "Window Expires"
+    },
+    {
+      "default": "1",
+      "fieldname": "is_window_active",
+      "fieldtype": "Check",
+      "label": "Window Active",
+      "read_only": 1
+    },
+    {
+      "fieldname": "response_deadline",
+      "fieldtype": "Datetime",
+      "label": "Response Deadline"
+    },
+    {
+      "fieldname": "assignment_section",
+      "fieldtype": "Section Break",
+      "label": "Assignment"
+    },
+    {
+      "fieldname": "assigned_to",
+      "fieldtype": "Link",
+      "in_standard_filter": 1,
+      "label": "Assigned To",
+      "options": "User"
+    },
+    {
+      "fieldname": "team",
+      "fieldtype": "Link",
+      "label": "Team",
+      "options": "User Group"
+    },
+    {
+      "fieldname": "column_break_assign",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "Medium",
+      "fieldname": "priority",
+      "fieldtype": "Select",
+      "label": "Priority",
+      "options": "Low\nMedium\nHigh\nUrgent"
+    },
+    {
+      "default": "0",
+      "fieldname": "escalation_level",
+      "fieldtype": "Int",
+      "label": "Escalation Level"
+    },
+    {
+      "fieldname": "metrics_section",
+      "fieldtype": "Section Break",
+      "label": "Metrics",
+      "collapsible": 1
+    },
+    {
+      "default": "0",
+      "fieldname": "message_count",
+      "fieldtype": "Int",
+      "label": "Total Messages",
+      "read_only": 1
+    },
+    {
+      "description": "Time to first response in minutes",
+      "fieldname": "first_response_time",
+      "fieldtype": "Float",
+      "label": "First Response Time",
+      "read_only": 1
+    },
+    {
+      "fieldname": "column_break_metrics",
+      "fieldtype": "Column Break"
+    },
+    {
+      "description": "Total resolution time in minutes",
+      "fieldname": "resolution_time",
+      "fieldtype": "Float",
+      "label": "Resolution Time",
+      "read_only": 1
+    },
+    {
+      "description": "1-5 rating",
+      "fieldname": "satisfaction_rating",
+      "fieldtype": "Rating",
+      "label": "Satisfaction Rating"
+    },
+    {
+      "fieldname": "context_section",
+      "fieldtype": "Section Break",
+      "label": "Context"
+    },
+    {
+      "fieldname": "last_message_preview",
+      "fieldtype": "Small Text",
+      "label": "Last Message",
+      "read_only": 1
+    },
+    {
+      "default": "0",
+      "fieldname": "unread_count",
+      "fieldtype": "Int",
+      "label": "Unread Messages"
+    },
+    {
+      "fieldname": "column_break_context",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "tags",
+      "fieldtype": "Small Text",
+      "label": "Tags"
+    },
+    {
+      "fieldname": "notes",
+      "fieldtype": "Text Editor",
+      "label": "Internal Notes"
+    },
+    {
+      "fieldname": "history_section",
+      "fieldtype": "Section Break",
+      "label": "Message History"
+    },
+    {
+      "fieldname": "messages",
+      "fieldtype": "Table",
+      "label": "Messages",
+      "options": "AZ Conversation Message"
+    }
+  ],
+  "index_web_pages_for_search": 1,
+  "links": [
+    {
+      "link_doctype": "AZ Call Log",
+      "link_fieldname": "session"
+    },
+    {
+      "link_doctype": "Communication",
+      "link_fieldname": "reference_name"
+    }
+  ],
+  "modified": "2026-01-30 10:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Arrowz",
+  "name": "AZ Conversation Session",
+  "naming_rule": "Expression",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    },
+    {
+      "create": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "Sales User",
+      "share": 1,
+      "write": 1
+    },
+    {
+      "create": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "Support Team",
+      "share": 1,
+      "write": 1
+    }
+  ],
+  "sort_field": "last_activity",
+  "sort_order": "DESC",
+  "states": [
+    {
+      "color": "green",
+      "title": "Active"
+    },
+    {
+      "color": "yellow",
+      "title": "Pending"
+    },
+    {
+      "color": "blue",
+      "title": "Resolved"
+    },
+    {
+      "color": "gray",
+      "title": "Expired"
+    },
+    {
+      "color": "orange",
+      "title": "Escalated"
+    }
+  ],
+  "title_field": "participant_name",
+  "track_changes": 1
+}

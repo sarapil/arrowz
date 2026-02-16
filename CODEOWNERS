@@ -1,0 +1,34 @@
+# Arrowz - Code Owners
+
+# Default owners for everything in the repo
+* @arrowz-team
+
+# API endpoints
+arrowz/api/ @arrowz-backend-team
+
+# DocTypes and Controllers
+arrowz/arrowz/doctype/ @arrowz-backend-team
+
+# Frontend JavaScript
+arrowz/public/js/ @arrowz-frontend-team
+
+# Frontend CSS
+arrowz/public/css/ @arrowz-frontend-team
+
+# Integrations (sensitive)
+arrowz/integrations/ @arrowz-integrations-team @arrowz-security-team
+
+# Configuration files
+arrowz/hooks.py @arrowz-core-team
+arrowz/boot.py @arrowz-core-team
+arrowz/tasks.py @arrowz-core-team
+
+# Documentation
+*.md @arrowz-docs-team
+docs/ @arrowz-docs-team
+
+# AI Context files
+.cursorrules @arrowz-core-team
+.github/copilot-instructions.md @arrowz-core-team
+CONTEXT.md @arrowz-core-team
+AI_GUIDELINES.md @arrowz-core-team

@@ -1,0 +1,291 @@
+{
+  "actions": [],
+  "autoname": "field:provider_name",
+  "creation": "2026-01-30 10:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "basic_section",
+    "provider_name",
+    "provider_type",
+    "is_enabled",
+    "column_break_basic",
+    "driver_class",
+    "icon",
+    "color",
+    "authentication_section",
+    "auth_type",
+    "base_url",
+    "column_break_auth",
+    "api_version",
+    "timeout",
+    "capabilities_section",
+    "supports_text",
+    "supports_media",
+    "supports_templates",
+    "supports_buttons",
+    "column_break_caps",
+    "supports_location",
+    "supports_contacts",
+    "supports_reactions",
+    "max_file_size",
+    "webhook_section",
+    "webhook_endpoint",
+    "webhook_secret",
+    "column_break_webhook",
+    "verify_signature",
+    "signature_header",
+    "rate_limits_section",
+    "rate_limit_enabled",
+    "requests_per_minute",
+    "column_break_rate",
+    "requests_per_day",
+    "burst_limit",
+    "description_section",
+    "description"
+  ],
+  "fields": [
+    {
+      "fieldname": "basic_section",
+      "fieldtype": "Section Break",
+      "label": "Basic Information"
+    },
+    {
+      "fieldname": "provider_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Provider Name",
+      "reqd": 1,
+      "unique": 1
+    },
+    {
+      "fieldname": "provider_type",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "label": "Provider Type",
+      "options": "WhatsApp Cloud API\nWhatsApp On-Premise\nTelegram Bot\nFacebook Messenger\nInstagram Direct\nViber\nLINE\nWeChat\nSignal\nSMS Gateway\nEmail\nPush Notification\nVoIP\nVideo Conference",
+      "reqd": 1
+    },
+    {
+      "default": "1",
+      "fieldname": "is_enabled",
+      "fieldtype": "Check",
+      "in_list_view": 1,
+      "label": "Enabled"
+    },
+    {
+      "fieldname": "column_break_basic",
+      "fieldtype": "Column Break"
+    },
+    {
+      "description": "Python class path for the driver (e.g., arrowz.integrations.whatsapp.WhatsAppDriver)",
+      "fieldname": "driver_class",
+      "fieldtype": "Data",
+      "label": "Driver Class"
+    },
+    {
+      "fieldname": "icon",
+      "fieldtype": "Data",
+      "label": "Icon"
+    },
+    {
+      "fieldname": "color",
+      "fieldtype": "Color",
+      "label": "Color"
+    },
+    {
+      "fieldname": "authentication_section",
+      "fieldtype": "Section Break",
+      "label": "Authentication"
+    },
+    {
+      "fieldname": "auth_type",
+      "fieldtype": "Select",
+      "label": "Authentication Type",
+      "options": "API Key\nOAuth2\nBearer Token\nBasic Auth\nCustom"
+    },
+    {
+      "fieldname": "base_url",
+      "fieldtype": "Data",
+      "label": "Base URL"
+    },
+    {
+      "fieldname": "column_break_auth",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "api_version",
+      "fieldtype": "Data",
+      "label": "API Version"
+    },
+    {
+      "default": "30",
+      "fieldname": "timeout",
+      "fieldtype": "Int",
+      "label": "Request Timeout (seconds)"
+    },
+    {
+      "fieldname": "capabilities_section",
+      "fieldtype": "Section Break",
+      "label": "Capabilities"
+    },
+    {
+      "default": "1",
+      "fieldname": "supports_text",
+      "fieldtype": "Check",
+      "label": "Supports Text Messages"
+    },
+    {
+      "default": "1",
+      "fieldname": "supports_media",
+      "fieldtype": "Check",
+      "label": "Supports Media"
+    },
+    {
+      "default": "0",
+      "fieldname": "supports_templates",
+      "fieldtype": "Check",
+      "label": "Supports Templates"
+    },
+    {
+      "default": "0",
+      "fieldname": "supports_buttons",
+      "fieldtype": "Check",
+      "label": "Supports Interactive Buttons"
+    },
+    {
+      "fieldname": "column_break_caps",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "0",
+      "fieldname": "supports_location",
+      "fieldtype": "Check",
+      "label": "Supports Location"
+    },
+    {
+      "default": "0",
+      "fieldname": "supports_contacts",
+      "fieldtype": "Check",
+      "label": "Supports Contact Cards"
+    },
+    {
+      "default": "0",
+      "fieldname": "supports_reactions",
+      "fieldtype": "Check",
+      "label": "Supports Reactions"
+    },
+    {
+      "default": "16",
+      "description": "Maximum file size in MB",
+      "fieldname": "max_file_size",
+      "fieldtype": "Int",
+      "label": "Max File Size (MB)"
+    },
+    {
+      "fieldname": "webhook_section",
+      "fieldtype": "Section Break",
+      "label": "Webhook Configuration",
+      "collapsible": 1
+    },
+    {
+      "description": "Auto-generated endpoint for receiving messages",
+      "fieldname": "webhook_endpoint",
+      "fieldtype": "Data",
+      "label": "Webhook Endpoint",
+      "read_only": 1
+    },
+    {
+      "fieldname": "webhook_secret",
+      "fieldtype": "Password",
+      "label": "Webhook Secret"
+    },
+    {
+      "fieldname": "column_break_webhook",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "1",
+      "fieldname": "verify_signature",
+      "fieldtype": "Check",
+      "label": "Verify Webhook Signature"
+    },
+    {
+      "description": "HTTP header containing the signature (e.g., X-Hub-Signature-256)",
+      "fieldname": "signature_header",
+      "fieldtype": "Data",
+      "label": "Signature Header"
+    },
+    {
+      "fieldname": "rate_limits_section",
+      "fieldtype": "Section Break",
+      "label": "Rate Limits",
+      "collapsible": 1
+    },
+    {
+      "default": "0",
+      "fieldname": "rate_limit_enabled",
+      "fieldtype": "Check",
+      "label": "Enable Rate Limiting"
+    },
+    {
+      "default": "60",
+      "fieldname": "requests_per_minute",
+      "fieldtype": "Int",
+      "label": "Requests per Minute"
+    },
+    {
+      "fieldname": "column_break_rate",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "10000",
+      "fieldname": "requests_per_day",
+      "fieldtype": "Int",
+      "label": "Requests per Day"
+    },
+    {
+      "default": "100",
+      "fieldname": "burst_limit",
+      "fieldtype": "Int",
+      "label": "Burst Limit"
+    },
+    {
+      "fieldname": "description_section",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "description",
+      "fieldtype": "Text Editor",
+      "label": "Description"
+    }
+  ],
+  "index_web_pages_for_search": 1,
+  "links": [],
+  "modified": "2026-01-30 10:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Arrowz",
+  "name": "AZ Omni Provider",
+  "naming_rule": "By fieldname",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    }
+  ],
+  "sort_field": "creation",
+  "sort_order": "DESC",
+  "states": [],
+  "title_field": "provider_name",
+  "track_changes": 1
+}

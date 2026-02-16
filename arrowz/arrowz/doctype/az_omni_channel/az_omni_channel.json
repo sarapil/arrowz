@@ -1,0 +1,357 @@
+{
+  "actions": [],
+  "autoname": "format:CH-{####}",
+  "creation": "2026-01-30 10:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "basic_section",
+    "channel_name",
+    "provider",
+    "is_active",
+    "column_break_basic",
+    "channel_type",
+    "department",
+    "default_agent",
+    "credentials_section",
+    "account_id",
+    "phone_number_id",
+    "access_token",
+    "column_break_creds",
+    "app_secret",
+    "verify_token",
+    "business_account_id",
+    "routing_section",
+    "routing_type",
+    "assigned_team",
+    "column_break_routing",
+    "auto_assign",
+    "round_robin",
+    "working_hours_section",
+    "enable_working_hours",
+    "working_hours_start",
+    "working_hours_end",
+    "column_break_hours",
+    "timezone",
+    "out_of_hours_message",
+    "automation_section",
+    "enable_auto_reply",
+    "auto_reply_message",
+    "column_break_auto",
+    "enable_chatbot",
+    "chatbot_config",
+    "templates_section",
+    "welcome_template",
+    "column_break_templates",
+    "goodbye_template",
+    "statistics_section",
+    "total_conversations",
+    "active_conversations",
+    "column_break_stats",
+    "avg_response_time",
+    "satisfaction_score"
+  ],
+  "fields": [
+    {
+      "fieldname": "basic_section",
+      "fieldtype": "Section Break",
+      "label": "Basic Information"
+    },
+    {
+      "fieldname": "channel_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Channel Name",
+      "reqd": 1
+    },
+    {
+      "fieldname": "provider",
+      "fieldtype": "Link",
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "label": "Provider",
+      "options": "AZ Omni Provider",
+      "reqd": 1
+    },
+    {
+      "default": "1",
+      "fieldname": "is_active",
+      "fieldtype": "Check",
+      "in_list_view": 1,
+      "label": "Active"
+    },
+    {
+      "fieldname": "column_break_basic",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "channel_type",
+      "fieldtype": "Select",
+      "label": "Channel Purpose",
+      "options": "Sales\nSupport\nMarketing\nGeneral\nVIP"
+    },
+    {
+      "fieldname": "department",
+      "fieldtype": "Link",
+      "label": "Department",
+      "options": "Department"
+    },
+    {
+      "fieldname": "default_agent",
+      "fieldtype": "Link",
+      "label": "Default Agent",
+      "options": "User"
+    },
+    {
+      "fieldname": "credentials_section",
+      "fieldtype": "Section Break",
+      "label": "Credentials"
+    },
+    {
+      "description": "WhatsApp Business Account ID, Telegram Bot Username, etc.",
+      "fieldname": "account_id",
+      "fieldtype": "Data",
+      "label": "Account ID"
+    },
+    {
+      "description": "Phone Number ID for WhatsApp, Chat ID for Telegram",
+      "fieldname": "phone_number_id",
+      "fieldtype": "Data",
+      "label": "Phone/Chat ID"
+    },
+    {
+      "fieldname": "access_token",
+      "fieldtype": "Password",
+      "label": "Access Token"
+    },
+    {
+      "fieldname": "column_break_creds",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "app_secret",
+      "fieldtype": "Password",
+      "label": "App Secret"
+    },
+    {
+      "description": "Token for webhook verification",
+      "fieldname": "verify_token",
+      "fieldtype": "Data",
+      "label": "Verify Token"
+    },
+    {
+      "fieldname": "business_account_id",
+      "fieldtype": "Data",
+      "label": "Business Account ID"
+    },
+    {
+      "fieldname": "routing_section",
+      "fieldtype": "Section Break",
+      "label": "Message Routing"
+    },
+    {
+      "default": "Auto",
+      "fieldname": "routing_type",
+      "fieldtype": "Select",
+      "label": "Routing Type",
+      "options": "Auto\nManual\nRound Robin\nLeast Busy\nSkill Based"
+    },
+    {
+      "fieldname": "assigned_team",
+      "fieldtype": "Link",
+      "label": "Assigned Team",
+      "options": "User Group"
+    },
+    {
+      "fieldname": "column_break_routing",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "1",
+      "fieldname": "auto_assign",
+      "fieldtype": "Check",
+      "label": "Auto-Assign Conversations"
+    },
+    {
+      "default": "0",
+      "fieldname": "round_robin",
+      "fieldtype": "Check",
+      "label": "Enable Round Robin"
+    },
+    {
+      "fieldname": "working_hours_section",
+      "fieldtype": "Section Break",
+      "label": "Working Hours",
+      "collapsible": 1
+    },
+    {
+      "default": "0",
+      "fieldname": "enable_working_hours",
+      "fieldtype": "Check",
+      "label": "Enable Working Hours"
+    },
+    {
+      "default": "09:00",
+      "depends_on": "enable_working_hours",
+      "fieldname": "working_hours_start",
+      "fieldtype": "Time",
+      "label": "Start Time"
+    },
+    {
+      "default": "18:00",
+      "depends_on": "enable_working_hours",
+      "fieldname": "working_hours_end",
+      "fieldtype": "Time",
+      "label": "End Time"
+    },
+    {
+      "fieldname": "column_break_hours",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "timezone",
+      "fieldtype": "Select",
+      "label": "Timezone",
+      "options": "Africa/Cairo\nAsia/Dubai\nAsia/Riyadh\nEurope/London\nAmerica/New_York\nAsia/Kolkata"
+    },
+    {
+      "depends_on": "enable_working_hours",
+      "fieldname": "out_of_hours_message",
+      "fieldtype": "Small Text",
+      "label": "Out of Hours Message"
+    },
+    {
+      "fieldname": "automation_section",
+      "fieldtype": "Section Break",
+      "label": "Automation",
+      "collapsible": 1
+    },
+    {
+      "default": "0",
+      "fieldname": "enable_auto_reply",
+      "fieldtype": "Check",
+      "label": "Enable Auto-Reply"
+    },
+    {
+      "depends_on": "enable_auto_reply",
+      "fieldname": "auto_reply_message",
+      "fieldtype": "Small Text",
+      "label": "Auto-Reply Message"
+    },
+    {
+      "fieldname": "column_break_auto",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "0",
+      "fieldname": "enable_chatbot",
+      "fieldtype": "Check",
+      "label": "Enable Chatbot"
+    },
+    {
+      "depends_on": "enable_chatbot",
+      "fieldname": "chatbot_config",
+      "fieldtype": "JSON",
+      "label": "Chatbot Configuration"
+    },
+    {
+      "fieldname": "templates_section",
+      "fieldtype": "Section Break",
+      "label": "Message Templates",
+      "collapsible": 1
+    },
+    {
+      "fieldname": "welcome_template",
+      "fieldtype": "Link",
+      "label": "Welcome Message Template",
+      "options": "WhatsApp Templates"
+    },
+    {
+      "fieldname": "column_break_templates",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "goodbye_template",
+      "fieldtype": "Link",
+      "label": "Goodbye Message Template",
+      "options": "WhatsApp Templates"
+    },
+    {
+      "fieldname": "statistics_section",
+      "fieldtype": "Section Break",
+      "label": "Statistics",
+      "collapsible": 1
+    },
+    {
+      "default": "0",
+      "fieldname": "total_conversations",
+      "fieldtype": "Int",
+      "label": "Total Conversations",
+      "read_only": 1
+    },
+    {
+      "default": "0",
+      "fieldname": "active_conversations",
+      "fieldtype": "Int",
+      "label": "Active Conversations",
+      "read_only": 1
+    },
+    {
+      "fieldname": "column_break_stats",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "0",
+      "description": "In minutes",
+      "fieldname": "avg_response_time",
+      "fieldtype": "Float",
+      "label": "Avg Response Time",
+      "read_only": 1
+    },
+    {
+      "default": "0",
+      "description": "Out of 5",
+      "fieldname": "satisfaction_score",
+      "fieldtype": "Float",
+      "label": "Satisfaction Score",
+      "read_only": 1
+    }
+  ],
+  "index_web_pages_for_search": 1,
+  "links": [],
+  "modified": "2026-01-30 10:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Arrowz",
+  "name": "AZ Omni Channel",
+  "naming_rule": "Expression",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    },
+    {
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "Sales Manager",
+      "share": 1,
+      "write": 1
+    }
+  ],
+  "sort_field": "creation",
+  "sort_order": "DESC",
+  "states": [],
+  "title_field": "channel_name",
+  "track_changes": 1
+}

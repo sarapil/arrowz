@@ -1,0 +1,8 @@
+*.pyc
+*.log
+node_modules/
+apps/frappe/
+sites/assets/
+*.css.map
+*.js.map
+backups/
