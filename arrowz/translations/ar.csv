@@ -1,0 +1,451 @@
+{0} alert on {1}: {2}%,تنبيه {0} على {1}: {2}%
+{0} contains invalid characters,{0} يحتوي على أحرف غير صالحة
+{0} has invalid format: {1},{0} بتنسيق غير صالح: {1}
+{0} is not a valid CIDR: {1},{0} ليس CIDR صالحاً: {1}
+{0} is not a valid hostname: {1},{0} ليس اسم مضيف صالحاً: {1}
+{0} is not a valid IP address,{0} ليس عنوان IP صالحاً
+{0} is not a valid IP address: {1},{0} ليس عنوان IP صالحاً: {1}
+{0} is not a valid IP address or hostname,{0} ليس عنوان IP أو اسم مضيف صالحاً
+{0} is not a valid MAC address: {1},{0} ليس عنوان MAC صالحاً: {1}
+{0} is not a valid subnet mask: {1},{0} ليس قناع شبكة فرعية صالحاً: {1}
+{0} is required for Static connection type,{0} مطلوب لنوع الاتصال الثابت
+{0} is too long (max 253 characters),{0} طويل جداً (الحد الأقصى 253 حرفاً)
+{0} must be 0 (unlimited) or a positive number,{0} يجب أن يكون 0 (غير محدود) أو رقماً موجباً
+{0} must be 32 characters or fewer,{0} يجب أن يكون 32 حرفاً أو أقل
+{0} must be a number,{0} يجب أن يكون رقماً
+{0} must be a number: {1},{0} يجب أن يكون رقماً: {1}
+"{0} must be a valid IP address, CIDR notation, or address group name.",{0} يجب أن يكون عنوان IP صالحاً أو تدوين CIDR أو اسم مجموعة عناوين.
+{0} must be a valid IP address or CIDR notation.,{0} يجب أن يكون عنوان IP صالحاً أو تدوين CIDR.
+"{0} must be a valid port number or range (e.g. 80 or 80-443).",{0} يجب أن يكون رقم منفذ صالحاً أو نطاق (مثل 80 أو 80-443).
+"{0} must be a valid port number, range (e.g. 80-443), or comma-separated list.",{0} يجب أن يكون رقم منفذ أو نطاق (مثل 80-443) أو قائمة مفصولة بفواصل.
+{0} must be between 1 and 4094,{0} يجب أن يكون بين 1 و 4094
+{0} must be between 1 and 65535: {1},{0} يجب أن يكون بين 1 و 65535: {1}
+{0} must be between 68 and 9000,{0} يجب أن يكون بين 68 و 9000
+{0} port out of range: {1},{0} المنفذ خارج النطاق: {1}
+{0} start must be less than end: {1},{0} البداية يجب أن تكون أقل من النهاية: {1}
+{0} vouchers generated successfully,تم إنشاء {0} قسيمة بنجاح
+24-hour window has expired. Please use a template message.,انتهت نافذة الـ 24 ساعة. يرجى استخدام رسالة قالب.
+Access denied on box {0}. Check permissions.,تم رفض الوصول على الجهاز {0}. تحقق من الصلاحيات.
+Access Policies,سياسات الوصول
+"Access Policy '{0}' has expired (ended {1}).",سياسة الوصول '{0}' منتهية الصلاحية (انتهت {1}).
+"Access Policy '{0}' has reached its max connections limit ({1}).",سياسة الوصول '{0}' وصلت للحد الأقصى من الاتصالات ({1}).
+"Access Policy '{0}' is not yet valid (starts {1}).",سياسة الوصول '{0}' لم تبدأ بعد (تبدأ {1}).
+Access Token is required for WhatsApp,رمز الوصول مطلوب لـ WhatsApp
+Account has expired,انتهت صلاحية الحساب
+Account is {0},الحساب {0}
+Account not yet active,الحساب غير مفعّل بعد
+Actions,إجراءات
+Action Value is required when action is {0}.,قيمة الإجراء مطلوبة عندما يكون الإجراء {0}.
+Active,نشط
+Agent Dashboard,لوحة الوكيل
+Alerts,التنبيهات
+"{alert_type} alert: current value {value} {op} {threshold}",تنبيه {alert_type}: القيمة الحالية {value} {op} {threshold}
+All,الكل
+Allowed IPs must be specified.,يجب تحديد عناوين IP المسموح بها.
+Analytics,التحليلات
+API Port must be between 1 and 65535,منفذ API يجب أن يكون بين 1 و 65535
+API request failed: {0},فشل طلب API: {0}
+API Token Expiry must be at least 1 day,يجب أن تكون صلاحية رمز API يوماً واحداً على الأقل
+Are you sure you want to close this conversation?,هل أنت متأكد من إغلاق هذه المحادثة؟
+Arrowz,أروز
+Arrowz Alert: {0},تنبيه أروز: {0}
+Arrowz cleanup completed. Custom fields have been removed.,اكتمل تنظيف أروز. تم حذف الحقول المخصصة.
+Arrowz installed successfully! Configure your PBX settings to get started.,تم تثبيت أروز بنجاح! قم بتهيئة إعدادات PBX للبدء.
+Arrowz Settings,إعدادات أروز
+Assign,تعيين
+Assign Conversation,تعيين المحادثة
+Assign To,تعيين إلى
+At least one authentication method is required,مطلوب طريقة مصادقة واحدة على الأقل
+At least one authentication method must be enabled,يجب تفعيل طريقة مصادقة واحدة على الأقل
+Attachment,مرفق
+Authentication failed,فشلت المصادقة
+Authentication failed for box {0}. Check API token.,فشلت المصادقة للجهاز {0}. تحقق من رمز API.
+Authentication successful,تمت المصادقة بنجاح
+Auth Error,خطأ مصادقة
+Auto Refresh,تحديث تلقائي
+Bandwidth plan assigned,تم تعيين خطة عرض النطاق
+Bandwidth Plan is required when action is Shape.,خطة عرض النطاق مطلوبة عندما يكون الإجراء تشكيل.
+Bandwidth Plans,خطط عرض النطاق
+Billing Plans,خطط الفوترة
+Both GraphQL and SSH sync failed. GraphQL: {0}. SSH: {1},فشلت المزامنة بـ GraphQL و SSH. GraphQL: {0}. SSH: {1}
+Bot Token is required for Telegram,رمز البوت مطلوب لـ Telegram
+Box {0} has not sent heartbeat for {1} seconds,الجهاز {0} لم يرسل نبض قلب منذ {1} ثانية
+Boxes,الأجهزة
+Burst Download speed cannot be less than the base Download speed.,سرعة الاندفاع للتنزيل لا يمكن أن تكون أقل من سرعة التنزيل الأساسية.
+Burst Upload speed cannot be less than the base Upload speed.,سرعة الاندفاع للرفع لا يمكن أن تكون أقل من سرعة الرفع الأساسية.
+Call,مكالمة
+Call Log,سجل المكالمات
+Call Log not found,سجل المكالمات غير موجود
+Calls,المكالمات
+Calls Today,مكالمات اليوم
+Cannot determine box for client {0},لا يمكن تحديد الجهاز للعميل {0}
+Cannot import driver module: {0},لا يمكن استيراد وحدة المشغّل: {0}
+Captive Portal {0} started,تم تشغيل البوابة المقيدة {0}
+Captive Portal {0} stopped,تم إيقاف البوابة المقيدة {0}
+Chat ID / Username,معرف المحادثة / اسم المستخدم
+Check Status,فحص الحالة
+"Circular reference detected: {0} cannot be a parent of itself",تم اكتشاف مرجع دائري: {0} لا يمكن أن يكون أباً لنفسه
+Circular reference detected in parent group hierarchy,تم اكتشاف مرجع دائري في تسلسل المجموعة الأم
+Client blocked,تم حظر العميل
+Client Config,تهيئة العميل
+Client disconnected,تم قطع اتصال العميل
+Client Group is required when Target Type is Group,مجموعة العميل مطلوبة عندما يكون نوع الهدف مجموعة
+Client not found: {0},العميل غير موجود: {0}
+👥 Clients,👥 العملاء
+Clients,العملاء
+Client unblocked,تم إلغاء حظر العميل
+Close,إغلاق
+Code Length must be between 4 and 20,طول الرمز يجب أن يكون بين 4 و 20
+Communication History,سجل الاتصالات
+💬 Communications,💬 الاتصالات
+Communications,الاتصالات
+Comparing configurations...,مقارنة التهيئات...
+Config pushed successfully!,تم دفع التهيئة بنجاح!
+Configuration applied successfully,تم تطبيق التهيئة بنجاح
+Configuration Diff,الفرق في التهيئة
+Connection failed,فشل الاتصال
+Connection Failed,فشل الاتصال
+Connection failed: {0},فشل الاتصال: {0}
+Connections,الاتصالات
+Connection successful,تم الاتصال بنجاح
+Connection successful!,تم الاتصال بنجاح!
+Connection Test,اختبار الاتصال
+Conversation assigned,تم تعيين المحادثة
+Conversation closed,تم إغلاق المحادثة
+Copied!,تم النسخ!
+Copy & Close,نسخ وإغلاق
+Copy to Clipboard,نسخ إلى الحافظة
+Details,التفاصيل
+Device Configuration,تهيئة الجهاز
+DHCP Start and End addresses are required when DHCP is enabled,عناوين بداية ونهاية DHCP مطلوبة عند تفعيل DHCP
+Dinstar Connection Error,خطأ اتصال Dinstar
+Dinstar GSM Gateway,بوابة GSM من Dinstar
+Disabled,معطّل
+Download PNG,تنزيل PNG
+Download Speed (Kbps) must be greater than 0.,سرعة التنزيل (كيلوبت/ث) يجب أن تكون أكبر من 0.
+"Driver class '{0}' not found in module '{1}'",فئة المشغّل '{0}' غير موجودة في الوحدة '{1}'
+Edit,تعديل
+Email,بريد إلكتروني
+End Date must be after Start Date,تاريخ الانتهاء يجب أن يكون بعد تاريخ البدء
+End Time,وقت الانتهاء
+End Time cannot be before Start Time,وقت الانتهاء لا يمكن أن يكون قبل وقت البدء
+End time must be after start time,وقت الانتهاء يجب أن يكون بعد وقت البدء
+Error,خطأ
+Extensions,التحويلات
+Extension synced via SSH: {0},تمت مزامنة التحويلة عبر SSH: {0}
+Failed to assign conversation,فشل تعيين المحادثة
+Failed to close conversation,فشل إغلاق المحادثة
+Failed to connect to box {0} after {1} attempts: {2},فشل الاتصال بالجهاز {0} بعد {1} محاولة: {2}
+Failed to connect to Dinstar gateway,فشل الاتصال ببوابة Dinstar
+Failed to connect to OpenMeetings: {0},فشل الاتصال بـ OpenMeetings: {0}
+Failed to create meeting room: {0},فشل إنشاء غرفة الاجتماع: {0}
+Failed to create room in OpenMeetings,فشل إنشاء الغرفة في OpenMeetings
+Failed to generate access link,فشل إنشاء رابط الوصول
+Failed to get file: {0},فشل الحصول على الملف: {0}
+Failed to load communications,فشل تحميل الاتصالات
+Failed to load conversation,فشل تحميل المحادثة
+Failed to load provider driver: {0},فشل تحميل مشغّل المزوّد: {0}
+Failed to load topology,فشل تحميل الطوبولوجيا
+Failed to load visual engine,فشل تحميل المحرك المرئي
+Failed to schedule meeting,فشل جدولة الاجتماع
+Failed to send,فشل الإرسال
+Failed to send contact: {0},فشل إرسال جهة الاتصال: {0}
+Failed to send location: {0},فشل إرسال الموقع: {0}
+Failed to send media: {0},فشل إرسال الوسائط: {0}
+Failed to send message,فشل إرسال الرسالة
+Failed to send message: {0},فشل إرسال الرسالة: {0}
+Failed to send SMS,فشل إرسال الرسالة القصيرة
+Failover Threshold must be at least 1,حد التجاوز يجب أن يكون 1 على الأقل
+🛡️ Firewall,🛡️ جدار الحماية
+Firewall rule #{0} configuration pushed.,تم دفع تهيئة قاعدة جدار الحماية #{0}.
+Focus,تركيز
+Focus Group,مجموعة التركيز
+frappe_visual is not installed,frappe_visual غير مثبّت
+Free text for active conversations only,نص حر للمحادثات النشطة فقط
+Generate API Token,توليد رمز API
+Generate Keys,توليد المفاتيح
+GraphQL authentication failed. Trying SSH fallback...,فشلت مصادقة GraphQL. جاري تجربة SSH كبديل...
+📱 GSM Gateway,📱 بوابة GSM
+Health Check Interval must be at least 5 seconds,فترة فحص الصحة يجب أن تكون 5 ثوانٍ على الأقل
+HMAC secret regenerated,تم إعادة توليد سر HMAC
+Idle Timeout must be a positive number,مهلة الخمول يجب أن تكون رقماً موجباً
+🏗️ Infrastructure,🏗️ البنية التحتية
+Instant Meeting - {0},اجتماع فوري - {0}
+Interface Name cannot be empty,اسم الواجهة لا يمكن أن يكون فارغاً
+Internal IP must be a valid IPv4 address.,عنوان IP الداخلي يجب أن يكون عنوان IPv4 صالحاً.
+Invalid Box IP,عنوان IP للجهاز غير صالح
+"Invalid CIDR format for Destination. Expected format: x.x.x.x/y",تنسيق CIDR غير صالح للوجهة. التنسيق المتوقع: x.x.x.x/y
+Invalid config type: {0},نوع تهيئة غير صالح: {0}
+Invalid credentials,بيانات اعتماد غير صالحة
+Invalid DNS Server,خادم DNS غير صالح
+"Invalid domain pattern. Use formats like example.com or *.example.com",نمط نطاق غير صالح. استخدم تنسيقات مثل example.com أو *.example.com
+"Invalid driver class path. Use format: module.path.ClassName",مسار فئة المشغّل غير صالح. استخدم التنسيق: module.path.ClassName
+Invalid email format,تنسيق بريد إلكتروني غير صالح
+Invalid hostname format: {0},تنسيق اسم المضيف غير صالح: {0}
+Invalid Invoice Day,يوم الفاتورة غير صالح
+Invalid IP Address format for Gateway IP,تنسيق عنوان IP غير صالح لعنوان IP للبوابة
+Invalid IP or network address: {0},عنوان IP أو شبكة غير صالح: {0}
+"Invalid MAC Address format: {0}. Expected format: AA:BB:CC:DD:EE:FF",تنسيق عنوان MAC غير صالح: {0}. التنسيق المتوقع: AA:BB:CC:DD:EE:FF
+"Invalid MAC address format: {0}. Expected: XX:XX:XX:XX:XX:XX",تنسيق عنوان MAC غير صالح: {0}. المتوقع: XX:XX:XX:XX:XX:XX
+"Invalid MAC address format. Expected format: XX:XX:XX:XX:XX:XX",تنسيق عنوان MAC غير صالح. التنسيق المتوقع: XX:XX:XX:XX:XX:XX
+Invalid MikroTik Port,منفذ MikroTik غير صالح
+Invalid MTU,MTU غير صالح
+Invalid Port,منفذ غير صالح
+Invalid Retention Period,فترة الاحتفاظ غير صالحة
+Invalid secret token,رمز سري غير صالح
+Invalid signature,توقيع غير صالح
+Invalid status: {0},حالة غير صالحة: {0}
+Invalid Subnet Mask format,تنسيق قناع الشبكة الفرعية غير صالح
+Invalid token,رمز غير صالح
+Invalid Token Expiry,صلاحية الرمز غير صالحة
+Invalid voucher code,رمز القسيمة غير صالح
+Invoice day must be between 1 and 28,يوم الفاتورة يجب أن يكون بين 1 و 28
+"IP Address {0} is not within the LAN network range {1}",عنوان IP {0} ليس ضمن نطاق شبكة LAN {1}
+"IP Range must be in CIDR notation (e.g., 192.168.1.0/24) or range format (e.g., 192.168.1.1-192.168.1.254)",نطاق IP يجب أن يكون بتدوين CIDR (مثل 192.168.1.0/24) أو تنسيق نطاق (مثل 192.168.1.1-192.168.1.254)
+Items,العناصر
+Listen Port must be between 1 and 65535,منفذ الاستماع يجب أن يكون بين 1 و 65535
+Loading...,جارٍ التحميل...
+MAC Address is required,عنوان MAC مطلوب
+Max Devices must be 0 or a positive number,الحد الأقصى للأجهزة يجب أن يكون 0 أو رقماً موجباً
+Maximum devices exceeded,تم تجاوز الحد الأقصى للأجهزة
+Meeting Invitation: {0},دعوة اجتماع: {0}
+Meeting Name,اسم الاجتماع
+Meeting scheduled successfully,تمت جدولة الاجتماع بنجاح
+Meeting Starting Soon,الاجتماع يبدأ قريباً
+Message,رسالة
+Message (for active conversations),رسالة (للمحادثات النشطة)
+Messages,الرسائل
+Message sent,تم إرسال الرسالة
+Message sent successfully,تم إرسال الرسالة بنجاح
+Method not allowed,الطريقة غير مسموحة
+MikroTik API Port must be between 1 and 65535,منفذ API لـ MikroTik يجب أن يكون بين 1 و 65535
+Moderator,مشرف
+📊 Monitoring,📊 المراقبة
+MTU must be between 68 and 9000,MTU يجب أن يكون بين 68 و 9000
+Name,الاسم
+NAT rule configuration pushed ({0}).,تم دفع تهيئة قاعدة NAT ({0}).
+Network Client is required when Target Type is Client,عميل الشبكة مطلوب عندما يكون نوع الهدف عميل
+Network Settings,إعدادات الشبكة
+Network Topology,طوبولوجيا الشبكة
+New API Token,رمز API جديد
+New API token generated. Save it securely.,تم توليد رمز API جديد. احفظه بشكل آمن.
+New Box,جهاز جديد
+New Extension,تحويلة جديدة
+New Firewall Zone,منطقة جدار حماية جديدة
+New Meeting Room,غرفة اجتماع جديدة
+New Omni Provider,مزوّد قنوات جديد
+New S2S Tunnel,نفق S2S جديد
+New Trunk,خط ربط جديد
+New VPN Peer,نظير VPN جديد
+New VPN Server,خادم VPN جديد
+New WiFi Network,شبكة WiFi جديدة
+No active extension configured,لا توجد تحويلة نشطة مهيأة
+No active Telegram channel configured,لا توجد قناة Telegram نشطة مهيأة
+No active WhatsApp channel configured,لا توجد قناة WhatsApp نشطة مهيأة
+No additional properties,لا توجد خصائص إضافية
+No Arrowz Box specified and no default box configured,لم يتم تحديد جهاز أروز ولا يوجد جهاز افتراضي مهيأ
+No communications yet,لا توجد اتصالات بعد
+No default box configured,لا يوجد جهاز افتراضي مهيأ
+No documents with unread messages,لا توجد مستندات بها رسائل غير مقروءة
+No driver class configured for this provider,لا توجد فئة مشغّل مهيأة لهذا المزوّد
+No new messages,لا توجد رسائل جديدة
+No OpenMeetings server configured,لا يوجد خادم OpenMeetings مهيأ
+No phone number found,لم يتم العثور على رقم هاتف
+No recording available for this call,لا يوجد تسجيل متاح لهذه المكالمة
+"Note: This peer's policy requires 2FA authentication at connection time.",ملاحظة: سياسة هذا النظير تتطلب مصادقة ثنائية عند الاتصال.
+Notify at Percentage must be between 0 and 100,نسبة التنبيه يجب أن تكون بين 0 و 100
+No write permission,لا توجد صلاحية كتابة
+Only Available or Active vouchers can be deactivated,يمكن تعطيل القسائم المتاحة أو النشطة فقط
+Only Available vouchers can be activated,يمكن تفعيل القسائم المتاحة فقط
+Open,فتح
+Open Form,فتح النموذج
+Open List,فتح القائمة
+OpenMeetings API error: {0},خطأ API لـ OpenMeetings: {0}
+OpenMeetings server timeout,انتهت مهلة خادم OpenMeetings
+Participants,المشاركون
+Password is required when encryption is not Open,كلمة المرور مطلوبة عندما لا يكون التشفير مفتوحاً
+Peer access revoked.,تم إلغاء وصول النظير.
+"Peer network {0} is not within the policy's allowed networks.",شبكة النظير {0} ليست ضمن الشبكات المسموح بها في السياسة.
+"Peer network {0} overlaps with blocked network {1}.",شبكة النظير {0} تتداخل مع الشبكة المحظورة {1}.
+Permission Error,خطأ في الصلاحيات
+Phone,هاتف
+Phone Number,رقم الهاتف
+Phone Number ID is required for WhatsApp,معرف رقم الهاتف مطلوب لـ WhatsApp
+Please enter number and message,يرجى إدخال الرقم والرسالة
+Please select exactly one document,يرجى تحديد مستند واحد بالضبط
+Please set {0} for target type {1}.,يرجى تعيين {0} لنوع الهدف {1}.
+Portal is already running,البوابة تعمل بالفعل
+Portal is already stopped,البوابة متوقفة بالفعل
+Port forward configuration pushed ({0} → {1}:{2}).,تم دفع تهيئة توجيه المنفذ ({0} → {1}:{2}).
+"Port match value must be a number or range (e.g., 80 or 8000-8080)",قيمة مطابقة المنفذ يجب أن تكون رقماً أو نطاقاً (مثل 80 أو 8000-8080)
+Port number must be between 1 and 65535,رقم المنفذ يجب أن يكون بين 1 و 65535
+Port numbers in {0} must be between 1 and 65535.,أرقام المنافذ في {0} يجب أن تكون بين 1 و 65535.
+Port range start must be less than end,بداية نطاق المنفذ يجب أن تكون أقل من النهاية
+Ports refreshed,تم تحديث المنافذ
+PPPoE Username is required for PPPoE connection type,اسم مستخدم PPPoE مطلوب لنوع اتصال PPPoE
+Priority must be a non-negative integer.,الأولوية يجب أن تكون عدداً صحيحاً غير سالب.
+Properties,الخصائص
+Public Key is required for a VPN peer.,المفتاح العام مطلوب لنظير VPN.
+Pull from Device,سحب من الجهاز
+Pulling configuration from device...,جارٍ سحب التهيئة من الجهاز...
+Pulling telemetry...,جارٍ سحب بيانات القياس...
+Push Config,دفع التهيئة
+Push failed,فشل الدفع
+Push Frappe configuration to the device? Device config will be overwritten.,دفع تهيئة Frappe إلى الجهاز؟ سيتم استبدال تهيئة الجهاز.
+Pushing configuration...,جارٍ دفع التهيئة...
+Pushing configuration to device...,جارٍ دفع التهيئة إلى الجهاز...
+Push to Device,دفع إلى الجهاز
+QoS Policy must have at least one class defined.,سياسة QoS يجب أن تحتوي على فئة واحدة معرّفة على الأقل.
+QR Code,رمز QR
+Quick Edit,تعديل سريع
+Reading device configuration...,جارٍ قراءة تهيئة الجهاز...
+Recording file not found,ملف التسجيل غير موجود
+Refresh,تحديث
+Report generation queued,تم وضع إنشاء التقرير في قائمة الانتظار
+Request timed out. Please try again.,انتهت مهلة الطلب. يرجى المحاولة مرة أخرى.
+Required for initiating new conversations (24-hour rule),مطلوب لبدء محادثات جديدة (قاعدة الـ 24 ساعة)
+Restart Server,إعادة تشغيل الخادم
+Retention days must be at least 1,أيام الاحتفاظ يجب أن تكون يوماً واحداً على الأقل
+Retry,إعادة المحاولة
+Revoke Access,إلغاء الوصول
+"Rule Set Name must contain only alphanumeric characters, hyphens, underscores, or spaces.",اسم مجموعة القواعد يجب أن يحتوي فقط على أحرف وأرقام وشرطات وشرطات سفلية أو مسافات.
+Running,قيد التشغيل
+Scan with WireGuard mobile app,مسح باستخدام تطبيق WireGuard للجوال
+Schedule,جدولة
+Scheduled end must be after scheduled start,نهاية الجدولة يجب أن تكون بعد بدايتها
+Schedule Video Meeting,جدولة اجتماع فيديو
+Send,إرسال
+Send SMS,إرسال رسالة قصيرة
+Send Telegram Message,إرسال رسالة Telegram
+Send WhatsApp Message,إرسال رسالة WhatsApp
+"Server Address should include CIDR notation (e.g. 10.10.0.1/24)",عنوان الخادم يجب أن يتضمن تدوين CIDR (مثل 10.10.0.1/24)
+Service {0} failed on {1},الخدمة {0} فشلت على {1}
+Session ended,انتهت الجلسة
+Session not found,الجلسة غير موجودة
+Session Timeout must be a positive number,مهلة الجلسة يجب أن تكون رقماً موجباً
+Show Diff,عرض الفرق
+Site-to-Site Tunnels,أنفاق موقع لموقع
+SMS,رسالة قصيرة
+SMS Error,خطأ رسالة قصيرة
+SMS Messages,الرسائل القصيرة
+SMS sent successfully,تم إرسال الرسالة القصيرة بنجاح
+Softphone not available or no phone number found,الهاتف البرمجي غير متاح أو لم يتم العثور على رقم هاتف
+Softphone not available. Please check your extension configuration.,الهاتف البرمجي غير متاح. يرجى التحقق من تهيئة التحويلة.
+SSL Certificate Path is required when SSL is enabled,مسار شهادة SSL مطلوب عند تفعيل SSL
+SSL Key Path is required when SSL is enabled,مسار مفتاح SSL مطلوب عند تفعيل SSL
+Start Time,وقت البدء
+Status check initiated,تم بدء فحص الحالة
+Status refresh requested for {0},تم طلب تحديث الحالة لـ {0}
+Stopped,متوقف
+Sync,مزامنة
+Sync Telemetry,مزامنة بيانات القياس
+Telegram,تيليغرام
+Telegram bulk messaging coming soon,المراسلة الجماعية عبر Telegram قريباً
+Telegram message sent successfully,تم إرسال رسالة Telegram بنجاح
+Telemetry synced successfully,تمت مزامنة بيانات القياس بنجاح
+Template,قالب
+Template required for new conversations,القالب مطلوب للمحادثات الجديدة
+Test Connection,اختبار الاتصال
+Testing connection...,جارٍ اختبار الاتصال...
+This will disconnect and disable this peer. Continue?,سيتم قطع الاتصال وتعطيل هذا النظير. هل تريد المتابعة؟
+This will regenerate the server keys. All peers will need to update their config. Continue?,سيتم إعادة توليد مفاتيح الخادم. جميع الأنظار سيحتاجون تحديث تهيئتهم. هل تريد المتابعة؟
+Throttle Download (kbps) must be greater than 0,حد التنزيل (كيلوبت/ث) يجب أن يكون أكبر من 0
+Throttle Upload (kbps) must be greater than 0,حد الرفع (كيلوبت/ث) يجب أن يكون أكبر من 0
+Time slots overlap on {0}: {1}-{2} and {3}-{4},الفترات الزمنية تتداخل في {0}: {1}-{2} و {3}-{4}
+Token,رمز
+Token copied to clipboard,تم نسخ الرمز إلى الحافظة
+Topology Error,خطأ في الطوبولوجيا
+Translated Address is required for DNAT rules.,العنوان المترجم مطلوب لقواعد DNAT.
+Translated Address is required for SNAT rules.,العنوان المترجم مطلوب لقواعد SNAT.
+Tunnels,الأنفاق
+TX Power must be 0 (auto) or a positive value,قوة الإرسال يجب أن تكون 0 (تلقائي) أو قيمة موجبة
+Type a message...,اكتب رسالة...
+Unauthorized,غير مصرح
+Unknown,غير معروف
+Unknown provider,مزوّد غير معروف
+Unread Messages,رسائل غير مقروءة
+Upload Speed (Kbps) must be greater than 0.,سرعة الرفع (كيلوبت/ث) يجب أن تكون أكبر من 0.
+Use Template (required if 24h window expired),استخدم قالب (مطلوب إذا انتهت نافذة الـ 24 ساعة)
+Valid From must be before Valid Until,صالح من يجب أن يكون قبل صالح حتى
+Verification failed,فشل التحقق
+Video,فيديو
+View,عرض
+View All Conversations,عرض جميع المحادثات
+View Box,عرض الجهاز
+View Device Config,عرض تهيئة الجهاز
+View Location,عرض الموقع
+View Peers,عرض الأنظار
+View Server,عرض الخادم
+VLAN ID must be between 1 and 4094,معرف VLAN يجب أن يكون بين 1 و 4094
+☎️ VoIP & PBX,☎️ هاتف عبر الإنترنت و PBX
+Voucher {0} activated,تم تفعيل القسيمة {0}
+Voucher {0} deactivated,تم تعطيل القسيمة {0}
+Voucher activated,تم تفعيل القسيمة
+Voucher Code cannot be empty,رمز القسيمة لا يمكن أن يكون فارغاً
+Voucher Count must be greater than 0,عدد القسائم يجب أن يكون أكبر من 0
+Voucher is {0},القسيمة {0}
+Vouchers can only be generated for Draft batches,يمكن إنشاء القسائم فقط لدفعات المسودة
+🔒 VPN,🔒 شبكة VPN
+VPN Peers,أنظار VPN
+Wallboard,لوحة العرض
+WAN failover on {0}: {1} → {2},تجاوز WAN على {0}: {1} → {2}
+Webhook verification failed,فشل التحقق من Webhook
+WhatsApp,واتساب
+WhatsApp message sent successfully,تم إرسال رسالة واتساب بنجاح
+WhatsApp Window Expiring,نافذة واتساب تنتهي
+WiFi,واي فاي
+📶 WiFi & Hotspot,📶 واي فاي ونقطة اتصال
+WiFi Vouchers,قسائم واي فاي
+Window,نافذة
+WireGuard Client Configuration,تهيئة عميل WireGuard
+WireGuard QR Code,رمز QR لـ WireGuard
+You don't have permission to access this recording,ليس لديك صلاحية الوصول إلى هذا التسجيل
+You don't have permission to delete recordings,ليس لديك صلاحية حذف التسجيلات
+Your Meeting Starting Soon,اجتماعك يبدأ قريباً
+Your report is ready,تقريرك جاهز
+Zone configuration pushed for {0},تم دفع تهيئة المنطقة لـ {0}
+"Zone Name must contain only alphanumeric characters, hyphens, or underscores.",اسم المنطقة يجب أن يحتوي فقط على أحرف وأرقام وشرطات وشرطات سفلية.
+Today's Calls,مكالمات اليوم
+Active Calls,المكالمات النشطة
+Missed Calls,المكالمات الفائتة
+SMS Today,رسائل اليوم
+Dashboards & Pages,لوحات المعلومات والصفحات
+Routing & Trunks,التوجيه وخطوط الربط
+Omni-Channel & Meetings,القنوات المتعددة والاجتماعات
+Network Infrastructure,البنية التحتية للشبكة
+Firewall & Security,جدار الحماية والأمان
+Client Management,إدارة العملاء
+Bandwidth Control,التحكم في عرض النطاق
+IP Accounting & Quotas,محاسبة IP والحصص
+Monitoring & Alerts,المراقبة والتنبيهات
+WiFi Networks,شبكات واي فاي
+Hotspot & Portal,نقطة الاتصال والبوابة
+Vouchers & Users,القسائم والمستخدمين
+VPN Management,إدارة VPN
+Billing & Invoicing,الفوترة والفواتير
+Setup & Devices,الإعداد والأجهزة
+VoIP & Telephony,الاتصال عبر الإنترنت والهاتفية
+Omni-Channel,القنوات المتعددة
+Meetings,الاجتماعات
+Network & Devices,الشبكة والأجهزة
+Settings,الإعدادات
+Topology,الطوبولوجيا
+Make Call,إجراء مكالمة
+Call Logs,سجلات المكالمات
+Transfer Logs,سجلات التحويل
+Trunks,خطوط الربط
+Inbound Routes,المسارات الواردة
+Outbound Routes,المسارات الصادرة
+SMS Providers,مزوّدو الرسائل القصيرة
+Conversations,المحادثات
+Omni Channels,القنوات المتعددة
+Omni Providers,مزوّدو القنوات
+Meeting Rooms,غرف الاجتماعات
+Recordings,التسجيلات
+Arrowz Boxes,أجهزة أروز
+Box Health Logs,سجلات صحة الأجهزة
+MikroTik Sync Logs,سجلات مزامنة MikroTik
+Server Config,تهيئة الخادم
+Documentation,التوثيق
+Arrowz Communications,اتصالات أروز
+Unified Communications & Network Platform,منصة الاتصالات الموحدة وإدارة الشبكات

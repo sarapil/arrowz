@@ -1,0 +1,113 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-02-19 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "arrowz_box",
+  "destination",
+  "gateway",
+  "column_break_route",
+  "interface",
+  "metric",
+  "enabled",
+  "section_break_description",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Arrowz Box",
+   "options": "Arrowz Box",
+   "reqd": 1
+  },
+  {
+   "fieldname": "destination",
+   "fieldtype": "Data",
+   "description": "CIDR e.g. 10.0.0.0/8",
+   "in_list_view": 1,
+   "label": "Destination",
+   "reqd": 1
+  },
+  {
+   "fieldname": "gateway",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Gateway",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_route",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "interface",
+   "fieldtype": "Link",
+   "label": "Interface",
+   "options": "Network Interface"
+  },
+  {
+   "fieldname": "metric",
+   "fieldtype": "Int",
+   "default": "100",
+   "label": "Metric"
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "default": "1",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "section_break_description",
+   "fieldtype": "Section Break",
+   "label": "Description"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Network Management",
+ "name": "Static Route",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

@@ -1,0 +1,165 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-02-19 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "network_client",
+  "arrowz_box",
+  "mac_address",
+  "ip_address",
+  "column_break_basic",
+  "status",
+  "connection_type",
+  "wifi_network",
+  "section_break_timing",
+  "start_time",
+  "end_time",
+  "duration_seconds",
+  "column_break_disconnect",
+  "disconnect_reason",
+  "section_break_usage",
+  "bytes_uploaded",
+  "bytes_downloaded"
+ ],
+ "fields": [
+  {
+   "fieldname": "network_client",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Network Client",
+   "options": "Network Client",
+   "reqd": 1
+  },
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Arrowz Box",
+   "options": "Arrowz Box",
+   "reqd": 1
+  },
+  {
+   "fieldname": "mac_address",
+   "fieldtype": "Data",
+   "label": "MAC Address"
+  },
+  {
+   "fieldname": "ip_address",
+   "fieldtype": "Data",
+   "label": "IP Address"
+  },
+  {
+   "fieldname": "column_break_basic",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "default": "Active",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "\nActive\nEnded"
+  },
+  {
+   "fieldname": "connection_type",
+   "fieldtype": "Select",
+   "label": "Connection Type",
+   "options": "\nWired\nWiFi\nVPN\nHotspot"
+  },
+  {
+   "fieldname": "wifi_network",
+   "fieldtype": "Link",
+   "label": "WiFi Network",
+   "options": "WiFi Network"
+  },
+  {
+   "fieldname": "section_break_timing",
+   "fieldtype": "Section Break",
+   "label": "Timing"
+  },
+  {
+   "fieldname": "start_time",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Start Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "end_time",
+   "fieldtype": "Datetime",
+   "label": "End Time"
+  },
+  {
+   "fieldname": "duration_seconds",
+   "fieldtype": "Int",
+   "label": "Duration (Seconds)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_disconnect",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "disconnect_reason",
+   "fieldtype": "Select",
+   "label": "Disconnect Reason",
+   "options": "\nNormal\nTimeout\nAdmin\nError"
+  },
+  {
+   "fieldname": "section_break_usage",
+   "fieldtype": "Section Break",
+   "label": "Data Usage"
+  },
+  {
+   "fieldname": "bytes_uploaded",
+   "fieldtype": "Long Int",
+   "label": "Bytes Uploaded"
+  },
+  {
+   "fieldname": "bytes_downloaded",
+   "fieldtype": "Long Int",
+   "label": "Bytes Downloaded"
+  }
+ ],
+ "in_create": 1,
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Client Management",
+ "name": "Client Session",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

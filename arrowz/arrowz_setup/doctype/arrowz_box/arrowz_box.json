@@ -1,0 +1,474 @@
+{
+  "actions": [],
+  "autoname": "field:box_name",
+  "creation": "2026-01-15 10:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "general_section",
+    "box_name",
+    "box_ip",
+    "api_port",
+    "status",
+    "device_type",
+    "column_break_general",
+    "hardware_profile",
+    "location",
+    "customer",
+    "last_heartbeat",
+    "connection_section",
+    "api_token",
+    "api_protocol",
+    "verify_ssl",
+    "column_break_conn",
+    "ssh_user",
+    "ssh_port",
+    "ssh_key",
+    "mikrotik_section",
+    "mikrotik_api_port",
+    "mikrotik_username",
+    "mikrotik_password",
+    "column_break_mikrotik",
+    "mikrotik_use_ssl",
+    "mikrotik_routeros_version",
+    "mikrotik_model",
+    "mikrotik_serial",
+    "sync_section",
+    "sync_enabled",
+    "auto_sync_interval",
+    "column_break_sync",
+    "last_sync_at",
+    "last_sync_status",
+    "hardware_section",
+    "cpu_model",
+    "cpu_cores",
+    "total_ram_mb",
+    "column_break_hw",
+    "total_disk_mb",
+    "os_version",
+    "kernel_version",
+    "interfaces_section",
+    "wan_connections",
+    "lan_networks",
+    "wifi_interfaces",
+    "engine_section",
+    "engine_version",
+    "engine_status",
+    "engine_uptime",
+    "column_break_engine",
+    "engine_last_config_push",
+    "engine_config_hash",
+    "notes_section",
+    "notes"
+  ],
+  "fields": [
+    {
+      "fieldname": "general_section",
+      "fieldtype": "Section Break",
+      "label": "General"
+    },
+    {
+      "fieldname": "box_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Box Name",
+      "reqd": 1,
+      "unique": 1
+    },
+    {
+      "fieldname": "box_ip",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Box IP / Hostname",
+      "reqd": 1,
+      "description": "Management IP or hostname to reach the Arrowz Engine API"
+    },
+    {
+      "default": "8443",
+      "fieldname": "api_port",
+      "fieldtype": "Int",
+      "label": "API Port",
+      "reqd": 1
+    },
+    {
+      "default": "Offline",
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "label": "Status",
+      "options": "Online\nOffline\nDegraded\nMaintenance",
+      "read_only": 1
+    },
+    {
+      "default": "Linux Box",
+      "fieldname": "device_type",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "label": "Device Type",
+      "options": "Linux Box\nMikroTik",
+      "reqd": 1,
+      "description": "Type of device — determines which provider is used for communication"
+    },
+    {
+      "fieldname": "column_break_general",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "hardware_profile",
+      "fieldtype": "Select",
+      "label": "Hardware Profile",
+      "options": "\nMini PC\nRack Server\n1U Appliance\nVirtual Machine\nRaspberry Pi\nCustom"
+    },
+    {
+      "fieldname": "location",
+      "fieldtype": "Data",
+      "label": "Location",
+      "description": "Physical location or site name"
+    },
+    {
+      "fieldname": "customer",
+      "fieldtype": "Link",
+      "label": "Customer",
+      "options": "Customer",
+      "description": "ERPNext Customer linked to this box"
+    },
+    {
+      "fieldname": "last_heartbeat",
+      "fieldtype": "Datetime",
+      "label": "Last Heartbeat",
+      "read_only": 1
+    },
+    {
+      "fieldname": "connection_section",
+      "fieldtype": "Section Break",
+      "label": "Connection & Authentication"
+    },
+    {
+      "fieldname": "api_token",
+      "fieldtype": "Password",
+      "label": "API Bearer Token",
+      "description": "Token for authenticating with the Engine API"
+    },
+    {
+      "default": "https",
+      "fieldname": "api_protocol",
+      "fieldtype": "Select",
+      "label": "API Protocol",
+      "options": "https\nhttp"
+    },
+    {
+      "default": "1",
+      "fieldname": "verify_ssl",
+      "fieldtype": "Check",
+      "label": "Verify SSL Certificate"
+    },
+    {
+      "fieldname": "column_break_conn",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "root",
+      "fieldname": "ssh_user",
+      "fieldtype": "Data",
+      "label": "SSH User"
+    },
+    {
+      "default": "22",
+      "fieldname": "ssh_port",
+      "fieldtype": "Int",
+      "label": "SSH Port"
+    },
+    {
+      "fieldname": "ssh_key",
+      "fieldtype": "Text",
+      "label": "SSH Private Key",
+      "description": "PEM-encoded private key for SSH access"
+    },
+    {
+      "fieldname": "mikrotik_section",
+      "fieldtype": "Section Break",
+      "label": "MikroTik Connection",
+      "collapsible": 1,
+      "depends_on": "eval:doc.device_type=='MikroTik'"
+    },
+    {
+      "default": "8728",
+      "fieldname": "mikrotik_api_port",
+      "fieldtype": "Int",
+      "label": "RouterOS API Port",
+      "description": "Default: 8728 (plain) or 8729 (SSL)",
+      "depends_on": "eval:doc.device_type=='MikroTik'"
+    },
+    {
+      "default": "admin",
+      "fieldname": "mikrotik_username",
+      "fieldtype": "Data",
+      "label": "MikroTik Username",
+      "depends_on": "eval:doc.device_type=='MikroTik'"
+    },
+    {
+      "fieldname": "mikrotik_password",
+      "fieldtype": "Password",
+      "label": "MikroTik Password",
+      "depends_on": "eval:doc.device_type=='MikroTik'"
+    },
+    {
+      "fieldname": "column_break_mikrotik",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "0",
+      "fieldname": "mikrotik_use_ssl",
+      "fieldtype": "Check",
+      "label": "Use SSL for API",
+      "description": "Use port 8729 with SSL encryption",
+      "depends_on": "eval:doc.device_type=='MikroTik'"
+    },
+    {
+      "fieldname": "mikrotik_routeros_version",
+      "fieldtype": "Data",
+      "label": "RouterOS Version",
+      "read_only": 1,
+      "depends_on": "eval:doc.device_type=='MikroTik'"
+    },
+    {
+      "fieldname": "mikrotik_model",
+      "fieldtype": "Data",
+      "label": "MikroTik Model",
+      "read_only": 1,
+      "depends_on": "eval:doc.device_type=='MikroTik'"
+    },
+    {
+      "fieldname": "mikrotik_serial",
+      "fieldtype": "Data",
+      "label": "Serial Number",
+      "read_only": 1,
+      "depends_on": "eval:doc.device_type=='MikroTik'"
+    },
+    {
+      "fieldname": "sync_section",
+      "fieldtype": "Section Break",
+      "label": "Synchronization",
+      "collapsible": 1
+    },
+    {
+      "default": "0",
+      "fieldname": "sync_enabled",
+      "fieldtype": "Check",
+      "label": "Enable Auto-Sync",
+      "description": "Automatically synchronize device configuration at regular intervals"
+    },
+    {
+      "default": "5",
+      "fieldname": "auto_sync_interval",
+      "fieldtype": "Int",
+      "label": "Auto-Sync Interval (minutes)",
+      "depends_on": "eval:doc.sync_enabled"
+    },
+    {
+      "fieldname": "column_break_sync",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "last_sync_at",
+      "fieldtype": "Datetime",
+      "label": "Last Sync At",
+      "read_only": 1
+    },
+    {
+      "fieldname": "last_sync_status",
+      "fieldtype": "Select",
+      "label": "Last Sync Status",
+      "options": "\nSuccess\nFailed\nPartial",
+      "read_only": 1
+    },
+    {
+      "fieldname": "hardware_section",
+      "fieldtype": "Section Break",
+      "label": "Hardware Info",
+      "collapsible": 1
+    },
+    {
+      "fieldname": "cpu_model",
+      "fieldtype": "Data",
+      "label": "CPU Model",
+      "read_only": 1
+    },
+    {
+      "fieldname": "cpu_cores",
+      "fieldtype": "Int",
+      "label": "CPU Cores",
+      "read_only": 1
+    },
+    {
+      "fieldname": "total_ram_mb",
+      "fieldtype": "Int",
+      "label": "Total RAM (MB)",
+      "read_only": 1
+    },
+    {
+      "fieldname": "column_break_hw",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "total_disk_mb",
+      "fieldtype": "Int",
+      "label": "Total Disk (MB)",
+      "read_only": 1
+    },
+    {
+      "fieldname": "os_version",
+      "fieldtype": "Data",
+      "label": "OS Version",
+      "read_only": 1
+    },
+    {
+      "fieldname": "kernel_version",
+      "fieldtype": "Data",
+      "label": "Kernel Version",
+      "read_only": 1
+    },
+    {
+      "fieldname": "interfaces_section",
+      "fieldtype": "Section Break",
+      "label": "Network Interfaces",
+      "collapsible": 1
+    },
+    {
+      "fieldname": "wan_connections",
+      "fieldtype": "Table",
+      "label": "WAN Connections",
+      "options": "WAN Connection"
+    },
+    {
+      "fieldname": "lan_networks",
+      "fieldtype": "Table",
+      "label": "LAN Networks",
+      "options": "LAN Network"
+    },
+    {
+      "fieldname": "wifi_interfaces",
+      "fieldtype": "Table",
+      "label": "WiFi Interfaces",
+      "options": "WiFi Network"
+    },
+    {
+      "fieldname": "engine_section",
+      "fieldtype": "Section Break",
+      "label": "Engine Status",
+      "collapsible": 1
+    },
+    {
+      "fieldname": "engine_version",
+      "fieldtype": "Data",
+      "label": "Engine Version",
+      "read_only": 1
+    },
+    {
+      "default": "Unknown",
+      "fieldname": "engine_status",
+      "fieldtype": "Select",
+      "label": "Engine Status",
+      "options": "Running\nStopped\nError\nUnknown",
+      "read_only": 1
+    },
+    {
+      "fieldname": "engine_uptime",
+      "fieldtype": "Data",
+      "label": "Engine Uptime",
+      "read_only": 1
+    },
+    {
+      "fieldname": "column_break_engine",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "engine_last_config_push",
+      "fieldtype": "Datetime",
+      "label": "Last Config Push",
+      "read_only": 1
+    },
+    {
+      "fieldname": "engine_config_hash",
+      "fieldtype": "Data",
+      "label": "Config Hash",
+      "read_only": 1,
+      "description": "SHA256 of last pushed configuration"
+    },
+    {
+      "fieldname": "notes_section",
+      "fieldtype": "Section Break",
+      "label": "Notes",
+      "collapsible": 1
+    },
+    {
+      "fieldname": "notes",
+      "fieldtype": "Text Editor",
+      "label": "Notes"
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "links": [
+    {
+      "group": "Network",
+      "link_doctype": "Network Interface",
+      "link_fieldname": "arrowz_box"
+    },
+    {
+      "group": "Monitoring",
+      "link_doctype": "Arrowz Box Health Log",
+      "link_fieldname": "arrowz_box"
+    },
+    {
+      "group": "Monitoring",
+      "link_doctype": "Network Alert",
+      "link_fieldname": "arrowz_box"
+    },
+    {
+      "group": "Monitoring",
+      "link_doctype": "MikroTik Sync Log",
+      "link_fieldname": "arrowz_box"
+    }
+  ],
+  "modified": "2026-01-15 10:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Arrowz Setup",
+  "name": "Arrowz Box",
+  "naming_rule": "By fieldname",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    },
+    {
+      "create": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "Network Manager",
+      "share": 1,
+      "write": 1
+    },
+    {
+      "read": 1,
+      "role": "Network User"
+    }
+  ],
+  "show_title_field_in_link": 1,
+  "sort_field": "creation",
+  "sort_order": "DESC",
+  "title_field": "box_name",
+  "track_changes": 1
+}

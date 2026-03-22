@@ -1,0 +1,157 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:campaign_name",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "campaign_name",
+  "enabled",
+  "campaign_type",
+  "column_break_targeting",
+  "target_hotspot_profiles",
+  "start_date",
+  "end_date",
+  "section_break_content",
+  "redirect_url",
+  "ad_image_url",
+  "ad_html",
+  "section_break_stats",
+  "impression_count",
+  "click_count",
+  "section_break_notes",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "campaign_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Campaign Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "campaign_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Campaign Type",
+   "options": "Splash Ad\nPost-Auth Redirect\nEmail Collection\nSurvey",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_targeting",
+   "fieldtype": "Column Break",
+   "label": "Targeting"
+  },
+  {
+   "description": "Comma-separated profile names",
+   "fieldname": "target_hotspot_profiles",
+   "fieldtype": "Small Text",
+   "label": "Target Hotspot Profiles"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
+  },
+  {
+   "fieldname": "section_break_content",
+   "fieldtype": "Section Break",
+   "label": "Content"
+  },
+  {
+   "fieldname": "redirect_url",
+   "fieldtype": "Data",
+   "label": "Redirect URL"
+  },
+  {
+   "fieldname": "ad_image_url",
+   "fieldtype": "Data",
+   "label": "Ad Image URL"
+  },
+  {
+   "fieldname": "ad_html",
+   "fieldtype": "Code",
+   "label": "Ad HTML",
+   "options": "HTML"
+  },
+  {
+   "fieldname": "section_break_stats",
+   "fieldtype": "Section Break",
+   "label": "Statistics"
+  },
+  {
+   "default": "0",
+   "fieldname": "impression_count",
+   "fieldtype": "Int",
+   "label": "Impression Count",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "click_count",
+   "fieldtype": "Int",
+   "label": "Click Count",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_notes",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "WiFi Management",
+ "name": "WiFi Marketing Campaign",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

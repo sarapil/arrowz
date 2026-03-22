@@ -55,13 +55,25 @@
 ║  │  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘  └───────┬────────┘  │  ║
 ║  └─────────┼────────────────┼────────────────┼─────────────────┼───────────┘  ║
 ║            │                │                │                 │              ║
-╚════════════╪════════════════╪════════════════╪═════════════════╪══════════════╝
-             │                │                │                 │
-             ▼                ▼                ▼                 ▼
-    ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌────────────────┐
-    │   FreePBX   │  │  WhatsApp   │  │  Telegram   │  │  OpenMeetings  │
-    │   Server    │  │  Cloud API  │  │   Bot API   │  │    Server      │
-    └─────────────┘  └─────────────┘  └─────────────┘  └────────────────┘
+║            ▼                ▼                ▼                 ▼              ║
+║  ┌─────────────────────────────────────────────────────────────────────────┐  ║
+║  │                    DEVICE PROVIDER LAYER                                 │  ║
+║  │  ┌──────────────────────┐  ┌──────────────────────┐                     │  ║
+║  │  │    LinuxProvider     │  │  MikroTikProvider    │     (Extensible)    │  ║
+║  │  │   (BoxConnector)     │  │  (RouterOSClient)    │                     │  ║
+║  │  │   HTTPS + HMAC       │  │  RouterOS API        │                     │  ║
+║  │  └──────────┬───────────┘  └──────────┬───────────┘                     │  ║
+║  │             │  ProviderFactory ──────> │  SyncEngine                     │  ║
+║  │             │  ErrorTracker            │                                 │  ║
+║  └─────────────┼──────────────────────────┼────────────────────────────────┘  ║
+║                │                          │                                   ║
+╚════════════════╪══════════════════════════╪═══════════════════════════════════╝
+                 │                          │
+                 ▼                          ▼
+    ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌────────────────┐  ┌────────────┐
+    │   FreePBX   │  │  WhatsApp   │  │  Telegram   │  │  OpenMeetings  │  │  MikroTik  │
+    │   Server    │  │  Cloud API  │  │   Bot API   │  │    Server      │  │   Router   │
+    └─────────────┘  └─────────────┘  └─────────────┘  └────────────────┘  └────────────┘
 ```
 
 ---
@@ -704,3 +716,110 @@ Event Types:
 | `CLAUDE.md` | Documentation | Claude AI quick ref |
 | `.cursorrules` | Config | Cursor AI rules |
 | `.github/copilot-instructions.md` | Config | Copilot context |
+
+---
+
+## Device Provider Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    DEVICE PROVIDER LAYER                                │
+└─────────────────────────────────────────────────────────────────────────┘
+
+     ┌────────────────────────────────────────────────────┐
+     │              ProviderFactory                       │
+     │  Registry:                                         │
+     │   "Linux Box" → LinuxProvider                     │
+     │   "MikroTik"  → MikroTikProvider                  │
+     │                                                    │
+     │  Methods:                                          │
+     │   get_provider(box_doc) → BaseProvider             │
+     │   connect(box_doc) → ContextManager               │
+     └────────────────────────┬───────────────────────────┘
+                              │
+               ┌──────────────┴──────────────┐
+               │                             │
+     ┌─────────▼─────────┐       ┌───────────▼───────────┐
+     │   LinuxProvider   │       │  MikroTikProvider     │
+     │                   │       │                       │
+     │  BoxConnector     │       │  RouterOSClient       │
+     │  HTTPS + HMAC     │       │  librouteros 4.0.0    │
+     │  Bearer token     │       │  TCP port 8728/8729   │
+     │                   │       │                       │
+     │  Wraps existing   │       │  Supports:            │
+     │  REST API agent   │       │  • RouterOS v6 + v7   │
+     │                   │       │  • WiFi / CAPsMAN      │
+     │  ConfigCompiler   │       │  • WireGuard VPN      │
+     │  for push ops     │       │  • Full CRUD          │
+     └───────────────────┘       └───────────────────────┘
+```
+
+## Sync Engine Flow
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                       SYNC ENGINE FLOW                                  │
+└─────────────────────────────────────────────────────────────────────────┘
+
+                    PULL (Device → Frappe)
+┌──────────┐    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Arrowz   │    │   Provider   │    │   Mapper     │    │   Frappe     │
+│   Box    │───>│ get_full_    │───>│ RouterOS →   │───>│  DocTypes    │
+│ DocType  │    │  config()    │    │  Frappe fmt  │    │  (create/    │
+│          │    │              │    │              │    │   update)    │
+└──────────┘    └──────────────┘    └──────────────┘    └──────────────┘
+
+                    PUSH (Frappe → Device)
+┌──────────┐    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│  Frappe  │    │   Config     │    │   Provider   │    │   Device     │
+│ DocTypes │───>│  Compiler    │───>│ push_full_   │───>│  (RouterOS   │
+│          │    │              │    │  config()    │    │   or Linux)  │
+└──────────┘    └──────────────┘    └──────────────┘    └──────────────┘
+
+                    DIFF (Compare)
+┌──────────┐    ┌──────────────┐    ┌──────────────┐
+│  Device  │    │   Compare    │    │   Diff       │
+│  Config  │───>│   Engine     │───>│  Report      │
+│          │    │              │    │  (JSON)      │
+│  Frappe  │───>│              │    │              │
+│  Config  │    │              │    │              │
+└──────────┘    └──────────────┘    └──────────────┘
+
+All operations logged to MikroTik Sync Log DocType via ErrorTracker.
+```
+
+## Local PBX Monitor Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    LOCAL PBX MONITOR (Dev Environment)                   │
+└─────────────────────────────────────────────────────────────────────────┘
+
+                    Docker Volume Mounts (read-only)
+FreePBX Container                           Arrowz Dev Container
+┌────────────────┐                         ┌────────────────────────────┐
+│ /etc/asterisk/ │ ──── mount ──────────>  │ /mnt/pbx/etc/asterisk/    │
+│ /var/log/      │ ──── mount ──────────>  │ /mnt/pbx/logs/            │
+│ /var/spool/    │ ──── mount ──────────>  │ /mnt/pbx/recordings/      │
+│ /var/spool/vm/ │ ──── mount ──────────>  │ /mnt/pbx/voicemail/       │
+│ /backup/       │ ──── mount ──────────>  │ /mnt/pbx/db/              │
+└────────────────┘                         └──────────┬─────────────────┘
+                                                      │
+                                           ┌──────────▼─────────────────┐
+                                           │   LocalPBXMonitor          │
+                                           │   (local_pbx_monitor.py)   │
+                                           │                            │
+                                           │   • read_log(file, lines)  │
+                                           │   • get_pjsip_config()     │
+                                           │   • diagnose_webrtc(ext)   │
+                                           │   • get_call_quality()     │
+                                           │   • list_recordings()      │
+                                           │   • query_astdb()          │
+                                           └────────────────────────────┘
+
+Constants defined in: arrowz/dev_constants.py
+```
+
+---
+
+*Last Updated: February 2026*

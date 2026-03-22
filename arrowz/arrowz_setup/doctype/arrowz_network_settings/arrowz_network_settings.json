@@ -1,0 +1,390 @@
+{
+  "actions": [],
+  "creation": "2026-01-15 10:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "general_section",
+    "enabled",
+    "company",
+    "default_box",
+    "column_break_general",
+    "api_timeout",
+    "retry_attempts",
+    "debug_mode",
+    "network_defaults_section",
+    "default_dns_primary",
+    "default_dns_secondary",
+    "default_ntp_server",
+    "column_break_netdef",
+    "default_mtu",
+    "default_lease_time",
+    "client_defaults_section",
+    "auto_register_clients",
+    "default_client_group",
+    "default_bandwidth_plan",
+    "column_break_clientdef",
+    "mac_format",
+    "session_timeout_minutes",
+    "wifi_defaults_section",
+    "default_country_code",
+    "default_wifi_channel_2g",
+    "default_wifi_channel_5g",
+    "column_break_wifidef",
+    "default_encryption",
+    "default_hotspot_profile",
+    "monitoring_section",
+    "health_check_interval",
+    "telemetry_interval",
+    "alert_email_recipients",
+    "column_break_monitoring",
+    "retention_days_logs",
+    "retention_days_accounting",
+    "retention_days_sessions",
+    "billing_section",
+    "enable_billing_integration",
+    "billing_company",
+    "default_billing_plan",
+    "column_break_billing",
+    "auto_generate_invoices",
+    "invoice_day_of_month",
+    "security_section",
+    "api_token_expiry_days",
+    "enforce_https",
+    "allowed_ip_ranges",
+    "column_break_security",
+    "hmac_secret",
+    "enable_audit_log"
+  ],
+  "fields": [
+    {
+      "fieldname": "general_section",
+      "fieldtype": "Section Break",
+      "label": "General Settings"
+    },
+    {
+      "default": "1",
+      "fieldname": "enabled",
+      "fieldtype": "Check",
+      "label": "Enabled",
+      "description": "Enable/disable the Arrowz network management platform"
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "Company",
+      "options": "Company",
+      "reqd": 1
+    },
+    {
+      "fieldname": "default_box",
+      "fieldtype": "Link",
+      "label": "Default Arrowz Box",
+      "options": "Arrowz Box",
+      "description": "Default Linux Box for network operations"
+    },
+    {
+      "fieldname": "column_break_general",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "30",
+      "fieldname": "api_timeout",
+      "fieldtype": "Int",
+      "label": "API Timeout (seconds)",
+      "description": "Timeout for API calls to Arrowz Box engine"
+    },
+    {
+      "default": "3",
+      "fieldname": "retry_attempts",
+      "fieldtype": "Int",
+      "label": "Retry Attempts",
+      "description": "Number of retry attempts for failed API calls"
+    },
+    {
+      "default": "0",
+      "fieldname": "debug_mode",
+      "fieldtype": "Check",
+      "label": "Debug Mode",
+      "description": "Enable verbose logging for troubleshooting"
+    },
+    {
+      "fieldname": "network_defaults_section",
+      "fieldtype": "Section Break",
+      "label": "Network Defaults"
+    },
+    {
+      "default": "8.8.8.8",
+      "fieldname": "default_dns_primary",
+      "fieldtype": "Data",
+      "label": "Primary DNS Server"
+    },
+    {
+      "default": "8.8.4.4",
+      "fieldname": "default_dns_secondary",
+      "fieldtype": "Data",
+      "label": "Secondary DNS Server"
+    },
+    {
+      "default": "pool.ntp.org",
+      "fieldname": "default_ntp_server",
+      "fieldtype": "Data",
+      "label": "NTP Server"
+    },
+    {
+      "fieldname": "column_break_netdef",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "1500",
+      "fieldname": "default_mtu",
+      "fieldtype": "Int",
+      "label": "Default MTU"
+    },
+    {
+      "default": "86400",
+      "fieldname": "default_lease_time",
+      "fieldtype": "Int",
+      "label": "Default DHCP Lease Time (seconds)"
+    },
+    {
+      "fieldname": "client_defaults_section",
+      "fieldtype": "Section Break",
+      "label": "Client Defaults"
+    },
+    {
+      "default": "1",
+      "fieldname": "auto_register_clients",
+      "fieldtype": "Check",
+      "label": "Auto-Register New Clients",
+      "description": "Automatically create Network Client records for new DHCP leases"
+    },
+    {
+      "fieldname": "default_client_group",
+      "fieldtype": "Link",
+      "label": "Default Client Group",
+      "options": "Client Group"
+    },
+    {
+      "fieldname": "default_bandwidth_plan",
+      "fieldtype": "Link",
+      "label": "Default Bandwidth Plan",
+      "options": "Bandwidth Plan"
+    },
+    {
+      "fieldname": "column_break_clientdef",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "XX:XX:XX:XX:XX:XX",
+      "fieldname": "mac_format",
+      "fieldtype": "Select",
+      "label": "MAC Address Format",
+      "options": "XX:XX:XX:XX:XX:XX\nXX-XX-XX-XX-XX-XX\nxxxx.xxxx.xxxx"
+    },
+    {
+      "default": "480",
+      "fieldname": "session_timeout_minutes",
+      "fieldtype": "Int",
+      "label": "Session Timeout (minutes)"
+    },
+    {
+      "fieldname": "wifi_defaults_section",
+      "fieldtype": "Section Break",
+      "label": "WiFi Defaults"
+    },
+    {
+      "default": "JO",
+      "fieldname": "default_country_code",
+      "fieldtype": "Data",
+      "label": "WiFi Country Code",
+      "description": "2-letter ISO country code for WiFi regulatory domain"
+    },
+    {
+      "default": "auto",
+      "fieldname": "default_wifi_channel_2g",
+      "fieldtype": "Select",
+      "label": "Default 2.4GHz Channel",
+      "options": "auto\n1\n6\n11"
+    },
+    {
+      "default": "auto",
+      "fieldname": "default_wifi_channel_5g",
+      "fieldtype": "Select",
+      "label": "Default 5GHz Channel",
+      "options": "auto\n36\n40\n44\n48\n149\n153\n157\n161"
+    },
+    {
+      "fieldname": "column_break_wifidef",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "WPA2",
+      "fieldname": "default_encryption",
+      "fieldtype": "Select",
+      "label": "Default WiFi Encryption",
+      "options": "Open\nWPA2\nWPA3\nWPA2/WPA3"
+    },
+    {
+      "fieldname": "default_hotspot_profile",
+      "fieldtype": "Link",
+      "label": "Default Hotspot Profile",
+      "options": "WiFi Hotspot Profile"
+    },
+    {
+      "fieldname": "monitoring_section",
+      "fieldtype": "Section Break",
+      "label": "Monitoring & Retention"
+    },
+    {
+      "default": "60",
+      "fieldname": "health_check_interval",
+      "fieldtype": "Int",
+      "label": "Health Check Interval (seconds)"
+    },
+    {
+      "default": "300",
+      "fieldname": "telemetry_interval",
+      "fieldtype": "Int",
+      "label": "Telemetry Interval (seconds)"
+    },
+    {
+      "fieldname": "alert_email_recipients",
+      "fieldtype": "Small Text",
+      "label": "Alert Email Recipients",
+      "description": "Comma-separated email addresses for alert notifications"
+    },
+    {
+      "fieldname": "column_break_monitoring",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "90",
+      "fieldname": "retention_days_logs",
+      "fieldtype": "Int",
+      "label": "Log Retention (days)"
+    },
+    {
+      "default": "365",
+      "fieldname": "retention_days_accounting",
+      "fieldtype": "Int",
+      "label": "IP Accounting Retention (days)"
+    },
+    {
+      "default": "180",
+      "fieldname": "retention_days_sessions",
+      "fieldtype": "Int",
+      "label": "Session Retention (days)"
+    },
+    {
+      "fieldname": "billing_section",
+      "fieldtype": "Section Break",
+      "label": "Billing Integration"
+    },
+    {
+      "default": "0",
+      "fieldname": "enable_billing_integration",
+      "fieldtype": "Check",
+      "label": "Enable Billing Integration"
+    },
+    {
+      "depends_on": "enable_billing_integration",
+      "fieldname": "billing_company",
+      "fieldtype": "Link",
+      "label": "Billing Company",
+      "options": "Company"
+    },
+    {
+      "depends_on": "enable_billing_integration",
+      "fieldname": "default_billing_plan",
+      "fieldtype": "Link",
+      "label": "Default Billing Plan",
+      "options": "Billing Plan"
+    },
+    {
+      "fieldname": "column_break_billing",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "0",
+      "depends_on": "enable_billing_integration",
+      "fieldname": "auto_generate_invoices",
+      "fieldtype": "Check",
+      "label": "Auto-Generate Invoices"
+    },
+    {
+      "default": "1",
+      "depends_on": "auto_generate_invoices",
+      "fieldname": "invoice_day_of_month",
+      "fieldtype": "Int",
+      "label": "Invoice Day of Month"
+    },
+    {
+      "fieldname": "security_section",
+      "fieldtype": "Section Break",
+      "label": "Security"
+    },
+    {
+      "default": "365",
+      "fieldname": "api_token_expiry_days",
+      "fieldtype": "Int",
+      "label": "API Token Expiry (days)"
+    },
+    {
+      "default": "1",
+      "fieldname": "enforce_https",
+      "fieldtype": "Check",
+      "label": "Enforce HTTPS"
+    },
+    {
+      "fieldname": "allowed_ip_ranges",
+      "fieldtype": "Small Text",
+      "label": "Allowed IP Ranges",
+      "description": "CIDR ranges allowed to communicate with boxes, one per line"
+    },
+    {
+      "fieldname": "column_break_security",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "hmac_secret",
+      "fieldtype": "Password",
+      "label": "HMAC Secret Key",
+      "description": "Shared secret for HMAC-SHA256 request signing"
+    },
+    {
+      "default": "1",
+      "fieldname": "enable_audit_log",
+      "fieldtype": "Check",
+      "label": "Enable Audit Log"
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "issingle": 1,
+  "links": [],
+  "modified": "2026-01-15 10:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Arrowz Setup",
+  "name": "Arrowz Network Settings",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "print": 1,
+      "read": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    },
+    {
+      "read": 1,
+      "role": "Network Manager",
+      "write": 1
+    }
+  ],
+  "sort_field": "creation",
+  "sort_order": "DESC",
+  "track_changes": 1
+}

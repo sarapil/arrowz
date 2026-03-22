@@ -1,0 +1,126 @@
+{
+ "actions": [],
+ "autoname": "field:zone_name",
+ "creation": "2026-02-19 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "zone_name",
+  "arrowz_box",
+  "description",
+  "column_break_settings",
+  "default_policy",
+  "enable_masquerade",
+  "enable_logging",
+  "section_break_interfaces",
+  "interfaces",
+  "section_break_display",
+  "color"
+ ],
+ "fields": [
+  {
+   "fieldname": "zone_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Zone Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Arrowz Box",
+   "options": "Arrowz Box",
+   "reqd": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "column_break_settings",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "default": "Drop",
+   "fieldname": "default_policy",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Default Policy",
+   "options": "Accept\nDrop\nReject"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_masquerade",
+   "fieldtype": "Check",
+   "label": "Enable Masquerade"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_logging",
+   "fieldtype": "Check",
+   "label": "Enable Logging"
+  },
+  {
+   "fieldname": "section_break_interfaces",
+   "fieldtype": "Section Break",
+   "label": "Interfaces"
+  },
+  {
+   "description": "Comma-separated interface names",
+   "fieldname": "interfaces",
+   "fieldtype": "Small Text",
+   "label": "Interfaces"
+  },
+  {
+   "fieldname": "section_break_display",
+   "fieldtype": "Section Break",
+   "label": "Display"
+  },
+  {
+   "description": "Color for UI display",
+   "fieldname": "color",
+   "fieldtype": "Color",
+   "label": "Color"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Firewall",
+ "name": "Firewall Zone",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

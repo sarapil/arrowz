@@ -1,0 +1,24 @@
+{
+  "content": null,
+  "creation": "2026-03-02 22:00:00.000000",
+  "docstatus": 0,
+  "doctype": "Page",
+  "idx": 0,
+  "modified": "2026-03-02 22:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Arrowz",
+  "name": "dinstar-dashboard",
+  "owner": "Administrator",
+  "page_name": "dinstar-dashboard",
+  "roles": [
+    {
+      "role": "System Manager"
+    },
+    {
+      "role": "Network Manager"
+    }
+  ],
+  "standard": "Yes",
+  "system_page": 0,
+  "title": "Dinstar Dashboard"
+}

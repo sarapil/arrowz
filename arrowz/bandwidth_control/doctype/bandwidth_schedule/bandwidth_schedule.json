@@ -1,0 +1,104 @@
+{
+ "actions": [],
+ "autoname": "field:schedule_name",
+ "creation": "2026-02-19 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "schedule_name",
+  "arrowz_box",
+  "enabled",
+  "column_break_info",
+  "description",
+  "fallback_plan",
+  "section_break_slots",
+  "slots"
+ ],
+ "fields": [
+  {
+   "fieldname": "schedule_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Schedule Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Arrowz Box",
+   "options": "Arrowz Box"
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "column_break_info",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "description": "Plan to use outside scheduled slots",
+   "fieldname": "fallback_plan",
+   "fieldtype": "Link",
+   "label": "Fallback Plan",
+   "options": "Bandwidth Plan"
+  },
+  {
+   "fieldname": "section_break_slots",
+   "fieldtype": "Section Break",
+   "label": "Schedule Slots"
+  },
+  {
+   "fieldname": "slots",
+   "fieldtype": "Table",
+   "label": "Slots",
+   "options": "Bandwidth Schedule Slot"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Bandwidth Control",
+ "name": "Bandwidth Schedule",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

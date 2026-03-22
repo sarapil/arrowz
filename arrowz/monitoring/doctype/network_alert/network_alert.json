@@ -1,0 +1,152 @@
+{
+ "actions": [],
+ "autoname": "NALERT-.#####",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "arrowz_box",
+  "alert_rule",
+  "alert_type",
+  "severity",
+  "message",
+  "timestamp",
+  "status",
+  "section_resolution",
+  "acknowledged_by",
+  "acknowledged_on",
+  "resolved_on",
+  "section_details",
+  "details",
+  "related_doctype",
+  "related_name"
+ ],
+ "fields": [
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Arrowz Box",
+   "options": "Arrowz Box",
+   "reqd": 1
+  },
+  {
+   "fieldname": "alert_rule",
+   "fieldtype": "Link",
+   "label": "Alert Rule",
+   "options": "Alert Rule"
+  },
+  {
+   "fieldname": "alert_type",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Alert Type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "severity",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Severity",
+   "options": "Info\nWarning\nCritical",
+   "reqd": 1
+  },
+  {
+   "fieldname": "message",
+   "fieldtype": "Small Text",
+   "label": "Message",
+   "reqd": 1
+  },
+  {
+   "fieldname": "timestamp",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Timestamp",
+   "default": "Now"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Active\nAcknowledged\nResolved",
+   "default": "Active"
+  },
+  {
+   "fieldname": "section_resolution",
+   "fieldtype": "Section Break",
+   "label": "Resolution"
+  },
+  {
+   "fieldname": "acknowledged_by",
+   "fieldtype": "Link",
+   "label": "Acknowledged By",
+   "options": "User"
+  },
+  {
+   "fieldname": "acknowledged_on",
+   "fieldtype": "Datetime",
+   "label": "Acknowledged On"
+  },
+  {
+   "fieldname": "resolved_on",
+   "fieldtype": "Datetime",
+   "label": "Resolved On"
+  },
+  {
+   "fieldname": "section_details",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "fieldname": "details",
+   "fieldtype": "Code",
+   "label": "Details",
+   "options": "JSON"
+  },
+  {
+   "fieldname": "related_doctype",
+   "fieldtype": "Data",
+   "label": "Related DocType"
+  },
+  {
+   "fieldname": "related_name",
+   "fieldtype": "Data",
+   "label": "Related Name"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Monitoring",
+ "name": "Network Alert",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}

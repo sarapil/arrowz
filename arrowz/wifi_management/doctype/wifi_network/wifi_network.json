@@ -1,0 +1,201 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:ssid",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "ssid",
+  "arrowz_box",
+  "enabled",
+  "band",
+  "column_break_radio",
+  "channel",
+  "channel_width",
+  "tx_power",
+  "country_code",
+  "section_break_security",
+  "encryption",
+  "password",
+  "hidden_ssid",
+  "column_break_network",
+  "lan_network",
+  "vlan_id",
+  "max_clients",
+  "section_break_hotspot",
+  "hotspot_profile",
+  "section_break_status",
+  "status"
+ ],
+ "fields": [
+  {
+   "fieldname": "ssid",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "SSID",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "label": "Arrowz Box",
+   "options": "Arrowz Box",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "band",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Band",
+   "options": "2.4GHz\n5GHz\nDual",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_radio",
+   "fieldtype": "Column Break",
+   "label": "Radio Settings"
+  },
+  {
+   "fieldname": "channel",
+   "fieldtype": "Select",
+   "label": "Channel",
+   "options": "auto\n1\n6\n11\n36\n40\n44\n48\n149\n153\n157\n161"
+  },
+  {
+   "default": "20MHz",
+   "fieldname": "channel_width",
+   "fieldtype": "Select",
+   "label": "Channel Width",
+   "options": "20MHz\n40MHz\n80MHz\n160MHz"
+  },
+  {
+   "description": "dBm, 0=auto",
+   "fieldname": "tx_power",
+   "fieldtype": "Int",
+   "label": "TX Power"
+  },
+  {
+   "default": "JO",
+   "fieldname": "country_code",
+   "fieldtype": "Data",
+   "label": "Country Code"
+  },
+  {
+   "fieldname": "section_break_security",
+   "fieldtype": "Section Break",
+   "label": "Security"
+  },
+  {
+   "default": "WPA2",
+   "fieldname": "encryption",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Encryption",
+   "options": "Open\nWPA2\nWPA3\nWPA2+WPA3",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.encryption!='Open'",
+   "fieldname": "password",
+   "fieldtype": "Password",
+   "label": "Password"
+  },
+  {
+   "default": "0",
+   "fieldname": "hidden_ssid",
+   "fieldtype": "Check",
+   "label": "Hidden SSID"
+  },
+  {
+   "fieldname": "column_break_network",
+   "fieldtype": "Column Break",
+   "label": "Network"
+  },
+  {
+   "fieldname": "lan_network",
+   "fieldtype": "Link",
+   "label": "LAN Network",
+   "options": "LAN Network"
+  },
+  {
+   "fieldname": "vlan_id",
+   "fieldtype": "Int",
+   "label": "VLAN ID"
+  },
+  {
+   "default": "0",
+   "description": "0=unlimited",
+   "fieldname": "max_clients",
+   "fieldtype": "Int",
+   "label": "Max Clients"
+  },
+  {
+   "fieldname": "section_break_hotspot",
+   "fieldtype": "Section Break",
+   "label": "Hotspot"
+  },
+  {
+   "fieldname": "hotspot_profile",
+   "fieldtype": "Link",
+   "label": "Hotspot Profile",
+   "options": "WiFi Hotspot Profile"
+  },
+  {
+   "fieldname": "section_break_status",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Active\nInactive\nError",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "WiFi Management",
+ "name": "WiFi Network",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

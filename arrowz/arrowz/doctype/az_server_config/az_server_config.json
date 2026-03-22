@@ -20,6 +20,12 @@
     "column_break_connection",
     "websocket_url",
     "sip_domain",
+    "vpn_section",
+    "vpn_enabled",
+    "vpn_ws_host",
+    "column_break_vpn",
+    "vpn_ws_port",
+    "vpn_sip_domain",
     "webrtc_section",
     "webrtc_enabled",
     "stun_server",
@@ -154,6 +160,46 @@
       "fieldname": "sip_domain",
       "fieldtype": "Data",
       "label": "SIP Domain"
+    },
+    {
+      "fieldname": "vpn_section",
+      "fieldtype": "Section Break",
+      "label": "VPN Direct Mode",
+      "description": "When enabled, softphone connects directly via VPN (no TURN/STUN, no SDP rewrite, plain WS)"
+    },
+    {
+      "default": "0",
+      "fieldname": "vpn_enabled",
+      "fieldtype": "Check",
+      "label": "Enable VPN Direct Mode",
+      "description": "Allow clients on the VPN subnet to connect directly to Asterisk"
+    },
+    {
+      "default": "10.10.0.1",
+      "depends_on": "vpn_enabled",
+      "fieldname": "vpn_ws_host",
+      "fieldtype": "Data",
+      "label": "VPN WebSocket Host",
+      "description": "Asterisk IP on VPN (e.g. 10.10.0.1)"
+    },
+    {
+      "fieldname": "column_break_vpn",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "8088",
+      "depends_on": "vpn_enabled",
+      "fieldname": "vpn_ws_port",
+      "fieldtype": "Int",
+      "label": "VPN WebSocket Port",
+      "description": "Asterisk HTTP port for plain WS (usually 8088)"
+    },
+    {
+      "depends_on": "vpn_enabled",
+      "fieldname": "vpn_sip_domain",
+      "fieldtype": "Data",
+      "label": "VPN SIP Domain",
+      "description": "SIP domain when on VPN (defaults to vpn_ws_host if empty)"
     },
     {
       "fieldname": "webrtc_section",
@@ -434,7 +480,7 @@
     }
   ],
   "links": [],
-  "modified": "2026-01-13 10:00:00.000000",
+  "modified": "2026-02-28 12:00:00.000000",
   "modified_by": "Administrator",
   "module": "Arrowz",
   "name": "AZ Server Config",

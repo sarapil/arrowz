@@ -1,0 +1,160 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "arrowz_box",
+  "wifi_network",
+  "timestamp",
+  "period",
+  "section_break_clients",
+  "connected_clients",
+  "unique_clients",
+  "new_clients",
+  "column_break_traffic",
+  "bytes_downloaded",
+  "bytes_uploaded",
+  "section_break_radio",
+  "average_signal_strength",
+  "channel_utilization",
+  "column_break_auth",
+  "auth_successes",
+  "auth_failures"
+ ],
+ "fields": [
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Arrowz Box",
+   "options": "Arrowz Box",
+   "reqd": 1
+  },
+  {
+   "fieldname": "wifi_network",
+   "fieldtype": "Link",
+   "label": "WiFi Network",
+   "options": "WiFi Network"
+  },
+  {
+   "default": "Now",
+   "fieldname": "timestamp",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Timestamp",
+   "reqd": 1
+  },
+  {
+   "fieldname": "period",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Period",
+   "options": "5min\nHourly\nDaily",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_clients",
+   "fieldtype": "Section Break",
+   "label": "Clients"
+  },
+  {
+   "fieldname": "connected_clients",
+   "fieldtype": "Int",
+   "label": "Connected Clients"
+  },
+  {
+   "fieldname": "unique_clients",
+   "fieldtype": "Int",
+   "label": "Unique Clients"
+  },
+  {
+   "fieldname": "new_clients",
+   "fieldtype": "Int",
+   "label": "New Clients"
+  },
+  {
+   "fieldname": "column_break_traffic",
+   "fieldtype": "Column Break",
+   "label": "Traffic"
+  },
+  {
+   "fieldname": "bytes_downloaded",
+   "fieldtype": "Long Int",
+   "label": "Bytes Downloaded"
+  },
+  {
+   "fieldname": "bytes_uploaded",
+   "fieldtype": "Long Int",
+   "label": "Bytes Uploaded"
+  },
+  {
+   "fieldname": "section_break_radio",
+   "fieldtype": "Section Break",
+   "label": "Radio"
+  },
+  {
+   "fieldname": "average_signal_strength",
+   "fieldtype": "Int",
+   "label": "Average Signal Strength"
+  },
+  {
+   "fieldname": "channel_utilization",
+   "fieldtype": "Percent",
+   "label": "Channel Utilization"
+  },
+  {
+   "fieldname": "column_break_auth",
+   "fieldtype": "Column Break",
+   "label": "Authentication"
+  },
+  {
+   "fieldname": "auth_successes",
+   "fieldtype": "Int",
+   "label": "Auth Successes"
+  },
+  {
+   "fieldname": "auth_failures",
+   "fieldtype": "Int",
+   "label": "Auth Failures"
+  }
+ ],
+ "in_create": 1,
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "WiFi Management",
+ "name": "WiFi Analytics",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

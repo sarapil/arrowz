@@ -1,0 +1,152 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "arrowz_box",
+  "snapshot_time",
+  "period",
+  "column_break_traffic",
+  "active_connections",
+  "unique_clients",
+  "section_break_bytes",
+  "total_bytes_in",
+  "total_bytes_out",
+  "column_break_packets",
+  "total_packets_in",
+  "total_packets_out",
+  "section_break_analysis",
+  "top_talkers_json",
+  "column_break_proto",
+  "protocol_breakdown_json"
+ ],
+ "fields": [
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Arrowz Box",
+   "options": "Arrowz Box",
+   "reqd": 1
+  },
+  {
+   "default": "Now",
+   "fieldname": "snapshot_time",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Snapshot Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "period",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Period",
+   "options": "5min\nHourly\nDaily",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_traffic",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "active_connections",
+   "fieldtype": "Int",
+   "label": "Active Connections"
+  },
+  {
+   "fieldname": "unique_clients",
+   "fieldtype": "Int",
+   "label": "Unique Clients"
+  },
+  {
+   "fieldname": "section_break_bytes",
+   "fieldtype": "Section Break",
+   "label": "Traffic Volume"
+  },
+  {
+   "fieldname": "total_bytes_in",
+   "fieldtype": "Long Int",
+   "label": "Total Bytes In"
+  },
+  {
+   "fieldname": "total_bytes_out",
+   "fieldtype": "Long Int",
+   "label": "Total Bytes Out"
+  },
+  {
+   "fieldname": "column_break_packets",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_packets_in",
+   "fieldtype": "Long Int",
+   "label": "Total Packets In"
+  },
+  {
+   "fieldname": "total_packets_out",
+   "fieldtype": "Long Int",
+   "label": "Total Packets Out"
+  },
+  {
+   "fieldname": "section_break_analysis",
+   "fieldtype": "Section Break",
+   "label": "Analysis"
+  },
+  {
+   "fieldname": "top_talkers_json",
+   "fieldtype": "Code",
+   "label": "Top Talkers",
+   "options": "JSON"
+  },
+  {
+   "fieldname": "column_break_proto",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "protocol_breakdown_json",
+   "fieldtype": "Code",
+   "label": "Protocol Breakdown",
+   "options": "JSON"
+  }
+ ],
+ "in_create": 1,
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "IP Accounting",
+ "name": "IP Accounting Snapshot",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

@@ -1,0 +1,418 @@
+# ================================================
+# Arrowz App - Git Ignore Configuration
+# Supports both development and production environments
+# ================================================
+
+# ================== Python ====================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+pytestdebug.log
+
+# Translations
+*.mo
+*.pot
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Ruff
+.ruff_cache/
+
+# ================== Node.js ====================
+
+# Dependencies
+node_modules/
+jspm_packages/
+
+# Build outputs
+dist/
+build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+bower_components/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# parcel-bundler cache
+.cache
+.parcel-cache
+
+# next.js build output
+.next/
+
+# Nuxt.js build output
+.nuxt/
+
+# Gatsby files
+.cache/
+public/
+
+# vuepress build output
+.vuepress/dist
+
+# Serverless directories
+.serverless/
+
+# FuseBox cache
+.fusebox/
+
+# ================== IDE / Editors ====================
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# JetBrains IDEs (PyCharm, WebStorm, etc.)
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# Vim
+*.swp
+*.swo
+*~
+.netrwhist
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+
+# Spyder
+.spyderproject
+.spyproject
+
+# ================== OS Generated ====================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ================== Frappe Specific ====================
+
+# Site specific files (contain secrets)
+sites/*/site_config.json
+sites/*/private/
+sites/*/logs/
+sites/*/analytics/
+
+# Common site config (may contain secrets)
+sites/common_site_config.json
+
+# Bench config with passwords
+sites/.sites.json
+
+# Backups
+sites/*/backup/
+*.sql
+*.sql.gz
+*.tar
+*.tar.gz
+
+# File uploads (in production)
+sites/*/public/files/
+sites/*/private/files/
+sites/*/private/backups/
+
+# Error logs
+*.error.log
+*.log
+logs/
+
+# Patches that have been applied
+sites/*/patches.txt
+
+# Redis dump
+dump.rdb
+
+# Celery beat schedule
+celerybeat-schedule
+celerybeat.pid
+
+# PID files
+*.pid
+
+# ================== Arrowz App Specific ====================
+
+# Local development credentials
+*.local.json
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+secrets.json
+credentials.json
+
+# PBX credentials (never commit)
+pbx_credentials.json
+freepbx_token_cache.json
+
+# SSH keys
+*.pem
+*.key
+id_rsa*
+*.ppk
+
+# SSL certificates (except examples)
+*.crt
+*.cer
+!examples/*.crt
+
+# Recording files (large binary)
+recordings/
+*.wav
+*.mp3
+*.ogg
+*.webm
+
+# Call audio files
+audio_files/
+
+# Generated API clients
+freepbx_client_generated.py
+
+# Local PBX monitor data
+pbx_monitor_data/
+cdr_cache/
+
+# WhatsApp media cache
+whatsapp_media/
+telegram_media/
+
+# OpenMeetings recordings
+om_recordings/
+
+# ================== Build Artifacts ====================
+
+# Frappe build
+.build/
+.resources/
+
+# esbuild output
+*.bundle.js
+*.bundle.css
+*.min.js
+*.min.css
+*.map
+
+# ================== Testing ====================
+
+# Test database
+test_*.sql
+test_site/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Cypress
+/cypress/videos/
+/cypress/screenshots/
+
+# ================== Documentation ====================
+
+# Generated docs
+docs/_build/
+docs/api/
+site/
+
+# Sphinx
+_build/
+
+# MkDocs
+site/
+
+# ================== Temporary Files ====================
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+*.bak
+*.backup
+*.orig
+
+# Session files
+*.session
+
+# Lock files (except package-lock.json)
+yarn.lock
+pnpm-lock.yaml
+# Keep package-lock.json for reproducible builds
+
+# ================== Security ====================
+
+# Never commit these
+*.p12
+*.pfx
+*.jks
+.htpasswd
+.htaccess
+
+# AWS credentials
+.aws/
+aws_credentials
+
+# Google Cloud
+*.json.enc
+service-account*.json
+
+# API keys file
+api_keys.txt
+api_keys.json
+
+# ================== Production ====================
+
+# Production config (use environment variables instead)
+production.json
+prod_config.json
+
+# Supervisor config with passwords
+supervisord.conf
+
+# Nginx config with SSL paths
+nginx.conf
+
+# ================== Exceptions ====================
+
+# Keep these files even if they match patterns above
+!.gitkeep
+!.env.example
+!docker-compose.example.yml
+!example_*.json
+!test_fixtures/

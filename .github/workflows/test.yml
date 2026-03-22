@@ -1,0 +1,142 @@
+name: Arrowz Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'apps/arrowz/**'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'apps/arrowz/**'
+  workflow_dispatch:
+
+concurrency:
+  group: arrowz-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    
+    services:
+      mariadb:
+        image: mariadb:10.6
+        env:
+          MYSQL_ROOT_PASSWORD: frappe
+          MYSQL_DATABASE: test_site
+          MYSQL_USER: frappe
+          MYSQL_PASSWORD: frappe
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+      
+      redis-cache:
+        image: redis:alpine
+        ports:
+          - 6379:6379
+      
+      redis-queue:
+        image: redis:alpine
+        ports:
+          - 6380:6379
+    
+    env:
+      FRAPPE_SITE: test_site
+      PYTHONUNBUFFERED: 1
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y redis-server
+          pip install frappe-bench
+          pip install pytest pytest-cov pytest-xdist
+      
+      - name: Create bench
+        run: |
+          bench init --skip-redis-config-generation frappe-bench
+          cd frappe-bench
+          bench get-app erpnext
+          bench new-site test_site --db-root-password frappe --admin-password admin
+      
+      - name: Install Arrowz
+        run: |
+          cd frappe-bench
+          cp -r ${{ github.workspace }}/apps/arrowz apps/
+          bench --site test_site install-app arrowz
+      
+      - name: Run Tests
+        run: |
+          cd frappe-bench
+          bench --site test_site run-tests --app arrowz --coverage
+      
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./frappe-bench
+          fail_ci_if_error: false
+          verbose: true
+
+  lint:
+    name: Lint Code
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install linters
+        run: |
+          pip install ruff mypy
+      
+      - name: Run Ruff
+        run: |
+          ruff check apps/arrowz --output-format=github
+      
+      - name: Run MyPy (optional)
+        continue-on-error: true
+        run: |
+          mypy apps/arrowz --ignore-missing-imports --no-error-summary
+
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: 'apps/arrowz'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+      
+      - name: Upload Trivy results
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'

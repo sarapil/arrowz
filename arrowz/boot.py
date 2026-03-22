@@ -42,7 +42,7 @@ def get_arrowz_boot_info():
         # Check if user has extension
         extension = frappe.db.get_value(
             "AZ Extension",
-            {"user": frappe.session.user, "enabled": 1},
+            {"user": frappe.session.user, "is_active": 1},
             ["name", "extension", "sip_username"],
             as_dict=True
         )

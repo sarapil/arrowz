@@ -847,3 +847,67 @@ def start_whatsapp_conversation(phone_number, reference_doctype=None,
         }
     
     return result
+
+
+# =============================================================================
+# Dashboard Statistics API
+# =============================================================================
+
+@frappe.whitelist()
+def get_communications_stats():
+    """
+    Get communications statistics for the dashboard.
+    Returns call counts, SMS counts, and recording counts for today.
+    """
+    from frappe.utils import today
+    
+    user = frappe.session.user
+    date_filter = today()
+    
+    # Get user's extension
+    extension = frappe.db.get_value(
+        "AZ Extension",
+        {"user": user, "is_active": 1},
+        "extension"
+    )
+    
+    # Total calls today
+    total_calls = frappe.db.count(
+        "AZ Call Log",
+        filters={
+            "creation": [">=", date_filter]
+        }
+    ) if frappe.db.table_exists("tabAZ Call Log") else 0
+    
+    # Missed calls today
+    missed_calls = frappe.db.count(
+        "AZ Call Log",
+        filters={
+            "creation": [">=", date_filter],
+            "status": "Missed"
+        }
+    ) if frappe.db.table_exists("tabAZ Call Log") else 0
+    
+    # Total SMS today
+    total_sms = frappe.db.count(
+        "AZ SMS Message",
+        filters={
+            "creation": [">=", date_filter]
+        }
+    ) if frappe.db.table_exists("tabAZ SMS Message") else 0
+    
+    # Total recordings
+    total_recordings = frappe.db.count(
+        "AZ Call Log",
+        filters={
+            "recording_url": ["is", "set"]
+        }
+    ) if frappe.db.table_exists("tabAZ Call Log") else 0
+    
+    return {
+        "total_calls": total_calls,
+        "missed_calls": missed_calls,
+        "total_sms": total_sms,
+        "total_recordings": total_recordings
+    }
+

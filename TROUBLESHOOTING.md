@@ -731,3 +731,238 @@ bench --site dev.localhost clear-cache && bench build --app arrowz
 # Check installed apps
 bench --site dev.localhost list-apps
 ```
+
+---
+
+## FreePBX / VoIP Debugging via `/mnt/pbx`
+
+In the dev environment, FreePBX volumes are mounted at `/mnt/pbx/` (read-only).
+This is the **fastest way** to debug VoIP/softphone issues without SSH.
+
+### Check PBX Mounts
+```bash
+# Verify mounts are available
+ls -la /mnt/pbx/
+# Expected: db/ etc/ logs/ recordings/ voicemail/
+```
+
+### Read Asterisk Logs
+```bash
+# Main Asterisk log (ALL events — start here)
+tail -100 /mnt/pbx/logs/asterisk/full
+
+# Filter by issue type:
+# SIP registration problems
+grep -i "register\|401\|403\|unauthorized" /mnt/pbx/logs/asterisk/full | tail -50
+
+# WebRTC/ICE/DTLS problems
+grep -i "ice\|dtls\|srtp\|webrtc\|stun\|turn" /mnt/pbx/logs/asterisk/full | tail -50
+
+# Call setup problems
+grep -i "invite\|dial\|answer\|hangup\|bridge" /mnt/pbx/logs/asterisk/full | tail -50
+
+# Audio/codec problems
+grep -i "rtp\|codec\|opus\|ulaw\|alaw" /mnt/pbx/logs/asterisk/full | tail -50
+
+# FreePBX application log
+tail -50 /mnt/pbx/logs/asterisk/freepbx.log
+
+# Security events (failed logins, blocked IPs)
+tail -30 /mnt/pbx/logs/asterisk/freepbx_security.log
+
+# Queue operations
+tail -50 /mnt/pbx/logs/asterisk/queue_log
+```
+
+### Check Extension Configuration
+```bash
+# Check a specific extension (e.g., 1001)
+grep -A 30 "\[1001\]" /mnt/pbx/etc/asterisk/pjsip.endpoint.conf
+
+# Verify WebRTC requirements:
+# Must have: webrtc=yes, ice_support=yes, media_encryption=dtls, direct_media=no
+
+# Check all extensions
+grep "^\[" /mnt/pbx/etc/asterisk/pjsip.endpoint.conf
+
+# Check custom overrides
+cat /mnt/pbx/etc/asterisk/pjsip.endpoint_custom.conf
+```
+
+### Check WebSocket/Transport Configuration
+```bash
+# WebSocket transport (critical for WebRTC)
+cat /mnt/pbx/etc/asterisk/pjsip.transports.conf
+# Must have: protocol=wss, bind=0.0.0.0:8089
+
+# HTTP server config
+cat /mnt/pbx/etc/asterisk/http.conf
+# Must have: enabled=yes, bindport=8089, tlsenable=yes
+
+# RTP config (STUN, ICE)
+cat /mnt/pbx/etc/asterisk/rtp.conf
+# Should have: stunaddr, icesupport=yes
+```
+
+### Check AMI Configuration
+```bash
+# AMI config (used for call events)
+head -30 /mnt/pbx/etc/asterisk/manager.conf
+# Must have: enabled=yes, port=5038
+
+# AMI users
+cat /mnt/pbx/etc/asterisk/manager_additional.conf
+```
+
+### Check FreePBX Version
+```bash
+grep "user_agent" /mnt/pbx/etc/asterisk/pjsip.conf
+# Example output: user_agent=FPBX-17.0.19.32(22.7.0)
+```
+
+### Python API for PBX Diagnostics
+```python
+# In bench console: bench --site dev.localhost console
+from arrowz.local_pbx_monitor import LocalPBXMonitor
+
+monitor = LocalPBXMonitor()
+
+# Full diagnostic
+monitor.diagnose_webrtc("1001")  # Returns dict with issues + recommendations
+
+# Specific checks
+monitor.get_sip_log(50)          # SIP events
+monitor.get_webrtc_log(50)       # ICE/DTLS events
+monitor.get_error_log(50)        # Errors only
+monitor.get_call_log(50)         # Call events
+monitor.search_logs("pattern")   # Custom search
+
+# Config reading
+monitor.get_pjsip_config()      # All PJSIP files
+monitor.get_extension_config("1001")  # Extension settings + issues
+monitor.get_rtp_config()        # RTP settings
+monitor.get_http_config()       # HTTP/WebSocket settings
+
+# Quality analysis
+monitor.get_call_quality_metrics()   # ICE failures, DTLS errors, etc.
+
+# Recordings
+monitor.list_recordings()       # List .wav files
+```
+
+### Common PBX Issues
+
+#### WebSocket Connection Refused
+```bash
+# Check if WSS transport exists
+grep "protocol=wss" /mnt/pbx/etc/asterisk/pjsip.transports.conf
+# Check TLS certificate exists
+ls -la /mnt/pbx/etc/asterisk/keys/
+```
+
+#### SIP Registration 401 Unauthorized
+```bash
+# Check auth credentials
+grep -A 10 "\[1001\]" /mnt/pbx/etc/asterisk/pjsip.auth.conf
+# Check for IP restrictions
+grep -i "permit\|deny" /mnt/pbx/etc/asterisk/pjsip.endpoint.conf
+```
+
+#### No Audio After Answer
+```bash
+# Check codec configuration
+grep -i "allow\|disallow" /mnt/pbx/etc/asterisk/pjsip.endpoint.conf | head -20
+# Check direct_media (must be "no" for WebRTC)
+grep "direct_media" /mnt/pbx/etc/asterisk/pjsip.endpoint.conf | head -10
+# Check DTLS certificate
+ls -la /mnt/pbx/etc/asterisk/keys/*.pem
+```
+
+---
+
+## MikroTik Troubleshooting
+
+### Issue: MikroTik Connection Failed
+
+**Symptoms:**
+- "Test Connection" button fails
+- Error: "Connection refused" or "Authentication failed"
+
+**Solutions:**
+
+1. **Check API service is enabled:**
+   ```
+   # On MikroTik via WinBox/SSH:
+   /ip/service/print
+   # Verify api (8728) or api-ssl (8729) is enabled
+   /ip/service/enable api
+   ```
+
+2. **Check firewall doesn't block API port:**
+   ```
+   /ip/firewall/filter/print where dst-port=8728
+   ```
+
+3. **Verify credentials in Arrowz Box DocType:**
+   ```python
+   bench --site dev.localhost console
+   >>> box = frappe.get_doc("Arrowz Box", "my-mikrotik")
+   >>> print(box.ip_address, box.mikrotik_api_port, box.mikrotik_username)
+   ```
+
+4. **Test connectivity from dev container:**
+   ```bash
+   # Test port access
+   nc -zv <mikrotik_ip> 8728
+   ```
+
+### Issue: Sync Pull Returns Empty
+
+**Solutions:**
+1. Check that the RouterOS API user has read permissions
+2. Verify the device is responding:
+   ```python
+   from arrowz.device_providers import ProviderFactory
+   box = frappe.get_doc("Arrowz Box", "my-mikrotik")
+   with ProviderFactory.connect(box) as provider:
+       print(provider.get_system_info())
+   ```
+
+### Issue: Sync Push Failed
+
+**Solutions:**
+1. Check API user has write permissions on MikroTik
+2. Review sync log for specific errors:
+   ```python
+   logs = frappe.get_all("MikroTik Sync Log",
+       filters={"arrowz_box": "my-mikrotik", "status": "Failed"},
+       fields=["operation", "error_message", "details"],
+       order_by="creation desc", limit=5)
+   ```
+
+### MikroTik Diagnostic Commands
+```python
+# bench --site dev.localhost console
+from arrowz.device_providers import ProviderFactory
+import frappe
+
+box = frappe.get_doc("Arrowz Box", "my-mikrotik")
+with ProviderFactory.connect(box) as p:
+    # System info
+    print(p.get_system_info())
+    print(p.get_system_resources())
+    
+    # Network
+    print(p.get_interfaces())
+    print(p.get_ip_addresses())
+    print(p.get_dhcp_servers())
+    
+    # Firewall
+    print(p.get_firewall_filter_rules())
+    print(p.get_firewall_nat_rules())
+    
+    # Full config
+    config = p.get_full_config()
+    import json
+    print(json.dumps(config, indent=2))
+```

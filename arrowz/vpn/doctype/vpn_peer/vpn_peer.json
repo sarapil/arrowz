@@ -1,0 +1,195 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "peer_name",
+  "vpn_server",
+  "enabled",
+  "status",
+  "section_keys",
+  "public_key",
+  "preshared_key",
+  "allowed_ips",
+  "endpoint",
+  "section_stats",
+  "last_handshake",
+  "bytes_received",
+  "bytes_sent",
+  "section_links",
+  "network_client",
+  "customer",
+  "section_settings",
+  "dns",
+  "keepalive",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "peer_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Peer Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "vpn_server",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "VPN Server",
+   "options": "VPN Server",
+   "reqd": 1
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "1"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "\nConnected\nDisconnected",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_keys",
+   "fieldtype": "Section Break",
+   "label": "Keys & Network"
+  },
+  {
+   "fieldname": "public_key",
+   "fieldtype": "Data",
+   "label": "Public Key",
+   "reqd": 1
+  },
+  {
+   "fieldname": "preshared_key",
+   "fieldtype": "Password",
+   "label": "Preshared Key"
+  },
+  {
+   "fieldname": "allowed_ips",
+   "fieldtype": "Data",
+   "label": "Allowed IPs",
+   "reqd": 1,
+   "description": "e.g. 10.10.0.2/32"
+  },
+  {
+   "fieldname": "endpoint",
+   "fieldtype": "Data",
+   "label": "Endpoint",
+   "read_only": 1,
+   "description": "Last known endpoint"
+  },
+  {
+   "fieldname": "section_stats",
+   "fieldtype": "Section Break",
+   "label": "Statistics"
+  },
+  {
+   "fieldname": "last_handshake",
+   "fieldtype": "Datetime",
+   "label": "Last Handshake",
+   "read_only": 1
+  },
+  {
+   "fieldname": "bytes_received",
+   "fieldtype": "Long Int",
+   "label": "Bytes Received",
+   "read_only": 1,
+   "default": "0"
+  },
+  {
+   "fieldname": "bytes_sent",
+   "fieldtype": "Long Int",
+   "label": "Bytes Sent",
+   "read_only": 1,
+   "default": "0"
+  },
+  {
+   "fieldname": "section_links",
+   "fieldtype": "Section Break",
+   "label": "References"
+  },
+  {
+   "fieldname": "network_client",
+   "fieldtype": "Link",
+   "label": "Network Client",
+   "options": "Network Client"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "section_settings",
+   "fieldtype": "Section Break",
+   "label": "Settings"
+  },
+  {
+   "fieldname": "dns",
+   "fieldtype": "Data",
+   "label": "DNS"
+  },
+  {
+   "fieldname": "keepalive",
+   "fieldtype": "Int",
+   "label": "Keepalive",
+   "default": "25"
+  },
+  {
+   "fieldname": "access_policy",
+   "fieldtype": "Link",
+   "label": "Access Policy",
+   "options": "VPN Access Policy",
+   "insert_after": "keepalive",
+   "description": "Optional access policy to enforce limits and validity"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-03-01 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "VPN",
+ "name": "VPN Peer",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}

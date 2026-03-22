@@ -1,0 +1,155 @@
+{
+ "actions": [],
+ "autoname": "field:plan_name",
+ "creation": "2026-02-19 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "plan_name",
+  "enabled",
+  "description",
+  "column_break_speeds",
+  "download_kbps",
+  "upload_kbps",
+  "section_break_burst",
+  "burst_download_kbps",
+  "burst_upload_kbps",
+  "column_break_burst",
+  "burst_duration_seconds",
+  "section_break_qos",
+  "qos_policy",
+  "billing_plan",
+  "section_break_tiers",
+  "tiers"
+ ],
+ "fields": [
+  {
+   "fieldname": "plan_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Plan Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "column_break_speeds",
+   "fieldtype": "Column Break",
+   "label": "Speed Settings"
+  },
+  {
+   "fieldname": "download_kbps",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Download Speed (Kbps)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "upload_kbps",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Upload Speed (Kbps)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_burst",
+   "fieldtype": "Section Break",
+   "label": "Burst Settings"
+  },
+  {
+   "fieldname": "burst_download_kbps",
+   "fieldtype": "Int",
+   "label": "Burst Download (Kbps)"
+  },
+  {
+   "fieldname": "burst_upload_kbps",
+   "fieldtype": "Int",
+   "label": "Burst Upload (Kbps)"
+  },
+  {
+   "fieldname": "column_break_burst",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "10",
+   "fieldname": "burst_duration_seconds",
+   "fieldtype": "Int",
+   "label": "Burst Duration (Seconds)"
+  },
+  {
+   "fieldname": "section_break_qos",
+   "fieldtype": "Section Break",
+   "label": "QoS & Billing"
+  },
+  {
+   "fieldname": "qos_policy",
+   "fieldtype": "Link",
+   "label": "QoS Policy",
+   "options": "QoS Policy"
+  },
+  {
+   "fieldname": "billing_plan",
+   "fieldtype": "Link",
+   "label": "Billing Plan",
+   "options": "Billing Plan"
+  },
+  {
+   "fieldname": "section_break_tiers",
+   "fieldtype": "Section Break",
+   "label": "Tiers"
+  },
+  {
+   "fieldname": "tiers",
+   "fieldtype": "Table",
+   "label": "Tiers",
+   "options": "Bandwidth Plan Tier"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Bandwidth Control",
+ "name": "Bandwidth Plan",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

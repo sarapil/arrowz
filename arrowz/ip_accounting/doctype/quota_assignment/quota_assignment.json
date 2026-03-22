@@ -1,0 +1,163 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "arrowz_box",
+  "target_type",
+  "network_client",
+  "client_group",
+  "usage_quota",
+  "enabled",
+  "column_break_status",
+  "status",
+  "last_reset",
+  "next_reset",
+  "section_break_usage",
+  "current_download_mb",
+  "current_upload_mb",
+  "column_break_total",
+  "current_total_mb"
+ ],
+ "fields": [
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Arrowz Box",
+   "options": "Arrowz Box",
+   "reqd": 1
+  },
+  {
+   "fieldname": "target_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Target Type",
+   "options": "Client\nGroup",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.target_type=='Client'",
+   "fieldname": "network_client",
+   "fieldtype": "Link",
+   "label": "Network Client",
+   "options": "Network Client"
+  },
+  {
+   "depends_on": "eval:doc.target_type=='Group'",
+   "fieldname": "client_group",
+   "fieldtype": "Link",
+   "label": "Client Group",
+   "options": "Client Group"
+  },
+  {
+   "fieldname": "usage_quota",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Usage Quota",
+   "options": "Usage Quota",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "column_break_status",
+   "fieldtype": "Column Break",
+   "label": "Status"
+  },
+  {
+   "default": "Active",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Active\nExceeded\nWarning",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_reset",
+   "fieldtype": "Datetime",
+   "label": "Last Reset",
+   "read_only": 1
+  },
+  {
+   "fieldname": "next_reset",
+   "fieldtype": "Datetime",
+   "label": "Next Reset",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_usage",
+   "fieldtype": "Section Break",
+   "label": "Current Usage"
+  },
+  {
+   "default": "0",
+   "fieldname": "current_download_mb",
+   "fieldtype": "Long Int",
+   "label": "Current Download (MB)",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "current_upload_mb",
+   "fieldtype": "Long Int",
+   "label": "Current Upload (MB)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_total",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "current_total_mb",
+   "fieldtype": "Long Int",
+   "label": "Current Total (MB)",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "IP Accounting",
+ "name": "Quota Assignment",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

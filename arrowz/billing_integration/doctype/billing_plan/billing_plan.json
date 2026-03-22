@@ -1,0 +1,153 @@
+{
+ "actions": [],
+ "autoname": "field:plan_name",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "plan_name",
+  "enabled",
+  "description",
+  "section_pricing",
+  "billing_type",
+  "flat_rate",
+  "section_plans",
+  "bandwidth_plan",
+  "usage_quota",
+  "tiers",
+  "section_invoicing",
+  "currency",
+  "tax_template",
+  "item",
+  "overage_rate_per_gb"
+ ],
+ "fields": [
+  {
+   "fieldname": "plan_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Plan Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "1"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "section_pricing",
+   "fieldtype": "Section Break",
+   "label": "Pricing"
+  },
+  {
+   "fieldname": "billing_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Billing Type",
+   "options": "Flat\nTiered\nUsage Based\nHybrid",
+   "reqd": 1,
+   "default": "Flat"
+  },
+  {
+   "fieldname": "flat_rate",
+   "fieldtype": "Currency",
+   "label": "Flat Rate",
+   "depends_on": "eval:doc.billing_type=='Flat' || doc.billing_type=='Hybrid'"
+  },
+  {
+   "fieldname": "section_plans",
+   "fieldtype": "Section Break",
+   "label": "Plans & Tiers"
+  },
+  {
+   "fieldname": "bandwidth_plan",
+   "fieldtype": "Link",
+   "label": "Bandwidth Plan",
+   "options": "Bandwidth Plan"
+  },
+  {
+   "fieldname": "usage_quota",
+   "fieldtype": "Link",
+   "label": "Usage Quota",
+   "options": "Usage Quota"
+  },
+  {
+   "fieldname": "tiers",
+   "fieldtype": "Table",
+   "label": "Tiers",
+   "options": "Billing Plan Tier"
+  },
+  {
+   "fieldname": "section_invoicing",
+   "fieldtype": "Section Break",
+   "label": "Invoicing"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "default": "JOD"
+  },
+  {
+   "fieldname": "tax_template",
+   "fieldtype": "Link",
+   "label": "Tax Template",
+   "options": "Sales Taxes and Charges Template"
+  },
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "label": "Item",
+   "options": "Item",
+   "description": "ERPNext Item for invoicing"
+  },
+  {
+   "fieldname": "overage_rate_per_gb",
+   "fieldtype": "Currency",
+   "label": "Overage Rate per GB",
+   "description": "Rate for usage beyond quota"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Billing Integration",
+ "name": "Billing Plan",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}

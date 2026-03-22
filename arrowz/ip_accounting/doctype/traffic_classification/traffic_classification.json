@@ -1,0 +1,123 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "arrowz_box",
+  "classification_name",
+  "enabled",
+  "column_break_match",
+  "protocol",
+  "match_type",
+  "match_value",
+  "section_break_cat",
+  "category",
+  "priority"
+ ],
+ "fields": [
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Arrowz Box",
+   "options": "Arrowz Box",
+   "reqd": 1
+  },
+  {
+   "fieldname": "classification_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Classification Name",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "column_break_match",
+   "fieldtype": "Column Break",
+   "label": "Match Rules"
+  },
+  {
+   "fieldname": "protocol",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Protocol",
+   "options": "HTTP\nHTTPS\nDNS\nFTP\nSSH\nSMTP\nPOP3\nIMAP\nVoIP\nGaming\nStreaming\nP2P\nCustom",
+   "reqd": 1
+  },
+  {
+   "fieldname": "match_type",
+   "fieldtype": "Select",
+   "label": "Match Type",
+   "options": "Port\nDPI\nDomain\nIP Range",
+   "reqd": 1
+  },
+  {
+   "description": "Port number, domain pattern, IP range, etc.",
+   "fieldname": "match_value",
+   "fieldtype": "Data",
+   "label": "Match Value",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_cat",
+   "fieldtype": "Section Break",
+   "label": "Categorization"
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Select",
+   "label": "Category",
+   "options": "Web\nEmail\nFile Transfer\nCommunication\nEntertainment\nBusiness\nSocial Media\nOther"
+  },
+  {
+   "default": "100",
+   "fieldname": "priority",
+   "fieldtype": "Int",
+   "label": "Priority"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "IP Accounting",
+ "name": "Traffic Classification",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

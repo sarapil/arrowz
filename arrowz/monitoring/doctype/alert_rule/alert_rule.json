@@ -1,0 +1,176 @@
+{
+ "actions": [],
+ "autoname": "field:rule_name",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "rule_name",
+  "enabled",
+  "arrowz_box",
+  "alert_type",
+  "section_condition",
+  "condition_operator",
+  "condition_value",
+  "check_interval_seconds",
+  "severity",
+  "section_notification",
+  "notification_channels",
+  "email_recipients",
+  "webhook_url",
+  "section_advanced",
+  "cooldown_minutes",
+  "message_template",
+  "last_triggered",
+  "trigger_count"
+ ],
+ "fields": [
+  {
+   "fieldname": "rule_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Rule Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "1"
+  },
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Arrowz Box",
+   "options": "Arrowz Box"
+  },
+  {
+   "fieldname": "alert_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Alert Type",
+   "options": "WAN Down\nHigh CPU\nHigh RAM\nHigh Disk\nClient Threshold\nBandwidth Threshold\nService Down\nCustom",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_condition",
+   "fieldtype": "Section Break",
+   "label": "Condition"
+  },
+  {
+   "fieldname": "condition_operator",
+   "fieldtype": "Select",
+   "label": "Condition Operator",
+   "options": ">\n<\n=\n>=\n<=",
+   "reqd": 1
+  },
+  {
+   "fieldname": "condition_value",
+   "fieldtype": "Float",
+   "label": "Condition Value",
+   "reqd": 1
+  },
+  {
+   "fieldname": "check_interval_seconds",
+   "fieldtype": "Int",
+   "label": "Check Interval (seconds)",
+   "default": "60"
+  },
+  {
+   "fieldname": "severity",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Severity",
+   "options": "Info\nWarning\nCritical",
+   "default": "Warning"
+  },
+  {
+   "fieldname": "section_notification",
+   "fieldtype": "Section Break",
+   "label": "Notification"
+  },
+  {
+   "fieldname": "notification_channels",
+   "fieldtype": "Select",
+   "label": "Notification Channels",
+   "options": "Email\nWebhook\nBoth",
+   "default": "Email"
+  },
+  {
+   "fieldname": "email_recipients",
+   "fieldtype": "Small Text",
+   "label": "Email Recipients"
+  },
+  {
+   "fieldname": "webhook_url",
+   "fieldtype": "Data",
+   "label": "Webhook URL"
+  },
+  {
+   "fieldname": "section_advanced",
+   "fieldtype": "Section Break",
+   "label": "Advanced"
+  },
+  {
+   "fieldname": "cooldown_minutes",
+   "fieldtype": "Int",
+   "label": "Cooldown (minutes)",
+   "default": "15",
+   "description": "Min time between repeated alerts"
+  },
+  {
+   "fieldname": "message_template",
+   "fieldtype": "Small Text",
+   "label": "Message Template"
+  },
+  {
+   "fieldname": "last_triggered",
+   "fieldtype": "Datetime",
+   "label": "Last Triggered",
+   "read_only": 1
+  },
+  {
+   "fieldname": "trigger_count",
+   "fieldtype": "Int",
+   "label": "Trigger Count",
+   "read_only": 1,
+   "default": "0"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Monitoring",
+ "name": "Alert Rule",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}

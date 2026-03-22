@@ -1,0 +1,195 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:profile_name",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "profile_name",
+  "enabled",
+  "description",
+  "column_break_general",
+  "splash_page",
+  "redirect_url",
+  "section_break_session",
+  "session_timeout",
+  "idle_timeout",
+  "column_break_plans",
+  "bandwidth_plan",
+  "usage_quota",
+  "section_break_auth",
+  "auth_methods",
+  "section_break_social",
+  "social_providers",
+  "section_break_walled",
+  "walled_garden",
+  "section_break_terms",
+  "require_terms",
+  "terms_url",
+  "collect_marketing_consent"
+ ],
+ "fields": [
+  {
+   "fieldname": "profile_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Profile Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "column_break_general",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "splash_page",
+   "fieldtype": "Link",
+   "label": "Splash Page",
+   "options": "WiFi Splash Page"
+  },
+  {
+   "description": "URL after auth",
+   "fieldname": "redirect_url",
+   "fieldtype": "Data",
+   "label": "Redirect URL"
+  },
+  {
+   "fieldname": "section_break_session",
+   "fieldtype": "Section Break",
+   "label": "Session Settings"
+  },
+  {
+   "default": "3600",
+   "description": "seconds",
+   "fieldname": "session_timeout",
+   "fieldtype": "Int",
+   "label": "Session Timeout"
+  },
+  {
+   "default": "600",
+   "fieldname": "idle_timeout",
+   "fieldtype": "Int",
+   "label": "Idle Timeout"
+  },
+  {
+   "fieldname": "column_break_plans",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "bandwidth_plan",
+   "fieldtype": "Link",
+   "label": "Bandwidth Plan",
+   "options": "Bandwidth Plan"
+  },
+  {
+   "fieldname": "usage_quota",
+   "fieldtype": "Link",
+   "label": "Usage Quota",
+   "options": "Usage Quota"
+  },
+  {
+   "fieldname": "section_break_auth",
+   "fieldtype": "Section Break",
+   "label": "Authentication Methods"
+  },
+  {
+   "fieldname": "auth_methods",
+   "fieldtype": "Table",
+   "label": "Auth Methods",
+   "options": "Hotspot Auth Method"
+  },
+  {
+   "fieldname": "section_break_social",
+   "fieldtype": "Section Break",
+   "label": "Social Login Providers"
+  },
+  {
+   "fieldname": "social_providers",
+   "fieldtype": "Table",
+   "label": "Social Providers",
+   "options": "Social Login Provider"
+  },
+  {
+   "fieldname": "section_break_walled",
+   "fieldtype": "Section Break",
+   "label": "Walled Garden"
+  },
+  {
+   "fieldname": "walled_garden",
+   "fieldtype": "Table",
+   "label": "Walled Garden",
+   "options": "Walled Garden Entry"
+  },
+  {
+   "fieldname": "section_break_terms",
+   "fieldtype": "Section Break",
+   "label": "Terms & Marketing"
+  },
+  {
+   "default": "1",
+   "fieldname": "require_terms",
+   "fieldtype": "Check",
+   "label": "Require Terms"
+  },
+  {
+   "fieldname": "terms_url",
+   "fieldtype": "Data",
+   "label": "Terms URL"
+  },
+  {
+   "default": "0",
+   "fieldname": "collect_marketing_consent",
+   "fieldtype": "Check",
+   "label": "Collect Marketing Consent"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "WiFi Management",
+ "name": "WiFi Hotspot Profile",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

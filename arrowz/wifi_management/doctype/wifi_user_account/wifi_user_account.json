@@ -1,0 +1,186 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:username",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "username",
+  "password",
+  "full_name",
+  "email",
+  "phone",
+  "column_break_account",
+  "customer",
+  "status",
+  "max_devices",
+  "section_break_plans",
+  "bandwidth_plan",
+  "usage_quota",
+  "column_break_validity",
+  "valid_from",
+  "valid_until",
+  "section_break_devices",
+  "mac_addresses",
+  "section_break_stats",
+  "last_login",
+  "total_sessions"
+ ],
+ "fields": [
+  {
+   "fieldname": "username",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Username",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "password",
+   "fieldtype": "Password",
+   "label": "Password",
+   "reqd": 1
+  },
+  {
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Full Name"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "phone",
+   "fieldtype": "Data",
+   "label": "Phone",
+   "options": "Phone"
+  },
+  {
+   "fieldname": "column_break_account",
+   "fieldtype": "Column Break",
+   "label": "Account"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer"
+  },
+  {
+   "default": "Active",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Active\nSuspended\nExpired"
+  },
+  {
+   "default": "3",
+   "fieldname": "max_devices",
+   "fieldtype": "Int",
+   "label": "Max Devices"
+  },
+  {
+   "fieldname": "section_break_plans",
+   "fieldtype": "Section Break",
+   "label": "Plans"
+  },
+  {
+   "fieldname": "bandwidth_plan",
+   "fieldtype": "Link",
+   "label": "Bandwidth Plan",
+   "options": "Bandwidth Plan"
+  },
+  {
+   "fieldname": "usage_quota",
+   "fieldtype": "Link",
+   "label": "Usage Quota",
+   "options": "Usage Quota"
+  },
+  {
+   "fieldname": "column_break_validity",
+   "fieldtype": "Column Break",
+   "label": "Validity"
+  },
+  {
+   "fieldname": "valid_from",
+   "fieldtype": "Datetime",
+   "label": "Valid From"
+  },
+  {
+   "fieldname": "valid_until",
+   "fieldtype": "Datetime",
+   "label": "Valid Until"
+  },
+  {
+   "fieldname": "section_break_devices",
+   "fieldtype": "Section Break",
+   "label": "Devices"
+  },
+  {
+   "description": "Allowed MACs, one per line",
+   "fieldname": "mac_addresses",
+   "fieldtype": "Small Text",
+   "label": "MAC Addresses"
+  },
+  {
+   "fieldname": "section_break_stats",
+   "fieldtype": "Section Break",
+   "label": "Statistics"
+  },
+  {
+   "fieldname": "last_login",
+   "fieldtype": "Datetime",
+   "label": "Last Login",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "total_sessions",
+   "fieldtype": "Int",
+   "label": "Total Sessions",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "WiFi Management",
+ "name": "WiFi User Account",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

@@ -341,7 +341,7 @@ frappe.provide('arrowz.screenpop');
         // Open in new tab
         openInNewTab(result) {
             const match = result.matches[0];
-            const url = `/app/${frappe.router.slug(match.doctype)}/${match.name}`;
+            const url = `/desk/${frappe.router.slug(match.doctype)}/${match.name}`;
             window.open(url, '_blank');
         },
         

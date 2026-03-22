@@ -1,0 +1,140 @@
+{
+ "actions": [],
+ "autoname": "field:policy_name",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "policy_name",
+  "vpn_server",
+  "enabled",
+  "section_access",
+  "allowed_networks",
+  "blocked_networks",
+  "section_limits",
+  "bandwidth_plan",
+  "max_connections",
+  "require_2fa",
+  "section_validity",
+  "valid_from",
+  "valid_until",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "policy_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Policy Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "vpn_server",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "VPN Server",
+   "options": "VPN Server",
+   "reqd": 1
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "1"
+  },
+  {
+   "fieldname": "section_access",
+   "fieldtype": "Section Break",
+   "label": "Access Control"
+  },
+  {
+   "fieldname": "allowed_networks",
+   "fieldtype": "Small Text",
+   "label": "Allowed Networks",
+   "description": "CIDRs the peer can access, one per line"
+  },
+  {
+   "fieldname": "blocked_networks",
+   "fieldtype": "Small Text",
+   "label": "Blocked Networks"
+  },
+  {
+   "fieldname": "section_limits",
+   "fieldtype": "Section Break",
+   "label": "Limits & Security"
+  },
+  {
+   "fieldname": "bandwidth_plan",
+   "fieldtype": "Link",
+   "label": "Bandwidth Plan",
+   "options": "Bandwidth Plan"
+  },
+  {
+   "fieldname": "max_connections",
+   "fieldtype": "Int",
+   "label": "Max Connections",
+   "default": "1"
+  },
+  {
+   "fieldname": "require_2fa",
+   "fieldtype": "Check",
+   "label": "Require 2FA",
+   "default": "0"
+  },
+  {
+   "fieldname": "section_validity",
+   "fieldtype": "Section Break",
+   "label": "Validity"
+  },
+  {
+   "fieldname": "valid_from",
+   "fieldtype": "Date",
+   "label": "Valid From"
+  },
+  {
+   "fieldname": "valid_until",
+   "fieldtype": "Date",
+   "label": "Valid Until"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "VPN",
+ "name": "VPN Access Policy",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}

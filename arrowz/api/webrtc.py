@@ -58,13 +58,81 @@ def get_webrtc_config(extension_name=None):
     if not sip_domain:
         sip_domain = server.host
     
-    # Build WebSocket servers list
+    # Build WebSocket servers list (direct connection to Asterisk)
     ws_servers = []
     if server.websocket_url:
         ws_servers.append(server.websocket_url)
     else:
         protocol = "wss" if getattr(server, 'use_ssl', False) else "ws"
         ws_servers.append(f"{protocol}://{server.host}:{server.port or 8089}/ws")
+    
+    # -----------------------------------------------------------------
+    # Nginx Reverse-Proxy WSS URL (DPI Evasion)
+    # -----------------------------------------------------------------
+    # When configured, the softphone connects via Nginx on port 443
+    # (path: /ws) instead of directly to Asterisk on port 8089.
+    # This makes WebRTC traffic indistinguishable from normal HTTPS
+    # to Deep Packet Inspection (DPI) systems.
+    #
+    # Priority for WebSocket URL resolution (frontend):
+    #   1. websocket_proxy_url  → Nginx on 443 (DPI-evasion mode)
+    #   2. websocket_servers[0] → Direct WSS to Asterisk on 8089
+    # -----------------------------------------------------------------
+    websocket_proxy_url = None
+    site_config = frappe.get_site_config()
+    
+    # Check for proxy URL in site_config, server config, or derive from site URL
+    ws_proxy = getattr(server, 'websocket_proxy_url', None) or \
+               site_config.get('arrowz_websocket_proxy_url')
+    
+    if ws_proxy:
+        websocket_proxy_url = ws_proxy
+    else:
+        # Auto-derive proxy URL from the actual request or site config.
+        # frappe.utils.get_url() often returns http://dev.localhost:8000 from
+        # site_config even when the user accesses via https://domain.com through
+        # Nginx.  So we check the *request* headers first.
+        try:
+            derived_host = None
+            is_https = False
+
+            # 1. Check actual request headers (most reliable)
+            if hasattr(frappe, 'request') and frappe.request:
+                req = frappe.request
+                # X-Forwarded-Proto set by Nginx / reverse proxy
+                proto = (
+                    req.headers.get('X-Forwarded-Proto', '')
+                    or req.headers.get('X-Forwarded-Ssl', '')
+                    or req.environ.get('wsgi.url_scheme', '')
+                )
+                if proto.lower() in ('https', 'on'):
+                    is_https = True
+                    # Prefer X-Forwarded-Host, then Host header
+                    host = (
+                        req.headers.get('X-Forwarded-Host', '')
+                        or req.headers.get('Host', '')
+                    ).split(':')[0]  # strip port
+                    if host and host != 'localhost' \
+                       and not host.startswith('127.') \
+                       and not host.endswith('.localhost'):
+                        derived_host = host
+
+            # 2. Fallback: check frappe.utils.get_url()
+            if not derived_host:
+                from urllib.parse import urlparse
+                site_url = frappe.utils.get_url()
+                if site_url and 'https://' in site_url:
+                    parsed = urlparse(site_url)
+                    if parsed.hostname and parsed.hostname != 'localhost' \
+                       and not parsed.hostname.startswith('127.') \
+                       and not parsed.hostname.endswith('.localhost'):
+                        derived_host = parsed.hostname
+                        is_https = True
+
+            if derived_host and is_https:
+                websocket_proxy_url = f"wss://{derived_host}/ws"
+        except Exception:
+            pass
     
     # Build ICE servers
     ice_servers = [{"urls": "stun:stun.l.google.com:19302"}]
@@ -89,6 +157,59 @@ def get_webrtc_config(extension_name=None):
         order_by="extension asc"
     )
     
+    # Resolve PBX public IP for SDP rewriting (Docker NAT workaround)
+    pbx_public_ip = None
+    try:
+        # Try external_ip field first (explicit override)
+        pbx_public_ip = getattr(server, 'external_ip', None)
+    except Exception:
+        pass
+    
+    if not pbx_public_ip:
+        try:
+            import socket
+            pbx_public_ip = socket.gethostbyname(sip_domain)
+        except Exception:
+            pbx_public_ip = server.host
+    
+    # Resolve adapter library name (defaults to jssip)
+    webrtc_library = getattr(server, 'webrtc_library', None) or 'jssip'
+    
+    # -----------------------------------------------------------------
+    # VPN Direct Mode Detection
+    # -----------------------------------------------------------------
+    # When the server has VPN mode enabled AND the client is connecting
+    # from the VPN subnet, we return simplified config:
+    #   - ws:// instead of wss:// (no SSL needed over VPN tunnel)
+    #   - Empty ICE servers (no TURN/STUN — direct L3 reachability)
+    #   - No SDP rewrite (VPN IPs are directly routable)
+    #   - No Nginx proxy (direct to Asterisk HTTP on port 8088)
+    # -----------------------------------------------------------------
+    vpn_mode = False
+    vpn_enabled = getattr(server, 'vpn_enabled', False)
+    
+    if vpn_enabled:
+        vpn_ws_host = getattr(server, 'vpn_ws_host', None) or '10.10.0.1'
+        vpn_ws_port = getattr(server, 'vpn_ws_port', None) or 8088
+        vpn_sip_domain_val = getattr(server, 'vpn_sip_domain', None) or vpn_ws_host
+        
+        # Auto-detect: check if the client IP is on the VPN subnet
+        client_ip = _get_client_ip()
+        if client_ip and _is_vpn_client(client_ip):
+            vpn_mode = True
+        
+        # Also allow explicit override via query parameter
+        if frappe.form_dict.get('vpn') == '1':
+            vpn_mode = True
+    
+    if vpn_mode:
+        # Override connection settings for VPN direct mode
+        sip_domain = vpn_sip_domain_val
+        ws_servers = [f"ws://{vpn_ws_host}:{vpn_ws_port}/ws"]
+        websocket_proxy_url = None  # bypass Nginx
+        ice_servers = []             # no TURN/STUN needed
+        pbx_public_ip = None         # no SDP rewrite
+    
     return {
         "extension": extension.extension,
         "extension_name": extension.name,
@@ -98,13 +219,20 @@ def get_webrtc_config(extension_name=None):
         "sip_password": frappe.get_doc("AZ Extension", extension.name).get_password("sip_password"),
         "sip_domain": sip_domain,
         "websocket_servers": ws_servers,
+        "websocket_proxy_url": websocket_proxy_url,
         "ice_servers": ice_servers,
-        "registrar_server": f"sip:{server.host}",
-        "transport": server.protocol or "wss",
+        "registrar_server": f"sip:{sip_domain}",
+        "transport": "ws" if vpn_mode else (server.protocol or "wss"),
         "session_timers": True,
         "session_timers_refresh_method": "invite",
         "all_extensions": all_extensions,
-        "has_multiple_extensions": len(all_extensions) > 1
+        "has_multiple_extensions": len(all_extensions) > 1,
+        "pbx_public_ip": pbx_public_ip,
+        "webrtc_library": webrtc_library,
+        # VPN mode flag for frontend
+        "vpn_mode": vpn_mode,
+        # Connection mode indicator for frontend diagnostics
+        "connection_mode": "vpn" if vpn_mode else ("nginx_proxy" if websocket_proxy_url else "direct"),
     }
 
 
@@ -608,3 +736,115 @@ def update_call_failed(call_log=None, call_id=None, reason="Failed"):
     except Exception as e:
         frappe.log_error(f"Error updating call failed: {str(e)}")
         return {"success": False, "error": str(e)}
+
+
+@frappe.whitelist()
+def reload_asterisk():
+    """Reload Asterisk config via AMI socket connection."""
+    frappe.only_for(["System Manager"])
+    
+    import socket as sock
+    
+    server = frappe.get_single("AZ Server Config")
+    if not server:
+        return {"success": False, "error": "AZ Server Config not found"}
+    
+    ami_host = server.host or "157.173.125.136"
+    ami_port = int(getattr(server, 'ami_port', 5038) or 5038)
+    ami_user = getattr(server, 'ami_user', '') or ''
+    ami_secret = getattr(server, 'ami_secret', '') or ''
+    
+    if not ami_user or not ami_secret:
+        return {"success": False, "error": "AMI credentials not configured in AZ Server Config"}
+    
+    results = []
+    
+    try:
+        s = sock.socket(sock.AF_INET, sock.SOCK_STREAM)
+        s.settimeout(10)
+        s.connect((ami_host, ami_port))
+        
+        # Read banner
+        banner = s.recv(1024).decode('utf-8', errors='replace')
+        results.append(f"Banner: {banner.strip()}")
+        
+        # Login
+        login_cmd = f"Action: Login\r\nUsername: {ami_user}\r\nSecret: {ami_secret}\r\n\r\n"
+        s.sendall(login_cmd.encode())
+        login_resp = s.recv(4096).decode('utf-8', errors='replace')
+        results.append(f"Login: {login_resp.strip()}")
+        
+        if "Success" not in login_resp:
+            s.close()
+            return {"success": False, "error": f"AMI login failed: {login_resp.strip()}", "results": results}
+        
+        # Reload PJSIP
+        reload_cmds = [
+            ("Reload PJSIP", "Action: Command\r\nCommand: module reload res_pjsip.so\r\n\r\n"),
+            ("Reload RTP", "Action: Command\r\nCommand: module reload res_rtp_asterisk.so\r\n\r\n"),
+            ("Core Reload", "Action: Command\r\nCommand: core reload\r\n\r\n"),
+        ]
+        
+        import time
+        for label, cmd in reload_cmds:
+            s.sendall(cmd.encode())
+            time.sleep(1)
+            resp = s.recv(4096).decode('utf-8', errors='replace')
+            results.append(f"{label}: {resp.strip()}")
+        
+        # Logoff
+        s.sendall(b"Action: Logoff\r\n\r\n")
+        s.close()
+        
+        return {"success": True, "message": "Asterisk reload commands sent", "results": results}
+        
+    except sock.timeout:
+        return {"success": False, "error": f"Connection to {ami_host}:{ami_port} timed out", "results": results}
+    except ConnectionRefusedError:
+        return {"success": False, "error": f"Connection refused to {ami_host}:{ami_port}", "results": results}
+    except Exception as e:
+        return {"success": False, "error": str(e), "results": results}
+
+
+# -----------------------------------------------------------------
+# VPN Detection Helpers
+# -----------------------------------------------------------------
+
+def _get_client_ip():
+    """
+    Extract the real client IP from the request, respecting proxy headers.
+    Returns None if no request context (e.g. background job).
+    """
+    try:
+        if not hasattr(frappe, 'request') or not frappe.request:
+            return None
+        
+        req = frappe.request
+        # X-Forwarded-For can be comma-separated: client, proxy1, proxy2
+        xff = req.headers.get('X-Forwarded-For', '')
+        if xff:
+            return xff.split(',')[0].strip()
+        
+        # X-Real-IP (set by Nginx)
+        xri = req.headers.get('X-Real-IP', '')
+        if xri:
+            return xri.strip()
+        
+        # Direct connection
+        return req.remote_addr
+    except Exception:
+        return None
+
+
+def _is_vpn_client(ip_str):
+    """
+    Check if the client IP belongs to the VPN subnet (10.10.0.0/24).
+    This matches OpenVPN static-key clients on the 10.10.0.x range.
+    """
+    try:
+        import ipaddress
+        ip = ipaddress.ip_address(ip_str)
+        vpn_network = ipaddress.ip_network('10.10.0.0/24')
+        return ip in vpn_network
+    except (ValueError, TypeError):
+        return False

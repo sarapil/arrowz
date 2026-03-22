@@ -1,50 +1,144 @@
 [project]
 name = "arrowz"
-version = "1.0.0"
-description = "Enterprise VoIP Call Management with AI - Next Generation"
+version = "16.0.0"
+description = "Unified Network & WiFi Management Platform with VoIP"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.14"
 license = { text = "MIT" }
 authors = [
-    { name = "Arrowz Team" }
+    { name = "Arrowz Team", email = "support@arrowz.io" }
 ]
-keywords = ["frappe", "erpnext", "voip", "webrtc", "call center", "ai"]
+keywords = ["frappe", "erpnext", "network", "wifi", "hotspot", "firewall", "bandwidth", "voip", "webrtc"]
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Environment :: Web Environment",
     "Framework :: Frappe",
-    "Intended Audience :: Customer Service",
+    "Intended Audience :: System Administrators",
+    "Intended Audience :: Telecommunications Industry",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Topic :: Communications :: Telephony"
+    "Programming Language :: Python :: 3.14",
+    "Topic :: System :: Networking",
+    "Topic :: System :: Networking :: Firewalls",
+    "Topic :: Office/Business :: Office Suites"
+]
+
+dependencies = [
+    "requests>=2.28.0",
+    "paramiko>=3.0.0",
+    "cryptography>=41.0.0",
+    "qrcode[pil]>=7.0",
+]
+
+[project.optional-dependencies]
+ai = ["openai>=1.0.0"]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0",
 ]
 
 [project.urls]
-Homepage = "https://github.com/company/arrowz"
-Documentation = "https://github.com/company/arrowz/wiki"
-
-[project.optional-dependencies]
-ssh = ["paramiko>=3.0"]
+Homepage = "https://github.com/moatazarkan6-lab/arrowz"
+Documentation = "https://github.com/moatazarkan6-lab/arrowz/wiki"
+Repository = "https://github.com/moatazarkan6-lab/arrowz.git"
+"Bug Reports" = "https://github.com/moatazarkan6-lab/arrowz/issues"
+Changelog = "https://github.com/moatazarkan6-lab/arrowz/blob/main/CHANGELOG.md"
 
 [build-system]
-requires = ["flit_core>=3.9"]
+requires = ["flit_core>=3.9,<4"]
 build-backend = "flit_core.buildapi"
 
 [tool.bench]
 app_name = "arrowz"
 app_title = "Arrowz"
 app_publisher = "Arrowz Team"
-app_description = "Enterprise VoIP Call Management with AI"
-app_version = "1.0.0"
+app_description = "Unified Network & WiFi Management Platform"
+app_version = "16.0.0"
 app_icon = "octicon octicon-broadcast"
-app_color = "#5e35b1"
+app_color = "#8B5CF6"
 app_email = "support@arrowz.io"
 app_license = "MIT"
 
+[tool.bench.frappe-dependencies]
+frappe = ">=16.0.0,<17.0.0"
+frappe_visual = ">=1.0.0"
+# erpnext = ">=16.0.0,<17.0.0"  # Uncomment if ERPNext is required
+
+[tool.ruff]
+line-length = 110
+target-version = "py314"
+exclude = [
+    ".git",
+    ".ruff_cache",
+    "node_modules",
+    "__pycache__",
+]
+
+[tool.ruff.lint]
+select = [
+    "F",      # Pyflakes
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "I",      # isort
+    "UP",     # pyupgrade
+    "B",      # flake8-bugbear
+    "RUF",    # Ruff-specific rules
+]
+ignore = [
+    "B017",   # assertRaises(Exception)
+    "B018",   # useless expression
+    "B023",   # function definition in loop
+    "B904",   # raise without from
+    "E101",   # mixed spaces and tabs
+    "E402",   # module level import not at top
+    "E501",   # line too long
+    "E741",   # ambiguous variable name
+    "F401",   # unused import
+    "F403",   # star imports
+    "F405",   # may be undefined from star import
+    "F722",   # syntax error in forward annotation
+    "W191",   # indentation contains tabs
+    "RUF001", # ambiguous unicode character
+]
+typing-modules = ["frappe.types.DF"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "tab"
+docstring-code-format = true
+
+[tool.mypy]
+python_version = "3.14"
+ignore_missing_imports = true
+strict_optional = true
+warn_unused_ignores = true
+
 [tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --strict-markers"
 testpaths = ["arrowz/tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+markers = [
+    "slow: marks tests as slow",
+    "integration: integration tests",
+    "unit: unit tests",
+]
+
+[tool.coverage.run]
+source = ["arrowz"]
+omit = ["*/tests/*", "*/__pycache__/*"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+]
+show_missing = true
+precision = 2

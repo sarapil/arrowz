@@ -1,0 +1,86 @@
+<div class="az-topology-wrapper">
+	<!-- ─── Toolbar ──────────────────────────────────────────── -->
+	<div class="az-toolbar">
+		<!-- Layout Buttons -->
+		<div class="az-toolbar-group az-layouts">
+			<button class="az-tb-btn active" data-layout="fcose" title="{{ __("Smart Layout") }}">🌐</button>
+			<button class="az-tb-btn" data-layout="elk-layered" title="{{ __("Hierarchical") }}">📐</button>
+			<button class="az-tb-btn" data-layout="elk-radial" title="{{ __("Radial") }}">◎</button>
+			<button class="az-tb-btn" data-layout="breadthfirst" title="{{ __("Tree") }}">🌳</button>
+			<button class="az-tb-btn" data-layout="circle" title="{{ __("Circle") }}">⭕</button>
+			<button class="az-tb-btn" data-layout="grid" title="{{ __("Grid") }}">▦</button>
+		</div>
+
+		<div class="az-toolbar-sep"></div>
+
+		<!-- Zoom & View -->
+		<div class="az-toolbar-group">
+			<button class="az-tb-btn" id="btn-zoom-in" title="{{ __("Zoom In") }}">＋</button>
+			<button class="az-tb-btn" id="btn-zoom-out" title="{{ __("Zoom Out") }}">－</button>
+			<button class="az-tb-btn" id="btn-fit" title="{{ __("Fit to View") }}">⊞</button>
+		</div>
+
+		<div class="az-toolbar-sep"></div>
+
+		<!-- Search -->
+		<div class="az-toolbar-group az-search-group">
+			<div class="az-search-wrap">
+				<span class="az-search-icon">🔍</span>
+				<input type="text" id="topology-search" class="az-search-input" placeholder="{{ __("Search nodes...") }}">
+				<button id="search-clear" class="az-search-clear" style="display:none">✕</button>
+			</div>
+		</div>
+
+		<div class="az-toolbar-sep"></div>
+
+		<!-- Actions -->
+		<div class="az-toolbar-group">
+			<button class="az-tb-btn az-tb-accent" id="btn-quick-add" title="{{ __("Quick Add") }}">➕</button>
+			<button class="az-tb-btn" id="btn-refresh" title="{{ __("Refresh") }}">🔄</button>
+			<button class="az-tb-btn" id="btn-export-png" title="{{ __("Export PNG") }}">📸</button>
+			<button class="az-tb-btn" id="btn-close-windows" title="{{ __("Close Windows") }}">✕</button>
+			<button class="az-tb-btn" id="btn-toggle-panel" title="{{ __("Toggle Panel") }}">📋</button>
+			<button class="az-tb-btn" id="btn-fullscreen" title="{{ __("Fullscreen") }}">⛶</button>
+		</div>
+	</div>
+
+	<!-- ─── Filter Bar ───────────────────────────────────────── -->
+	<div class="az-filter-bar">
+		<button class="az-filter-btn active" data-filter="all">{{ __("All") }}</button>
+		<button class="az-filter-btn az-f-infra" data-filter="infrastructure">🏗️ {{ __("Infrastructure") }}</button>
+		<button class="az-filter-btn az-f-voip" data-filter="voip">☎️ {{ __("VoIP") }}</button>
+		<button class="az-filter-btn az-f-vpn" data-filter="vpn">🔒 {{ __("VPN") }}</button>
+		<button class="az-filter-btn az-f-wifi" data-filter="wifi">📶 {{ __("WiFi") }}</button>
+		<button class="az-filter-btn az-f-fw" data-filter="firewall">🛡️ {{ __("Firewall") }}</button>
+		<button class="az-filter-btn az-f-comms" data-filter="comms">💬 {{ __("Comms") }}</button>
+		<button class="az-filter-btn az-f-mon" data-filter="monitoring">📊 {{ __("Monitoring") }}</button>
+		<button class="az-filter-btn az-f-cli" data-filter="clients">👥 {{ __("Clients") }}</button>
+	</div>
+
+	<!-- ─── Quick Links Bar ──────────────────────────────────── -->
+	<div class="az-quick-links" id="topology-quick-links"></div>
+
+	<!-- ─── Main Content Area ────────────────────────────────── -->
+	<div class="az-content-area">
+		<!-- Graph Container -->
+		<div id="topology-graph-container" class="az-graph-container"></div>
+
+		<!-- Side Panel -->
+		<div id="topology-side-panel" class="az-side-panel">
+			<div class="az-sp-titlebar">
+				<span class="az-sp-title">{{ __("Details") }}</span>
+				<button id="side-panel-close" class="az-sp-close">✕</button>
+			</div>
+			<div id="side-panel-body" class="az-sp-body"></div>
+		</div>
+	</div>
+
+	<!-- ─── Status Bar ───────────────────────────────────────── -->
+	<div id="topology-status-bar" class="az-status-bar"></div>
+
+	<!-- ─── Loader ───────────────────────────────────────────── -->
+	<div id="topology-loader" class="az-loader" style="display:flex">
+		<div class="az-loader-spinner"></div>
+		<div class="az-loader-text">{{ __("Loading topology...") }}</div>
+	</div>
+</div>

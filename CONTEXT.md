@@ -27,16 +27,22 @@
 | **Name** | Arrowz |
 | **Type** | Frappe Framework Application |
 | **Module** | Arrowz |
-| **Version** | 1.0.0 |
+| **Version** | 16.0.0 |
 | **License** | MIT |
-| **Primary Purpose** | Enterprise VoIP Call Management & Omni-Channel Communications |
+| **Primary Purpose** | Unified Network & WiFi Management Platform with VoIP |
 
 ### Core Capabilities
-1. **WebRTC Softphone** - Browser-based VoIP calling
+1. **WebRTC Softphone** - Browser-based VoIP calling (JsSIP)
 2. **Omni-Channel Messaging** - WhatsApp, Telegram integration
 3. **Video Conferencing** - OpenMeetings integration
-4. **AI Analytics** - Sentiment analysis, coaching
+4. **AI Analytics** - Sentiment analysis, coaching (OpenAI)
 5. **CRM Integration** - Contact identification, history
+6. **Network Management** - Interfaces, IP, DHCP, DNS, Routing
+7. **WiFi Management** - SSID Profiles, Access Points, Hotspot
+8. **MikroTik Integration** - Full RouterOS device management via API
+9. **Device Abstraction** - Unified provider layer (Linux Box + MikroTik)
+10. **Bandwidth & Firewall** - QoS, NAT, traffic shaping
+11. **VPN Management** - WireGuard, L2TP, PPPoE, SSTP
 
 ---
 
@@ -45,30 +51,35 @@
 ### Backend
 | Component | Technology | Version |
 |-----------|------------|---------|
-| Framework | Frappe | v15+ |
+| Framework | Frappe | v16+ |
 | Language | Python | 3.10+ |
 | Database | MariaDB | 10.6+ |
 | Cache | Redis | 6+ |
 | Queue | RQ (Redis Queue) | - |
+| MikroTik API | librouteros | 4.0.0 |
 
 ### Frontend
 | Component | Technology | Version |
 |-----------|------------|---------|
-| UI Framework | Frappe Desk | v15+ |
+| UI Framework | Frappe Desk | v16+ |
 | JavaScript | ES6+ | - |
 | CSS | Custom + Bootstrap | 4.x |
 | WebRTC | JsSIP | 3.x |
 | Real-time | Socket.IO | 4.x |
+| Theme | tavira_theme | LCD desktop wrapper |
 
 ### External Integrations
 | Service | Protocol | Purpose |
 |---------|----------|---------|
 | FreePBX/Asterisk | WebSocket (WSS) | SIP signaling for WebRTC |
 | FreePBX/Asterisk | AMI (TCP) | Call events |
+| FreePBX Local | /mnt/pbx mount | Config/log reading (no SSH) |
 | WhatsApp | REST (Graph API) | Messaging |
 | Telegram | REST (Bot API) | Messaging |
 | OpenMeetings | REST API | Video conferencing |
 | OpenAI | REST API | AI features |
+| MikroTik RouterOS | RouterOS API (TCP) | Network device management |
+| Linux Box | HTTPS REST + HMAC | Network device management |
 
 ---
 
@@ -915,4 +926,124 @@ tail -f logs/frappe.log
 
 ---
 
-*Last Updated: January 2026*
+*Last Updated: February 2026*
+
+---
+
+## Device Provider Architecture
+
+Arrowz uses an **abstract provider layer** to manage different network device types
+(Linux boxes, MikroTik routers, and future devices) through a unified interface.
+
+### Provider Pattern
+
+```
+┌────────────────────────────────────────────────────────┐
+│                  ProviderFactory                        │
+│  get_provider(box_doc) → BaseProvider                  │
+│  Registry: {"Linux Box": LinuxProvider,                │
+│             "MikroTik": MikroTikProvider}              │
+└───────────────────────┬────────────────────────────────┘
+                        │
+           ┌────────────┴────────────┐
+           │      BaseProvider       │
+           │      (Abstract BC)      │
+           │  connect/disconnect     │
+           │  test_connection        │
+           │  get_interfaces         │
+           │  get_dhcp_servers       │
+           │  get_firewall_rules     │
+           │  get_full_config        │
+           │  push_full_config       │
+           │  ...50+ abstract methods│
+           └──────┬──────────┬───────┘
+                  │          │
+    ┌─────────────┴──┐  ┌───┴──────────────┐
+    │ LinuxProvider  │  │ MikroTikProvider │
+    │ (BoxConnector) │  │ (RouterOSClient) │
+    │  HTTPS + HMAC  │  │  RouterOS API    │
+    └────────────────┘  └──────────────────┘
+```
+
+### Key Components
+
+| File | Purpose |
+|------|---------|
+| `device_providers/base_provider.py` | ABC with all abstract methods (~50+) |
+| `device_providers/provider_factory.py` | Factory pattern, device_type → provider |
+| `device_providers/error_tracker.py` | Multi-layer execution tracing |
+| `device_providers/sync_engine.py` | Bidirectional config sync (pull/push/diff) |
+| `device_providers/linux/linux_provider.py` | Wraps BoxConnector REST API |
+| `device_providers/mikrotik/routeros_client.py` | Low-level RouterOS API wrapper |
+| `device_providers/mikrotik/mikrotik_provider.py` | Full MikroTik implementation |
+
+### Sync Engine
+
+The `SyncEngine` provides bidirectional configuration synchronization:
+- **Pull**: Device → Frappe (read config from device, store in DocTypes)
+- **Push**: Frappe → Device (compile DocType data, push to device)
+- **Diff**: Compare current device config with Frappe state
+- **Auto-sync**: Scheduled via hooks.py (`*/5 * * * *`)
+
+---
+
+## Modules (11 total)
+
+| Module | DocTypes | Purpose |
+|--------|----------|---------|
+| `arrowz` | AZ Call Log, AZ Extension, AZ Server Config, etc. | Core VoIP |
+| `arrowz_api` | — | REST API endpoints |
+| `arrowz_setup` | Arrowz Box, Network Settings, MikroTik Sync Log | Config & setup |
+| `network_management` | Network Interface, IP Address, DHCP Server, etc. | L2/L3 networking |
+| `wifi_management` | WiFi SSID Profile, Access Point, Hotspot Config | Wireless |
+| `client_management` | Connected Client, Client Session, MAC Filter | Clients |
+| `bandwidth_control` | QoS Rule, Speed Limit, Traffic Shape | Bandwidth |
+| `firewall` | Firewall Rule, NAT Rule, Port Forward, L7 Protocol | Security |
+| `vpn` | VPN Interface, WireGuard Peer, L2TP User | VPN tunnels |
+| `billing_integration` | Voucher, Quota, Usage Record | Billing |
+| `monitoring` | Alert Rule, Health Check, Dashboard | Monitoring |
+| `ip_accounting` | IP Accounting Rule, Traffic Record | Traffic |
+
+---
+
+## FreePBX Local Mount (`/mnt/pbx`)
+
+In the development environment, FreePBX volumes are mounted at `/mnt/pbx/`:
+
+```python
+from arrowz.dev_constants import PBX_MOUNT, PBX_CONFIG_FILES, PBX_LOG_FILES
+from arrowz.local_pbx_monitor import LocalPBXMonitor
+
+# Quick diagnostics
+monitor = LocalPBXMonitor()
+monitor.diagnose_webrtc("1001")   # Full WebRTC check
+monitor.get_sip_log(50)           # SIP events
+monitor.get_error_log(50)         # Errors only
+```
+
+API endpoints (whitelisted):
+- `arrowz.local_pbx_monitor.check_pbx_mounts`
+- `arrowz.local_pbx_monitor.get_pbx_logs`
+- `arrowz.local_pbx_monitor.diagnose_webrtc`
+- `arrowz.local_pbx_monitor.get_pjsip_configs`
+- `arrowz.local_pbx_monitor.get_call_quality`
+- `arrowz.local_pbx_monitor.get_extension_config`
+
+---
+
+## Environment Constants
+
+All paths, ports, and configuration constants are centralized in:
+
+```python
+from arrowz.dev_constants import (
+    PBX_MOUNT,          # "/mnt/pbx"
+    BENCH_PATH,         # "/workspace/development/frappe-bench"
+    PORTS,              # {"frappe_web": 8000, "pbx_ami": 5038, ...}
+    ENV_VARS,           # {"ARROWZ_DEBUG": "...", ...}
+    MODULES,            # {"arrowz": "Core VoIP...", ...}
+    DEVICE_TYPES,       # ["Linux Box", "MikroTik"]
+    PBX_CONFIG_FILES,   # {"pjsip_main": "/mnt/pbx/etc/...", ...}
+    PBX_LOG_FILES,      # {"full": "/mnt/pbx/logs/...", ...}
+)
+```

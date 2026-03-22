@@ -1,0 +1,191 @@
+{
+ "actions": [],
+ "autoname": "field:server_name",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "server_name",
+  "arrowz_box",
+  "vpn_type",
+  "enabled",
+  "status",
+  "section_network",
+  "listen_port",
+  "listen_interface",
+  "server_address",
+  "dns_servers",
+  "section_keys",
+  "private_key",
+  "public_key",
+  "endpoint",
+  "section_advanced",
+  "mtu",
+  "keepalive",
+  "post_up_script",
+  "post_down_script",
+  "connected_peers"
+ ],
+ "fields": [
+  {
+   "fieldname": "server_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Server Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Arrowz Box",
+   "options": "Arrowz Box",
+   "reqd": 1
+  },
+  {
+   "fieldname": "vpn_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "VPN Type",
+   "options": "WireGuard\nOpenVPN",
+   "reqd": 1,
+   "default": "WireGuard"
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "1"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "\nRunning\nStopped\nError",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_network",
+   "fieldtype": "Section Break",
+   "label": "Network Configuration"
+  },
+  {
+   "fieldname": "listen_port",
+   "fieldtype": "Int",
+   "label": "Listen Port",
+   "default": "51820"
+  },
+  {
+   "fieldname": "listen_interface",
+   "fieldtype": "Link",
+   "label": "Listen Interface",
+   "options": "Network Interface"
+  },
+  {
+   "fieldname": "server_address",
+   "fieldtype": "Data",
+   "label": "Server Address",
+   "reqd": 1,
+   "description": "VPN subnet e.g. 10.10.0.1/24"
+  },
+  {
+   "fieldname": "dns_servers",
+   "fieldtype": "Data",
+   "label": "DNS Servers",
+   "default": "8.8.8.8,8.8.4.4"
+  },
+  {
+   "fieldname": "section_keys",
+   "fieldtype": "Section Break",
+   "label": "Keys & Endpoint"
+  },
+  {
+   "fieldname": "private_key",
+   "fieldtype": "Password",
+   "label": "Private Key",
+   "read_only": 1
+  },
+  {
+   "fieldname": "public_key",
+   "fieldtype": "Data",
+   "label": "Public Key",
+   "read_only": 1
+  },
+  {
+   "fieldname": "endpoint",
+   "fieldtype": "Data",
+   "label": "Endpoint",
+   "description": "Public IP/hostname for clients"
+  },
+  {
+   "fieldname": "section_advanced",
+   "fieldtype": "Section Break",
+   "label": "Advanced"
+  },
+  {
+   "fieldname": "mtu",
+   "fieldtype": "Int",
+   "label": "MTU",
+   "default": "1420"
+  },
+  {
+   "fieldname": "keepalive",
+   "fieldtype": "Int",
+   "label": "Keepalive",
+   "default": "25"
+  },
+  {
+   "fieldname": "post_up_script",
+   "fieldtype": "Small Text",
+   "label": "Post Up Script"
+  },
+  {
+   "fieldname": "post_down_script",
+   "fieldtype": "Small Text",
+   "label": "Post Down Script"
+  },
+  {
+   "fieldname": "connected_peers",
+   "fieldtype": "Int",
+   "label": "Connected Peers",
+   "read_only": 1,
+   "default": "0"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "VPN",
+ "name": "VPN Server",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}

@@ -1,0 +1,152 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:quota_name",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "quota_name",
+  "quota_type",
+  "enabled",
+  "column_break_limits",
+  "download_limit_mb",
+  "upload_limit_mb",
+  "total_limit_mb",
+  "section_break_action",
+  "action_on_exceed",
+  "throttle_download_kbps",
+  "throttle_upload_kbps",
+  "column_break_notify",
+  "notify_at_percentage",
+  "section_break_desc",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "quota_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Quota Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "quota_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Quota Type",
+   "options": "Daily\nWeekly\nMonthly\nCustom",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "column_break_limits",
+   "fieldtype": "Column Break",
+   "label": "Limits"
+  },
+  {
+   "description": "0 = unlimited",
+   "fieldname": "download_limit_mb",
+   "fieldtype": "Long Int",
+   "label": "Download Limit (MB)"
+  },
+  {
+   "fieldname": "upload_limit_mb",
+   "fieldtype": "Long Int",
+   "label": "Upload Limit (MB)"
+  },
+  {
+   "fieldname": "total_limit_mb",
+   "fieldtype": "Long Int",
+   "label": "Total Limit (MB)"
+  },
+  {
+   "fieldname": "section_break_action",
+   "fieldtype": "Section Break",
+   "label": "Action Settings"
+  },
+  {
+   "default": "Throttle",
+   "fieldname": "action_on_exceed",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Action on Exceed",
+   "options": "Throttle\nBlock\nNotify Only",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.action_on_exceed=='Throttle'",
+   "fieldname": "throttle_download_kbps",
+   "fieldtype": "Int",
+   "label": "Throttle Download (kbps)"
+  },
+  {
+   "depends_on": "eval:doc.action_on_exceed=='Throttle'",
+   "fieldname": "throttle_upload_kbps",
+   "fieldtype": "Int",
+   "label": "Throttle Upload (kbps)"
+  },
+  {
+   "fieldname": "column_break_notify",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "80",
+   "fieldname": "notify_at_percentage",
+   "fieldtype": "Int",
+   "label": "Notify at Percentage"
+  },
+  {
+   "fieldname": "section_break_desc",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "IP Accounting",
+ "name": "Usage Quota",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

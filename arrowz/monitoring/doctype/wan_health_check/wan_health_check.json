@@ -1,0 +1,134 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "arrowz_box",
+  "wan_connection",
+  "timestamp",
+  "status",
+  "section_metrics",
+  "latency_ms",
+  "packet_loss_percent",
+  "jitter_ms",
+  "target_host",
+  "section_speed",
+  "public_ip",
+  "download_speed_kbps",
+  "upload_speed_kbps"
+ ],
+ "fields": [
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Arrowz Box",
+   "options": "Arrowz Box",
+   "reqd": 1
+  },
+  {
+   "fieldname": "wan_connection",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "WAN Connection",
+   "options": "WAN Connection",
+   "reqd": 1
+  },
+  {
+   "fieldname": "timestamp",
+   "fieldtype": "Datetime",
+   "label": "Timestamp",
+   "default": "Now"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Healthy\nDegraded\nDown",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_metrics",
+   "fieldtype": "Section Break",
+   "label": "Metrics"
+  },
+  {
+   "fieldname": "latency_ms",
+   "fieldtype": "Float",
+   "label": "Latency (ms)"
+  },
+  {
+   "fieldname": "packet_loss_percent",
+   "fieldtype": "Float",
+   "label": "Packet Loss (%)"
+  },
+  {
+   "fieldname": "jitter_ms",
+   "fieldtype": "Float",
+   "label": "Jitter (ms)"
+  },
+  {
+   "fieldname": "target_host",
+   "fieldtype": "Data",
+   "label": "Target Host"
+  },
+  {
+   "fieldname": "section_speed",
+   "fieldtype": "Section Break",
+   "label": "Speed & IP"
+  },
+  {
+   "fieldname": "public_ip",
+   "fieldtype": "Data",
+   "label": "Public IP",
+   "read_only": 1
+  },
+  {
+   "fieldname": "download_speed_kbps",
+   "fieldtype": "Float",
+   "label": "Download Speed (kbps)"
+  },
+  {
+   "fieldname": "upload_speed_kbps",
+   "fieldtype": "Float",
+   "label": "Upload Speed (kbps)"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Monitoring",
+ "name": "WAN Health Check",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}

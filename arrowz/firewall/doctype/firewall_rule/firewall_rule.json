@@ -1,0 +1,178 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-02-19 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "arrowz_box",
+  "rule_set",
+  "rule_number",
+  "enabled",
+  "column_break_action",
+  "action",
+  "protocol",
+  "direction",
+  "section_break_source",
+  "source_zone",
+  "source_address",
+  "source_port",
+  "column_break_destination",
+  "destination_zone",
+  "destination_address",
+  "destination_port",
+  "section_break_logging",
+  "log_prefix",
+  "comment"
+ ],
+ "fields": [
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Arrowz Box",
+   "options": "Arrowz Box",
+   "reqd": 1
+  },
+  {
+   "fieldname": "rule_set",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Rule Set",
+   "options": "Firewall Rule Set"
+  },
+  {
+   "fieldname": "rule_number",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Rule Number",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "column_break_action",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "action",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Action",
+   "options": "\nAccept\nDrop\nReject\nLog\nMark",
+   "reqd": 1
+  },
+  {
+   "fieldname": "protocol",
+   "fieldtype": "Select",
+   "label": "Protocol",
+   "options": "\nAny\nTCP\nUDP\nICMP\nTCP+UDP"
+  },
+  {
+   "fieldname": "direction",
+   "fieldtype": "Select",
+   "label": "Direction",
+   "options": "\nInbound\nOutbound\nForward"
+  },
+  {
+   "fieldname": "section_break_source",
+   "fieldtype": "Section Break",
+   "label": "Source"
+  },
+  {
+   "fieldname": "source_zone",
+   "fieldtype": "Link",
+   "label": "Source Zone",
+   "options": "Firewall Zone"
+  },
+  {
+   "description": "IP/CIDR or address group",
+   "fieldname": "source_address",
+   "fieldtype": "Data",
+   "label": "Source Address"
+  },
+  {
+   "fieldname": "source_port",
+   "fieldtype": "Data",
+   "label": "Source Port"
+  },
+  {
+   "fieldname": "column_break_destination",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "destination_zone",
+   "fieldtype": "Link",
+   "label": "Destination Zone",
+   "options": "Firewall Zone"
+  },
+  {
+   "fieldname": "destination_address",
+   "fieldtype": "Data",
+   "label": "Destination Address"
+  },
+  {
+   "fieldname": "destination_port",
+   "fieldtype": "Data",
+   "label": "Destination Port"
+  },
+  {
+   "fieldname": "section_break_logging",
+   "fieldtype": "Section Break",
+   "label": "Logging & Notes"
+  },
+  {
+   "fieldname": "log_prefix",
+   "fieldtype": "Data",
+   "label": "Log Prefix"
+  },
+  {
+   "fieldname": "comment",
+   "fieldtype": "Small Text",
+   "label": "Comment"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Firewall",
+ "name": "Firewall Rule",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

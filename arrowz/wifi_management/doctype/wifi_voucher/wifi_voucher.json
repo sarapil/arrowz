@@ -1,0 +1,162 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:voucher_code",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "voucher_code",
+  "batch",
+  "status",
+  "column_break_plans",
+  "bandwidth_plan",
+  "usage_quota",
+  "validity_hours",
+  "section_break_usage",
+  "activated_on",
+  "expires_on",
+  "column_break_client",
+  "used_by_mac",
+  "used_by_name",
+  "section_break_stats",
+  "bytes_used",
+  "time_used_seconds"
+ ],
+ "fields": [
+  {
+   "fieldname": "voucher_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Voucher Code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "batch",
+   "fieldtype": "Link",
+   "label": "Batch",
+   "options": "WiFi Voucher Batch"
+  },
+  {
+   "default": "Available",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Available\nActive\nUsed\nExpired\nDisabled"
+  },
+  {
+   "fieldname": "column_break_plans",
+   "fieldtype": "Column Break",
+   "label": "Plans"
+  },
+  {
+   "fieldname": "bandwidth_plan",
+   "fieldtype": "Link",
+   "label": "Bandwidth Plan",
+   "options": "Bandwidth Plan"
+  },
+  {
+   "fieldname": "usage_quota",
+   "fieldtype": "Link",
+   "label": "Usage Quota",
+   "options": "Usage Quota"
+  },
+  {
+   "default": "24",
+   "fieldname": "validity_hours",
+   "fieldtype": "Int",
+   "label": "Validity Hours"
+  },
+  {
+   "fieldname": "section_break_usage",
+   "fieldtype": "Section Break",
+   "label": "Usage Details"
+  },
+  {
+   "fieldname": "activated_on",
+   "fieldtype": "Datetime",
+   "label": "Activated On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "expires_on",
+   "fieldtype": "Datetime",
+   "label": "Expires On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_client",
+   "fieldtype": "Column Break",
+   "label": "Client"
+  },
+  {
+   "fieldname": "used_by_mac",
+   "fieldtype": "Data",
+   "label": "Used By MAC",
+   "read_only": 1
+  },
+  {
+   "fieldname": "used_by_name",
+   "fieldtype": "Data",
+   "label": "Used By Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_stats",
+   "fieldtype": "Section Break",
+   "label": "Statistics"
+  },
+  {
+   "default": "0",
+   "fieldname": "bytes_used",
+   "fieldtype": "Long Int",
+   "label": "Bytes Used",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "time_used_seconds",
+   "fieldtype": "Int",
+   "label": "Time Used (Seconds)",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "WiFi Management",
+ "name": "WiFi Voucher",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

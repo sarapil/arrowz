@@ -1,0 +1,163 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:portal_name",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "portal_name",
+  "arrowz_box",
+  "enabled",
+  "hotspot_profile",
+  "column_break_network",
+  "listen_interface",
+  "listen_port",
+  "section_break_ssl",
+  "ssl_enabled",
+  "ssl_cert_path",
+  "ssl_key_path",
+  "section_break_config",
+  "redirect_url",
+  "allowed_mac_bypass",
+  "section_break_status",
+  "status"
+ ],
+ "fields": [
+  {
+   "fieldname": "portal_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Portal Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Arrowz Box",
+   "options": "Arrowz Box",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "hotspot_profile",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Hotspot Profile",
+   "options": "WiFi Hotspot Profile",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_network",
+   "fieldtype": "Column Break",
+   "label": "Network"
+  },
+  {
+   "fieldname": "listen_interface",
+   "fieldtype": "Link",
+   "label": "Listen Interface",
+   "options": "Network Interface"
+  },
+  {
+   "default": "8080",
+   "fieldname": "listen_port",
+   "fieldtype": "Int",
+   "label": "Listen Port"
+  },
+  {
+   "fieldname": "section_break_ssl",
+   "fieldtype": "Section Break",
+   "label": "SSL"
+  },
+  {
+   "default": "1",
+   "fieldname": "ssl_enabled",
+   "fieldtype": "Check",
+   "label": "SSL Enabled"
+  },
+  {
+   "fieldname": "ssl_cert_path",
+   "fieldtype": "Data",
+   "label": "SSL Cert Path"
+  },
+  {
+   "fieldname": "ssl_key_path",
+   "fieldtype": "Data",
+   "label": "SSL Key Path"
+  },
+  {
+   "fieldname": "section_break_config",
+   "fieldtype": "Section Break",
+   "label": "Configuration"
+  },
+  {
+   "description": "Post-auth redirect",
+   "fieldname": "redirect_url",
+   "fieldtype": "Data",
+   "label": "Redirect URL"
+  },
+  {
+   "default": "0",
+   "description": "Allow whitelisted MACs to bypass",
+   "fieldname": "allowed_mac_bypass",
+   "fieldtype": "Check",
+   "label": "Allowed MAC Bypass"
+  },
+  {
+   "fieldname": "section_break_status",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Running\nStopped\nError",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "WiFi Management",
+ "name": "Captive Portal",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

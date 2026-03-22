@@ -1,0 +1,111 @@
+{
+ "actions": [],
+ "autoname": "field:group_name",
+ "creation": "2026-02-19 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "group_name",
+  "description",
+  "parent_group",
+  "column_break_basic",
+  "bandwidth_plan",
+  "firewall_zone",
+  "max_clients",
+  "color",
+  "enabled"
+ ],
+ "fields": [
+  {
+   "fieldname": "group_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Group Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "parent_group",
+   "fieldtype": "Link",
+   "label": "Parent Group",
+   "options": "Client Group",
+   "description": "For hierarchical groups"
+  },
+  {
+   "fieldname": "column_break_basic",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "bandwidth_plan",
+   "fieldtype": "Link",
+   "label": "Bandwidth Plan",
+   "options": "Bandwidth Plan"
+  },
+  {
+   "fieldname": "firewall_zone",
+   "fieldtype": "Link",
+   "label": "Firewall Zone",
+   "options": "Firewall Zone"
+  },
+  {
+   "fieldname": "max_clients",
+   "fieldtype": "Int",
+   "default": "0",
+   "description": "0 = unlimited",
+   "label": "Max Clients"
+  },
+  {
+   "fieldname": "color",
+   "fieldtype": "Color",
+   "label": "Color"
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "default": "1",
+   "label": "Enabled"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Client Management",
+ "name": "Client Group",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

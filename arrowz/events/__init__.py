@@ -11,3 +11,4 @@ from . import contact
 from . import lead
 from . import conversation
 from . import meeting
+from . import network

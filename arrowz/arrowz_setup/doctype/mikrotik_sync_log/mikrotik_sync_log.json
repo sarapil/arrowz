@@ -1,0 +1,122 @@
+{
+  "actions": [],
+  "autoname": "hash",
+  "creation": "2026-01-20 10:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "arrowz_box",
+    "operation",
+    "status",
+    "column_break_1",
+    "trace_id",
+    "duration_ms",
+    "timestamp",
+    "section_details",
+    "error_message",
+    "details"
+  ],
+  "fields": [
+    {
+      "fieldname": "arrowz_box",
+      "fieldtype": "Link",
+      "label": "Arrowz Box",
+      "options": "Arrowz Box",
+      "reqd": 1,
+      "in_list_view": 1,
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "operation",
+      "fieldtype": "Data",
+      "label": "Operation",
+      "reqd": 1,
+      "in_list_view": 1,
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "label": "Status",
+      "options": "Success\nFailed\nPartial",
+      "reqd": 1,
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "default": "Success"
+    },
+    {
+      "fieldname": "column_break_1",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "trace_id",
+      "fieldtype": "Data",
+      "label": "Trace ID",
+      "read_only": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "duration_ms",
+      "fieldtype": "Float",
+      "label": "Duration (ms)",
+      "read_only": 1
+    },
+    {
+      "fieldname": "timestamp",
+      "fieldtype": "Datetime",
+      "label": "Timestamp",
+      "read_only": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "section_details",
+      "fieldtype": "Section Break",
+      "label": "Details",
+      "collapsible": 1
+    },
+    {
+      "fieldname": "error_message",
+      "fieldtype": "Small Text",
+      "label": "Error Message",
+      "read_only": 1
+    },
+    {
+      "fieldname": "details",
+      "fieldtype": "Code",
+      "label": "Trace Details",
+      "read_only": 1,
+      "options": "JSON"
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "links": [],
+  "modified": "2026-01-20 10:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Arrowz Setup",
+  "name": "MikroTik Sync Log",
+  "naming_rule": "Random",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "report": 1,
+      "share": 1
+    },
+    {
+      "role": "Network Manager",
+      "read": 1,
+      "export": 1,
+      "report": 1
+    }
+  ],
+  "sort_field": "timestamp",
+  "sort_order": "DESC",
+  "track_changes": 0
+}

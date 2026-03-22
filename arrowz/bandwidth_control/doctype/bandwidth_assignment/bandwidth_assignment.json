@@ -1,0 +1,168 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-02-19 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "arrowz_box",
+  "target_type",
+  "network_client",
+  "client_group",
+  "lan_network",
+  "column_break_plan",
+  "bandwidth_plan",
+  "override_download_kbps",
+  "override_upload_kbps",
+  "section_break_settings",
+  "enabled",
+  "priority",
+  "column_break_validity",
+  "valid_from",
+  "valid_until",
+  "section_break_notes",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Arrowz Box",
+   "options": "Arrowz Box",
+   "reqd": 1
+  },
+  {
+   "fieldname": "target_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Target Type",
+   "options": "Client\nGroup\nNetwork",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.target_type=='Client'",
+   "fieldname": "network_client",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Network Client",
+   "options": "Network Client"
+  },
+  {
+   "depends_on": "eval:doc.target_type=='Group'",
+   "fieldname": "client_group",
+   "fieldtype": "Link",
+   "label": "Client Group",
+   "options": "Client Group"
+  },
+  {
+   "depends_on": "eval:doc.target_type=='Network'",
+   "fieldname": "lan_network",
+   "fieldtype": "Link",
+   "label": "LAN Network",
+   "options": "LAN Network"
+  },
+  {
+   "fieldname": "column_break_plan",
+   "fieldtype": "Column Break",
+   "label": "Plan"
+  },
+  {
+   "fieldname": "bandwidth_plan",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Bandwidth Plan",
+   "options": "Bandwidth Plan",
+   "reqd": 1
+  },
+  {
+   "fieldname": "override_download_kbps",
+   "fieldtype": "Int",
+   "label": "Override Download (Kbps)"
+  },
+  {
+   "fieldname": "override_upload_kbps",
+   "fieldtype": "Int",
+   "label": "Override Upload (Kbps)"
+  },
+  {
+   "fieldname": "section_break_settings",
+   "fieldtype": "Section Break",
+   "label": "Settings"
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "default": "5",
+   "fieldname": "priority",
+   "fieldtype": "Int",
+   "label": "Priority"
+  },
+  {
+   "fieldname": "column_break_validity",
+   "fieldtype": "Column Break",
+   "label": "Validity"
+  },
+  {
+   "fieldname": "valid_from",
+   "fieldtype": "Datetime",
+   "label": "Valid From"
+  },
+  {
+   "fieldname": "valid_until",
+   "fieldtype": "Datetime",
+   "label": "Valid Until"
+  },
+  {
+   "fieldname": "section_break_notes",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Bandwidth Control",
+ "name": "Bandwidth Assignment",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

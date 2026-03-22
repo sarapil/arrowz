@@ -1,0 +1,153 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "wifi_user_account",
+  "wifi_voucher",
+  "mac_address",
+  "ip_address",
+  "column_break_network",
+  "wifi_network",
+  "arrowz_box",
+  "section_break_session",
+  "start_time",
+  "end_time",
+  "status",
+  "column_break_traffic",
+  "bytes_downloaded",
+  "bytes_uploaded",
+  "disconnect_reason"
+ ],
+ "fields": [
+  {
+   "fieldname": "wifi_user_account",
+   "fieldtype": "Link",
+   "label": "WiFi User Account",
+   "options": "WiFi User Account"
+  },
+  {
+   "fieldname": "wifi_voucher",
+   "fieldtype": "Link",
+   "label": "WiFi Voucher",
+   "options": "WiFi Voucher"
+  },
+  {
+   "fieldname": "mac_address",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "MAC Address",
+   "reqd": 1
+  },
+  {
+   "fieldname": "ip_address",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "IP Address"
+  },
+  {
+   "fieldname": "column_break_network",
+   "fieldtype": "Column Break",
+   "label": "Network"
+  },
+  {
+   "fieldname": "wifi_network",
+   "fieldtype": "Link",
+   "label": "WiFi Network",
+   "options": "WiFi Network"
+  },
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "label": "Arrowz Box",
+   "options": "Arrowz Box"
+  },
+  {
+   "fieldname": "section_break_session",
+   "fieldtype": "Section Break",
+   "label": "Session"
+  },
+  {
+   "default": "Now",
+   "fieldname": "start_time",
+   "fieldtype": "Datetime",
+   "label": "Start Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "end_time",
+   "fieldtype": "Datetime",
+   "label": "End Time"
+  },
+  {
+   "default": "Active",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Active\nEnded\nExpired"
+  },
+  {
+   "fieldname": "column_break_traffic",
+   "fieldtype": "Column Break",
+   "label": "Traffic"
+  },
+  {
+   "default": "0",
+   "fieldname": "bytes_downloaded",
+   "fieldtype": "Long Int",
+   "label": "Bytes Downloaded"
+  },
+  {
+   "default": "0",
+   "fieldname": "bytes_uploaded",
+   "fieldtype": "Long Int",
+   "label": "Bytes Uploaded"
+  },
+  {
+   "fieldname": "disconnect_reason",
+   "fieldtype": "Select",
+   "label": "Disconnect Reason",
+   "options": "\nNormal\nTimeout\nQuota\nAdmin\nError"
+  }
+ ],
+ "in_create": 1,
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "WiFi Management",
+ "name": "WiFi User Session",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

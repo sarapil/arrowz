@@ -1,0 +1,187 @@
+{
+ "actions": [],
+ "autoname": "field:network_name",
+ "creation": "2026-02-19 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "network_name",
+  "arrowz_box",
+  "interface",
+  "vlan_id",
+  "column_break_basic",
+  "ip_address",
+  "subnet_mask",
+  "enabled",
+  "section_break_dhcp",
+  "enable_dhcp",
+  "dhcp_start",
+  "dhcp_end",
+  "column_break_dhcp",
+  "dhcp_lease_time",
+  "domain_name",
+  "section_break_dns",
+  "dns_primary",
+  "dns_secondary",
+  "section_break_firewall",
+  "firewall_zone"
+ ],
+ "fields": [
+  {
+   "fieldname": "network_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Network Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Arrowz Box",
+   "options": "Arrowz Box",
+   "reqd": 1
+  },
+  {
+   "fieldname": "interface",
+   "fieldtype": "Link",
+   "label": "Interface",
+   "options": "Network Interface"
+  },
+  {
+   "fieldname": "vlan_id",
+   "fieldtype": "Int",
+   "label": "VLAN ID"
+  },
+  {
+   "fieldname": "column_break_basic",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "ip_address",
+   "fieldtype": "Data",
+   "description": "Gateway IP",
+   "in_list_view": 1,
+   "label": "IP Address",
+   "reqd": 1
+  },
+  {
+   "fieldname": "subnet_mask",
+   "fieldtype": "Data",
+   "default": "255.255.255.0",
+   "label": "Subnet Mask",
+   "reqd": 1
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "default": "1",
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "section_break_dhcp",
+   "fieldtype": "Section Break",
+   "label": "DHCP Configuration"
+  },
+  {
+   "fieldname": "enable_dhcp",
+   "fieldtype": "Check",
+   "default": "1",
+   "label": "Enable DHCP"
+  },
+  {
+   "fieldname": "dhcp_start",
+   "fieldtype": "Data",
+   "label": "DHCP Start",
+   "depends_on": "eval:doc.enable_dhcp"
+  },
+  {
+   "fieldname": "dhcp_end",
+   "fieldtype": "Data",
+   "label": "DHCP End",
+   "depends_on": "eval:doc.enable_dhcp"
+  },
+  {
+   "fieldname": "column_break_dhcp",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "dhcp_lease_time",
+   "fieldtype": "Int",
+   "default": "86400",
+   "label": "DHCP Lease Time (seconds)",
+   "depends_on": "eval:doc.enable_dhcp"
+  },
+  {
+   "fieldname": "domain_name",
+   "fieldtype": "Data",
+   "label": "Domain Name",
+   "depends_on": "eval:doc.enable_dhcp"
+  },
+  {
+   "fieldname": "section_break_dns",
+   "fieldtype": "Section Break",
+   "label": "DNS Configuration"
+  },
+  {
+   "fieldname": "dns_primary",
+   "fieldtype": "Data",
+   "label": "Primary DNS"
+  },
+  {
+   "fieldname": "dns_secondary",
+   "fieldtype": "Data",
+   "label": "Secondary DNS"
+  },
+  {
+   "fieldname": "section_break_firewall",
+   "fieldtype": "Section Break",
+   "label": "Firewall"
+  },
+  {
+   "fieldname": "firewall_zone",
+   "fieldtype": "Link",
+   "label": "Firewall Zone",
+   "options": "Firewall Zone"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Network Management",
+ "name": "LAN Network",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

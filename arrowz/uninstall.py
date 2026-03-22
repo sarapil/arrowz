@@ -11,7 +11,7 @@ import frappe
 from frappe import _
 
 
-def before_uninstall():
+def before_uninstall(app_name=None):
     """Run before app uninstallation"""
     # Remove custom fields added by Arrowz
     remove_custom_fields()

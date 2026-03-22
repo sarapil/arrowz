@@ -1,6 +1,6 @@
 # Arrowz - Integration Map
 
-This document describes how Arrowz integrates with external systems and other Frappe apps.
+ge
 
 ## System Integration Overview
 
@@ -70,6 +70,30 @@ const ua = new JsSIP.UA({
 # - Bridge: Call connected
 # - Hold: Call on hold
 ```
+
+#### C. Local PBX Mount (`/mnt/pbx`)
+- **Purpose**: Direct config/log reading without SSH
+- **Type**: Docker volume mount (read-only)
+- **Module**: `arrowz.local_pbx_monitor`
+
+```python
+from arrowz.local_pbx_monitor import LocalPBXMonitor
+
+monitor = LocalPBXMonitor()
+monitor.diagnose_webrtc("1001")    # Full WebRTC check
+monitor.get_pjsip_config()        # Read all PJSIP files
+monitor.get_extension_config("1001")  # Check extension
+monitor.search_logs("ICE")        # Search logs
+```
+
+Available paths (see `arrowz.dev_constants`):
+| Path | Content |
+|------|---------|
+| `/mnt/pbx/etc/asterisk/` | All Asterisk config files |
+| `/mnt/pbx/logs/asterisk/` | Logs (full, queue, security) |
+| `/mnt/pbx/db/` | Database SQL dumps |
+| `/mnt/pbx/recordings/` | Call recordings |
+| `/mnt/pbx/voicemail/` | Voicemail storage |
 
 ### Data Flow
 ```
@@ -370,6 +394,149 @@ frappe.realtime.on("arrowz_call_started", handler);
 
 ---
 
+## 6. MikroTik RouterOS Integration
+
+### Connection Type
+- **Protocol**: RouterOS API (binary, TCP)
+- **Ports**: 8728 (plaintext), 8729 (SSL)
+- **Library**: `librouteros` 4.0.0 (Python)
+- **Configuration**: `Arrowz Box` DocType (device_type=MikroTik)
+
+### Architecture
+
+```
+                  ┌─────────────────────────────────────────┐
+                  │            Arrowz Box DocType            │
+                  │  device_type = "MikroTik"                │
+                  │  mikrotik_api_port = 8728               │
+                  │  mikrotik_username / mikrotik_password   │
+                  └──────────────┬──────────────────────────┘
+                                 │
+                  ┌──────────────▼──────────────────────────┐
+                  │         ProviderFactory                  │
+                  │  get_provider(box_doc) → MikroTikProvider│
+                  └──────────────┬──────────────────────────┘
+                                 │
+                  ┌──────────────▼──────────────────────────┐
+                  │       MikroTikProvider                   │
+                  │  (BaseProvider implementation)           │
+                  │  • System info/reboot                    │
+                  │  • Interfaces (ethernet/VLAN/bridge)     │
+                  │  • IP addresses / DHCP / DNS             │
+                  │  • Routing (static/connected)            │
+                  │  • Firewall (filter + NAT)               │
+                  │  • Queues / bandwidth                    │
+                  │  • WiFi (v6 wireless + v7 wave2)         │
+                  │  • VPN (WireGuard)                       │
+                  │  • ARP table                             │
+                  │  • Full config pull/push                 │
+                  └──────────────┬──────────────────────────┘
+                                 │
+                  ┌──────────────▼──────────────────────────┐
+                  │        RouterOSClient                    │
+                  │  (librouteros wrapper)                   │
+                  │  connect/disconnect, retry, SSL          │
+                  │  print_resource / add / set / remove     │
+                  └──────────────┬──────────────────────────┘
+                                 │
+                  ┌──────────────▼──────────────────────────┐
+                  │     MikroTik Router (RouterOS)           │
+                  │  API port 8728/8729                      │
+                  └─────────────────────────────────────────┘
+```
+
+### Sync Engine
+
+```python
+from arrowz.device_providers.sync_engine import SyncEngine
+
+# Pull config from device → Frappe DocTypes
+engine = SyncEngine(box_doc)
+result = engine.pull()
+
+# Push Frappe DocType config → device
+result = engine.push()
+
+# Compare configs
+diff = engine.diff()
+```
+
+### Supported Features
+| Category | RouterOS Commands Used |
+|----------|-----------------------|
+| System | `/system/resource`, `/system/identity`, `/system/reboot` |
+| Interfaces | `/interface/print`, `/interface/ethernet`, `/interface/vlan` |
+| IP | `/ip/address`, `/ip/dhcp-server`, `/ip/dhcp-client` |
+| DNS | `/ip/dns`, `/ip/dns/static` |
+| Routing | `/ip/route` |
+| Firewall | `/ip/firewall/filter`, `/ip/firewall/nat` |
+| Queues | `/queue/simple` |
+| WiFi v6 | `/interface/wireless` |
+| WiFi v7 | `/interface/wifi`, `/interface/wifiwave2` |
+| VPN | `/interface/wireguard`, `/interface/wireguard/peers` |
+| ARP | `/ip/arp` |
+
+---
+
+## 7. Linux Box Integration
+
+### Connection Type
+- **Protocol**: HTTPS REST API + HMAC-SHA256 authentication
+- **Library**: `BoxConnector` (custom, `arrowz.box_connector`)
+- **Configuration**: `Arrowz Box` DocType (device_type=Linux Box)
+
+### Data Flow
+```
+Arrowz Box → ProviderFactory → LinuxProvider → BoxConnector → HTTPS → Box Agent
+                                                    │
+                                                    └── Bearer token + HMAC
+```
+
+### Endpoints (via BoxConnector)
+| Endpoint | Purpose |
+|----------|---------|
+| `/api/health` | Health check |
+| `/api/config` | Push full configuration |
+| `/api/clients` | Connected clients |
+| `/api/wifi` | WiFi settings |
+| `/api/vpn` | VPN configuration |
+| `/api/accounting` | IP accounting data |
+| `/api/logs` | System logs |
+
+---
+
+## 8. Device Provider Abstraction Layer
+
+All device integrations are unified through the provider pattern:
+
+```python
+from arrowz.device_providers import ProviderFactory
+
+# Auto-detect provider from DocType
+box = frappe.get_doc("Arrowz Box", "my-device")
+with ProviderFactory.connect(box) as provider:
+    info = provider.get_system_info()
+    interfaces = provider.get_interfaces()
+    config = provider.get_full_config()
+```
+
+### ErrorTracker
+Multi-layer execution tracing across: provider → transport → command → mapper → sync
+
+```python
+from arrowz.device_providers.error_tracker import ErrorTracker
+
+tracker = ErrorTracker()
+with tracker.trace("sync_pull", box_name="my-device"):
+    with tracker.span("transport"):
+        # API calls traced with timing
+        pass
+```
+
+Results logged to `MikroTik Sync Log` DocType for audit trail.
+
+---
+
 ## 9. Security Considerations
 
 ### Authentication Flow
@@ -386,6 +553,8 @@ Browser → Frappe Session → Arrowz API → External Service
 | WhatsApp Token | `AZ Omni Provider.access_token` | Frappe Password field |
 | OpenAI Key | `Arrowz Settings` | Frappe Password field |
 | AMI Password | `AZ Server Config.password` | Frappe Password field |
+| MikroTik Password | `Arrowz Box.mikrotik_password` | Frappe Password field |
+| Box API Token | `Arrowz Box.api_token` | Frappe Password field |
 
 ### Webhook Security
 ```python
@@ -409,6 +578,9 @@ def validate_whatsapp_signature(request):
 | Telegram | HTTPS | 443 | API calls |
 | OpenMeetings | HTTPS | 443 | API calls |
 | OpenAI | HTTPS | 443 | AI features |
+| MikroTik | TCP | 8728 | RouterOS API |
+| MikroTik | TCP/SSL | 8729 | RouterOS API (SSL) |
+| Linux Box | HTTPS | 443 | Box Agent REST API |
 
 ### Inbound Webhooks
 | Service | Path | Purpose |
@@ -422,6 +594,16 @@ def validate_whatsapp_signature(request):
 - RTP/SRTP for audio (UDP, various ports)
 - ICE candidates exchange via WebSocket
 
+### Local Mounts (Dev Environment Only)
+| Mount | Path | Purpose |
+|-------|------|---------|
+| FreePBX Config | `/mnt/pbx/etc/asterisk/` | Asterisk config files |
+| FreePBX Logs | `/mnt/pbx/logs/asterisk/` | Asterisk logs |
+| FreePBX DB | `/mnt/pbx/db/` | SQL database dumps |
+| Recordings | `/mnt/pbx/recordings/` | Call recordings |
+| Voicemail | `/mnt/pbx/voicemail/` | Voicemail files |
+
 ---
 
 *This document should be updated when adding new integrations.*
+*Last Updated: February 2026*

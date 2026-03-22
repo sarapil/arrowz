@@ -1,0 +1,185 @@
+{
+ "actions": [],
+ "autoname": "field:mac_address",
+ "creation": "2026-02-19 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "mac_address",
+  "hostname",
+  "arrowz_box",
+  "client_group",
+  "customer",
+  "column_break_basic",
+  "status",
+  "connection_type",
+  "is_blocked",
+  "vendor",
+  "os_fingerprint",
+  "section_break_network",
+  "ip_address",
+  "bandwidth_plan",
+  "column_break_times",
+  "first_seen",
+  "last_seen",
+  "section_break_notes",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "mac_address",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "MAC Address",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "hostname",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Hostname"
+  },
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "label": "Arrowz Box",
+   "options": "Arrowz Box",
+   "reqd": 1
+  },
+  {
+   "fieldname": "client_group",
+   "fieldtype": "Link",
+   "label": "Client Group",
+   "options": "Client Group"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer",
+   "description": "ERPNext customer"
+  },
+  {
+   "fieldname": "column_break_basic",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "\nOnline\nOffline\nBlocked",
+   "read_only": 1
+  },
+  {
+   "fieldname": "connection_type",
+   "fieldtype": "Select",
+   "label": "Connection Type",
+   "options": "\nWired\nWiFi\nVPN",
+   "read_only": 1
+  },
+  {
+   "fieldname": "is_blocked",
+   "fieldtype": "Check",
+   "default": "0",
+   "label": "Is Blocked"
+  },
+  {
+   "fieldname": "vendor",
+   "fieldtype": "Data",
+   "label": "Vendor",
+   "read_only": 1,
+   "description": "OUI vendor lookup"
+  },
+  {
+   "fieldname": "os_fingerprint",
+   "fieldtype": "Data",
+   "label": "OS Fingerprint",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_network",
+   "fieldtype": "Section Break",
+   "label": "Network Details"
+  },
+  {
+   "fieldname": "ip_address",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "IP Address",
+   "read_only": 1
+  },
+  {
+   "fieldname": "bandwidth_plan",
+   "fieldtype": "Link",
+   "label": "Bandwidth Plan",
+   "options": "Bandwidth Plan",
+   "description": "Override group plan"
+  },
+  {
+   "fieldname": "column_break_times",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "first_seen",
+   "fieldtype": "Datetime",
+   "label": "First Seen",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_seen",
+   "fieldtype": "Datetime",
+   "label": "Last Seen",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_notes",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Client Management",
+ "name": "Network Client",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

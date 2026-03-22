@@ -1,0 +1,138 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "arrowz_box",
+  "customer",
+  "billing_plan",
+  "network_client",
+  "status",
+  "section_dates",
+  "start_date",
+  "end_date",
+  "next_invoice_date",
+  "last_invoice_date",
+  "section_billing",
+  "total_billed",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "label": "Arrowz Box",
+   "options": "Arrowz Box"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "billing_plan",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Billing Plan",
+   "options": "Billing Plan",
+   "reqd": 1
+  },
+  {
+   "fieldname": "network_client",
+   "fieldtype": "Link",
+   "label": "Network Client",
+   "options": "Network Client"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Active\nSuspended\nCancelled",
+   "default": "Active"
+  },
+  {
+   "fieldname": "section_dates",
+   "fieldtype": "Section Break",
+   "label": "Dates"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
+  },
+  {
+   "fieldname": "next_invoice_date",
+   "fieldtype": "Date",
+   "label": "Next Invoice Date"
+  },
+  {
+   "fieldname": "last_invoice_date",
+   "fieldtype": "Date",
+   "label": "Last Invoice Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_billing",
+   "fieldtype": "Section Break",
+   "label": "Billing"
+  },
+  {
+   "fieldname": "total_billed",
+   "fieldtype": "Currency",
+   "label": "Total Billed",
+   "read_only": 1,
+   "default": "0"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Billing Integration",
+ "name": "Billing Cycle",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}

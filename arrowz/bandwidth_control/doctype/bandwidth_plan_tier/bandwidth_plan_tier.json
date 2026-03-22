@@ -1,0 +1,74 @@
+{
+ "actions": [],
+ "creation": "2026-02-19 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "tier_name",
+  "download_kbps",
+  "upload_kbps",
+  "burst_download_kbps",
+  "burst_upload_kbps",
+  "priority",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "tier_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Tier Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "download_kbps",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Download (Kbps)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "upload_kbps",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Upload (Kbps)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "burst_download_kbps",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Burst Download (Kbps)"
+  },
+  {
+   "fieldname": "burst_upload_kbps",
+   "fieldtype": "Int",
+   "label": "Burst Upload (Kbps)"
+  },
+  {
+   "default": "5",
+   "fieldname": "priority",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Priority"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-02-19 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Bandwidth Control",
+ "name": "Bandwidth Plan Tier",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0
+}

@@ -1,0 +1,59 @@
+{
+ "actions": [],
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "tier_name",
+  "from_gb",
+  "to_gb",
+  "rate_per_gb",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "tier_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Tier Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "from_gb",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "From (GB)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "to_gb",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "To (GB)",
+   "description": "0 = unlimited"
+  },
+  {
+   "fieldname": "rate_per_gb",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Rate per GB",
+   "reqd": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Billing Integration",
+ "name": "Billing Plan Tier",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}

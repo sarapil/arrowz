@@ -198,7 +198,7 @@ def generate_daily_report():
         <tr><td><strong>Total Talk Time</strong></td><td>{format_duration(stats.total_duration or 0)}</td></tr>
     </table>
     
-    <p><a href="/app/arrowz-analytics">View Full Analytics</a></p>
+    <p><a href="/desk/arrowz-analytics">View Full Analytics</a></p>
     """
     
     # Send email
@@ -469,7 +469,7 @@ def generate_omni_channel_report():
         <tr><td><strong>Avg First Response Time</strong></td><td>{int(response_stats.avg_first_response_minutes or 0)} minutes</td></tr>
     </table>
     
-    <p><a href="/app/query-report/AZ%20Omni%20Channel%20Analytics">View Full Analytics</a></p>
+    <p><a href="/desk/query-report/AZ%20Omni%20Channel%20Analytics">View Full Analytics</a></p>
     """
     
     # Send email

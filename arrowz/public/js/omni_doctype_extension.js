@@ -268,7 +268,7 @@ arrowz.omni.NotificationBadge = class NotificationBadge {
                     <div class="text-center text-muted p-3">${__("No new messages")}</div>
                 </div>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-center" href="/app/az-conversation-session">
+                <a class="dropdown-item text-center" href="/desk/az-conversation-session">
                     ${__("View All Conversations")}
                 </a>
             </div>
@@ -350,7 +350,7 @@ arrowz.omni.NotificationBadge = class NotificationBadge {
             
             html += `
                 <a class="dropdown-item omni-notification-item" 
-                   href="/app/az-conversation-session/${conv.name}">
+                   href="/desk/az-conversation-session/${conv.name}">
                     <span class="notification-icon">${icon}</span>
                     <div class="notification-content">
                         <div class="notification-title">
@@ -370,7 +370,7 @@ arrowz.omni.NotificationBadge = class NotificationBadge {
         if (Notification.permission === 'granted') {
             new Notification(`New ${data.channel} message`, {
                 body: data.preview,
-                icon: '/assets/arrowz/images/omni-icon.png',
+                icon: '/assets/arrowz/images/arrowz-icon-animated.svg',
                 tag: data.session_id
             });
         }

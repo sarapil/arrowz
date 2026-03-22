@@ -1,0 +1,158 @@
+{
+  "actions": [],
+  "autoname": "ABHL-.#####",
+  "creation": "2026-01-15 10:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "arrowz_box",
+    "log_type",
+    "status",
+    "column_break_main",
+    "timestamp",
+    "severity",
+    "metrics_section",
+    "cpu_usage",
+    "ram_usage",
+    "disk_usage",
+    "column_break_metrics",
+    "uptime_seconds",
+    "active_clients",
+    "wan_status",
+    "details_section",
+    "message",
+    "details"
+  ],
+  "fields": [
+    {
+      "fieldname": "arrowz_box",
+      "fieldtype": "Link",
+      "in_list_view": 1,
+      "label": "Arrowz Box",
+      "options": "Arrowz Box",
+      "reqd": 1
+    },
+    {
+      "fieldname": "log_type",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "label": "Log Type",
+      "options": "Heartbeat\nConfig Push\nConfig Error\nService Restart\nInterface Change\nAlert\nBoot\nShutdown",
+      "reqd": 1
+    },
+    {
+      "default": "Online",
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "in_list_view": 1,
+      "label": "Status",
+      "options": "Online\nOffline\nDegraded\nError"
+    },
+    {
+      "fieldname": "column_break_main",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "Now",
+      "fieldname": "timestamp",
+      "fieldtype": "Datetime",
+      "in_list_view": 1,
+      "label": "Timestamp"
+    },
+    {
+      "default": "Info",
+      "fieldname": "severity",
+      "fieldtype": "Select",
+      "label": "Severity",
+      "options": "Info\nWarning\nError\nCritical"
+    },
+    {
+      "fieldname": "metrics_section",
+      "fieldtype": "Section Break",
+      "label": "Metrics",
+      "collapsible": 1
+    },
+    {
+      "fieldname": "cpu_usage",
+      "fieldtype": "Percent",
+      "label": "CPU Usage %"
+    },
+    {
+      "fieldname": "ram_usage",
+      "fieldtype": "Percent",
+      "label": "RAM Usage %"
+    },
+    {
+      "fieldname": "disk_usage",
+      "fieldtype": "Percent",
+      "label": "Disk Usage %"
+    },
+    {
+      "fieldname": "column_break_metrics",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "uptime_seconds",
+      "fieldtype": "Int",
+      "label": "Uptime (seconds)"
+    },
+    {
+      "fieldname": "active_clients",
+      "fieldtype": "Int",
+      "label": "Active Clients"
+    },
+    {
+      "fieldname": "wan_status",
+      "fieldtype": "Data",
+      "label": "WAN Status"
+    },
+    {
+      "fieldname": "details_section",
+      "fieldtype": "Section Break",
+      "label": "Details",
+      "collapsible": 1
+    },
+    {
+      "fieldname": "message",
+      "fieldtype": "Small Text",
+      "label": "Message"
+    },
+    {
+      "fieldname": "details",
+      "fieldtype": "Code",
+      "label": "Raw Details (JSON)",
+      "options": "JSON"
+    }
+  ],
+  "in_create": 1,
+  "index_web_pages_for_search": 0,
+  "links": [],
+  "modified": "2026-01-15 10:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Arrowz Setup",
+  "name": "Arrowz Box Health Log",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    },
+    {
+      "export": 1,
+      "read": 1,
+      "report": 1,
+      "role": "Network Manager"
+    }
+  ],
+  "sort_field": "creation",
+  "sort_order": "DESC",
+  "track_changes": 0
+}

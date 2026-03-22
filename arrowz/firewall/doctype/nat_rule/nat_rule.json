@@ -1,0 +1,161 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-02-19 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "arrowz_box",
+  "nat_type",
+  "enabled",
+  "priority",
+  "column_break_addresses",
+  "source_address",
+  "destination_address",
+  "translated_address",
+  "section_break_ports",
+  "protocol",
+  "source_port",
+  "destination_port",
+  "column_break_ports2",
+  "translated_port",
+  "outbound_interface",
+  "section_break_notes",
+  "comment"
+ ],
+ "fields": [
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Arrowz Box",
+   "options": "Arrowz Box",
+   "reqd": 1
+  },
+  {
+   "fieldname": "nat_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "NAT Type",
+   "options": "\nSNAT\nDNAT\nMasquerade",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "default": "100",
+   "fieldname": "priority",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Priority"
+  },
+  {
+   "fieldname": "column_break_addresses",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "source_address",
+   "fieldtype": "Data",
+   "label": "Source Address"
+  },
+  {
+   "fieldname": "destination_address",
+   "fieldtype": "Data",
+   "label": "Destination Address"
+  },
+  {
+   "fieldname": "translated_address",
+   "fieldtype": "Data",
+   "label": "Translated Address"
+  },
+  {
+   "fieldname": "section_break_ports",
+   "fieldtype": "Section Break",
+   "label": "Ports & Protocol"
+  },
+  {
+   "fieldname": "protocol",
+   "fieldtype": "Select",
+   "label": "Protocol",
+   "options": "\nAny\nTCP\nUDP"
+  },
+  {
+   "fieldname": "source_port",
+   "fieldtype": "Data",
+   "label": "Source Port"
+  },
+  {
+   "fieldname": "destination_port",
+   "fieldtype": "Data",
+   "label": "Destination Port"
+  },
+  {
+   "fieldname": "column_break_ports2",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "translated_port",
+   "fieldtype": "Data",
+   "label": "Translated Port"
+  },
+  {
+   "fieldname": "outbound_interface",
+   "fieldtype": "Link",
+   "label": "Outbound Interface",
+   "options": "Network Interface"
+  },
+  {
+   "fieldname": "section_break_notes",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "comment",
+   "fieldtype": "Small Text",
+   "label": "Comment"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Firewall",
+ "name": "NAT Rule",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

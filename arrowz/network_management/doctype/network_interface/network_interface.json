@@ -1,0 +1,176 @@
+{
+ "actions": [],
+ "autoname": "field:interface_name",
+ "creation": "2026-02-19 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "interface_name",
+  "arrowz_box",
+  "interface_type",
+  "mac_address",
+  "role",
+  "column_break_status",
+  "status",
+  "speed",
+  "mtu",
+  "section_break_ip",
+  "ip_address",
+  "subnet_mask",
+  "gateway",
+  "section_break_vlan",
+  "vlan_id",
+  "parent_interface",
+  "section_break_notes",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "interface_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Interface Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Arrowz Box",
+   "options": "Arrowz Box",
+   "reqd": 1
+  },
+  {
+   "fieldname": "interface_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Interface Type",
+   "options": "\nEthernet\nWiFi\nBridge\nVLAN\nBonding\nVirtual"
+  },
+  {
+   "fieldname": "mac_address",
+   "fieldtype": "Data",
+   "label": "MAC Address"
+  },
+  {
+   "fieldname": "role",
+   "fieldtype": "Select",
+   "label": "Role",
+   "options": "\nWAN\nLAN\nManagement\nUnused"
+  },
+  {
+   "fieldname": "column_break_status",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "\nUp\nDown\nUnknown",
+   "read_only": 1
+  },
+  {
+   "fieldname": "speed",
+   "fieldtype": "Data",
+   "label": "Speed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "mtu",
+   "fieldtype": "Int",
+   "label": "MTU",
+   "default": "1500"
+  },
+  {
+   "fieldname": "section_break_ip",
+   "fieldtype": "Section Break",
+   "label": "IP Configuration"
+  },
+  {
+   "fieldname": "ip_address",
+   "fieldtype": "Data",
+   "label": "IP Address",
+   "read_only": 1
+  },
+  {
+   "fieldname": "subnet_mask",
+   "fieldtype": "Data",
+   "label": "Subnet Mask",
+   "read_only": 1
+  },
+  {
+   "fieldname": "gateway",
+   "fieldtype": "Data",
+   "label": "Gateway",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_vlan",
+   "fieldtype": "Section Break",
+   "label": "VLAN / Bridge Settings",
+   "depends_on": "eval:doc.interface_type=='VLAN' || doc.interface_type=='Bridge'"
+  },
+  {
+   "fieldname": "vlan_id",
+   "fieldtype": "Int",
+   "label": "VLAN ID",
+   "depends_on": "eval:doc.interface_type=='VLAN'"
+  },
+  {
+   "fieldname": "parent_interface",
+   "fieldtype": "Link",
+   "label": "Parent Interface",
+   "options": "Network Interface",
+   "depends_on": "eval:doc.interface_type=='VLAN' || doc.interface_type=='Bridge'"
+  },
+  {
+   "fieldname": "section_break_notes",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Network Management",
+ "name": "Network Interface",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

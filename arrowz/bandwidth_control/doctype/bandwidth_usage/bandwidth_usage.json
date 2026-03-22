@@ -1,0 +1,168 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-02-19 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "arrowz_box",
+  "network_client",
+  "client_group",
+  "column_break_time",
+  "timestamp",
+  "period_type",
+  "section_break_bytes",
+  "bytes_downloaded",
+  "bytes_uploaded",
+  "column_break_packets",
+  "packets_downloaded",
+  "packets_uploaded",
+  "section_break_rates",
+  "average_download_kbps",
+  "average_upload_kbps",
+  "column_break_peak",
+  "peak_download_kbps",
+  "peak_upload_kbps"
+ ],
+ "fields": [
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Arrowz Box",
+   "options": "Arrowz Box",
+   "reqd": 1
+  },
+  {
+   "fieldname": "network_client",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Network Client",
+   "options": "Network Client"
+  },
+  {
+   "fieldname": "client_group",
+   "fieldtype": "Link",
+   "label": "Client Group",
+   "options": "Client Group"
+  },
+  {
+   "fieldname": "column_break_time",
+   "fieldtype": "Column Break",
+   "label": "Timing"
+  },
+  {
+   "default": "Now",
+   "fieldname": "timestamp",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Timestamp",
+   "reqd": 1
+  },
+  {
+   "fieldname": "period_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Period Type",
+   "options": "5min\nHourly\nDaily\nMonthly",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_bytes",
+   "fieldtype": "Section Break",
+   "label": "Byte Counters"
+  },
+  {
+   "fieldname": "bytes_downloaded",
+   "fieldtype": "Int",
+   "label": "Bytes Downloaded"
+  },
+  {
+   "fieldname": "bytes_uploaded",
+   "fieldtype": "Int",
+   "label": "Bytes Uploaded"
+  },
+  {
+   "fieldname": "column_break_packets",
+   "fieldtype": "Column Break",
+   "label": "Packet Counters"
+  },
+  {
+   "fieldname": "packets_downloaded",
+   "fieldtype": "Int",
+   "label": "Packets Downloaded"
+  },
+  {
+   "fieldname": "packets_uploaded",
+   "fieldtype": "Int",
+   "label": "Packets Uploaded"
+  },
+  {
+   "fieldname": "section_break_rates",
+   "fieldtype": "Section Break",
+   "label": "Average Rates"
+  },
+  {
+   "fieldname": "average_download_kbps",
+   "fieldtype": "Float",
+   "label": "Average Download (Kbps)"
+  },
+  {
+   "fieldname": "average_upload_kbps",
+   "fieldtype": "Float",
+   "label": "Average Upload (Kbps)"
+  },
+  {
+   "fieldname": "column_break_peak",
+   "fieldtype": "Column Break",
+   "label": "Peak Rates"
+  },
+  {
+   "fieldname": "peak_download_kbps",
+   "fieldtype": "Float",
+   "label": "Peak Download (Kbps)"
+  },
+  {
+   "fieldname": "peak_upload_kbps",
+   "fieldtype": "Float",
+   "label": "Peak Upload (Kbps)"
+  }
+ ],
+ "in_create": 1,
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Bandwidth Control",
+ "name": "Bandwidth Usage",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0
+}

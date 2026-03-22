@@ -6,20 +6,144 @@
  * - Real-time status indicators (SMS, Calls, Line status)
  * - Contact search across all linked DocTypes
  * - Responsive design
+ * 
+ * BUILD: 2024-02-24-v3-openrelay-turn
  */
 
 (function() {
     'use strict';
     
+    // Version check - helps confirm browser has latest code
+    console.log('%c[Arrowz Softphone] BUILD: 2024-02-24-v3-openrelay-turn', 'color: #00ff00; font-weight: bold;');
+    
     // Arrowz namespace
     window.arrowz = window.arrowz || {};
+    
+    // ========== Cross-Tab Leader Election ==========
+    // Ensures only ONE tab registers with Asterisk at a time.
+    // Uses BroadcastChannel + localStorage for leader election.
+    const TAB_LEADER_KEY = 'arrowz_softphone_leader';
+    const TAB_HEARTBEAT_KEY = 'arrowz_softphone_heartbeat';
+    const TAB_ID = Math.random().toString(36).substring(2, 10) + '_' + Date.now();
+    const HEARTBEAT_INTERVAL = 2000; // ms
+    const LEADER_TIMEOUT = 6000; // ms - if no heartbeat for this long, leader is dead
+    
+    let _tabChannel = null;
+    let _heartbeatTimer = null;
+    let _isLeader = false;
+    
+    function _initTabChannel() {
+        try {
+            _tabChannel = new BroadcastChannel('arrowz_softphone');
+            _tabChannel.onmessage = function(ev) {
+                if (ev.data.type === 'leader_claim' && ev.data.tabId !== TAB_ID) {
+                    // Another tab claimed leadership
+                    if (_isLeader) {
+                        // We were leader, yield if their claim is newer
+                        console.log('Arrowz Tab: Another tab claimed leadership, yielding');
+                        _isLeader = false;
+                        _stopHeartbeat();
+                        // Stop our UA registration
+                        if (arrowz.softphone.ua) {
+                            try {
+                                arrowz.softphone.ua.unregister({ all: true });
+                                arrowz.softphone.ua.stop();
+                            } catch(e) {}
+                            arrowz.softphone.ua = null;
+                            arrowz.softphone.registered = false;
+                            arrowz.softphone.updateNavbarStatus('follower', __('Standby'));
+                        }
+                    }
+                } else if (ev.data.type === 'leader_release') {
+                    // Leader tab is closing, try to become leader
+                    console.log('Arrowz Tab: Leader released, attempting to claim');
+                    setTimeout(() => _tryBecomeLeader(), Math.random() * 500);
+                } else if (ev.data.type === 'call_event' && !_isLeader) {
+                    // Forward call events to non-leader tabs for UI updates
+                    if (ev.data.event === 'incoming') {
+                        arrowz.softphone.showNotification('call', ev.data.data);
+                    }
+                }
+            };
+        } catch (e) {
+            // BroadcastChannel not supported, act as leader always
+            console.warn('Arrowz Tab: BroadcastChannel not supported, assuming leader');
+            _isLeader = true;
+        }
+    }
+    
+    function _tryBecomeLeader() {
+        const now = Date.now();
+        const stored = localStorage.getItem(TAB_LEADER_KEY);
+        const heartbeat = parseInt(localStorage.getItem(TAB_HEARTBEAT_KEY) || '0');
+        
+        // Become leader if: no leader, or leader heartbeat expired
+        if (!stored || stored === TAB_ID || (now - heartbeat > LEADER_TIMEOUT)) {
+            localStorage.setItem(TAB_LEADER_KEY, TAB_ID);
+            localStorage.setItem(TAB_HEARTBEAT_KEY, String(now));
+            
+            // Verify we won (check again after a small delay for race conditions)
+            setTimeout(() => {
+                if (localStorage.getItem(TAB_LEADER_KEY) === TAB_ID) {
+                    _isLeader = true;
+                    _startHeartbeat();
+                    console.log('Arrowz Tab: Became leader (tab=' + TAB_ID + ')');
+                    if (_tabChannel) {
+                        _tabChannel.postMessage({ type: 'leader_claim', tabId: TAB_ID });
+                    }
+                    // If softphone is initialized but UA not started, start it now
+                    if (arrowz.softphone.initialized && !arrowz.softphone.ua && arrowz.softphone.config) {
+                        arrowz.softphone.setupJsSIP();
+                    }
+                }
+            }, 50 + Math.random() * 100);
+        }
+    }
+    
+    function _startHeartbeat() {
+        _stopHeartbeat();
+        _heartbeatTimer = setInterval(() => {
+            if (_isLeader) {
+                localStorage.setItem(TAB_HEARTBEAT_KEY, String(Date.now()));
+            }
+        }, HEARTBEAT_INTERVAL);
+    }
+    
+    function _stopHeartbeat() {
+        if (_heartbeatTimer) {
+            clearInterval(_heartbeatTimer);
+            _heartbeatTimer = null;
+        }
+    }
+    
+    function _releaseLeadership() {
+        if (_isLeader) {
+            _isLeader = false;
+            _stopHeartbeat();
+            localStorage.removeItem(TAB_LEADER_KEY);
+            localStorage.removeItem(TAB_HEARTBEAT_KEY);
+            if (_tabChannel) {
+                try {
+                    _tabChannel.postMessage({ type: 'leader_release', tabId: TAB_ID });
+                } catch(e) {}
+            }
+        }
+    }
+    
+    // Initialize leader election immediately
+    _initTabChannel();
+    _tryBecomeLeader();
+    // ========== End Cross-Tab Leader Election ==========
     
     // Softphone V2
     arrowz.softphone = {
         initialized: false,
         registered: false,
         ua: null,  // JsSIP User Agent
-        session: null,  // Active call session
+        sessions: [],  // Array of active call sessions (multi-line support)
+        session: null,  // Current/primary call session (backwards compatibility)
+        activeLineIndex: 0,  // Currently selected line index
+        maxLines: 4,  // Maximum concurrent lines
         config: null,
         allExtensions: [],  // All user's extensions
         activeExtension: null,  // Current active extension
@@ -28,6 +152,7 @@
         remoteStream: null,
         callTimer: null,
         callStartTime: null,
+        callStartTimes: {},  // Track start times per session
         isDropdownOpen: false,
         pendingSMS: [],
         missedCalls: 0,
@@ -57,8 +182,27 @@
                 // Check for missed calls/SMS
                 this.checkNotifications();
                 
+                // Register cleanup on page unload to prevent stale registrations
+                this.setupUnloadCleanup();
+                
                 this.initialized = true;
-                console.log('Arrowz Softphone V2 initialized');
+                
+                // If not leader, don't start JsSIP (loadExtensions calls setupJsSIP)
+                // The leader election will trigger setupJsSIP when this tab becomes leader
+                if (!_isLeader) {
+                    console.log('Arrowz Softphone V2 initialized (standby mode - another tab is leader)');
+                    this.updateNavbarStatus('follower', __('Standby'));
+                    // Stop the UA that loadExtensions may have started
+                    if (this.ua) {
+                        try {
+                            this.ua.unregister({ all: true });
+                            this.ua.stop();
+                        } catch(e) {}
+                        this.ua = null;
+                    }
+                } else {
+                    console.log('Arrowz Softphone V2 initialized (leader)');
+                }
                 
             } catch (error) {
                 console.error('Arrowz Softphone init error:', error);
@@ -96,6 +240,16 @@
                 this.config = r.message;
                 this.activeExtension = r.message.extension_name;
                 this.allExtensions = r.message.all_extensions || [];
+                
+                // Resolve PBX public IP for SDP rewriting (Docker NAT workaround)
+                // Extract host from websocket URL or SIP domain
+                if (r.message.sip_domain) {
+                    this._pbxHost = r.message.sip_domain;
+                }
+                // Store public IP if provided, or use the SIP domain  
+                if (r.message.pbx_public_ip) {
+                    this._pbxPublicIP = r.message.pbx_public_ip;
+                }
                 
                 // Setup JsSIP with first/active extension
                 await this.setupJsSIP();
@@ -137,6 +291,21 @@
         async setupJsSIP() {
             if (!this.config) return;
             
+            // Only the leader tab should register with Asterisk
+            if (!_isLeader) {
+                console.log('Arrowz: Not leader tab, skipping JsSIP setup');
+                return;
+            }
+            
+            // Stop any existing UA before creating a new one
+            if (this.ua) {
+                try {
+                    this.ua.unregister({ all: true });
+                    this.ua.stop();
+                } catch(e) {}
+                this.ua = null;
+            }
+            
             const socket = new JsSIP.WebSocketInterface(this.config.websocket_servers[0]);
             
             console.log('Arrowz: Setting up JsSIP with URI:', this.config.sip_uri);
@@ -172,14 +341,29 @@
                 this.updateNavbarStatus('connecting', __('Connecting...'));
             });
             
-            this.ua.on('disconnected', () => {
+            this.ua.on('disconnected', (e) => {
                 if (!checkCurrentUA()) {
                     console.log('Arrowz: Ignoring disconnected event from old UA');
                     return;
                 }
-                console.log('Arrowz: WebSocket disconnected');
+                console.log('Arrowz: WebSocket disconnected', e);
                 this.registered = false;
                 this.updateNavbarStatus('disconnected', __('Offline'));
+                
+                // Track disconnection count for SSL certificate warning
+                this._disconnectCount = (this._disconnectCount || 0) + 1;
+                if (this._disconnectCount >= 3 && !this._sslWarningShown) {
+                    this._sslWarningShown = true;
+                    const wsUrl = this.config?.websocket_servers?.[0];
+                    if (wsUrl) {
+                        const pbxHost = wsUrl.replace('wss://', 'https://').replace('/ws', '');
+                        frappe.msgprint({
+                            title: __('WebSocket Connection Failed'),
+                            message: __('Unable to connect to PBX. This may be caused by a self-signed SSL certificate.<br><br>To fix this:<br>1. <a href="{0}" target="_blank">Click here to open the PBX URL</a><br>2. Accept the certificate warning in your browser<br>3. Refresh this page', [pbxHost]),
+                            indicator: 'orange'
+                        });
+                    }
+                }
             });
             
             this.ua.on('registered', () => {
@@ -216,6 +400,30 @@
             });
             
             this.ua.start();
+        },
+        
+        // Cleanup on page unload to prevent stale SIP registrations
+        setupUnloadCleanup() {
+            window.addEventListener('beforeunload', () => {
+                // Release leadership so another tab can take over
+                _releaseLeadership();
+                
+                if (this.ua) {
+                    try {
+                        this.ua.unregister({ all: true });
+                        this.ua.stop();
+                    } catch (e) {
+                        // Ignore errors during cleanup
+                    }
+                }
+                // Close any active streams
+                if (this.localStream) {
+                    this.localStream.getTracks().forEach(t => t.stop());
+                }
+                if (this._preGrantedStream) {
+                    this._preGrantedStream.getTracks().forEach(t => t.stop());
+                }
+            });
         },
         
         // Setup real-time listeners for notifications
@@ -257,37 +465,43 @@
             const existing = document.getElementById('arrowz-softphone-widget');
             if (existing) existing.remove();
             
-            // Find navbar - Frappe v15 uses .navbar-nav inside .collapse.navbar-collapse
-            let navbar = document.querySelector('.navbar .navbar-collapse .navbar-nav');
+            // Priority 1: Theme topbar (.topbar-right from tavira/flux theme)
+            let navbarContainer = document.querySelector('.topbar-right');
+            let insertMode = 'topbar';
             
-            // Fallback selectors for different Frappe versions
-            if (!navbar) {
-                navbar = document.querySelector('.navbar-right') || 
-                         document.querySelector('.navbar-nav') ||
-                         document.querySelector('#navbar-user')?.parentElement;
+            // Priority 2: Frappe v16 desktop navbar
+            if (!navbarContainer) {
+                navbarContainer = document.querySelector('.navbar-container .flex');
+                insertMode = 'desktop';
             }
             
-            if (!navbar) {
-                // Retry after a short delay - navbar might not be rendered yet
+            // Priority 3: Legacy navbar selectors for older Frappe versions
+            if (!navbarContainer) {
+                navbarContainer = document.querySelector('.navbar .navbar-collapse .navbar-nav') ||
+                                  document.querySelector('.navbar-right') ||
+                                  document.querySelector('.navbar-nav') ||
+                                  document.querySelector('#navbar-user')?.parentElement;
+                insertMode = 'legacy';
+            }
+            
+            if (!navbarContainer) {
+                // Retry after a short delay - topbar/navbar might not be rendered yet
                 setTimeout(() => this.renderNavbarWidget(), 500);
-                console.log('Arrowz: Navbar not found, will retry...');
+                console.log('Arrowz: Topbar/Navbar not found, will retry...');
                 return;
             }
             
             // Create widget
-            const widget = document.createElement('li');
+            let widget = document.createElement('div');
             widget.id = 'arrowz-softphone-widget';
-            widget.className = 'nav-item arrowz-softphone-nav';
+            widget.className = 'arrowz-softphone-desktop';
             widget.innerHTML = `
                 <div class="arrowz-sp-trigger" onclick="arrowz.softphone.toggleDropdown()">
                     <div class="sp-icon-wrapper">
-                        <svg class="sp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
-                        </svg>
+                        <img class="sp-icon arrowz-logo-animated" src="/assets/arrowz/images/arrowz-icon-animated.svg" alt="Arrowz" />
                         <span class="sp-status-dot"></span>
                     </div>
                     <span class="sp-badge" style="display: none;"></span>
-                    <span class="sp-status-text">${__('Loading...')}</span>
                     <span class="sp-call-timer" style="display: none;">00:00</span>
                 </div>
                 <div class="arrowz-sp-dropdown" id="arrowz-sp-dropdown">
@@ -295,15 +509,36 @@
                 </div>
             `;
             
-            // Insert at appropriate position
-            navbar.insertBefore(widget, navbar.firstChild);
+            if (insertMode === 'topbar') {
+                // Insert as first child of .topbar-right (before avatar/notifications)
+                navbarContainer.insertBefore(widget, navbarContainer.firstChild);
+                
+                // Move dropdown to document.body to escape topbar's
+                // overflow:hidden + backdrop-filter containing block
+                const dropdown = widget.querySelector('#arrowz-sp-dropdown');
+                if (dropdown) {
+                    dropdown.remove();
+                    dropdown.classList.add('arrowz-sp-dropdown-portal');
+                    document.body.appendChild(dropdown);
+                }
+            } else if (insertMode === 'desktop') {
+                // Insert before desktop-notifications
+                const notifications = navbarContainer.querySelector('.desktop-notifications');
+                if (notifications) {
+                    navbarContainer.insertBefore(widget, notifications);
+                } else {
+                    navbarContainer.insertBefore(widget, navbarContainer.firstChild);
+                }
+            } else {
+                navbarContainer.insertBefore(widget, navbarContainer.firstChild);
+            }
             
             // Add styles
             this.addStyles();
             
             // Close dropdown on outside click
             document.addEventListener('click', (e) => {
-                if (!e.target.closest('#arrowz-softphone-widget')) {
+                if (!e.target.closest('#arrowz-softphone-widget') && !e.target.closest('#arrowz-sp-dropdown')) {
                     this.closeDropdown();
                 }
             });
@@ -320,16 +555,33 @@
         
         // Open dropdown
         openDropdown() {
-            if (this.session) {
-                // If in call, show call UI
+            if (this._isIncomingRinging && this.session) {
+                // Incoming call ringing - show answer/reject UI
+                const caller = this._currentCallee || this.session.remote_identity?.display_name || this.session.remote_identity?.uri?.user || __('Unknown');
+                this.showIncomingCallUI(caller);
+            } else if (this.session) {
+                // Active call - show call controls
                 this.showActiveCallUI();
             } else {
-                // Show dialer
+                // No call - show dialer
                 this.showDialerUI();
             }
             
             const dropdown = document.getElementById('arrowz-sp-dropdown');
+            const widget = document.getElementById('arrowz-softphone-widget');
             if (dropdown) {
+                // Portal mode: dropdown lives in document.body, position it under trigger
+                if (dropdown.classList.contains('arrowz-sp-dropdown-portal') && widget) {
+                    const trigger = widget.querySelector('.arrowz-sp-trigger');
+                    if (trigger) {
+                        const rect = trigger.getBoundingClientRect();
+                        dropdown.style.position = 'fixed';
+                        dropdown.style.top = (rect.bottom + 8) + 'px';
+                        dropdown.style.right = (window.innerWidth - rect.right) + 'px';
+                        dropdown.style.left = 'auto';
+                    }
+                }
+                
                 dropdown.classList.add('open');
                 
                 // Check if mobile
@@ -362,13 +614,13 @@
             let extensionButtons = '';
             if (this.allExtensions.length > 1) {
                 extensionButtons = `
-                    <div class="sp-extension-selector">
-                        <div class="sp-ext-label">${__('Call from')}:</div>
-                        <div class="sp-ext-buttons">
+                    <div class="sp-extension-selector" style="padding:4px 10px;background:var(--bg-color);border-bottom:1px solid var(--border-color);">
+                        <div class="sp-ext-buttons" style="display:flex;gap:4px;flex-wrap:wrap;">
                             ${this.allExtensions.map(ext => `
                                 <button class="sp-ext-btn ${ext.name === this.activeExtension ? 'active' : ''}"
                                         onclick="arrowz.softphone.switchExtension('${ext.name}')"
-                                        title="${ext.display_name || ext.extension}">
+                                        title="${ext.display_name || ext.extension}"
+                                        style="padding:3px 8px;font-size:10px;">
                                     ${ext.extension}
                                 </button>
                             `).join('')}
@@ -377,65 +629,81 @@
                 `;
             }
             
+            // Active calls indicator
+            const activeCount = this.getActiveSessionCount();
+            let activeCallsIndicator = '';
+            if (activeCount > 0) {
+                activeCallsIndicator = `
+                    <div style="padding:4px 10px;background:rgba(76,175,80,0.1);border-bottom:1px solid var(--border-color);display:flex;align-items:center;justify-content:space-between;">
+                        <span style="font-size:10px;color:#4CAF50;font-weight:500;">
+                            📞 ${activeCount} ${__('active')}
+                        </span>
+                        <button onclick="arrowz.softphone.showMultiLineCallUI()" 
+                                style="padding:2px 6px;font-size:10px;background:#4CAF50;color:white;border:none;border-radius:3px;cursor:pointer;">
+                            ${__('View')}
+                        </button>
+                    </div>
+                `;
+            }
+            
             dropdown.innerHTML = `
-                <div class="sp-header">
+                <div class="sp-header" style="padding:6px 10px;">
                     <div class="sp-header-info">
                         <span class="sp-status-indicator ${this.registered ? 'online' : 'offline'}"></span>
-                        <span class="sp-ext-number">${this.config?.extension || '---'}</span>
-                        <span class="sp-status-label">${this.registered ? __('Ready') : __('Offline')}</span>
+                        <span class="sp-ext-number" style="font-size:13px;">${this.config?.extension || '---'}</span>
+                        <span class="sp-status-label" style="font-size:11px;">${this.registered ? __('Ready') : __('Offline')}</span>
                     </div>
-                    <button class="sp-close-btn" onclick="arrowz.softphone.closeDropdown()">×</button>
+                    <button class="sp-close-btn" onclick="arrowz.softphone.closeDropdown()" style="font-size:20px;">×</button>
                 </div>
+                
+                ${activeCallsIndicator}
                 
                 <div class="sp-content">
                     ${extensionButtons}
                     
-                    <div class="sp-search-container">
-                        <input type="text" class="sp-search-input" id="sp-search-input" 
-                               placeholder="${__('Search contacts or enter number...')}"
-                               oninput="arrowz.softphone.handleSearchInput(this.value)">
-                        <div class="sp-search-results" id="sp-search-results"></div>
-                    </div>
-                    
-                    <div class="sp-dial-display">
+                    <div class="sp-dial-display" style="padding:6px 10px;gap:4px;">
                         <input type="tel" class="sp-dial-input" id="sp-dial-input" 
-                               placeholder="${__('Enter number')}"
+                               placeholder="${__('Number or search...')}"
+                               style="padding:6px;font-size:15px;"
+                               oninput="arrowz.softphone.handleSearchInput(this.value)"
                                onkeypress="if(event.key==='Enter')arrowz.softphone.dial()">
-                        <button class="sp-backspace" onclick="arrowz.softphone.backspace()">⌫</button>
+                        <button class="sp-backspace" onclick="arrowz.softphone.backspace()" style="padding:6px 10px;font-size:13px;">⌫</button>
+                    </div>
+                    <div class="sp-search-results" id="sp-search-results" style="margin:0 10px;"></div>
+                    
+                    <div class="sp-dialpad" style="gap:3px;padding:4px 10px 6px;">
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('1')">1</button>
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('2')">2</button>
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('3')">3</button>
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('4')">4</button>
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('5')">5</button>
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('6')">6</button>
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('7')">7</button>
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('8')">8</button>
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('9')">9</button>
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('*')">*</button>
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('0')">0</button>
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('#')">#</button>
                     </div>
                     
-                    <div class="sp-dialpad">
-                        <button class="sp-key" onclick="arrowz.softphone.pressKey('1')">1<span></span></button>
-                        <button class="sp-key" onclick="arrowz.softphone.pressKey('2')">2<span>ABC</span></button>
-                        <button class="sp-key" onclick="arrowz.softphone.pressKey('3')">3<span>DEF</span></button>
-                        <button class="sp-key" onclick="arrowz.softphone.pressKey('4')">4<span>GHI</span></button>
-                        <button class="sp-key" onclick="arrowz.softphone.pressKey('5')">5<span>JKL</span></button>
-                        <button class="sp-key" onclick="arrowz.softphone.pressKey('6')">6<span>MNO</span></button>
-                        <button class="sp-key" onclick="arrowz.softphone.pressKey('7')">7<span>PQRS</span></button>
-                        <button class="sp-key" onclick="arrowz.softphone.pressKey('8')">8<span>TUV</span></button>
-                        <button class="sp-key" onclick="arrowz.softphone.pressKey('9')">9<span>WXYZ</span></button>
-                        <button class="sp-key" onclick="arrowz.softphone.pressKey('*')">*<span></span></button>
-                        <button class="sp-key" onclick="arrowz.softphone.pressKey('0')">0<span>+</span></button>
-                        <button class="sp-key" onclick="arrowz.softphone.pressKey('#')">#<span></span></button>
-                    </div>
-                    
-                    <div class="sp-actions">
+                    <div class="sp-actions" style="padding:4px 10px 6px;">
                         <button class="sp-call-btn ${!this.registered ? 'disabled' : ''}" 
-                                onclick="arrowz.softphone.dial()" ${!this.registered ? 'disabled' : ''}>
-                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                onclick="arrowz.softphone.dial()" ${!this.registered ? 'disabled' : ''}
+                                style="width:42px;height:42px;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;">
                                 <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
                             </svg>
                         </button>
                     </div>
                 </div>
                 
-                <div class="sp-footer">
-                    <button class="sp-footer-btn" onclick="arrowz.softphone.showHistory()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <div class="sp-footer" style="padding:0;">
+                    <button class="sp-footer-btn" onclick="arrowz.softphone.showHistory()" style="padding:5px;font-size:9px;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                         ${__('History')}
                     </button>
-                    <button class="sp-footer-btn" onclick="arrowz.softphone.showSettings()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+                    <button class="sp-footer-btn" onclick="arrowz.softphone.showSettings()" style="padding:5px;font-size:9px;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
                         ${__('Settings')}
                     </button>
                 </div>
@@ -448,74 +716,85 @@
             if (!dropdown) return;
             
             const callee = number || this._currentCallee || __('Unknown');
+            const activeCount = this.getActiveSessionCount();
+            
+            // If more than one call, show multi-line UI
+            if (activeCount > 1) {
+                this.showMultiLineCallUI();
+                return;
+            }
             
             dropdown.innerHTML = `
-                <div class="sp-call-screen">
-                    <div class="sp-call-header">
-                        <div class="sp-call-avatar">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
+                <div class="sp-call-screen" style="padding:10px;">
+                    <div class="sp-call-header" style="margin-bottom:8px;display:flex;align-items:center;gap:10px;">
+                        <div class="sp-call-avatar" style="width:40px;height:40px;border-radius:50%;background:#5e35b1;color:white;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;">
                                 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                             </svg>
                         </div>
-                        <div class="sp-call-info">
-                            <div class="sp-callee-number">${callee}</div>
-                            <div class="sp-call-status" id="sp-call-status">${__('Connecting...')}</div>
-                            <div class="sp-call-duration" id="sp-call-duration">00:00</div>
+                        <div class="sp-call-info" style="flex:1;min-width:0;">
+                            <div class="sp-callee-number" style="font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${callee}</div>
+                            <div style="display:flex;align-items:center;gap:6px;">
+                                <span class="sp-call-status" id="sp-call-status" style="font-size:11px;color:var(--text-muted);">${__('Connecting...')}</span>
+                                <span class="sp-call-duration" id="sp-call-duration" style="font-size:13px;font-weight:600;color:#4CAF50;font-family:monospace;">00:00</span>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="sp-call-actions">
-                        <button class="sp-call-action" onclick="arrowz.softphone.toggleMute()" id="sp-mute-btn">
-                            <svg viewBox="0 0 24 24" fill="currentColor" class="unmuted">
+                    <div class="sp-call-actions" style="display:flex;justify-content:center;gap:6px;margin-bottom:8px;">
+                        <button class="sp-call-action" onclick="arrowz.softphone.toggleMute()" id="sp-mute-btn"
+                                style="padding:6px;width:44px;display:flex;flex-direction:column;align-items:center;gap:1px;border:none;border-radius:6px;background:var(--bg-color);cursor:pointer;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" class="unmuted" style="width:16px;height:16px;">
                                 <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
                                 <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
                             </svg>
-                            <svg viewBox="0 0 24 24" fill="currentColor" class="muted" style="display:none">
-                                <path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"/>
-                            </svg>
-                            <span>${__('Mute')}</span>
+                            <span style="font-size:8px;">${__('Mute')}</span>
                         </button>
-                        <button class="sp-call-action" onclick="arrowz.softphone.toggleHold()" id="sp-hold-btn">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
+                        <button class="sp-call-action" onclick="arrowz.softphone.toggleHold()" id="sp-hold-btn"
+                                style="padding:6px;width:44px;display:flex;flex-direction:column;align-items:center;gap:1px;border:none;border-radius:6px;background:var(--bg-color);cursor:pointer;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;">
                                 <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
                             </svg>
-                            <span>${__('Hold')}</span>
+                            <span style="font-size:8px;">${__('Hold')}</span>
                         </button>
-                        <button class="sp-call-action" onclick="arrowz.softphone.toggleKeypad()">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
+                        <button class="sp-call-action" onclick="arrowz.softphone.toggleKeypad()"
+                                style="padding:6px;width:44px;display:flex;flex-direction:column;align-items:center;gap:1px;border:none;border-radius:6px;background:var(--bg-color);cursor:pointer;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;">
                                 <path d="M12 19c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM6 1c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12-8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-6 8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
                             </svg>
-                            <span>${__('Keypad')}</span>
+                            <span style="font-size:8px;">${__('DTMF')}</span>
                         </button>
-                        <button class="sp-call-action" onclick="arrowz.softphone.transfer()">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/>
+                        <button class="sp-call-action" onclick="arrowz.softphone.showDialerForNewCall()"
+                                style="padding:6px;width:44px;display:flex;flex-direction:column;align-items:center;gap:1px;border:none;border-radius:6px;background:var(--bg-color);cursor:pointer;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;">
+                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
                             </svg>
-                            <span>${__('Transfer')}</span>
+                            <span style="font-size:8px;">${__('Add')}</span>
                         </button>
                     </div>
                     
-                    <div class="sp-keypad-overlay" id="sp-keypad-overlay" style="display:none;">
-                        <div class="sp-dialpad compact">
-                            <button class="sp-key" onclick="arrowz.softphone.sendDTMF('1')">1</button>
-                            <button class="sp-key" onclick="arrowz.softphone.sendDTMF('2')">2</button>
-                            <button class="sp-key" onclick="arrowz.softphone.sendDTMF('3')">3</button>
-                            <button class="sp-key" onclick="arrowz.softphone.sendDTMF('4')">4</button>
-                            <button class="sp-key" onclick="arrowz.softphone.sendDTMF('5')">5</button>
-                            <button class="sp-key" onclick="arrowz.softphone.sendDTMF('6')">6</button>
-                            <button class="sp-key" onclick="arrowz.softphone.sendDTMF('7')">7</button>
-                            <button class="sp-key" onclick="arrowz.softphone.sendDTMF('8')">8</button>
-                            <button class="sp-key" onclick="arrowz.softphone.sendDTMF('9')">9</button>
-                            <button class="sp-key" onclick="arrowz.softphone.sendDTMF('*')">*</button>
-                            <button class="sp-key" onclick="arrowz.softphone.sendDTMF('0')">0</button>
-                            <button class="sp-key" onclick="arrowz.softphone.sendDTMF('#')">#</button>
+                    <div class="sp-keypad-overlay" id="sp-keypad-overlay" style="display:none;padding:6px;border-top:1px solid var(--border-color);">
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;">
+                            <button onclick="arrowz.softphone.sendDTMF('1')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">1</button>
+                            <button onclick="arrowz.softphone.sendDTMF('2')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">2</button>
+                            <button onclick="arrowz.softphone.sendDTMF('3')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">3</button>
+                            <button onclick="arrowz.softphone.sendDTMF('4')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">4</button>
+                            <button onclick="arrowz.softphone.sendDTMF('5')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">5</button>
+                            <button onclick="arrowz.softphone.sendDTMF('6')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">6</button>
+                            <button onclick="arrowz.softphone.sendDTMF('7')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">7</button>
+                            <button onclick="arrowz.softphone.sendDTMF('8')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">8</button>
+                            <button onclick="arrowz.softphone.sendDTMF('9')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">9</button>
+                            <button onclick="arrowz.softphone.sendDTMF('*')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">*</button>
+                            <button onclick="arrowz.softphone.sendDTMF('0')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">0</button>
+                            <button onclick="arrowz.softphone.sendDTMF('#')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">#</button>
                         </div>
                     </div>
                     
-                    <div class="sp-hangup-section">
-                        <button class="sp-hangup-btn" onclick="arrowz.softphone.hangup()">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08c-.18-.17-.29-.42-.29-.7 0-.28.11-.53.29-.71C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.67c.18.18.29.43.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.11-.7-.28-.79-.74-1.69-1.36-2.67-1.85-.33-.16-.56-.5-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"/>
+                    <div class="sp-hangup-section" style="display:flex;justify-content:center;padding:6px 0;">
+                        <button class="sp-hangup-btn" onclick="arrowz.softphone.hangup()"
+                                style="width:42px;height:42px;border-radius:50%;border:none;background:#f44336;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;transform:rotate(135deg);">
+                                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
                             </svg>
                         </button>
                     </div>
@@ -535,28 +814,29 @@
             if (!dropdown) return;
             
             dropdown.innerHTML = `
-                <div class="sp-incoming-screen">
-                    <div class="sp-incoming-animation">
-                        <div class="sp-pulse-ring"></div>
-                        <div class="sp-pulse-ring delay"></div>
-                        <div class="sp-caller-avatar">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
+                <div class="sp-incoming-screen" style="padding:12px;text-align:center;">
+                    <div class="sp-incoming-animation" style="position:relative;width:56px;height:56px;margin:0 auto 10px;">
+                        <div class="sp-pulse-ring" style="position:absolute;width:100%;height:100%;border-radius:50%;border:2px solid #2196F3;animation:pulse-ring 1.5s infinite;"></div>
+                        <div class="sp-caller-avatar" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;border-radius:50%;background:#2196F3;color:white;display:flex;align-items:center;justify-content:center;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;">
                                 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                             </svg>
                         </div>
                     </div>
                     <div class="sp-caller-info">
-                        <div class="sp-caller-id">${caller}</div>
-                        <div class="sp-incoming-label">${__('Incoming Call')}</div>
+                        <div class="sp-caller-id" style="font-size:15px;font-weight:600;">${caller}</div>
+                        <div class="sp-incoming-label" style="font-size:11px;color:var(--text-muted);margin-bottom:12px;">${__('Incoming Call')}</div>
                     </div>
-                    <div class="sp-incoming-actions">
-                        <button class="sp-reject-btn" onclick="arrowz.softphone.rejectCall()">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08c-.18-.17-.29-.42-.29-.7 0-.28.11-.53.29-.71C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.67c.18.18.29.43.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.11-.7-.28-.79-.74-1.69-1.36-2.67-1.85-.33-.16-.56-.5-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"/>
+                    <div class="sp-incoming-actions" style="display:flex;justify-content:center;gap:24px;">
+                        <button class="sp-reject-btn" onclick="arrowz.softphone.rejectCall()"
+                                style="width:42px;height:42px;border-radius:50%;border:none;background:#f44336;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;transform:rotate(135deg);">
+                                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
                             </svg>
                         </button>
-                        <button class="sp-answer-btn" onclick="arrowz.softphone.answerCall()">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
+                        <button class="sp-answer-btn" onclick="arrowz.softphone.answerCall()"
+                                style="width:42px;height:42px;border-radius:50%;border:none;background:#4CAF50;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;animation:pulse-answer 1s infinite;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;">
                                 <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
                             </svg>
                         </button>
@@ -761,6 +1041,66 @@
             await this.makeCall(number);
         },
         
+        // Get active session count
+        getActiveSessionCount() {
+            return this.sessions.filter(s => s && !s.isEnded()).length;
+        },
+        
+        // Get session by index
+        getSession(index) {
+            return this.sessions[index] || null;
+        },
+        
+        // Find first available line slot
+        findAvailableLine() {
+            for (let i = 0; i < this.maxLines; i++) {
+                if (!this.sessions[i] || this.sessions[i].isEnded()) {
+                    return i;
+                }
+            }
+            return -1;
+        },
+        
+        // Switch to specific line
+        switchToLine(index) {
+            if (index < 0 || index >= this.maxLines) return;
+            const session = this.sessions[index];
+            if (!session || session.isEnded()) return;
+            
+            // Put current line on hold if different
+            const currentSession = this.sessions[this.activeLineIndex];
+            if (currentSession && !currentSession.isEnded() && this.activeLineIndex !== index) {
+                if (!currentSession.isOnHold().local) {
+                    currentSession.hold();
+                }
+            }
+            
+            // Unhold new line
+            this.activeLineIndex = index;
+            this.session = session;
+            if (session.isOnHold().local) {
+                session.unhold();
+            }
+            
+            // Update UI
+            if (this.isDropdownOpen) {
+                this.showMultiLineCallUI();
+            }
+            this.updateNavbarStatus('in-call', this._callNumbers[index] || __('Line') + ' ' + (index + 1));
+        },
+        
+        // Hold all lines except specified
+        holdAllExcept(exceptIndex) {
+            this.sessions.forEach((s, i) => {
+                if (s && !s.isEnded() && i !== exceptIndex && !s.isOnHold().local) {
+                    s.hold();
+                }
+            });
+        },
+        
+        // Initialize call number tracking
+        _callNumbers: {},
+        
         // Make outgoing call
         async makeCall(number) {
             if (!this.registered) {
@@ -771,23 +1111,30 @@
                 return;
             }
             
-            if (this.session) {
+            // Check for available line
+            const lineIndex = this.findAvailableLine();
+            if (lineIndex === -1) {
                 frappe.show_alert({
-                    message: __('Already on a call'),
+                    message: __('All lines busy (max {0})', [this.maxLines]),
                     indicator: 'yellow'
                 });
                 return;
             }
             
+            // Put current calls on hold
+            this.holdAllExcept(-1);
+            
             try {
                 this._currentCallee = number;
                 
-                // Get microphone access
+                // Get microphone access with optimized constraints for WebRTC/VoIP
                 this.localStream = await navigator.mediaDevices.getUserMedia({
                     audio: {
                         echoCancellation: true,
                         noiseSuppression: true,
-                        autoGainControl: true
+                        autoGainControl: true,
+                        sampleRate: 48000,
+                        channelCount: 1
                     },
                     video: false
                 });
@@ -796,24 +1143,63 @@
                 this.showActiveCallUI(number);
                 this.updateNavbarStatus('calling', number);
                 
-                // Setup call options - use single STUN server to reduce ICE gathering time
-                const iceServers = this.config.ice_servers && this.config.ice_servers.length > 0 
-                    ? [this.config.ice_servers[0]]  // Use only first server
-                    : [{ urls: 'stun:stun.l.google.com:19302' }];
+                // Build ICE servers - include both STUN and TURN for NAT traversal
+                // Start with reliable public TURN servers
+                let iceServers = [
+                    { urls: 'stun:stun.l.google.com:19302' },
+                    { urls: 'stun:stun1.l.google.com:19302' },
+                    // OpenRelay TURN servers (free, reliable)
+                    { 
+                        urls: 'turn:openrelay.metered.ca:80',
+                        username: 'openrelayproject',
+                        credential: 'openrelayproject'
+                    },
+                    { 
+                        urls: 'turn:openrelay.metered.ca:443',
+                        username: 'openrelayproject',
+                        credential: 'openrelayproject'
+                    },
+                    { 
+                        urls: 'turn:openrelay.metered.ca:443?transport=tcp',
+                        username: 'openrelayproject',
+                        credential: 'openrelayproject'
+                    }
+                ];
                 
+                // Add configured ICE servers from backend (prepend for priority)
+                if (this.config.ice_servers && this.config.ice_servers.length > 0) {
+                    // Filter out non-working TURN servers
+                    const configuredServers = this.config.ice_servers.filter(s => {
+                        if (s.urls && s.urls.startsWith('stun:')) return true;
+                        if (s.urls && s.urls.includes('157.173.125.136:3478')) {
+                            console.warn('Arrowz: Skipping non-responsive TURN server:', s.urls);
+                            return false;
+                        }
+                        return true;
+                    });
+                    iceServers = [...configuredServers, ...iceServers];
+                }
+                
+                console.log('Arrowz: Using ICE servers:', JSON.stringify(iceServers.map(s => s.urls)));
+                
+                // WebRTC call options - use 'negotiate' for FreePBX compatibility
+                // FreePBX may not always support RTCP-MUX or BUNDLE strictly
                 const options = {
                     mediaConstraints: { audio: true, video: false },
                     mediaStream: this.localStream,
                     pcConfig: {
                         iceServers: iceServers,
-                        rtcpMuxPolicy: 'negotiate',
-                        bundlePolicy: 'balanced',  // Use 'balanced' - FreePBX may not support BUNDLE
-                        iceCandidatePoolSize: 0    // Disable pre-gathering for faster call setup
+                        rtcpMuxPolicy: 'negotiate',    // Negotiate - FreePBX may not support 'require'
+                        bundlePolicy: 'balanced',      // Balanced - don't force bundling
+                        iceTransportPolicy: 'all',     // Allow both relay and direct
+                        iceCandidatePoolSize: 0        // Disable pre-gathering
                     },
                     rtcOfferConstraints: {
                         offerToReceiveAudio: true,
                         offerToReceiveVideo: false
-                    }
+                    },
+                    // Session timers for call keep-alive
+                    sessionTimersExpires: 1800
                 };
                 
                 // Format number
@@ -840,12 +1226,33 @@
                     }
                 });
                 
+                // Store pending line index BEFORE calling ua.call()
+                // (newRTCSession event fires synchronously inside ua.call())
+                this._pendingOutgoingLineIndex = lineIndex;
+                
                 // Make the call
-                this.session = this.ua.call(targetUri, options);
-                console.log('Arrowz: Call session created');
-                this.setupSessionEvents();
+                const newSession = this.ua.call(targetUri, options);
+                
+                // Clear pending line index
+                this._pendingOutgoingLineIndex = undefined;
+                
+                // These are now set in handleNewSession, but set them here too for safety
+                newSession._lineIndex = lineIndex;
+                this.sessions[lineIndex] = newSession;
+                this.session = newSession;
+                this.activeLineIndex = lineIndex;
+                this._callNumbers[lineIndex] = number;
+                this.callStartTimes[lineIndex] = null;
+                
+                // Safety net: if handleNewSession didn't attach events, do it now
+                if (!newSession._eventsAttached) {
+                    newSession._eventsAttached = true;
+                    this.setupSessionEvents(newSession, lineIndex);
+                }
+                console.log('Arrowz: Call session created on line', lineIndex + 1);
                 
             } catch (error) {
+                this._pendingOutgoingLineIndex = undefined;  // Clear on error
                 console.error('Make call error:', error);
                 frappe.show_alert({
                     message: __('Failed to access microphone'),
@@ -859,16 +1266,45 @@
         handleNewSession(e) {
             const session = e.session;
             
-            if (this.session) {
+            // Determine line index based on call direction
+            let lineIndex;
+            
+            if (session.direction === 'outgoing') {
+                // For outgoing calls, use the pending line index we stored before ua.call()
+                lineIndex = this._pendingOutgoingLineIndex;
+                if (lineIndex === undefined) {
+                    console.warn('Arrowz: No pending line index for outgoing call, skipping');
+                    return;
+                }
+                // Store line index on session (events will be attached below)
+                session._lineIndex = lineIndex;
+            } else {
+                // For incoming calls, find available line
+                lineIndex = this.findAvailableLine();
+            }
+                
+            if (lineIndex === -1 || lineIndex === undefined) {
+                // All lines busy - reject with busy signal
                 session.terminate({ status_code: 486, reason_phrase: 'Busy Here' });
+                frappe.show_alert({
+                    message: __('Incoming call rejected - all lines busy'),
+                    indicator: 'orange'
+                }, 5);
                 return;
             }
             
+            // Store session in array
+            session._lineIndex = lineIndex;
+            this.sessions[lineIndex] = session;
             this.session = session;
+            this.activeLineIndex = lineIndex;
             
             if (session.direction === 'incoming') {
                 const caller = session.remote_identity.display_name || session.remote_identity.uri.user;
                 this._currentCallee = caller;
+                this._callNumbers[lineIndex] = caller;
+                this.callStartTimes[lineIndex] = null;
+                this._isIncomingRinging = true;  // Track ringing state for UI
                 
                 this.playRingtone();
                 this.showIncomingCallUI(caller);
@@ -909,29 +1345,106 @@
                 });
             }
             
-            this.setupSessionEvents();
+            // Only setup events if not already done (avoid duplicate handlers)
+            if (!session._eventsAttached) {
+                session._eventsAttached = true;
+                this.setupSessionEvents(session, lineIndex);
+            }
         },
         
         // Setup session events
-        setupSessionEvents() {
-            if (!this.session) return;
+        setupSessionEvents(targetSession, lineIndex) {
+            const session = targetSession || this.session;
+            if (!session) return;
             
-            console.log('Arrowz: Setting up session events');
+            const idx = lineIndex !== undefined ? lineIndex : this.activeLineIndex;
+            console.log('Arrowz: Setting up session events for line', idx + 1);
             
-            this.session.on('peerconnection', (e) => {
-                console.log('Arrowz: Peerconnection event received');
+            // Log SDP for debugging + fix Docker NAT IPs
+            session.on('sdp', (e) => {
+                console.log('Arrowz: SDP event -', e.originator, 'type:', e.type);
+                
+                // Fix remote SDP: Replace Docker internal IPs with public IP
+                // Asterisk inside Docker sends 172.x.x.x as ICE candidates and c= address
+                // These are unreachable from external WebRTC clients
+                if (e.originator === 'remote' && e.sdp) {
+                    const originalSdp = e.sdp;
+                    
+                    // Get public IP from SIP domain config
+                    // The PBX public IP is resolved from the SIP domain or external_media_address
+                    const pbxPublicIP = this._pbxPublicIP || '157.173.125.136';
+                    
+                    // Detect Docker/private IPs in the SDP
+                    const privateIPRegex = /\b(172\.\d{1,3}\.\d{1,3}\.\d{1,3})\b/g;
+                    const privateIPs = [...new Set((originalSdp.match(privateIPRegex) || []))];
+                    
+                    if (privateIPs.length > 0) {
+                        console.warn('Arrowz: ⚠️ Remote SDP contains Docker/private IPs:', privateIPs.join(', '));
+                        console.log('Arrowz: Rewriting SDP to use public IP:', pbxPublicIP);
+                        
+                        // Replace private IPs in connection line (c=) and ICE candidates (a=candidate:)
+                        let fixedSdp = originalSdp;
+                        privateIPs.forEach(privateIP => {
+                            fixedSdp = fixedSdp.split(privateIP).join(pbxPublicIP);
+                        });
+                        
+                        e.sdp = fixedSdp;
+                        
+                        // Log the changes
+                        const newCandidates = fixedSdp.split('\n').filter(l => l.startsWith('a=candidate:'));
+                        console.log('Arrowz: ✅ SDP rewritten - new ICE candidates:');
+                        newCandidates.forEach(c => console.log('  ', c.trim()));
+                    }
+                    
+                    // Log original candidates for debugging
+                    const candidateLines = e.sdp.split('\n').filter(line => line.startsWith('a=candidate:'));
+                    if (candidateLines.length > 0) {
+                        console.log('Arrowz: Remote ICE candidates:');
+                        candidateLines.forEach(c => console.log('  ', c.trim()));
+                    } else {
+                        console.warn('Arrowz: No ICE candidates in remote SDP - FreePBX may not have ICE enabled');
+                    }
+                    
+                    // Check connection address
+                    const connectionLine = e.sdp.split('\n').find(line => line.startsWith('c='));
+                    if (connectionLine) {
+                        const match = connectionLine.match(/IN IP4 ([^\s\r]+)/);
+                        if (match) {
+                            console.log('Arrowz: Remote connection IP:', match[1]);
+                        }
+                    }
+                }
+                
+                console.log('Arrowz: SDP content (first 500 chars):', e.sdp?.substring(0, 500));
+            });
+            
+            session.on('peerconnection', (e) => {
+                console.log('Arrowz: Peerconnection event received for line', idx + 1);
                 const pc = e.peerconnection;
                 let iceFailureTimeout = null;
                 let hostCandidateReceived = false;
+                let relayCandidateReceived = false;
+                let srflxCandidateReceived = false;
                 
                 pc.onicecandidate = (event) => {
                     if (event.candidate) {
-                        console.log('Arrowz: ICE candidate:', event.candidate.type, event.candidate.address);
-                        if (event.candidate.type === 'host') {
-                            hostCandidateReceived = true;
+                        const c = event.candidate;
+                        console.log('Arrowz: ICE candidate:', c.type, c.address + ':' + c.port, 
+                            c.protocol, 'priority:', c.priority, 
+                            c.relatedAddress ? 'relayed from ' + c.relatedAddress : '');
+                        if (c.type === 'host') hostCandidateReceived = true;
+                        if (c.type === 'srflx') srflxCandidateReceived = true;
+                        if (c.type === 'relay') {
+                            relayCandidateReceived = true;
+                            console.log('Arrowz: ✅ TURN relay candidate available - NAT traversal should work');
                         }
                     } else {
-                        console.log('Arrowz: ICE gathering complete');
+                        console.log('Arrowz: ICE gathering complete - host:', hostCandidateReceived, 
+                            'srflx:', srflxCandidateReceived, 'relay:', relayCandidateReceived);
+                        if (!relayCandidateReceived) {
+                            console.warn('Arrowz: ⚠️ No TURN relay candidates - TURN server may be down or credentials wrong');
+                            console.warn('Arrowz: Without TURN relay, calls may fail if direct connectivity is not possible');
+                        }
                         if (!hostCandidateReceived) {
                             console.warn('Arrowz: No host ICE candidates - may have connectivity issues');
                         }
@@ -941,6 +1454,25 @@
                 pc.oniceconnectionstatechange = () => {
                     const state = pc.iceConnectionState;
                     console.log('Arrowz: ICE connection state:', state);
+                    
+                    // Log selected candidate pair when connected
+                    if ((state === 'connected' || state === 'completed') && pc.getStats) {
+                        pc.getStats().then(stats => {
+                            stats.forEach(report => {
+                                if (report.type === 'candidate-pair' && report.state === 'succeeded') {
+                                    console.log('Arrowz: Connected via candidate pair:', 
+                                        'local:', report.localCandidateId,
+                                        'remote:', report.remoteCandidateId);
+                                }
+                                if (report.type === 'local-candidate') {
+                                    console.log('Arrowz: Local candidate:', report.candidateType, report.address);
+                                }
+                                if (report.type === 'remote-candidate') {
+                                    console.log('Arrowz: Remote candidate:', report.candidateType, report.address);
+                                }
+                            });
+                        }).catch(() => {});
+                    }
                     
                     switch (state) {
                         case 'connected':
@@ -953,20 +1485,36 @@
                             break;
                             
                         case 'failed':
-                            console.error('Arrowz: ICE connection failed - terminating call');
+                            console.error('Arrowz: ICE connection failed - terminating call on line', idx + 1);
+                            // Log stats to understand why it failed
+                            if (pc.getStats) {
+                                pc.getStats().then(stats => {
+                                    let candidatePairs = [];
+                                    stats.forEach(report => {
+                                        if (report.type === 'candidate-pair') {
+                                            candidatePairs.push({
+                                                state: report.state,
+                                                local: report.localCandidateId,
+                                                remote: report.remoteCandidateId
+                                            });
+                                        }
+                                    });
+                                    console.error('Arrowz: ICE failed candidate pairs:', JSON.stringify(candidatePairs));
+                                }).catch(() => {});
+                            }
                             frappe.show_alert({
                                 message: __('Connection failed - please check your network'),
                                 indicator: 'red'
                             }, 7);
-                            this.endCall('ICE Connection Failed');
+                            this.endCallOnLine(idx, 'ICE Connection Failed');
                             break;
                             
                         case 'disconnected':
-                            console.warn('Arrowz: ICE disconnected - waiting 5s for recovery');
+                            console.warn('Arrowz: ICE disconnected on line', idx + 1, '- waiting 5s for recovery');
                             iceFailureTimeout = setTimeout(() => {
                                 if (pc.iceConnectionState === 'disconnected') {
                                     console.error('Arrowz: ICE still disconnected after timeout');
-                                    this.endCall('Connection Lost');
+                                    this.endCallOnLine(idx, 'Connection Lost');
                                 }
                             }, 5000);
                             break;
@@ -975,6 +1523,10 @@
                             if (iceFailureTimeout) {
                                 clearTimeout(iceFailureTimeout);
                             }
+                            break;
+                            
+                        case 'checking':
+                            console.log('Arrowz: ICE checking - attempting to connect...');
                             break;
                     }
                 };
@@ -985,12 +1537,12 @@
                 
                 pc.onconnectionstatechange = () => {
                     const state = pc.connectionState;
-                    console.log('Arrowz: Connection state:', state);
+                    console.log('Arrowz: Connection state on line', idx + 1, ':', state);
                     
                     if (state === 'failed') {
-                        console.error('Arrowz: PeerConnection failed');
+                        console.error('Arrowz: PeerConnection failed on line', idx + 1);
                         if (!this._callConfirmed) {
-                            this.endCall('Connection Failed');
+                            this.endCallOnLine(idx, 'Connection Failed');
                         }
                     }
                 };
@@ -1005,34 +1557,41 @@
                 };
             });
             
-            this.session.on('connecting', () => {
-                console.log('Arrowz: Session connecting');
+            session.on('connecting', () => {
+                console.log('Arrowz: Session connecting on line', idx + 1);
             });
             
-            this.session.on('sending', (e) => {
-                console.log('Arrowz: Session sending INVITE');
+            session.on('sending', (e) => {
+                console.log('Arrowz: Session sending INVITE on line', idx + 1);
             });
             
-            this.session.on('progress', () => {
+            session.on('progress', () => {
                 this.updateCallStatus(__('Ringing...'));
-                this.updateNavbarStatus('ringing', this._currentCallee);
+                this.updateNavbarStatus('ringing', this._callNumbers[idx] || this._currentCallee);
             });
             
             // 'accepted' fires when answer is sent (for incoming) or received (for outgoing)
-            this.session.on('accepted', () => {
-                console.log('Arrowz: Session accepted');
+            session.on('accepted', () => {
+                console.log('Arrowz: Session accepted on line', idx + 1);
                 this.stopRingtone();  // Stop ringtone immediately on accept
             });
             
-            this.session.on('confirmed', () => {
-                console.log('Arrowz: Session confirmed');
+            session.on('confirmed', () => {
+                console.log('Arrowz: Session confirmed on line', idx + 1);
                 this._callConfirmed = true;   // Mark call as fully connected
                 this._isAnswering = false;    // No longer in answering phase
+                this._isIncomingRinging = false;  // Definitely not ringing anymore
                 this.stopRingtone();  // Also stop here as backup
                 this.callStartTime = new Date();
+                this.callStartTimes[idx] = new Date();
                 this.startCallTimer();
                 this.updateCallStatus(__('Connected'));
-                this.updateNavbarStatus('in-call', this._currentCallee);
+                this.updateNavbarStatus('in-call', this._callNumbers[idx] || this._currentCallee);
+                
+                // Show multi-line UI if more than one call
+                if (this.getActiveSessionCount() > 1 && this.isDropdownOpen) {
+                    this.showMultiLineCallUI();
+                }
                 
                 // Update call log as answered in database
                 if (this._currentCallLog) {
@@ -1044,23 +1603,25 @@
                 }
             });
             
-            this.session.on('ended', () => {
-                console.log('Arrowz: Session ended');
+            session.on('ended', () => {
+                console.log('Arrowz: Session ended on line', idx + 1);
+                this._isIncomingRinging = false;
                 // Update call log in database
                 if (this._currentCallLog) {
                     frappe.call({
                         method: 'arrowz.api.webrtc.update_call_ended',
-                        args: { call_log: this._currentCallLog, duration: this.getCallDuration() },
+                        args: { call_log: this._currentCallLog, duration: this.getCallDurationForLine(idx) },
                         async: true
                     }).catch(() => {});
                 }
-                this.endCall();
+                this.endCallOnLine(idx);
             });
             
             // Handle call rejection by remote party
-            this.session.on('rejected', (e) => {
-                console.warn('Arrowz: Call rejected by remote:', e.cause);
+            session.on('rejected', (e) => {
+                console.warn('Arrowz: Call rejected on line', idx + 1, ':', e.cause);
                 this._isAnswering = false;
+                this._isIncomingRinging = false;
                 this._callConfirmed = false;
                 this.stopRingtone();
                 
@@ -1070,37 +1631,45 @@
                 } else if (e.message?.status_code === 603) {
                     reason = __('Declined');
                 }
-                this.endCall(reason);
+                this.endCallOnLine(idx, reason);
             });
             
             // Handle call cancellation (FreePBX sends CANCEL before answer)
-            this.session.on('cancel', () => {
-                console.warn('Arrowz: Call cancelled by remote (CANCEL received)');
+            session.on('cancel', () => {
+                console.warn('Arrowz: Call cancelled on line', idx + 1);
                 this._isAnswering = false;
+                this._isIncomingRinging = false;
                 this._callConfirmed = false;
                 this.stopRingtone();
-                this.endCall(__('Call Cancelled'));
+                this.endCallOnLine(idx, __('Call Cancelled'));
             });
             
             // Handle call redirect
-            this.session.on('redirected', (e) => {
-                console.warn('Arrowz: Call redirected to:', e.response?.getHeader('Contact'));
+            session.on('redirected', (e) => {
+                console.warn('Arrowz: Call redirected on line', idx + 1);
                 this._isAnswering = false;
                 this._callConfirmed = false;
-                this.endCall(__('Call Redirected'));
+                this.endCallOnLine(idx, __('Call Redirected'));
             });
             
             // Handle SIP request timeout
-            this.session.on('transporterror', () => {
-                console.error('Arrowz: Transport error - WebSocket issue');
+            session.on('transporterror', () => {
+                console.error('Arrowz: Transport error on line', idx + 1);
                 this._isAnswering = false;
                 this._callConfirmed = false;
-                this.endCall(__('Connection Error'));
+                this.endCallOnLine(idx, __('Connection Error'));
             });
             
-            this.session.on('failed', (e) => {
-                console.error('Arrowz: Call failed:', e.cause, e.message?.reason_phrase);
+            session.on('failed', (e) => {
+                console.error('Arrowz: Call failed on line', idx + 1, ':', e.cause);
+                console.error('Arrowz: Failure details:', JSON.stringify({
+                    cause: e.cause,
+                    originator: e.originator,
+                    status_code: e.message?.status_code,
+                    reason_phrase: e.message?.reason_phrase
+                }));
                 this._isAnswering = false;    // Reset answering flag
+                this._isIncomingRinging = false;  // Reset ringing flag
                 this._callConfirmed = false;  // Reset confirmed flag
                 this.stopRingtone();  // Stop ringtone immediately on failure
                 
@@ -1111,15 +1680,19 @@
                     if (statusCode === 486) errorMessage = __('Busy');
                     else if (statusCode === 480) errorMessage = __('Temporarily Unavailable');
                     else if (statusCode === 487) errorMessage = __('Request Terminated');
-                    else if (statusCode === 503) errorMessage = __('Service Unavailable');
+                    else if (statusCode === 503) errorMessage = __('Extension not registered - check if target phone is online');
                     else if (statusCode === 408) errorMessage = __('Request Timeout');
+                    else if (statusCode === 404) errorMessage = __('Extension not found');
+                    else if (statusCode === 401 || statusCode === 407) errorMessage = __('Authentication failed');
                     else errorMessage = e.message?.reason_phrase || e.cause;
                 } else if (e.cause === 'RTP Timeout') {
                     errorMessage = __('Connection timeout - no audio');
                 } else if (e.cause === 'User Denied Media Access') {
                     errorMessage = __('Microphone access denied');
                 } else if (e.cause === 'WebRTC Error') {
-                    errorMessage = __('WebRTC connection failed - check FreePBX RTCP-MUX');
+                    errorMessage = __('WebRTC Error - FreePBX endpoint needs webrtc=yes');
+                } else if (e.cause === 'Incompatible SDP') {
+                    errorMessage = __('Incompatible SDP - Target extension not WebRTC enabled');
                 } else if (e.cause === 'Bad Media Description') {
                     errorMessage = __('Media negotiation failed - check FreePBX BUNDLE');
                 } else if (e.cause === 'Canceled') {
@@ -1137,17 +1710,23 @@
                     }).catch(() => {});
                 }
                 
-                this.endCall(errorMessage);
+                this.endCallOnLine(idx, errorMessage);
             });
             
-            this.session.on('hold', () => {
-                this.updateCallStatus(__('On Hold'));
-                document.getElementById('sp-hold-btn')?.classList.add('active');
+            session.on('hold', () => {
+                console.log('Arrowz: Line', idx + 1, 'on hold');
+                if (idx === this.activeLineIndex) {
+                    this.updateCallStatus(__('On Hold'));
+                    document.getElementById('sp-hold-btn')?.classList.add('active');
+                }
             });
             
-            this.session.on('unhold', () => {
-                this.updateCallStatus(__('Connected'));
-                document.getElementById('sp-hold-btn')?.classList.remove('active');
+            session.on('unhold', () => {
+                console.log('Arrowz: Line', idx + 1, 'resumed');
+                if (idx === this.activeLineIndex) {
+                    this.updateCallStatus(__('Connected'));
+                    document.getElementById('sp-hold-btn')?.classList.remove('active');
+                }
             });
         },
         
@@ -1176,17 +1755,64 @@
                     });
                 }
                 
-                // Use single STUN server to reduce ICE gathering time
                 // Build ICE servers - include TURN if available for NAT traversal
-                let iceServers = [{ urls: 'stun:stun.l.google.com:19302' }];
+                // Start with reliable public STUN/TURN servers as fallback
+                let iceServers = [
+                    { urls: 'stun:stun.l.google.com:19302' },
+                    { urls: 'stun:stun1.l.google.com:19302' },
+                    // OpenRelay TURN servers (free, reliable)
+                    { 
+                        urls: 'turn:openrelay.metered.ca:80',
+                        username: 'openrelayproject',
+                        credential: 'openrelayproject'
+                    },
+                    { 
+                        urls: 'turn:openrelay.metered.ca:443',
+                        username: 'openrelayproject',
+                        credential: 'openrelayproject'
+                    },
+                    { 
+                        urls: 'turn:openrelay.metered.ca:443?transport=tcp',
+                        username: 'openrelayproject',
+                        credential: 'openrelayproject'
+                    }
+                ];
                 
-                // Add configured ICE servers from backend
+                // Add configured ICE servers from backend (prepend for priority)
                 if (this.config.ice_servers && this.config.ice_servers.length > 0) {
-                    iceServers = this.config.ice_servers;
+                    // Filter out non-working TURN servers, keep STUN
+                    const configuredServers = this.config.ice_servers.filter(s => {
+                        // Keep all STUN servers
+                        if (s.urls && s.urls.startsWith('stun:')) return true;
+                        // For TURN, only keep if it's not the non-existent local TURN
+                        if (s.urls && s.urls.includes('157.173.125.136:3478')) {
+                            console.warn('Arrowz: Skipping non-responsive TURN server:', s.urls);
+                            return false;
+                        }
+                        return true;
+                    });
+                    // Prepend configured servers
+                    iceServers = [...configuredServers, ...iceServers];
                 }
                 
                 // Log ICE configuration for debugging
-                console.log('Arrowz: Using ICE servers:', JSON.stringify(iceServers));
+                console.log('Arrowz: Using ICE servers:', JSON.stringify(iceServers.map(s => s.urls)));
+                
+                // Log the remote SDP (offer from FreePBX) for debugging
+                const remoteDesc = this.session._request?.body;
+                if (remoteDesc) {
+                    console.log('Arrowz: Incoming SDP (remote offer):', remoteDesc.substring(0, 800));
+                    // Check for common WebRTC issues in the SDP
+                    if (!remoteDesc.includes('ICE') && !remoteDesc.includes('candidate')) {
+                        console.warn('Arrowz: Remote SDP has no ICE candidates - FreePBX endpoint may need ice_support=yes');
+                    }
+                    if (!remoteDesc.includes('fingerprint')) {
+                        console.warn('Arrowz: Remote SDP has no DTLS fingerprint - FreePBX endpoint may need media_encryption=dtls');
+                    }
+                    if (!remoteDesc.includes('setup:')) {
+                        console.warn('Arrowz: Remote SDP has no DTLS setup - not WebRTC compatible');
+                    }
+                }
                 
                 const options = {
                     mediaConstraints: { audio: true, video: false },
@@ -1209,6 +1835,11 @@
                 // Listen for the peerconnection:setremotedescriptionfailed event
                 this.session.on('peerconnection:setremotedescriptionfailed', (e) => {
                     console.error('Arrowz: setRemoteDescription failed:', e.error);
+                    // Log the problematic SDP
+                    const sdp = this.session._request?.body;
+                    if (sdp) {
+                        console.error('Arrowz: Problematic SDP from FreePBX:', sdp);
+                    }
                     if (e.error?.message?.includes('RTCP-MUX')) {
                         frappe.show_alert({
                             message: __('Call failed: FreePBX needs RTCP-MUX enabled in PJSIP settings'),
@@ -1219,6 +1850,7 @@
                 
                 // Mark that we're answering (prevents accidental hangup before confirmed)
                 this._isAnswering = true;
+                this._isIncomingRinging = false;  // No longer ringing
                 
                 // Answer the call with proper error handling
                 try {
@@ -1261,6 +1893,7 @@
         // Reject call
         rejectCall() {
             this.stopRingtone();
+            this._isIncomingRinging = false;  // No longer ringing
             
             // Clean up pre-granted stream if user rejects the call
             if (this._preGrantedStream) {
@@ -1299,7 +1932,64 @@
             }
         },
         
-        // End call cleanup
+        // End call on specific line
+        endCallOnLine(lineIndex, reason) {
+            const session = this.sessions[lineIndex];
+            
+            // Clean up this specific line
+            this.sessions[lineIndex] = null;
+            this.callStartTimes[lineIndex] = null;
+            delete this._callNumbers[lineIndex];
+            
+            // If this was the active line, find another active line
+            if (lineIndex === this.activeLineIndex) {
+                const nextActiveLine = this.sessions.findIndex(s => s && !s.isEnded());
+                if (nextActiveLine !== -1) {
+                    this.activeLineIndex = nextActiveLine;
+                    this.session = this.sessions[nextActiveLine];
+                    // Update UI for new active line
+                    if (this.isDropdownOpen) {
+                        if (this.getActiveSessionCount() > 1) {
+                            this.showMultiLineCallUI();
+                        } else {
+                            this.showActiveCallUI(this._callNumbers[nextActiveLine]);
+                        }
+                    }
+                    this.updateNavbarStatus('in-call', this._callNumbers[nextActiveLine] || __('On Call'));
+                } else {
+                    // No more active calls
+                    this.session = null;
+                    this.activeLineIndex = 0;
+                    this.endCall(reason);
+                    return;
+                }
+            }
+            
+            // Update multi-line UI if still have calls
+            if (this.getActiveSessionCount() > 0 && this.isDropdownOpen) {
+                if (this.getActiveSessionCount() > 1) {
+                    this.showMultiLineCallUI();
+                } else {
+                    this.showActiveCallUI(this._callNumbers[this.activeLineIndex]);
+                }
+            }
+            
+            if (reason) {
+                frappe.show_alert({
+                    message: __('Line {0}: {1}', [lineIndex + 1, reason]),
+                    indicator: 'orange'
+                }, 3);
+            }
+        },
+        
+        // Get call duration for specific line
+        getCallDurationForLine(lineIndex) {
+            const startTime = this.callStartTimes[lineIndex];
+            if (!startTime) return 0;
+            return Math.floor((new Date() - startTime) / 1000);
+        },
+        
+        // End call cleanup (all lines)
         endCall(reason) {
             this.stopCallTimer();
             this.stopRingtone();
@@ -1320,8 +2010,14 @@
                 this.localStream = null;
             }
             
+            // Clear all sessions
+            this.sessions = [];
             this.session = null;
             this.callStartTime = null;
+            this.callStartTimes = {};
+            this._callNumbers = {};
+            this._isIncomingRinging = false;
+            this.activeLineIndex = 0;
             this._currentCallee = null;
             this._currentCallLog = null;  // Reset call log reference
             
@@ -1337,6 +2033,124 @@
                     indicator: 'orange'
                 }, 3);
             }
+        },
+        
+        // Show multi-line call UI
+        showMultiLineCallUI() {
+            const dropdown = document.getElementById('arrowz-sp-dropdown');
+            if (!dropdown) return;
+            
+            const activeCount = this.getActiveSessionCount();
+            
+            // Build lines status HTML
+            let linesHtml = '';
+            this.sessions.forEach((session, idx) => {
+                if (!session || session.isEnded()) return;
+                
+                const number = this._callNumbers[idx] || __('Unknown');
+                const isActive = idx === this.activeLineIndex;
+                const isHeld = session.isOnHold()?.local;
+                const startTime = this.callStartTimes[idx];
+                let duration = '00:00';
+                if (startTime) {
+                    const elapsed = Math.floor((new Date() - startTime) / 1000);
+                    const mins = Math.floor(elapsed / 60);
+                    const secs = elapsed % 60;
+                    duration = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                }
+                
+                linesHtml += `
+                    <div class="sp-line-item ${isActive ? 'active' : ''} ${isHeld ? 'held' : ''}" 
+                         onclick="arrowz.softphone.switchToLine(${idx})">
+                        <div class="sp-line-indicator">${idx + 1}</div>
+                        <div class="sp-line-info">
+                            <div class="sp-line-number">${number}</div>
+                            <div class="sp-line-status">${isHeld ? __('On Hold') : __('Active')}</div>
+                        </div>
+                        <div class="sp-line-duration">${duration}</div>
+                        <button class="sp-line-hangup" onclick="event.stopPropagation(); arrowz.softphone.hangupLine(${idx})">
+                            ✕
+                        </button>
+                    </div>
+                `;
+            });
+            
+            dropdown.innerHTML = `
+                <div class="sp-header">
+                    <div class="sp-header-info">
+                        <span class="sp-status-indicator online"></span>
+                        <span class="sp-ext-number">${activeCount} ${__('Active Calls')}</span>
+                    </div>
+                    <button class="sp-close-btn" onclick="arrowz.softphone.closeDropdown()">×</button>
+                </div>
+                
+                <div class="sp-content sp-multiline">
+                    <div class="sp-lines-container">
+                        ${linesHtml}
+                    </div>
+                    
+                    <div class="sp-multiline-actions">
+                        <button class="sp-action-compact" onclick="arrowz.softphone.toggleMute()" id="sp-mute-btn" title="${__('Mute')}">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                        <button class="sp-action-compact" onclick="arrowz.softphone.toggleHold()" id="sp-hold-btn" title="${__('Hold')}">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                            </svg>
+                        </button>
+                        <button class="sp-action-compact" onclick="arrowz.softphone.showDialerForNewCall()" title="${__('New Call')}">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                            </svg>
+                        </button>
+                        <button class="sp-action-compact danger" onclick="arrowz.softphone.hangupAll()" title="${__('Hangup All')}">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                                <path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08c-.18-.17-.29-.42-.29-.7 0-.28.11-.53.29-.71C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.67c.18.18.29.43.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.11-.7-.28-.79-.74-1.69-1.36-2.67-1.85-.33-.16-.56-.5-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            dropdown.classList.add('open');
+            this.isDropdownOpen = true;
+        },
+        
+        // Hangup specific line
+        hangupLine(lineIndex) {
+            const session = this.sessions[lineIndex];
+            if (session && !session.isEnded()) {
+                try {
+                    session.terminate();
+                } catch (e) {
+                    console.error('Error terminating line', lineIndex + 1, e);
+                }
+            }
+        },
+        
+        // Hangup all lines
+        hangupAll() {
+            this.sessions.forEach((session, idx) => {
+                if (session && !session.isEnded()) {
+                    try {
+                        session.terminate();
+                    } catch (e) {
+                        console.error('Error terminating line', idx + 1, e);
+                    }
+                }
+            });
+        },
+        
+        // Show dialer for adding new call
+        showDialerForNewCall() {
+            // Put current call on hold first
+            if (this.session && !this.session.isOnHold().local) {
+                this.session.hold();
+            }
+            this.showDialerUI();
         },
         
         // Toggle mute
@@ -1562,7 +2376,42 @@
             const style = document.createElement('style');
             style.id = 'arrowz-softphone-v2-styles';
             style.textContent = `
-                /* Navbar Widget */
+                /* Frappe v16 Desktop Style Widget */
+                .arrowz-softphone-desktop {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                }
+                
+                .arrowz-softphone-desktop .arrowz-sp-trigger {
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 8px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                    background: transparent;
+                }
+                
+                .arrowz-softphone-desktop .arrowz-sp-trigger:hover {
+                    background: var(--bg-dark-gray, rgba(0,0,0,0.05));
+                }
+                
+                .arrowz-softphone-desktop .sp-icon {
+                    width: 20px;
+                    height: 20px;
+                    color: var(--text-muted, #6c757d);
+                }
+                
+                .arrowz-softphone-desktop .arrowz-sp-dropdown {
+                    position: absolute;
+                    top: calc(100% + 8px);
+                    right: 0;
+                    z-index: 1050;
+                }
+                
+                /* Legacy Navbar Widget */
                 .arrowz-softphone-nav {
                     position: relative;
                     margin-right: 8px;
@@ -1682,20 +2531,25 @@
                     position: absolute;
                     top: 100%;
                     right: 0;
-                    width: 320px;
-                    max-height: 500px;
+                    width: 260px;
                     background: var(--card-bg);
                     border: 1px solid var(--border-color);
-                    border-radius: 12px;
-                    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+                    border-radius: 10px;
+                    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
                     opacity: 0;
                     visibility: hidden;
                     transform: translateY(-10px);
                     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                     z-index: 1050;
-                    overflow: visible;
+                    overflow: hidden;
                     display: flex;
                     flex-direction: column;
+                }
+                
+                /* Portal mode: dropdown appended to body to escape topbar overflow */
+                .arrowz-sp-dropdown.arrowz-sp-dropdown-portal {
+                    position: fixed;
+                    z-index: 1060;
                 }
                 
                 .arrowz-sp-dropdown.open {
@@ -1736,18 +2590,17 @@
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    padding: 12px 16px;
-                    background: linear-gradient(135deg, #5e35b1, #7c4dff);
+                    padding: 8px 12px;
+                    background: #333333;
                     color: white;
                     flex-shrink: 0;
-                    border-radius: 12px 12px 0 0;
+                    border-radius: 10px 10px 0 0;
                 }
                 
-                /* Content wrapper - scrollable */
+                /* Content wrapper */
                 .sp-content {
                     flex: 1;
-                    overflow-y: auto;
-                    max-height: calc(500px - 120px);
+                    overflow: visible;
                 }
                 
                 .sp-header-info {
@@ -1928,18 +2781,18 @@
                 /* Dial Display */
                 .sp-dial-display {
                     display: flex;
-                    padding: 0 16px 12px;
-                    gap: 8px;
+                    padding: 6px 10px;
+                    gap: 6px;
                 }
                 
                 .sp-dial-input {
                     flex: 1;
-                    padding: 12px;
+                    padding: 8px;
                     border: 1px solid var(--border-color);
-                    border-radius: 8px;
-                    font-size: 20px;
+                    border-radius: 6px;
+                    font-size: 14px;
                     text-align: center;
-                    letter-spacing: 2px;
+                    letter-spacing: 1px;
                     font-family: monospace;
                     background: var(--fg-color);
                 }
@@ -1950,11 +2803,11 @@
                 }
                 
                 .sp-backspace {
-                    padding: 12px 16px;
+                    padding: 8px 12px;
                     border: 1px solid var(--border-color);
-                    border-radius: 8px;
+                    border-radius: 6px;
                     background: var(--fg-color);
-                    font-size: 18px;
+                    font-size: 14px;
                     cursor: pointer;
                     transition: all 0.2s;
                 }
@@ -1967,16 +2820,16 @@
                 .sp-dialpad {
                     display: grid;
                     grid-template-columns: repeat(3, 1fr);
-                    gap: 8px;
-                    padding: 0 16px 16px;
+                    gap: 4px;
+                    padding: 4px 10px 8px;
                 }
                 
                 .sp-key {
-                    aspect-ratio: 1.3;
+                    height: 32px;
                     border: none;
-                    border-radius: 50%;
+                    border-radius: 6px;
                     background: var(--bg-color);
-                    font-size: 22px;
+                    font-size: 15px;
                     font-weight: 500;
                     cursor: pointer;
                     display: flex;
@@ -2346,6 +3199,358 @@
                     .sp-call-actions {
                         grid-template-columns: repeat(2, 1fr);
                     }
+                }
+                
+                /* ======================================
+                   COMPACT UI - No Scroll Required
+                   ====================================== */
+                
+                /* Compact Dialpad */
+                .sp-dialpad {
+                    gap: 4px !important;
+                    padding: 0 12px 8px !important;
+                }
+                
+                .sp-key {
+                    aspect-ratio: 1.5 !important;
+                    font-size: 18px !important;
+                    padding: 4px !important;
+                }
+                
+                .sp-key span {
+                    font-size: 7px !important;
+                    display: none;
+                }
+                
+                /* Compact Search */
+                .sp-search-container {
+                    padding: 8px 12px !important;
+                }
+                
+                .sp-search-input {
+                    padding: 8px 12px !important;
+                    font-size: 13px !important;
+                }
+                
+                /* Compact Dial Display */
+                .sp-dial-display {
+                    padding: 0 12px 8px !important;
+                }
+                
+                .sp-dial-input {
+                    padding: 8px !important;
+                    font-size: 18px !important;
+                }
+                
+                .sp-backspace {
+                    padding: 8px 12px !important;
+                    font-size: 16px !important;
+                }
+                
+                /* Compact Header */
+                .sp-header {
+                    padding: 8px 12px !important;
+                }
+                
+                .sp-ext-number {
+                    font-size: 14px !important;
+                }
+                
+                /* Compact Call Button */
+                .sp-actions {
+                    padding: 0 12px 8px !important;
+                }
+                
+                .sp-call-btn {
+                    width: 52px !important;
+                    height: 52px !important;
+                }
+                
+                .sp-call-btn svg {
+                    width: 24px !important;
+                    height: 24px !important;
+                }
+                
+                /* Compact Footer */
+                .sp-footer {
+                    padding: 0 !important;
+                }
+                
+                .sp-footer-btn {
+                    padding: 8px !important;
+                    font-size: 11px !important;
+                }
+                
+                .sp-footer-btn svg {
+                    width: 14px !important;
+                    height: 14px !important;
+                }
+                
+                /* Compact Extension Selector */
+                .sp-extension-selector {
+                    padding: 6px 12px !important;
+                }
+                
+                .sp-ext-btn {
+                    padding: 4px 10px !important;
+                    font-size: 11px !important;
+                }
+                
+                /* Dropdown max height reduced */
+                .arrowz-sp-dropdown {
+                    max-height: 420px !important;
+                }
+                
+                .sp-content {
+                    max-height: calc(420px - 90px) !important;
+                }
+                
+                /* ======================================
+                   MULTI-LINE UI Styles
+                   ====================================== */
+                
+                .sp-content.sp-multiline {
+                    padding: 8px;
+                }
+                
+                .sp-lines-container {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+                    margin-bottom: 10px;
+                }
+                
+                .sp-line-item {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    padding: 10px 12px;
+                    background: var(--bg-color);
+                    border-radius: 8px;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                    border: 2px solid transparent;
+                }
+                
+                .sp-line-item:hover {
+                    background: var(--border-color);
+                }
+                
+                .sp-line-item.active {
+                    border-color: #4CAF50;
+                    background: rgba(76, 175, 80, 0.1);
+                }
+                
+                .sp-line-item.held {
+                    opacity: 0.7;
+                }
+                
+                .sp-line-indicator {
+                    width: 28px;
+                    height: 28px;
+                    border-radius: 50%;
+                    background: #5e35b1;
+                    color: white;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 12px;
+                    font-weight: 600;
+                }
+                
+                .sp-line-item.active .sp-line-indicator {
+                    background: #4CAF50;
+                }
+                
+                .sp-line-item.held .sp-line-indicator {
+                    background: #ff9800;
+                }
+                
+                .sp-line-info {
+                    flex: 1;
+                    min-width: 0;
+                }
+                
+                .sp-line-number {
+                    font-size: 14px;
+                    font-weight: 500;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+                
+                .sp-line-status {
+                    font-size: 11px;
+                    color: var(--text-muted);
+                }
+                
+                .sp-line-item.active .sp-line-status {
+                    color: #4CAF50;
+                }
+                
+                .sp-line-item.held .sp-line-status {
+                    color: #ff9800;
+                }
+                
+                .sp-line-duration {
+                    font-size: 12px;
+                    font-family: monospace;
+                    color: var(--text-muted);
+                }
+                
+                .sp-line-hangup {
+                    width: 24px;
+                    height: 24px;
+                    border-radius: 50%;
+                    border: none;
+                    background: #f44336;
+                    color: white;
+                    font-size: 12px;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.2s;
+                }
+                
+                .sp-line-hangup:hover {
+                    background: #d32f2f;
+                    transform: scale(1.1);
+                }
+                
+                .sp-multiline-actions {
+                    display: flex;
+                    justify-content: center;
+                    gap: 12px;
+                    padding: 8px 0;
+                }
+                
+                .sp-action-compact {
+                    width: 44px;
+                    height: 44px;
+                    border-radius: 50%;
+                    border: none;
+                    background: var(--bg-color);
+                    color: var(--text-color);
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.2s;
+                }
+                
+                .sp-action-compact:hover {
+                    background: var(--border-color);
+                    transform: scale(1.05);
+                }
+                
+                .sp-action-compact.danger {
+                    background: #f44336;
+                    color: white;
+                }
+                
+                .sp-action-compact.danger:hover {
+                    background: #d32f2f;
+                }
+                
+                .sp-action-compact.active {
+                    background: #ff9800;
+                    color: white;
+                }
+                
+                /* Compact Call Screen */
+                .sp-call-screen {
+                    padding: 12px !important;
+                }
+                
+                .sp-call-header {
+                    margin-bottom: 12px !important;
+                }
+                
+                .sp-call-avatar {
+                    width: 60px !important;
+                    height: 60px !important;
+                    margin-bottom: 8px !important;
+                }
+                
+                .sp-call-avatar svg {
+                    width: 30px !important;
+                    height: 30px !important;
+                }
+                
+                .sp-callee-number {
+                    font-size: 18px !important;
+                }
+                
+                #sp-call-duration {
+                    font-size: 22px !important;
+                    margin-top: 4px !important;
+                }
+                
+                .sp-call-actions {
+                    gap: 8px !important;
+                    margin-bottom: 12px !important;
+                }
+                
+                .sp-call-action {
+                    padding: 8px 6px !important;
+                }
+                
+                .sp-call-action svg {
+                    width: 20px !important;
+                    height: 20px !important;
+                }
+                
+                .sp-call-action span {
+                    font-size: 10px !important;
+                }
+                
+                .sp-hangup-btn {
+                    width: 52px !important;
+                    height: 52px !important;
+                }
+                
+                .sp-hangup-btn svg {
+                    width: 24px !important;
+                    height: 24px !important;
+                }
+                
+                /* Compact Incoming Call */
+                .sp-incoming-screen {
+                    padding: 16px !important;
+                }
+                
+                .sp-incoming-animation {
+                    width: 80px !important;
+                    height: 80px !important;
+                    margin-bottom: 12px !important;
+                }
+                
+                .sp-caller-avatar {
+                    width: 56px !important;
+                    height: 56px !important;
+                }
+                
+                .sp-caller-id {
+                    font-size: 20px !important;
+                }
+                
+                .sp-incoming-label {
+                    margin-bottom: 16px !important;
+                }
+                
+                .sp-incoming-actions {
+                    gap: 30px !important;
+                }
+                
+                .sp-reject-btn, .sp-answer-btn {
+                    width: 52px !important;
+                    height: 52px !important;
+                }
+                
+                .sp-reject-btn svg, .sp-answer-btn svg {
+                    width: 24px !important;
+                    height: 24px !important;
                 }
             `;
             

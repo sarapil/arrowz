@@ -1,0 +1,81 @@
+{
+ "actions": [],
+ "creation": "2026-02-19 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "class_name",
+  "priority",
+  "rate_kbps",
+  "ceil_kbps",
+  "match_protocol",
+  "match_dscp",
+  "match_ports",
+  "quantum"
+ ],
+ "fields": [
+  {
+   "fieldname": "class_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Class Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Priority",
+   "reqd": 1
+  },
+  {
+   "fieldname": "rate_kbps",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Guaranteed Rate (Kbps)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "ceil_kbps",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Max Rate (Kbps)"
+  },
+  {
+   "fieldname": "match_protocol",
+   "fieldtype": "Select",
+   "label": "Match Protocol",
+   "options": "Any\nHTTP\nHTTPS\nDNS\nVoIP\nGaming\nStreaming\nCustom"
+  },
+  {
+   "fieldname": "match_dscp",
+   "fieldtype": "Data",
+   "label": "Match DSCP"
+  },
+  {
+   "description": "Comma-separated ports",
+   "fieldname": "match_ports",
+   "fieldtype": "Data",
+   "label": "Match Ports"
+  },
+  {
+   "default": "1500",
+   "fieldname": "quantum",
+   "fieldtype": "Int",
+   "label": "Quantum"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-02-19 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Bandwidth Control",
+ "name": "QoS Class",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0
+}

@@ -1,0 +1,172 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:ap_name",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "ap_name",
+  "arrowz_box",
+  "interface_name",
+  "mac_address",
+  "model",
+  "location",
+  "column_break_status",
+  "status",
+  "connected_clients",
+  "last_seen",
+  "firmware_version",
+  "uptime",
+  "section_break_radio",
+  "channel_2g",
+  "channel_5g",
+  "column_break_power",
+  "tx_power_2g",
+  "tx_power_5g"
+ ],
+ "fields": [
+  {
+   "fieldname": "ap_name",
+   "fieldtype": "Data",
+   "label": "AP Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "label": "Arrowz Box",
+   "options": "Arrowz Box",
+   "reqd": 1
+  },
+  {
+   "description": "e.g. wlan0",
+   "fieldname": "interface_name",
+   "fieldtype": "Data",
+   "label": "Interface Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "mac_address",
+   "fieldtype": "Data",
+   "label": "MAC Address",
+   "read_only": 1
+  },
+  {
+   "fieldname": "model",
+   "fieldtype": "Data",
+   "label": "Model"
+  },
+  {
+   "fieldname": "location",
+   "fieldtype": "Data",
+   "label": "Location"
+  },
+  {
+   "fieldname": "column_break_status",
+   "fieldtype": "Column Break",
+   "label": "Status"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Online\nOffline\nError",
+   "read_only": 1
+  },
+  {
+   "fieldname": "connected_clients",
+   "fieldtype": "Int",
+   "label": "Connected Clients",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_seen",
+   "fieldtype": "Datetime",
+   "label": "Last Seen",
+   "read_only": 1
+  },
+  {
+   "fieldname": "firmware_version",
+   "fieldtype": "Data",
+   "label": "Firmware Version",
+   "read_only": 1
+  },
+  {
+   "fieldname": "uptime",
+   "fieldtype": "Data",
+   "label": "Uptime",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_radio",
+   "fieldtype": "Section Break",
+   "label": "Radio Settings"
+  },
+  {
+   "fieldname": "channel_2g",
+   "fieldtype": "Int",
+   "label": "Channel 2.4GHz",
+   "read_only": 1
+  },
+  {
+   "fieldname": "channel_5g",
+   "fieldtype": "Int",
+   "label": "Channel 5GHz",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_power",
+   "fieldtype": "Column Break",
+   "label": "TX Power"
+  },
+  {
+   "fieldname": "tx_power_2g",
+   "fieldtype": "Int",
+   "label": "TX Power 2.4GHz"
+  },
+  {
+   "fieldname": "tx_power_5g",
+   "fieldtype": "Int",
+   "label": "TX Power 5GHz"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "WiFi Management",
+ "name": "WiFi Access Point",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

@@ -1,0 +1,1017 @@
+{
+ "app": "arrowz",
+ "charts": [],
+ "content": "[{\"id\":\"hero_1\",\"type\":\"header\",\"data\":{\"text\":\"<span class='h4'>\\ud83d\\udce1 Arrowz \\u2014 Unified Communications & Network Platform</span>\",\"col\":12}},{\"id\":\"sec_pages\",\"type\":\"header\",\"data\":{\"text\":\"<div class='az-section-bar' style='background:linear-gradient(135deg,#6c5ce7 0%,#a29bfe 100%);color:#fff;padding:8px 16px;border-radius:8px;margin:4px 0'>\\ud83d\\udcbb Dashboards & Pages</div>\",\"col\":12}},{\"id\":\"card_pages\",\"type\":\"card\",\"data\":{\"card_name\":\"Dashboards & Pages\",\"col\":12}},{\"id\":\"sec_voip\",\"type\":\"header\",\"data\":{\"text\":\"<div class='az-section-bar' style='background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:8px 16px;border-radius:8px;margin:4px 0'>\\ud83d\\udcde VoIP & Communications</div>\",\"col\":12}},{\"id\":\"sc_calls\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Today's Calls\",\"col\":3}},{\"id\":\"sc_active\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Active Calls\",\"col\":3}},{\"id\":\"sc_missed\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Missed Calls\",\"col\":3}},{\"id\":\"sc_sms\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"SMS Today\",\"col\":3}},{\"id\":\"card_comm\",\"type\":\"card\",\"data\":{\"card_name\":\"Communications\",\"col\":4}},{\"id\":\"card_routing\",\"type\":\"card\",\"data\":{\"card_name\":\"Routing & Trunks\",\"col\":4}},{\"id\":\"card_omni\",\"type\":\"card\",\"data\":{\"card_name\":\"Omni-Channel & Meetings\",\"col\":4}},{\"id\":\"sec_net\",\"type\":\"header\",\"data\":{\"text\":\"<div class='az-section-bar' style='background:linear-gradient(135deg,#11998e 0%,#38ef7d 100%);color:#fff;padding:8px 16px;border-radius:8px;margin:4px 0'>\\ud83c\\udf10 Network Management</div>\",\"col\":12}},{\"id\":\"card_netmgmt\",\"type\":\"card\",\"data\":{\"card_name\":\"Network Infrastructure\",\"col\":4}},{\"id\":\"card_fw\",\"type\":\"card\",\"data\":{\"card_name\":\"Firewall & Security\",\"col\":4}},{\"id\":\"card_client\",\"type\":\"card\",\"data\":{\"card_name\":\"Client Management\",\"col\":4}},{\"id\":\"sec_bw\",\"type\":\"header\",\"data\":{\"text\":\"<div class='az-section-bar' style='background:linear-gradient(135deg,#f093fb 0%,#f5576c 100%);color:#fff;padding:8px 16px;border-radius:8px;margin:4px 0'>\\ud83d\\udcca Bandwidth & Traffic</div>\",\"col\":12}},{\"id\":\"card_bw\",\"type\":\"card\",\"data\":{\"card_name\":\"Bandwidth Control\",\"col\":4}},{\"id\":\"card_ip\",\"type\":\"card\",\"data\":{\"card_name\":\"IP Accounting & Quotas\",\"col\":4}},{\"id\":\"card_mon\",\"type\":\"card\",\"data\":{\"card_name\":\"Monitoring & Alerts\",\"col\":4}},{\"id\":\"sec_wifi\",\"type\":\"header\",\"data\":{\"text\":\"<div class='az-section-bar' style='background:linear-gradient(135deg,#fa8231 0%,#f7b731 100%);color:#fff;padding:8px 16px;border-radius:8px;margin:4px 0'>\\ud83d\\udcf6 WiFi & Hotspot</div>\",\"col\":12}},{\"id\":\"card_wifi\",\"type\":\"card\",\"data\":{\"card_name\":\"WiFi Networks\",\"col\":4}},{\"id\":\"card_hotspot\",\"type\":\"card\",\"data\":{\"card_name\":\"Hotspot & Portal\",\"col\":4}},{\"id\":\"card_voucher\",\"type\":\"card\",\"data\":{\"card_name\":\"Vouchers & Users\",\"col\":4}},{\"id\":\"sec_vpn\",\"type\":\"header\",\"data\":{\"text\":\"<div class='az-section-bar' style='background:linear-gradient(135deg,#4facfe 0%,#00f2fe 100%);color:#fff;padding:8px 16px;border-radius:8px;margin:4px 0'>\\ud83d\\udd12 VPN & Billing</div>\",\"col\":12}},{\"id\":\"card_vpn\",\"type\":\"card\",\"data\":{\"card_name\":\"VPN Management\",\"col\":4}},{\"id\":\"card_billing\",\"type\":\"card\",\"data\":{\"card_name\":\"Billing & Invoicing\",\"col\":4}},{\"id\":\"card_setup\",\"type\":\"card\",\"data\":{\"card_name\":\"Setup & Devices\",\"col\":4}}]",
+ "creation": "2026-02-19 14:55:22.388340",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "network",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "Arrowz",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Dashboards & Pages",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "\ud83d\uddfa\ufe0f Network Topology",
+   "link_count": 0,
+   "link_to": "arrowz-topology",
+   "link_type": "Page",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "\ud83d\udcde Communications",
+   "link_count": 0,
+   "link_to": "arrowz-communications",
+   "link_type": "Page",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "\ud83d\udcca Analytics",
+   "link_count": 0,
+   "link_to": "arrowz-analytics",
+   "link_type": "Page",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "\ud83d\udccb Wallboard",
+   "link_count": 0,
+   "link_to": "arrowz-wallboard",
+   "link_type": "Page",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "\ud83e\uddd1\u200d\ud83d\udcbc Agent Dashboard",
+   "link_count": 0,
+   "link_to": "arrowz-agent-dashboard",
+   "link_type": "Page",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "\ud83d\udcf1 Dinstar Gateway",
+   "link_count": 0,
+   "link_to": "dinstar-dashboard",
+   "link_type": "Page",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "\ud83d\udcde Make Call",
+   "link_count": 0,
+   "link_to": "make-call",
+   "link_type": "Page",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "\ud83d\udcda Documentation",
+   "link_count": 0,
+   "link_to": "arrowz-docs",
+   "link_type": "Page",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Communications",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Call Logs",
+   "link_count": 0,
+   "link_to": "AZ Call Log",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "SMS Messages",
+   "link_count": 0,
+   "link_to": "AZ SMS Message",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Transfer Logs",
+   "link_count": 0,
+   "link_to": "AZ Call Transfer Log",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Conversations",
+   "link_count": 0,
+   "link_to": "AZ Conversation Session",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "SMS Providers",
+   "link_count": 0,
+   "link_to": "AZ SMS Provider",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Routing & Trunks",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Extensions",
+   "link_count": 0,
+   "link_to": "AZ Extension",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Inbound Routes",
+   "link_count": 0,
+   "link_to": "AZ Inbound Route",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Outbound Routes",
+   "link_count": 0,
+   "link_to": "AZ Outbound Route",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Trunks",
+   "link_count": 0,
+   "link_to": "AZ Trunk",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "PBX Servers",
+   "link_count": 0,
+   "link_to": "AZ Server Config",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Omni-Channel & Meetings",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Meeting Rooms",
+   "link_count": 0,
+   "link_to": "AZ Meeting Room",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Omni Providers",
+   "link_count": 0,
+   "link_to": "AZ Omni Provider",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Omni Channels",
+   "link_count": 0,
+   "link_to": "AZ Omni Channel",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "VoIP Settings",
+   "link_count": 0,
+   "link_to": "Arrowz Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Network Infrastructure",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "WAN Connections",
+   "link_count": 0,
+   "link_to": "WAN Connection",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "LAN Networks",
+   "link_count": 0,
+   "link_to": "LAN Network",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Interfaces",
+   "link_count": 0,
+   "link_to": "Network Interface",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "DNS Entries",
+   "link_count": 0,
+   "link_to": "DNS Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Static Routes",
+   "link_count": 0,
+   "link_to": "Static Route",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Load Balancer",
+   "link_count": 0,
+   "link_to": "Load Balancer Profile",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Firewall & Security",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Firewall Rules",
+   "link_count": 0,
+   "link_to": "Firewall Rule",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Rule Sets",
+   "link_count": 0,
+   "link_to": "Firewall Rule Set",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Zones",
+   "link_count": 0,
+   "link_to": "Firewall Zone",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "NAT Rules",
+   "link_count": 0,
+   "link_to": "NAT Rule",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Port Forwards",
+   "link_count": 0,
+   "link_to": "Port Forward",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Firewall Logs",
+   "link_count": 0,
+   "link_to": "Firewall Log",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Client Management",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Network Clients",
+   "link_count": 0,
+   "link_to": "Network Client",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Client Groups",
+   "link_count": 0,
+   "link_to": "Client Group",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Client Sessions",
+   "link_count": 0,
+   "link_to": "Client Session",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "IP Reservations",
+   "link_count": 0,
+   "link_to": "IP Reservation",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "MAC Whitelist",
+   "link_count": 0,
+   "link_to": "MAC Whitelist",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "MAC Blacklist",
+   "link_count": 0,
+   "link_to": "MAC Blacklist",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Bandwidth Control",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Bandwidth Plans",
+   "link_count": 0,
+   "link_to": "Bandwidth Plan",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Assignments",
+   "link_count": 0,
+   "link_to": "Bandwidth Assignment",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Schedules",
+   "link_count": 0,
+   "link_to": "Bandwidth Schedule",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "QoS Policies",
+   "link_count": 0,
+   "link_to": "QoS Policy",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "QoS Classes",
+   "link_count": 0,
+   "link_to": "QoS Class",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Traffic Rules",
+   "link_count": 0,
+   "link_to": "Traffic Rule",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Usage Stats",
+   "link_count": 0,
+   "link_to": "Bandwidth Usage",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "IP Accounting & Quotas",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Usage Quotas",
+   "link_count": 0,
+   "link_to": "Usage Quota",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Quota Assignments",
+   "link_count": 0,
+   "link_to": "Quota Assignment",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Accounting Snapshots",
+   "link_count": 0,
+   "link_to": "IP Accounting Snapshot",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Traffic Classification",
+   "link_count": 0,
+   "link_to": "Traffic Classification",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Top Applications",
+   "link_count": 0,
+   "link_to": "Top Application",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Usage Alerts",
+   "link_count": 0,
+   "link_to": "Usage Alert",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Monitoring & Alerts",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Network Alerts",
+   "link_count": 0,
+   "link_to": "Network Alert",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Alert Rules",
+   "link_count": 0,
+   "link_to": "Alert Rule",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Network Events",
+   "link_count": 0,
+   "link_to": "Network Event",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "WAN Health Checks",
+   "link_count": 0,
+   "link_to": "WAN Health Check",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "WiFi Networks",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "WiFi Networks",
+   "link_count": 0,
+   "link_to": "WiFi Network",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Access Points",
+   "link_count": 0,
+   "link_to": "WiFi Access Point",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "WiFi Analytics",
+   "link_count": 0,
+   "link_to": "WiFi Analytics",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Marketing Campaigns",
+   "link_count": 0,
+   "link_to": "WiFi Marketing Campaign",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Hotspot & Portal",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Hotspot Profiles",
+   "link_count": 0,
+   "link_to": "WiFi Hotspot Profile",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Captive Portals",
+   "link_count": 0,
+   "link_to": "Captive Portal",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Splash Pages",
+   "link_count": 0,
+   "link_to": "WiFi Splash Page",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Vouchers & Users",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "WiFi Vouchers",
+   "link_count": 0,
+   "link_to": "WiFi Voucher",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Voucher Batches",
+   "link_count": 0,
+   "link_to": "WiFi Voucher Batch",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "User Accounts",
+   "link_count": 0,
+   "link_to": "WiFi User Account",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "User Sessions",
+   "link_count": 0,
+   "link_to": "WiFi User Session",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "VPN Management",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "VPN Servers",
+   "link_count": 0,
+   "link_to": "VPN Server",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "VPN Peers",
+   "link_count": 0,
+   "link_to": "VPN Peer",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Site-to-Site Tunnels",
+   "link_count": 0,
+   "link_to": "Site to Site Tunnel",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Access Policies",
+   "link_count": 0,
+   "link_to": "VPN Access Policy",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Billing & Invoicing",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Billing Plans",
+   "link_count": 0,
+   "link_to": "Billing Plan",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Billing Cycles",
+   "link_count": 0,
+   "link_to": "Billing Cycle",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Invoice Logs",
+   "link_count": 0,
+   "link_to": "Usage Invoice Log",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Setup & Devices",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Arrowz Settings",
+   "link_count": 0,
+   "link_to": "Arrowz Settings",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Network Settings",
+   "link_count": 0,
+   "link_to": "Arrowz Network Settings",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Arrowz Boxes",
+   "link_count": 0,
+   "link_to": "Arrowz Box",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Health Logs",
+   "link_count": 0,
+   "link_to": "Arrowz Box Health Log",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sync Logs",
+   "link_count": 0,
+   "link_to": "MikroTik Sync Log",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-03-03 06:21:25.187797",
+ "modified_by": "Administrator",
+ "module": "Arrowz",
+ "name": "Arrowz",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "restrict_to_domain": "",
+ "roles": [],
+ "sequence_id": 1.0,
+ "shortcuts": [
+  {
+   "color": "Blue",
+   "doc_view": "",
+   "format": "{} Calls",
+   "icon": "phone",
+   "label": "Today's Calls",
+   "link_to": "AZ Call Log",
+   "stats_filter": "[[\"AZ Call Log\",\"start_time\",\"Timespan\",\"today\"]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "",
+   "format": "{} Active",
+   "icon": "call",
+   "label": "Active Calls",
+   "link_to": "AZ Call Log",
+   "stats_filter": "[[\"AZ Call Log\",\"status\",\"in\",[\"Ringing\",\"In Progress\",\"On Hold\"]]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Red",
+   "doc_view": "",
+   "format": "{} Missed",
+   "icon": "call-failed",
+   "label": "Missed Calls",
+   "link_to": "AZ Call Log",
+   "stats_filter": "[[\"AZ Call Log\",\"status\",\"=\",\"Missed\"],[\"AZ Call Log\",\"start_time\",\"Timespan\",\"today\"]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Yellow",
+   "doc_view": "",
+   "format": "{} SMS",
+   "icon": "comment",
+   "label": "SMS Today",
+   "link_to": "AZ SMS Message",
+   "stats_filter": "[[\"AZ SMS Message\",\"direction\",\"=\",\"Outbound\"],[\"AZ SMS Message\",\"sent_time\",\"Timespan\",\"today\"]]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Arrowz",
+ "type": "Workspace"
+}

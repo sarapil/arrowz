@@ -1,0 +1,138 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "arrowz_box",
+  "quota_assignment",
+  "alert_type",
+  "usage_percentage",
+  "timestamp",
+  "column_break_target",
+  "network_client",
+  "client_group",
+  "section_break_details",
+  "message",
+  "section_break_ack",
+  "acknowledged",
+  "acknowledged_by"
+ ],
+ "fields": [
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "label": "Arrowz Box",
+   "options": "Arrowz Box"
+  },
+  {
+   "fieldname": "quota_assignment",
+   "fieldtype": "Link",
+   "label": "Quota Assignment",
+   "options": "Quota Assignment",
+   "reqd": 1
+  },
+  {
+   "fieldname": "alert_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Alert Type",
+   "options": "Threshold Warning\nQuota Exceeded\nQuota Reset",
+   "reqd": 1
+  },
+  {
+   "fieldname": "usage_percentage",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Usage Percentage"
+  },
+  {
+   "default": "Now",
+   "fieldname": "timestamp",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Timestamp"
+  },
+  {
+   "fieldname": "column_break_target",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "network_client",
+   "fieldtype": "Link",
+   "label": "Network Client",
+   "options": "Network Client"
+  },
+  {
+   "fieldname": "client_group",
+   "fieldtype": "Link",
+   "label": "Client Group",
+   "options": "Client Group"
+  },
+  {
+   "fieldname": "section_break_details",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "fieldname": "message",
+   "fieldtype": "Small Text",
+   "label": "Message"
+  },
+  {
+   "fieldname": "section_break_ack",
+   "fieldtype": "Section Break",
+   "label": "Acknowledgement"
+  },
+  {
+   "default": "0",
+   "fieldname": "acknowledged",
+   "fieldtype": "Check",
+   "label": "Acknowledged"
+  },
+  {
+   "fieldname": "acknowledged_by",
+   "fieldtype": "Link",
+   "label": "Acknowledged By",
+   "options": "User"
+  }
+ ],
+ "in_create": 1,
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "IP Accounting",
+ "name": "Usage Alert",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

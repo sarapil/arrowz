@@ -1,21 +1,49 @@
 /**
  * Arrowz Softphone Styles
- * WebRTC Softphone UI Components
+ * Neutral theme - Black/White/Gray only
+ * Adapts to light/dark mode automatically
  */
 
 /* ============================================
-   Variables
+   Variables - Neutral Colors Only
    ============================================ */
 :root {
-    --sp-bg: #1a1a2e;
-    --sp-bg-light: #16213e;
-    --sp-primary: #4fd1c5;
-    --sp-success: #68d391;
-    --sp-danger: #fc8181;
-    --sp-warning: #f6e05e;
-    --sp-text: #ffffff;
-    --sp-text-muted: #a0aec0;
-    --sp-border: rgba(255, 255, 255, 0.1);
+    /* Light mode (default) */
+    --sp-bg: #ffffff;
+    --sp-bg-secondary: #f8f9fa;
+    --sp-bg-tertiary: #f1f3f5;
+    --sp-text: #212529;
+    --sp-text-secondary: #495057;
+    --sp-text-muted: #868e96;
+    --sp-border: #dee2e6;
+    --sp-border-light: #e9ecef;
+    --sp-hover: #f1f3f5;
+    --sp-active: #e9ecef;
+    --sp-shadow: rgba(0, 0, 0, 0.1);
+    --sp-shadow-strong: rgba(0, 0, 0, 0.15);
+    
+    /* Semantic colors (minimal) */
+    --sp-success: #28a745;
+    --sp-danger: #dc3545;
+}
+
+/* Dark mode */
+[data-theme="dark"],
+[data-theme="flux-dark"],
+[data-theme="tavira-dark"],
+.dark {
+    --sp-bg: #1a1a1a;
+    --sp-bg-secondary: #242424;
+    --sp-bg-tertiary: #2d2d2d;
+    --sp-text: #f8f9fa;
+    --sp-text-secondary: #dee2e6;
+    --sp-text-muted: #868e96;
+    --sp-border: #3d3d3d;
+    --sp-border-light: #333333;
+    --sp-hover: #333333;
+    --sp-active: #404040;
+    --sp-shadow: rgba(0, 0, 0, 0.3);
+    --sp-shadow-strong: rgba(0, 0, 0, 0.5);
 }
 
 /* ============================================
@@ -31,12 +59,44 @@
 }
 
 .navbar-phone-icon:hover {
-    background: rgba(0, 0, 0, 0.1);
+    background: var(--sp-hover);
 }
 
 .navbar-phone-icon .phone-icon {
     font-size: 18px;
+    color: var(--sp-text-secondary);
     transition: all 0.3s;
+}
+
+.navbar-phone-icon:hover .phone-icon {
+    color: var(--sp-text);
+}
+
+/* Arrowz Animated Logo in Navbar */
+.sp-icon.arrowz-logo-animated {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.arrowz-sp-trigger:hover .sp-icon.arrowz-logo-animated {
+    transform: scale(1.1);
+    box-shadow: 0 0 12px rgba(37, 99, 235, 0.4);
+}
+
+.arrowz-sp-trigger.active .sp-icon.arrowz-logo-animated,
+.arrowz-sp-trigger.in-call .sp-icon.arrowz-logo-animated {
+    box-shadow: 0 0 16px rgba(40, 167, 69, 0.6);
+}
+
+.arrowz-sp-trigger.ringing .sp-icon.arrowz-logo-animated {
+    animation: logoRing 0.5s ease-in-out infinite;
+}
+
+@keyframes logoRing {
+    0%, 100% { transform: rotate(-5deg) scale(1.05); }
+    50% { transform: rotate(5deg) scale(1.05); }
 }
 
 .navbar-phone-icon.ringing .phone-icon {
@@ -44,14 +104,14 @@
 }
 
 .navbar-phone-icon.in-call .phone-icon {
-    color: var(--arrowz-success);
+    color: var(--sp-success);
 }
 
 .navbar-phone-icon .call-badge {
     position: absolute;
     top: 0;
     right: 0;
-    background: var(--arrowz-danger);
+    background: var(--sp-danger);
     color: white;
     font-size: 10px;
     min-width: 16px;
@@ -69,25 +129,30 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    border: 1.5px solid white;
+    border: 1.5px solid var(--sp-bg);
 }
 
 .navbar-phone-icon .status-dot.online {
-    background: var(--arrowz-success);
+    background: var(--sp-success);
 }
 
 .navbar-phone-icon .status-dot.offline {
-    background: var(--arrowz-danger);
+    background: var(--sp-danger);
 }
 
 .navbar-phone-icon .status-dot.connecting {
-    background: var(--arrowz-warning);
+    background: var(--sp-text-muted);
     animation: pulse 1.5s infinite;
 }
 
 @keyframes phoneRing {
     0%, 100% { transform: rotate(-15deg); }
     50% { transform: rotate(15deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
 }
 
 /* ============================================
@@ -100,8 +165,9 @@
     width: 320px;
     max-height: calc(100vh - 80px);
     background: var(--sp-bg);
+    border: 1px solid var(--sp-border);
     border-radius: 16px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 20px 60px var(--sp-shadow-strong);
     z-index: 1050;
     overflow: hidden;
     display: none;
@@ -128,12 +194,23 @@
    Softphone Header
    ============================================ */
 .softphone-header {
-    background: var(--sp-bg-light);
+    background: #333333;
     padding: 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid var(--sp-border);
+}
+
+.softphone-header .ext-name,
+.softphone-header .ext-number,
+.softphone-header .header-btn {
+    color: #ffffff;
+}
+
+.softphone-header .ext-avatar {
+    background: #ffffff;
+    color: #333333;
 }
 
 .softphone-header .extension-info {
@@ -142,26 +219,24 @@
     gap: 12px;
 }
 
-.softphone-header .ext-avatar {
+.softphone-header .extension-info .ext-avatar {
     width: 36px;
     height: 36px;
-    background: linear-gradient(135deg, var(--sp-primary), #4a90d9);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--sp-bg);
     font-weight: 600;
+    font-size: 14px;
 }
 
-.softphone-header .ext-name {
+.softphone-header .extension-info .ext-name {
     font-weight: 500;
-    color: var(--sp-text);
 }
 
-.softphone-header .ext-number {
+.softphone-header .extension-info .ext-number {
     font-size: 12px;
-    color: var(--sp-text-muted);
+    opacity: 0.8;
 }
 
 .softphone-header .header-actions {
@@ -172,7 +247,6 @@
 .softphone-header .header-btn {
     background: transparent;
     border: none;
-    color: var(--sp-text-muted);
     cursor: pointer;
     padding: 6px;
     border-radius: 6px;
@@ -180,8 +254,7 @@
 }
 
 .softphone-header .header-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--sp-text);
+    background: rgba(255, 255, 255, 0.15);
 }
 
 /* ============================================
@@ -189,52 +262,60 @@
    ============================================ */
 .softphone-dialer {
     padding: 20px;
+    background: var(--sp-bg);
 }
 
 .dial-input-wrapper {
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .dial-input {
     width: 100%;
-    background: var(--sp-bg-light);
-    border: 1px solid var(--sp-border);
-    border-radius: 12px;
-    padding: 16px 50px 16px 16px;
-    font-size: 24px;
+    background: #1a2a1a;
+    border: 2px solid #2a3a2a;
+    border-radius: 8px;
+    padding: 10px 40px 10px 12px;
+    font-size: 18px;
     font-weight: 500;
-    color: var(--sp-text);
+    color: #7cfc00;
     text-align: center;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
     outline: none;
+    transition: all 0.2s;
+    font-family: 'LCD', 'Digital-7', 'Segment7', 'Courier New', monospace;
+    text-shadow: 0 0 8px rgba(124, 252, 0, 0.6);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .dial-input:focus {
-    border-color: var(--sp-primary);
+    border-color: #3a4a3a;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 10px rgba(124, 252, 0, 0.2);
 }
 
 .dial-input::placeholder {
-    color: var(--sp-text-muted);
-    letter-spacing: 0;
-    font-size: 16px;
+    color: #3a5a3a;
+    letter-spacing: 1px;
+    font-size: 12px;
+    text-shadow: none;
 }
 
 .dial-backspace {
     position: absolute;
-    right: 12px;
+    right: 10px;
     top: 50%;
     transform: translateY(-50%);
     background: transparent;
     border: none;
-    color: var(--sp-text-muted);
+    color: #7cfc00;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 16px;
     padding: 8px;
+    transition: color 0.2s;
 }
 
 .dial-backspace:hover {
-    color: var(--sp-danger);
+    color: var(--sp-text);
 }
 
 /* Keypad */
@@ -247,8 +328,8 @@
 
 .dial-key {
     aspect-ratio: 1;
-    background: var(--sp-bg-light);
-    border: 1px solid var(--sp-border);
+    background: var(--sp-bg-secondary);
+    border: 1px solid var(--sp-border-light);
     border-radius: 50%;
     display: flex;
     flex-direction: column;
@@ -259,13 +340,14 @@
 }
 
 .dial-key:hover {
-    background: rgba(79, 209, 197, 0.2);
-    border-color: var(--sp-primary);
+    background: var(--sp-hover);
+    border-color: var(--sp-border);
     transform: scale(1.05);
 }
 
 .dial-key:active {
     transform: scale(0.95);
+    background: var(--sp-active);
 }
 
 .dial-key .key-digit {
@@ -285,10 +367,10 @@
 .dial-call-btn {
     width: 100%;
     padding: 16px;
-    background: linear-gradient(135deg, var(--sp-success), #48bb78);
+    background: var(--sp-text);
     border: none;
     border-radius: 12px;
-    color: white;
+    color: var(--sp-bg);
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
@@ -300,12 +382,13 @@
 }
 
 .dial-call-btn:hover {
+    opacity: 0.9;
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(104, 211, 145, 0.4);
+    box-shadow: 0 8px 20px var(--sp-shadow);
 }
 
 .dial-call-btn:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
@@ -318,6 +401,7 @@
     padding: 24px;
     text-align: center;
     display: none;
+    background: var(--sp-bg);
 }
 
 .softphone-call.active {
@@ -327,7 +411,7 @@
 .call-party-avatar {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, var(--sp-primary), #4a90d9);
+    background: var(--sp-text);
     border-radius: 50%;
     margin: 0 auto 16px;
     display: flex;
@@ -344,10 +428,10 @@
 
 @keyframes avatarRing {
     0%, 100% {
-        box-shadow: 0 0 0 0 rgba(79, 209, 197, 0.4);
+        box-shadow: 0 0 0 0 var(--sp-shadow);
     }
     50% {
-        box-shadow: 0 0 0 20px rgba(79, 209, 197, 0);
+        box-shadow: 0 0 0 20px transparent;
     }
 }
 
@@ -372,21 +456,23 @@
     border-radius: 20px;
     font-size: 13px;
     margin-bottom: 24px;
+    background: var(--sp-bg-tertiary);
+    color: var(--sp-text-secondary);
 }
 
 .call-status.ringing {
-    background: rgba(246, 224, 94, 0.2);
-    color: var(--sp-warning);
+    background: var(--sp-bg-tertiary);
+    color: var(--sp-text);
 }
 
 .call-status.connected {
-    background: rgba(104, 211, 145, 0.2);
-    color: var(--sp-success);
+    background: var(--sp-text);
+    color: var(--sp-bg);
 }
 
 .call-status.on-hold {
-    background: rgba(79, 209, 197, 0.2);
-    color: var(--sp-primary);
+    background: var(--sp-bg-tertiary);
+    color: var(--sp-text-muted);
 }
 
 .call-timer {
@@ -411,20 +497,20 @@
     align-items: center;
     gap: 6px;
     padding: 12px;
-    background: var(--sp-bg-light);
-    border: 1px solid var(--sp-border);
+    background: var(--sp-bg-secondary);
+    border: 1px solid var(--sp-border-light);
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.2s;
 }
 
 .call-control-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--sp-hover);
 }
 
 .call-control-btn.active {
-    background: var(--sp-primary);
-    border-color: var(--sp-primary);
+    background: var(--sp-text);
+    border-color: var(--sp-text);
 }
 
 .call-control-btn .control-icon {
@@ -437,6 +523,7 @@
     color: var(--sp-text-muted);
 }
 
+.call-control-btn.active .control-icon,
 .call-control-btn.active .control-label {
     color: var(--sp-bg);
 }
@@ -445,7 +532,7 @@
 .call-hangup-btn {
     width: 64px;
     height: 64px;
-    background: linear-gradient(135deg, var(--sp-danger), #e53e3e);
+    background: var(--sp-danger);
     border: none;
     border-radius: 50%;
     color: white;
@@ -460,7 +547,7 @@
 
 .call-hangup-btn:hover {
     transform: scale(1.1);
-    box-shadow: 0 8px 20px rgba(252, 129, 129, 0.4);
+    box-shadow: 0 8px 20px rgba(220, 53, 69, 0.4);
 }
 
 /* ============================================
@@ -470,6 +557,7 @@
     padding: 24px;
     text-align: center;
     display: none;
+    background: var(--sp-bg);
 }
 
 .softphone-incoming.active {
@@ -493,13 +581,13 @@
 }
 
 .incoming-btn.answer {
-    background: linear-gradient(135deg, var(--sp-success), #48bb78);
+    background: var(--sp-success);
     color: white;
     animation: incomingPulse 1.5s ease-in-out infinite;
 }
 
 .incoming-btn.reject {
-    background: linear-gradient(135deg, var(--sp-danger), #e53e3e);
+    background: var(--sp-danger);
     color: white;
 }
 
@@ -509,10 +597,10 @@
 
 @keyframes incomingPulse {
     0%, 100% {
-        box-shadow: 0 0 0 0 rgba(104, 211, 145, 0.6);
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.6);
     }
     50% {
-        box-shadow: 0 0 0 15px rgba(104, 211, 145, 0);
+        box-shadow: 0 0 0 15px rgba(40, 167, 69, 0);
     }
 }
 
@@ -533,10 +621,11 @@
 
 .transfer-header {
     padding: 16px;
-    background: var(--sp-bg-light);
+    background: var(--sp-bg-secondary);
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-bottom: 1px solid var(--sp-border);
 }
 
 .transfer-header h4 {
@@ -552,17 +641,18 @@
 
 .transfer-input {
     width: 100%;
-    background: var(--sp-bg-light);
+    background: var(--sp-bg-secondary);
     border: 1px solid var(--sp-border);
     border-radius: 8px;
     padding: 12px;
     color: var(--sp-text);
     margin-bottom: 16px;
     outline: none;
+    transition: border-color 0.2s;
 }
 
 .transfer-input:focus {
-    border-color: var(--sp-primary);
+    border-color: var(--sp-text-muted);
 }
 
 .transfer-list {
@@ -582,13 +672,13 @@
 }
 
 .transfer-item:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--sp-hover);
 }
 
 .transfer-item .item-avatar {
     width: 36px;
     height: 36px;
-    background: var(--sp-primary);
+    background: var(--sp-text);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -625,17 +715,18 @@
 }
 
 .transfer-btn.blind {
-    background: var(--sp-primary);
+    background: var(--sp-text);
     color: var(--sp-bg);
 }
 
 .transfer-btn.attended {
-    background: var(--sp-bg-light);
+    background: var(--sp-bg-secondary);
     border: 1px solid var(--sp-border);
     color: var(--sp-text);
 }
 
 .transfer-btn:hover {
+    opacity: 0.9;
     transform: translateY(-2px);
 }
 
@@ -656,16 +747,17 @@
 }
 
 .dtmf-display {
-    background: var(--sp-bg-light);
+    background: var(--sp-bg-secondary);
     border-radius: 8px;
     padding: 16px;
     text-align: center;
     font-size: 24px;
-    color: var(--sp-primary);
+    color: var(--sp-text);
     font-family: 'SF Mono', 'Menlo', monospace;
     letter-spacing: 4px;
     margin-bottom: 20px;
     min-height: 60px;
+    border: 1px solid var(--sp-border);
 }
 
 /* ============================================
@@ -675,6 +767,7 @@
     flex: 1;
     overflow-y: auto;
     display: none;
+    background: var(--sp-bg);
 }
 
 .softphone-recents.active {
@@ -692,25 +785,26 @@
     align-items: center;
     gap: 12px;
     padding: 12px 16px;
-    border-bottom: 1px solid var(--sp-border);
+    border-bottom: 1px solid var(--sp-border-light);
     cursor: pointer;
     transition: background 0.2s;
 }
 
 .recent-item:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--sp-hover);
 }
 
 .recent-item .call-icon {
     font-size: 16px;
+    color: var(--sp-text-muted);
 }
 
 .recent-item .call-icon.inbound {
-    color: var(--sp-primary);
+    color: var(--sp-text);
 }
 
 .recent-item .call-icon.outbound {
-    color: var(--sp-success);
+    color: var(--sp-text-secondary);
 }
 
 .recent-item .call-icon.missed {
@@ -741,7 +835,7 @@
    ============================================ */
 .softphone-tabs {
     display: flex;
-    background: var(--sp-bg-light);
+    background: var(--sp-bg-secondary);
     border-top: 1px solid var(--sp-border);
 }
 
@@ -756,12 +850,12 @@
 }
 
 .softphone-tab:hover {
-    color: var(--sp-text);
+    color: var(--sp-text-secondary);
 }
 
 .softphone-tab.active {
-    color: var(--sp-primary);
-    border-top-color: var(--sp-primary);
+    color: var(--sp-text);
+    border-top-color: var(--sp-text);
 }
 
 .softphone-tab .tab-icon {
@@ -777,17 +871,6 @@
 }
 
 /* ============================================
-   Light Theme Override
-   ============================================ */
-.softphone-container.light-theme {
-    --sp-bg: #ffffff;
-    --sp-bg-light: #f7fafc;
-    --sp-text: #1a202c;
-    --sp-text-muted: #718096;
-    --sp-border: #e2e8f0;
-}
-
-/* ============================================
    Mini Call Panel (Floating)
    ============================================ */
 .mini-call-panel {
@@ -795,12 +878,13 @@
     bottom: 20px;
     right: 20px;
     background: var(--sp-bg);
+    border: 1px solid var(--sp-border);
     border-radius: 12px;
     padding: 12px 16px;
     display: none;
     align-items: center;
     gap: 16px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 40px var(--sp-shadow-strong);
     z-index: 1049;
 }
 
@@ -829,13 +913,14 @@
 .mini-call-panel .mini-avatar {
     width: 36px;
     height: 36px;
-    background: var(--sp-primary);
+    background: var(--sp-text);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--sp-bg);
     font-weight: 600;
+    font-size: 14px;
 }
 
 .mini-call-panel .mini-timer {
@@ -864,8 +949,9 @@
 }
 
 .mini-call-panel .mini-btn.mute {
-    background: var(--sp-bg-light);
+    background: var(--sp-bg-secondary);
     color: var(--sp-text);
+    border: 1px solid var(--sp-border);
 }
 
 .mini-call-panel .mini-btn.hangup {
@@ -874,8 +960,9 @@
 }
 
 .mini-call-panel .mini-btn.expand {
-    background: var(--sp-bg-light);
+    background: var(--sp-bg-secondary);
     color: var(--sp-text);
+    border: 1px solid var(--sp-border);
 }
 
 /* ============================================
@@ -893,9 +980,9 @@
    ============================================ */
 .softphone-footer {
     padding: 12px 16px;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--sp-border);
     text-align: center;
-    background: var(--bg-color);
+    background: var(--sp-bg);
 }
 
 .softphone-history-btn {
@@ -904,6 +991,17 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
+    padding: 10px;
+    background: var(--sp-bg-secondary);
+    border: 1px solid var(--sp-border);
+    border-radius: 8px;
+    color: var(--sp-text);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.softphone-history-btn:hover {
+    background: var(--sp-hover);
 }
 
 .softphone-history-btn i {
@@ -915,14 +1013,15 @@
    ============================================ */
 .call-history-container {
     padding: 0;
+    background: var(--sp-bg);
 }
 
 .call-history-filters {
     display: flex;
     gap: 10px;
     padding: 12px;
-    background: var(--bg-color);
-    border-bottom: 1px solid var(--border-color);
+    background: var(--sp-bg);
+    border-bottom: 1px solid var(--sp-border);
     flex-wrap: wrap;
 }
 
@@ -935,13 +1034,13 @@
     display: flex;
     align-items: center;
     padding: 12px 16px;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--sp-border-light);
     gap: 12px;
     transition: background 0.2s;
 }
 
 .call-history-item:hover {
-    background: var(--bg-color);
+    background: var(--sp-hover);
 }
 
 .call-history-item:last-child {
@@ -953,18 +1052,19 @@
     width: 40px;
     text-align: center;
     flex-shrink: 0;
+    color: var(--sp-text-muted);
 }
 
 .call-history-icon.incoming {
-    color: #4CAF50;
+    color: var(--sp-text);
 }
 
 .call-history-icon.outgoing {
-    color: #2196F3;
+    color: var(--sp-text-secondary);
 }
 
 .call-history-icon.missed {
-    color: #f44336;
+    color: var(--sp-danger);
 }
 
 .call-history-details {
@@ -978,17 +1078,18 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: var(--sp-text);
 }
 
 .call-history-time {
     font-size: 12px;
-    color: var(--text-muted);
+    color: var(--sp-text-muted);
     margin-top: 2px;
 }
 
 .call-history-duration {
     font-size: 12px;
-    color: var(--text-muted);
+    color: var(--sp-text-muted);
     flex-shrink: 0;
     width: 50px;
     text-align: right;
@@ -999,6 +1100,7 @@
     gap: 4px;
     flex-shrink: 0;
 }
+
 /* ============================================
    Active Call UI
    ============================================ */
@@ -1007,35 +1109,38 @@
     min-height: 380px;
     display: flex;
     flex-direction: column;
+    background: var(--sp-bg);
 }
 
 .call-status-header {
-    background: linear-gradient(180deg, var(--sp-bg-light) 0%, var(--sp-bg) 100%);
+    background: var(--sp-bg-secondary);
     padding: 30px 20px;
     text-align: center;
     flex-shrink: 0;
+    border-bottom: 1px solid var(--sp-border-light);
 }
 
 .call-avatar {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, var(--sp-primary), #4a90d9);
+    background: var(--sp-text);
     border-radius: 50%;
     margin: 0 auto 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 32px;
+    color: var(--sp-bg);
     animation: callPulse 2s ease-in-out infinite;
 }
 
 @keyframes callPulse {
     0%, 100% { 
-        box-shadow: 0 0 0 0 rgba(79, 209, 197, 0.4);
+        box-shadow: 0 0 0 0 var(--sp-shadow);
         transform: scale(1);
     }
     50% { 
-        box-shadow: 0 0 0 15px rgba(79, 209, 197, 0);
+        box-shadow: 0 0 0 15px transparent;
         transform: scale(1.02);
     }
 }
@@ -1050,7 +1155,7 @@
 
 .call-status-text {
     font-size: 14px;
-    color: var(--sp-primary);
+    color: var(--sp-text-secondary);
     font-weight: 500;
 }
 
@@ -1075,8 +1180,8 @@
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    border: none;
-    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--sp-border);
+    background: var(--sp-bg-secondary);
     color: var(--sp-text);
     cursor: pointer;
     display: flex;
@@ -1088,13 +1193,14 @@
 }
 
 .call-action-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--sp-hover);
     transform: scale(1.05);
 }
 
 .call-action-btn.active {
-    background: var(--sp-primary);
+    background: var(--sp-text);
     color: var(--sp-bg);
+    border-color: var(--sp-text);
 }
 
 .call-action-btn .action-icon {
@@ -1124,8 +1230,8 @@
 }
 
 .dtmf-btn {
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
+    background: var(--sp-bg-secondary);
+    border: 1px solid var(--sp-border-light);
     border-radius: 50%;
     width: 56px;
     height: 56px;
@@ -1140,11 +1246,11 @@
 }
 
 .dtmf-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--sp-hover);
 }
 
 .dtmf-btn:active {
-    background: var(--sp-primary);
+    background: var(--sp-active);
     transform: scale(0.95);
 }
 
@@ -1157,6 +1263,7 @@
     font-size: 8px;
     opacity: 0.6;
     letter-spacing: 1px;
+    color: var(--sp-text-muted);
 }
 
 /* Hangup Section */
@@ -1173,11 +1280,11 @@
     height: 70px;
     border-radius: 50%;
     border: none;
-    background: linear-gradient(135deg, #f44336, #c62828);
+    background: var(--sp-danger);
     color: white;
     font-size: 28px;
     cursor: pointer;
-    box-shadow: 0 4px 20px rgba(244, 67, 54, 0.4);
+    box-shadow: 0 4px 20px rgba(220, 53, 69, 0.4);
     transition: all 0.2s;
     display: flex;
     align-items: center;
@@ -1186,7 +1293,7 @@
 
 .hangup-btn:hover {
     transform: scale(1.1);
-    box-shadow: 0 6px 30px rgba(244, 67, 54, 0.5);
+    box-shadow: 0 6px 30px rgba(220, 53, 69, 0.5);
 }
 
 .hangup-btn:active {
@@ -1206,9 +1313,12 @@
 /* Muted/Hold states */
 .call-action-btn.muted {
     background: var(--sp-danger);
+    color: white;
+    border-color: var(--sp-danger);
 }
 
 .call-action-btn.on-hold {
-    background: var(--sp-warning);
-    color: var(--sp-bg);
+    background: var(--sp-text-muted);
+    color: white;
+    border-color: var(--sp-text-muted);
 }

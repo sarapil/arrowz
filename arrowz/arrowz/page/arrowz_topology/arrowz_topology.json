@@ -1,0 +1,28 @@
+{
+    "content": null,
+    "creation": "2026-02-26 10:00:00.000000",
+    "docstatus": 0,
+    "doctype": "Page",
+    "icon": "network",
+    "idx": 0,
+    "modified": "2026-02-26 10:00:00.000000",
+    "modified_by": "Administrator",
+    "module": "Arrowz",
+    "name": "arrowz-topology",
+    "owner": "Administrator",
+    "page_name": "arrowz-topology",
+    "roles": [
+        {
+            "role": "System Manager"
+        },
+        {
+            "role": "Network Manager"
+        },
+        {
+            "role": "Network User"
+        }
+    ],
+    "standard": "Yes",
+    "system_page": 0,
+    "title": "Network Topology"
+}

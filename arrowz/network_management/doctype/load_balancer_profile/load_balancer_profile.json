@@ -1,0 +1,107 @@
+{
+ "actions": [],
+ "autoname": "field:profile_name",
+ "creation": "2026-02-19 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "profile_name",
+  "arrowz_box",
+  "mode",
+  "enabled",
+  "column_break_health",
+  "health_check_interval",
+  "health_check_target",
+  "failover_threshold"
+ ],
+ "fields": [
+  {
+   "fieldname": "profile_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Profile Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Arrowz Box",
+   "options": "Arrowz Box",
+   "reqd": 1
+  },
+  {
+   "fieldname": "mode",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Mode",
+   "options": "\nWeighted\nFailover\nRound Robin"
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "default": "1",
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "column_break_health",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "health_check_interval",
+   "fieldtype": "Int",
+   "default": "30",
+   "label": "Health Check Interval (seconds)"
+  },
+  {
+   "fieldname": "health_check_target",
+   "fieldtype": "Data",
+   "default": "8.8.8.8",
+   "label": "Health Check Target"
+  },
+  {
+   "fieldname": "failover_threshold",
+   "fieldtype": "Int",
+   "default": "3",
+   "label": "Failover Threshold"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Network Management",
+ "name": "Load Balancer Profile",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

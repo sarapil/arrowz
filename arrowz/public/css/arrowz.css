@@ -750,3 +750,579 @@
 .arrowz-call-icon:hover {
     opacity: 1;
 }
+
+/* ============================================
+   Arrowz Workspace — Compact & Mobile-First
+   ============================================ */
+
+/* Section gradient bars */
+.az-section-bar {
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.3px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+
+/* Compact card widgets on workspace */
+[data-page-name="Arrowz"] .widget.links-widget-box,
+[data-page-name="Arrowz"] .links-widget-box {
+    margin-bottom: 8px !important;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    transition: box-shadow 0.2s, transform 0.15s;
+    overflow: hidden;
+}
+[data-page-name="Arrowz"] .widget.links-widget-box:hover,
+[data-page-name="Arrowz"] .links-widget-box:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    transform: translateY(-1px);
+}
+
+/* Compact card header */
+[data-page-name="Arrowz"] .widget.links-widget-box .widget-head,
+[data-page-name="Arrowz"] .links-widget-box .widget-head {
+    padding: 8px 12px 4px !important;
+    min-height: unset !important;
+}
+[data-page-name="Arrowz"] .widget.links-widget-box .widget-title,
+[data-page-name="Arrowz"] .links-widget-box .widget-title {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+}
+
+/* Compact card body/links */
+[data-page-name="Arrowz"] .widget.links-widget-box .widget-body,
+[data-page-name="Arrowz"] .links-widget-box .widget-body {
+    padding: 0 8px 8px !important;
+}
+[data-page-name="Arrowz"] .widget-body .link-item {
+    padding: 5px 8px !important;
+    margin: 1px 0 !important;
+    border-radius: 6px;
+    font-size: 13px !important;
+    transition: background 0.15s;
+}
+[data-page-name="Arrowz"] .widget-body .link-item:hover {
+    background: var(--bg-light-gray);
+}
+[data-page-name="Arrowz"] .widget-body .link-item .link-content {
+    gap: 6px !important;
+}
+
+/* Compact shortcut widgets */
+[data-page-name="Arrowz"] .shortcut-widget-box {
+    padding: 10px 14px !important;
+    min-height: unset !important;
+    border-radius: 10px;
+    margin-bottom: 6px !important;
+}
+[data-page-name="Arrowz"] .shortcut-widget-box .widget-head {
+    padding: 0 !important;
+    min-height: unset !important;
+}
+[data-page-name="Arrowz"] .shortcut-widget-box .widget-title {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+}
+[data-page-name="Arrowz"] .shortcut-widget-box .widget-control {
+    gap: 4px !important;
+}
+[data-page-name="Arrowz"] .shortcut-widget-box .indicator-pill {
+    font-size: 11px !important;
+    padding: 2px 8px !important;
+}
+
+/* Reduce space between content blocks */
+[data-page-name="Arrowz"] .ce-block {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+[data-page-name="Arrowz"] .ce-block__content {
+    padding: 2px 0 !important;
+    max-width: 100% !important;
+}
+
+/* Make EditorJS use full width */
+[data-page-name="Arrowz"] .codex-editor__redactor {
+    padding-bottom: 0 !important;
+}
+
+/* Color-code card borders by section */
+/* VoIP cards — purple */
+[data-page-name="Arrowz"] [card_name="Communications"],
+[data-page-name="Arrowz"] [card_name="Routing & Trunks"],
+[data-page-name="Arrowz"] [card_name="Omni-Channel & Meetings"] {
+    border-left: 3px solid #764ba2 !important;
+}
+/* Network cards — green */
+[data-page-name="Arrowz"] [card_name="Network Infrastructure"],
+[data-page-name="Arrowz"] [card_name="Firewall & Security"],
+[data-page-name="Arrowz"] [card_name="Client Management"] {
+    border-left: 3px solid #11998e !important;
+}
+/* Bandwidth cards — pink */
+[data-page-name="Arrowz"] [card_name="Bandwidth Control"],
+[data-page-name="Arrowz"] [card_name="IP Accounting & Quotas"],
+[data-page-name="Arrowz"] [card_name="Monitoring & Alerts"] {
+    border-left: 3px solid #f5576c !important;
+}
+/* WiFi cards — orange */
+[data-page-name="Arrowz"] [card_name="WiFi Networks"],
+[data-page-name="Arrowz"] [card_name="Hotspot & Portal"],
+[data-page-name="Arrowz"] [card_name="Vouchers & Users"] {
+    border-left: 3px solid #fa8231 !important;
+}
+/* VPN/Billing cards — cyan */
+[data-page-name="Arrowz"] [card_name="VPN Management"],
+[data-page-name="Arrowz"] [card_name="Billing & Invoicing"],
+[data-page-name="Arrowz"] [card_name="Setup & Dashboards"] {
+    border-left: 3px solid #4facfe !important;
+}
+
+/* ─── Mobile Responsive ─── */
+@media (max-width: 768px) {
+    /* Stack cards vertically */
+    [data-page-name="Arrowz"] .ce-block .widget.links-widget-box,
+    [data-page-name="Arrowz"] .ce-block .links-widget-box {
+        margin-bottom: 6px !important;
+    }
+
+    /* Shortcuts 2-col on mobile */
+    [data-page-name="Arrowz"] .shortcut-widget-box {
+        padding: 8px 10px !important;
+    }
+    [data-page-name="Arrowz"] .shortcut-widget-box .widget-title {
+        font-size: 12px !important;
+    }
+
+    /* Full-width blocks on mobile */
+    [data-page-name="Arrowz"] .ce-block[style*="col-4"],
+    [data-page-name="Arrowz"] .ce-block .col-4 {
+        width: 100% !important;
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Section bar smaller on mobile */
+    .az-section-bar {
+        font-size: 13px;
+        padding: 6px 12px;
+    }
+
+    /* Reduce overall padding */
+    [data-page-name="Arrowz"] .workspace-main-section {
+        padding: 0 8px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    [data-page-name="Arrowz"] .shortcut-widget-box .widget-title {
+        font-size: 11px !important;
+    }
+    [data-page-name="Arrowz"] .shortcut-widget-box .indicator-pill {
+        font-size: 10px !important;
+        padding: 1px 6px !important;
+    }
+    [data-page-name="Arrowz"] .widget-body .link-item {
+        font-size: 12px !important;
+        padding: 4px 6px !important;
+    }
+}
+
+/* ============================================
+   Global — Hide Banners & Quick Actions on ALL pages
+   ============================================ */
+
+/* Hide ALL welcome banners (any theme: flux, tavira, etc.) */
+[class*="-welcome-banner"] {
+    display: none !important;
+}
+
+/* Hide ALL quick actions panels (any theme) */
+[class*="-quick-actions"] {
+    display: none !important;
+}
+
+/* page-container: top padding globally */
+.page-container {
+    padding-top: 5px !important;
+}
+
+/* ============================================
+   Arrowz Workspace — Dynamic Viewport Height
+   ============================================ */
+
+/* layout-main-section: remove left margin */
+body[data-route="Workspaces/Arrowz"] .layout-main-section {
+    margin-left: 0px !important;
+}
+
+/* Make the workspace fill the viewport height */
+body[data-route="Workspaces/Arrowz"] .layout-main {
+    height: calc(100vh - var(--navbar-height, 60px)) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+}
+
+body[data-route="Workspaces/Arrowz"] .layout-main-section-wrapper {
+    flex: 1 1 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    min-height: 0 !important;
+}
+
+body[data-route="Workspaces/Arrowz"] .layout-main-section {
+    flex: 1 1 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    min-height: 0 !important;
+}
+
+/* The workspace content area — this is the scrollable part */
+body[data-route="Workspaces/Arrowz"] .workspace-main-section,
+body[data-route="Workspaces/Arrowz"] [data-page-name="Arrowz"] {
+    flex: 1 1 auto !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    min-height: 0 !important;
+}
+
+/* Footer stays visible at the bottom */
+body[data-route="Workspaces/Arrowz"] .layout-footer {
+    flex: 0 0 auto !important;
+    display: block !important;
+}
+
+/* Prevent the outer page from scrolling — only workspace content scrolls */
+body[data-route="Workspaces/Arrowz"] .main-section {
+    overflow: hidden !important;
+    height: 100vh !important;
+}
+
+body[data-route="Workspaces/Arrowz"] .page-container {
+    height: calc(100vh - var(--navbar-height, 60px)) !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* ============================================
+   Arrowz LCD — Desktop (/desk) Page
+   ============================================ */
+
+/* Outer wrap — fits exactly within viewport (no page-level scroll) */
+.arrowz-lcd-wrap {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 16px 8px;
+    height: calc(100vh - var(--navbar-height, 60px));
+    max-height: calc(100vh - var(--navbar-height, 60px));
+    overflow: hidden;
+    box-sizing: border-box;
+    animation: arrowz-lcd-fadeIn 0.7s ease-out both;
+}
+@keyframes arrowz-lcd-fadeIn {
+    from { opacity: 0; transform: translateY(14px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Particles canvas */
+.arrowz-lcd-particles {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.65;
+}
+
+/* Monitor frame — grows to fill available space */
+.arrowz-lcd-monitor {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1280px;
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    box-shadow:
+        0 8px 44px rgba(0,0,0,0.4),
+        0 2px 14px rgba(0,0,0,0.25),
+        inset 0 1px 0 rgba(79,172,254,0.06);
+    transition: box-shadow 0.5s ease;
+}
+.arrowz-lcd-monitor:hover {
+    box-shadow:
+        0 12px 56px rgba(0,0,0,0.45),
+        0 4px 18px rgba(0,0,0,0.3),
+        0 0 36px rgba(79,172,254,0.06),
+        inset 0 1px 0 rgba(79,172,254,0.08);
+}
+
+/* SVG bezel */
+.arrowz-lcd-bezel-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Screen — content area, fills the monitor */
+.arrowz-lcd-screen {
+    position: relative;
+    z-index: 2;
+    margin: 16px 16px 30px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(0,0,0,0);
+    box-shadow: inset 0 0 14px rgba(10,14,26,0.08);
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Search bar — centered in the middle of the LCD screen */
+.arrowz-lcd-search-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 26;
+    width: 50%;
+    max-width: 520px;
+    min-width: 260px;
+}
+.arrowz-lcd-search-center .desktop-search-wrapper {
+    width: 100% !important;
+    flex: unset !important;
+}
+.arrowz-lcd-search-center .desktop-navbar-modal-search {
+    background: rgba(20,27,45,0.85) !important;
+    border: 1px solid rgba(79,172,254,0.2) !important;
+    border-radius: 12px !important;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3), 0 0 12px rgba(79,172,254,0.08) !important;
+    height: 44px !important;
+    padding: 0 16px !important;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.arrowz-lcd-search-center .desktop-navbar-modal-search:hover {
+    border-color: rgba(79,172,254,0.4) !important;
+    box-shadow: 0 4px 28px rgba(0,0,0,0.35), 0 0 20px rgba(79,172,254,0.12) !important;
+}
+.arrowz-lcd-search-center .desktop-search-icon {
+    color: rgba(79,172,254,0.6) !important;
+}
+
+/* The navbar inside the LCD screen — at the bottom */
+.arrowz-lcd-screen .navbar-container {
+    position: relative;
+    z-index: 25 !important;
+    flex: 0 0 auto;
+    order: 10;
+    background: linear-gradient(180deg, rgba(10,14,26,0.9) 0%, rgba(20,27,45,0.95) 100%) !important;
+    border-top: 1px solid rgba(79,172,254,0.1);
+    border-bottom: none;
+    border-radius: 0 0 10px 10px;
+    backdrop-filter: blur(8px);
+}
+
+/* The desktop-wrapper inside the screen — scrollable content, centered */
+.arrowz-lcd-screen .desktop-wrapper {
+    position: relative;
+    z-index: 20 !important;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 8px;
+    order: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(79,172,254,0.3) rgba(10,14,26,0.1);
+}
+.arrowz-lcd-screen .desktop-wrapper::-webkit-scrollbar {
+    width: 7px;
+}
+.arrowz-lcd-screen .desktop-wrapper::-webkit-scrollbar-track {
+    background: linear-gradient(180deg, rgba(10,14,26,0.05) 0%, rgba(10,14,26,0.12) 50%, rgba(10,14,26,0.05) 100%);
+    border-radius: 10px;
+}
+.arrowz-lcd-screen .desktop-wrapper::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(79,172,254,0.15) 0%, rgba(79,172,254,0.4) 50%, rgba(79,172,254,0.15) 100%);
+    border-radius: 10px;
+    border: 1px solid rgba(79,172,254,0.1);
+    box-shadow: 0 0 4px rgba(79,172,254,0.2);
+}
+.arrowz-lcd-screen .desktop-wrapper::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(79,172,254,0.25) 0%, rgba(79,172,254,0.55) 50%, rgba(79,172,254,0.25) 100%);
+    box-shadow: 0 0 8px rgba(79,172,254,0.3);
+}
+
+/* Scanline overlay */
+.arrowz-lcd-scanline {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    z-index: 30;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(0,0,0,0) 0px,
+        rgba(0,0,0,0) 2px,
+        rgba(0,0,0,0.015) 2px,
+        rgba(0,0,0,0.015) 4px
+    );
+    opacity: 0.4;
+}
+
+/* Glare overlay */
+.arrowz-lcd-glare {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    z-index: 31;
+    border-radius: 10px;
+    transition: background 0.3s;
+}
+
+/* Vignette overlay */
+.arrowz-lcd-vignette {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    z-index: 32;
+    border-radius: 10px;
+    box-shadow: inset 0 0 80px rgba(0,0,0,0.12);
+}
+
+/* Power LED */
+.arrowz-lcd-led {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-30px);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4facfe;
+    box-shadow: 0 0 6px rgba(79,172,254,0.6), 0 0 14px rgba(79,172,254,0.3);
+    z-index: 10;
+    animation: arrowz-lcd-led-pulse 2.5s ease-in-out infinite;
+}
+@keyframes arrowz-lcd-led-pulse {
+    0%, 100% { opacity: 0.7; box-shadow: 0 0 6px rgba(79,172,254,0.5), 0 0 12px rgba(79,172,254,0.2); }
+    50%      { opacity: 1;   box-shadow: 0 0 8px rgba(79,172,254,0.8), 0 0 20px rgba(79,172,254,0.4); }
+}
+
+/* Chin brand label */
+.arrowz-lcd-chin-brand {
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(6px);
+    z-index: 10;
+}
+.arrowz-lcd-chin-brand span {
+    font-family: 'Inter', 'Rubik', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(79,172,254,0.35);
+}
+
+/* Stand — stays compact, never causes page scroll */
+.arrowz-lcd-stand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
+    margin-top: -2px;
+    flex: 0 0 auto;
+}
+.arrowz-lcd-neck {
+    width: 40px;
+    height: 28px;
+    background: linear-gradient(180deg, #141b2d 0%, #0a0e1a 100%);
+    border-radius: 0 0 4px 4px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+.arrowz-lcd-base {
+    width: 120px;
+    height: 10px;
+    background: linear-gradient(180deg, #1a2336 0%, #0a0e1a 100%);
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* When LCD is active — adjust the page background and prevent page scroll */
+body.arrowz-lcd-active [data-page-route="desktop"] .page-body {
+    background: linear-gradient(160deg, #070b14 0%, #0d1322 40%, #0f1729 100%) !important;
+    overflow: hidden !important;
+}
+
+/* Hide outer page head on desktop when LCD is active */
+body.arrowz-lcd-active [data-page-route="desktop"] .page-head {
+    display: none !important;
+}
+
+/* Prevent page-level scrolling — everything fits in viewport */
+body.arrowz-lcd-active .main-section {
+    overflow: hidden !important;
+    height: 100vh !important;
+}
+body.arrowz-lcd-active [data-page-route="desktop"] {
+    height: calc(100vh - var(--navbar-height, 60px)) !important;
+    overflow: hidden !important;
+}
+
+/* ── Mobile: LCD stand hidden, monitor full-width ── */
+@media (max-width: 768px) {
+    .arrowz-lcd-wrap {
+        padding: 6px 6px 4px;
+    }
+    .arrowz-lcd-monitor {
+        border-radius: 14px;
+    }
+    .arrowz-lcd-screen {
+        margin: 10px 10px 22px;
+    }
+    .arrowz-lcd-stand {
+        display: none;
+    }
+    .arrowz-lcd-neck,
+    .arrowz-lcd-base {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .arrowz-lcd-screen {
+        margin: 6px 6px 18px;
+    }
+    .arrowz-lcd-screen .desktop-wrapper {
+        padding: 4px;
+    }
+    .arrowz-lcd-chin-brand span {
+        font-size: 7px;
+        letter-spacing: 2px;
+    }
+}

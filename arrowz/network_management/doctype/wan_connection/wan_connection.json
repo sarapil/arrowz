@@ -1,0 +1,220 @@
+{
+ "actions": [],
+ "autoname": "field:wan_name",
+ "creation": "2026-02-19 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "wan_name",
+  "arrowz_box",
+  "interface",
+  "connection_type",
+  "column_break_basic",
+  "enabled",
+  "status",
+  "priority",
+  "weight",
+  "section_break_static",
+  "ip_address",
+  "subnet_mask",
+  "gateway",
+  "column_break_dns",
+  "dns_primary",
+  "dns_secondary",
+  "section_break_pppoe",
+  "pppoe_username",
+  "pppoe_password",
+  "pppoe_service",
+  "section_break_monitoring",
+  "last_check",
+  "uptime_percentage",
+  "current_ip"
+ ],
+ "fields": [
+  {
+   "fieldname": "wan_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "WAN Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Arrowz Box",
+   "options": "Arrowz Box",
+   "reqd": 1
+  },
+  {
+   "fieldname": "interface",
+   "fieldtype": "Link",
+   "label": "Interface",
+   "options": "Network Interface"
+  },
+  {
+   "fieldname": "connection_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Connection Type",
+   "options": "\nDHCP\nStatic\nPPPoE\nLTE"
+  },
+  {
+   "fieldname": "column_break_basic",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "default": "1",
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "\nConnected\nDisconnected\nConnecting\nError",
+   "read_only": 1
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Int",
+   "default": "1",
+   "label": "Priority"
+  },
+  {
+   "fieldname": "weight",
+   "fieldtype": "Int",
+   "default": "1",
+   "description": "For load balancing",
+   "label": "Weight"
+  },
+  {
+   "fieldname": "section_break_static",
+   "fieldtype": "Section Break",
+   "label": "Static IP Configuration",
+   "depends_on": "eval:doc.connection_type=='Static'"
+  },
+  {
+   "fieldname": "ip_address",
+   "fieldtype": "Data",
+   "label": "IP Address",
+   "depends_on": "eval:doc.connection_type=='Static'"
+  },
+  {
+   "fieldname": "subnet_mask",
+   "fieldtype": "Data",
+   "label": "Subnet Mask",
+   "depends_on": "eval:doc.connection_type=='Static'"
+  },
+  {
+   "fieldname": "gateway",
+   "fieldtype": "Data",
+   "label": "Gateway",
+   "depends_on": "eval:doc.connection_type=='Static'"
+  },
+  {
+   "fieldname": "column_break_dns",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "dns_primary",
+   "fieldtype": "Data",
+   "label": "Primary DNS",
+   "depends_on": "eval:doc.connection_type=='Static'"
+  },
+  {
+   "fieldname": "dns_secondary",
+   "fieldtype": "Data",
+   "label": "Secondary DNS",
+   "depends_on": "eval:doc.connection_type=='Static'"
+  },
+  {
+   "fieldname": "section_break_pppoe",
+   "fieldtype": "Section Break",
+   "label": "PPPoE Configuration",
+   "depends_on": "eval:doc.connection_type=='PPPoE'"
+  },
+  {
+   "fieldname": "pppoe_username",
+   "fieldtype": "Data",
+   "label": "PPPoE Username",
+   "depends_on": "eval:doc.connection_type=='PPPoE'"
+  },
+  {
+   "fieldname": "pppoe_password",
+   "fieldtype": "Password",
+   "label": "PPPoE Password",
+   "depends_on": "eval:doc.connection_type=='PPPoE'"
+  },
+  {
+   "fieldname": "pppoe_service",
+   "fieldtype": "Data",
+   "label": "PPPoE Service Name",
+   "depends_on": "eval:doc.connection_type=='PPPoE'"
+  },
+  {
+   "fieldname": "section_break_monitoring",
+   "fieldtype": "Section Break",
+   "label": "Monitoring"
+  },
+  {
+   "fieldname": "last_check",
+   "fieldtype": "Datetime",
+   "label": "Last Check",
+   "read_only": 1
+  },
+  {
+   "fieldname": "uptime_percentage",
+   "fieldtype": "Percent",
+   "label": "Uptime Percentage",
+   "read_only": 1
+  },
+  {
+   "fieldname": "current_ip",
+   "fieldtype": "Data",
+   "label": "Current IP",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Network Management",
+ "name": "WAN Connection",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

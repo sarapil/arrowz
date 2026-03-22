@@ -1,0 +1,56 @@
+{
+ "actions": [],
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "method",
+  "priority",
+  "enabled",
+  "settings_json"
+ ],
+ "fields": [
+  {
+   "fieldname": "method",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Method",
+   "options": "Voucher\nSMS OTP\nSocial Login\nFree\nRadius\nMAC Auth",
+   "reqd": 1
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Priority",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "description": "Method-specific configuration",
+   "fieldname": "settings_json",
+   "fieldtype": "Code",
+   "label": "Settings JSON",
+   "options": "JSON"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "WiFi Management",
+ "name": "Hotspot Auth Method",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0
+}

@@ -1,0 +1,156 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:page_name",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "page_name",
+  "template",
+  "title",
+  "column_break_branding",
+  "logo_url",
+  "background_image_url",
+  "primary_color",
+  "section_break_content",
+  "welcome_message",
+  "footer_text",
+  "section_break_locale",
+  "language",
+  "rtl_support",
+  "section_break_custom",
+  "custom_css",
+  "custom_html"
+ ],
+ "fields": [
+  {
+   "fieldname": "page_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Page Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "default": "Default",
+   "fieldname": "template",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Template",
+   "options": "Default\nCustom\nBranded"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title"
+  },
+  {
+   "fieldname": "column_break_branding",
+   "fieldtype": "Column Break",
+   "label": "Branding"
+  },
+  {
+   "fieldname": "logo_url",
+   "fieldtype": "Data",
+   "label": "Logo URL"
+  },
+  {
+   "fieldname": "background_image_url",
+   "fieldtype": "Data",
+   "label": "Background Image URL"
+  },
+  {
+   "default": "#2563eb",
+   "fieldname": "primary_color",
+   "fieldtype": "Color",
+   "label": "Primary Color"
+  },
+  {
+   "fieldname": "section_break_content",
+   "fieldtype": "Section Break",
+   "label": "Content"
+  },
+  {
+   "fieldname": "welcome_message",
+   "fieldtype": "Text Editor",
+   "label": "Welcome Message"
+  },
+  {
+   "fieldname": "footer_text",
+   "fieldtype": "Data",
+   "label": "Footer Text"
+  },
+  {
+   "fieldname": "section_break_locale",
+   "fieldtype": "Section Break",
+   "label": "Localization"
+  },
+  {
+   "default": "both",
+   "fieldname": "language",
+   "fieldtype": "Select",
+   "label": "Language",
+   "options": "ar\nen\nboth"
+  },
+  {
+   "default": "1",
+   "fieldname": "rtl_support",
+   "fieldtype": "Check",
+   "label": "RTL Support"
+  },
+  {
+   "fieldname": "section_break_custom",
+   "fieldtype": "Section Break",
+   "label": "Custom Code"
+  },
+  {
+   "fieldname": "custom_css",
+   "fieldtype": "Code",
+   "label": "Custom CSS",
+   "options": "CSS"
+  },
+  {
+   "fieldname": "custom_html",
+   "fieldtype": "Code",
+   "label": "Custom HTML",
+   "options": "HTML"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "WiFi Management",
+ "name": "WiFi Splash Page",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

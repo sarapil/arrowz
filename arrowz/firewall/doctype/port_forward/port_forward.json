@@ -1,0 +1,140 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-02-19 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "arrowz_box",
+  "name1",
+  "enabled",
+  "column_break_settings",
+  "protocol",
+  "wan_connection",
+  "section_break_mapping",
+  "external_port",
+  "column_break_internal",
+  "internal_ip",
+  "internal_port",
+  "section_break_notes",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "arrowz_box",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Arrowz Box",
+   "options": "Arrowz Box",
+   "reqd": 1
+  },
+  {
+   "fieldname": "name1",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Name/Label"
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "column_break_settings",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "protocol",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Protocol",
+   "options": "\nTCP\nUDP\nTCP+UDP",
+   "reqd": 1
+  },
+  {
+   "fieldname": "wan_connection",
+   "fieldtype": "Link",
+   "label": "WAN Connection",
+   "options": "WAN Connection"
+  },
+  {
+   "fieldname": "section_break_mapping",
+   "fieldtype": "Section Break",
+   "label": "Port Mapping"
+  },
+  {
+   "fieldname": "external_port",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "External Port",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_internal",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "internal_ip",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Internal IP",
+   "reqd": 1
+  },
+  {
+   "fieldname": "internal_port",
+   "fieldtype": "Data",
+   "label": "Internal Port",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_notes",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Firewall",
+ "name": "Port Forward",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

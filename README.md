@@ -78,17 +78,22 @@ Arrowz is an enterprise-grade unified communications platform built for Frappe F
 
 ## 📋 Requirements
 
-- Frappe Framework v15+
-- ERPNext v15+ (optional, for CRM features)
-- FreePBX 16+ or compatible PBX
-- Modern browser with WebRTC support
-- Python 3.10+
+| Component | Minimum | Recommended |
+|-----------|---------|-------------|
+| Frappe Framework | v16+ | v16.x latest |
+| ERPNext | v16+ (optional) | v16.x latest |
+| Python | 3.11+ | 3.12 |
+| Node.js | 18+ | 20+ |
+| FreePBX | 16+ | 17+ |
+| Browser | Modern WebRTC | Chrome/Firefox |
+
+> **Note:** For v15 compatibility, use the `version-15` branch.
 
 ## 🚀 Installation
 
 ```bash
 # Get the app
-bench get-app https://github.com/company/arrowz --branch main
+bench get-app arrowz --branch version-16
 
 # Install on your site
 bench --site your-site.com install-app arrowz
@@ -99,6 +104,10 @@ bench migrate
 # Build assets
 bench build --app arrowz
 ```
+
+### Upgrading from v15
+
+See [docs/MIGRATION_V16.md](docs/MIGRATION_V16.md) for complete migration guide.
 
 ## ⚙️ Configuration
 
@@ -140,22 +149,30 @@ Navigate to **Arrowz Settings**:
 
 ## 📖 Documentation
 
-Full documentation available in `/arrowz/docs/`:
+Full documentation available in `/docs/`:
 
 | Document | Description |
 |----------|-------------|
-| [01-OVERVIEW.md](arrowz/docs/01-OVERVIEW.md) | System architecture |
-| [02-DATABASE-SCHEMA.md](arrowz/docs/02-DATABASE-SCHEMA.md) | DocType specifications |
-| [03-API-REFERENCE.md](arrowz/docs/03-API-REFERENCE.md) | Backend API endpoints |
-| [04-FRONTEND-GUIDE.md](arrowz/docs/04-FRONTEND-GUIDE.md) | JavaScript components |
-| [05-INTEGRATION-GUIDE.md](arrowz/docs/05-INTEGRATION-GUIDE.md) | External integrations |
-| [07-TECHNICAL-SPECS.md](arrowz/docs/07-TECHNICAL-SPECS.md) | Technical specifications |
+| [INDEX.md](docs/INDEX.md) | Documentation index |
+| [FEATURES_EN.md](docs/FEATURES_EN.md) | Complete features guide |
+| [FEATURES_AR.md](docs/FEATURES_AR.md) | دليل المميزات بالعربية |
+| [API_REFERENCE.md](docs/API_REFERENCE.md) | API documentation |
+| [DOCTYPES_REFERENCE.md](docs/DOCTYPES_REFERENCE.md) | DocType reference |
 
-### User Guides
-- [Admin Guide](arrowz/docs/USER-GUIDE-ADMIN.md) - System configuration
-- [Manager Guide](arrowz/docs/USER-GUIDE-MANAGER.md) - Wallboard & analytics
-- [Agent Guide](arrowz/docs/USER-GUIDE-AGENT.md) - Daily operations
-- [Developer Guide](arrowz/docs/DEVELOPER-GUIDE.md) - Extending Arrowz
+### Developer & Admin Guides
+| Document | Description |
+|----------|-------------|
+| [DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md) | **Complete developer guide** |
+| [SERVER_ADMIN.md](docs/SERVER_ADMIN.md) | **Server administration** |
+| [MIGRATION_V16.md](docs/MIGRATION_V16.md) | **v16 migration guide** |
+| [QUALITY_ASSURANCE.md](docs/QUALITY_ASSURANCE.md) | Testing & QA |
+
+### Integration Guides
+| Document | Description |
+|----------|-------------|
+| [FREEPBX_SETUP.md](docs/FREEPBX_SETUP.md) | FreePBX configuration |
+| [OPENMEETINGS_SETUP.md](docs/OPENMEETINGS_SETUP.md) | OpenMeetings setup |
+| [omni_channel_platform.md](docs/omni_channel_platform.md) | Omni-channel guide |
 
 ## 🏗️ Architecture
 

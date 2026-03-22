@@ -1,19 +1,32 @@
 {
- "content": null,
- "creation": "2026-01-13 14:07:20.680695",
- "docstatus": 0,
- "doctype": "Page",
- "idx": 0,
- "modified": "2026-01-13 14:07:20.680695",
- "modified_by": "Administrator",
- "module": "Arrowz",
- "name": "arrowz-agent-dashboa",
- "owner": "Administrator",
- "page_name": "arrowz-agent-dashboa",
- "roles": [],
- "script": null,
- "standard": "Yes",
- "style": null,
- "system_page": 0,
- "title": "Agent Dashboard"
+  "content": null,
+  "creation": "2026-02-18 15:00:00.000000",
+  "docstatus": 0,
+  "doctype": "Page",
+  "icon": "dashboard",
+  "idx": 0,
+  "modified": "2026-02-18 15:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Arrowz",
+  "name": "arrowz-agent-dashboard",
+  "owner": "Administrator",
+  "page_name": "arrowz-agent-dashboard",
+  "roles": [
+    {
+      "role": "System Manager"
+    },
+    {
+      "role": "Call Center Agent"
+    },
+    {
+      "role": "Sales User"
+    },
+    {
+      "role": "Support Team"
+    }
+  ],
+  "script": null,
+  "standard": "Yes",
+  "system_page": 0,
+  "title": "Agent Dashboard"
 }

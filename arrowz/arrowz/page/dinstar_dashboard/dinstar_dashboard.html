@@ -1,0 +1,171 @@
+<!-- Dinstar Dashboard — Main Layout Template -->
+<div class="dinstar-dashboard">
+    <!-- Health Banner -->
+    <div class="dinstar-health-banner" id="healthBanner">
+        <div class="health-score-ring">
+            <svg viewBox="0 0 36 36" class="health-ring-svg">
+                <path class="health-ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                <path class="health-ring-fg" id="healthRingFg" stroke-dasharray="0, 100"
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                <text x="18" y="20.35" class="health-ring-text" id="healthScoreText">--</text>
+            </svg>
+        </div>
+        <div class="health-info">
+            <h3 id="healthStatusText">Loading...</h3>
+            <div class="health-checks" id="healthChecks"></div>
+        </div>
+        <div class="health-meta">
+            <div class="meta-item">
+                <span class="meta-label">Uptime</span>
+                <span class="meta-value" id="metaUptime">--</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">NTP Time</span>
+                <span class="meta-value" id="metaNtpTime">--</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">WAN Mode</span>
+                <span class="meta-value" id="metaWanMode">--</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">VPN</span>
+                <span class="meta-value" id="metaVpn">--</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Port Grid -->
+    <div class="section-header">
+        <h4>📡 GSM Ports</h4>
+        <button class="btn btn-xs btn-default" onclick="dinstarDashboard.refreshPorts()">
+            <i class="fa fa-refresh"></i> Refresh
+        </button>
+    </div>
+    <div class="dinstar-port-grid" id="portGrid">
+        <!-- Filled dynamically -->
+    </div>
+
+    <!-- Statistics Row -->
+    <div class="dinstar-stats-row">
+        <!-- Call Stats -->
+        <div class="stats-card">
+            <div class="stats-card-header">
+                <h4>📊 Call Statistics</h4>
+            </div>
+            <div class="stats-card-body" id="callStatsBody">
+                <div class="stats-totals" id="callTotals"></div>
+                <div class="stats-table-wrapper">
+                    <table class="table table-sm" id="callStatsTable">
+                        <thead>
+                            <tr>
+                                <th>Port</th><th>Total</th><th>Answered</th><th>Failed</th>
+                                <th>Busy</th><th>No Answer</th><th>ASR%</th>
+                            </tr>
+                        </thead>
+                        <tbody id="callStatsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ECC Stats -->
+        <div class="stats-card">
+            <div class="stats-card-header">
+                <h4>🔍 Error Cause Codes</h4>
+            </div>
+            <div class="stats-card-body">
+                <div class="stats-table-wrapper">
+                    <table class="table table-sm" id="eccStatsTable">
+                        <thead>
+                            <tr>
+                                <th>Port</th><th>Total</th><th>Duration</th><th>OK</th>
+                                <th>Busy</th><th>No Ans</th><th>Congst</th><th>Reject</th>
+                            </tr>
+                        </thead>
+                        <tbody id="eccStatsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Config Row -->
+    <div class="dinstar-config-row">
+        <!-- SIP Config -->
+        <div class="config-card">
+            <div class="config-card-header">
+                <h4>🔗 SIP Configuration</h4>
+            </div>
+            <div class="config-card-body" id="sipConfigBody"></div>
+        </div>
+
+        <!-- Media Config -->
+        <div class="config-card">
+            <div class="config-card-header">
+                <h4>🎵 Media Configuration</h4>
+            </div>
+            <div class="config-card-body" id="mediaConfigBody"></div>
+        </div>
+
+        <!-- Network Config -->
+        <div class="config-card">
+            <div class="config-card-header">
+                <h4>🌐 Network</h4>
+            </div>
+            <div class="config-card-body" id="networkConfigBody"></div>
+        </div>
+    </div>
+
+    <!-- SMS Panel -->
+    <div class="dinstar-sms-panel">
+        <div class="section-header">
+            <h4>💬 SMS</h4>
+        </div>
+        <div class="sms-row">
+            <!-- Send SMS -->
+            <div class="sms-send-card">
+                <h5>Send SMS</h5>
+                <div class="form-group">
+                    <label>Port</label>
+                    <select id="smsPort" class="form-control input-sm">
+                        <option value="0">Port 0</option><option value="1">Port 1</option>
+                        <option value="2">Port 2</option><option value="3">Port 3</option>
+                        <option value="4">Port 4</option><option value="5">Port 5</option>
+                        <option value="6">Port 6</option><option value="7">Port 7</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Number</label>
+                    <input type="text" id="smsNumber" class="form-control input-sm" placeholder="+201234567890">
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea id="smsMessage" class="form-control input-sm" rows="3" placeholder="Type message..."></textarea>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="dinstarDashboard.sendSMS()">
+                    <i class="fa fa-paper-plane"></i> Send
+                </button>
+            </div>
+
+            <!-- SMS Routing -->
+            <div class="sms-routing-card">
+                <h5>SMS Routing Rules</h5>
+                <div id="smsRoutingBody"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GSM Rules -->
+    <div class="dinstar-gsm-rules">
+        <div class="section-header">
+            <h4>⚙️ GSM Operate Rules</h4>
+        </div>
+        <div id="gsmRulesBody"></div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="dinstar-loader" id="dinstarLoader">
+        <div class="loader-spinner"></div>
+        <span>Connecting to Dinstar Gateway...</span>
+    </div>
+</div>

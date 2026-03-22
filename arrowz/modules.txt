@@ -1,1 +1,11 @@
 Arrowz
+Arrowz Setup
+Network Management
+Firewall
+Client Management
+Bandwidth Control
+IP Accounting
+WiFi Management
+VPN
+Monitoring
+Billing Integration

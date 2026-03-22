@@ -1,0 +1,151 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "billing_cycle",
+  "customer",
+  "sales_invoice",
+  "section_period",
+  "invoice_date",
+  "period_start",
+  "period_end",
+  "section_usage",
+  "total_download_gb",
+  "total_upload_gb",
+  "total_amount",
+  "status",
+  "section_details",
+  "breakdown_json",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "billing_cycle",
+   "fieldtype": "Link",
+   "label": "Billing Cycle",
+   "options": "Billing Cycle",
+   "reqd": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sales_invoice",
+   "fieldtype": "Link",
+   "label": "Sales Invoice",
+   "options": "Sales Invoice",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_period",
+   "fieldtype": "Section Break",
+   "label": "Period"
+  },
+  {
+   "fieldname": "invoice_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Invoice Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "period_start",
+   "fieldtype": "Date",
+   "label": "Period Start",
+   "reqd": 1
+  },
+  {
+   "fieldname": "period_end",
+   "fieldtype": "Date",
+   "label": "Period End",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_usage",
+   "fieldtype": "Section Break",
+   "label": "Usage & Amount"
+  },
+  {
+   "fieldname": "total_download_gb",
+   "fieldtype": "Float",
+   "label": "Total Download (GB)"
+  },
+  {
+   "fieldname": "total_upload_gb",
+   "fieldtype": "Float",
+   "label": "Total Upload (GB)"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Amount"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Draft\nInvoiced\nPaid\nCancelled",
+   "default": "Draft"
+  },
+  {
+   "fieldname": "section_details",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "fieldname": "breakdown_json",
+   "fieldtype": "Code",
+   "label": "Breakdown JSON",
+   "options": "JSON"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Billing Integration",
+ "name": "Usage Invoice Log",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}

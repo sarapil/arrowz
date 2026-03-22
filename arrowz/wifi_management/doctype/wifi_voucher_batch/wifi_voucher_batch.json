@@ -1,0 +1,143 @@
+{
+ "actions": [],
+ "autoname": "WVBATCH-.#####",
+ "creation": "2026-02-19 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "batch_name",
+  "voucher_count",
+  "status",
+  "column_break_config",
+  "bandwidth_plan",
+  "usage_quota",
+  "validity_hours",
+  "section_break_code",
+  "prefix",
+  "code_length",
+  "column_break_meta",
+  "created_by",
+  "section_break_notes",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "batch_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Batch Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "voucher_count",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Voucher Count",
+   "reqd": 1
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Draft\nGenerated\nActive\nExpired"
+  },
+  {
+   "fieldname": "column_break_config",
+   "fieldtype": "Column Break",
+   "label": "Configuration"
+  },
+  {
+   "fieldname": "bandwidth_plan",
+   "fieldtype": "Link",
+   "label": "Bandwidth Plan",
+   "options": "Bandwidth Plan"
+  },
+  {
+   "fieldname": "usage_quota",
+   "fieldtype": "Link",
+   "label": "Usage Quota",
+   "options": "Usage Quota"
+  },
+  {
+   "default": "24",
+   "fieldname": "validity_hours",
+   "fieldtype": "Int",
+   "label": "Validity Hours"
+  },
+  {
+   "fieldname": "section_break_code",
+   "fieldtype": "Section Break",
+   "label": "Code Generation"
+  },
+  {
+   "default": "AZ",
+   "fieldname": "prefix",
+   "fieldtype": "Data",
+   "label": "Prefix"
+  },
+  {
+   "default": "8",
+   "fieldname": "code_length",
+   "fieldtype": "Int",
+   "label": "Code Length"
+  },
+  {
+   "fieldname": "column_break_meta",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "created_by",
+   "fieldtype": "Link",
+   "label": "Created By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_notes",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-02-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "WiFi Management",
+ "name": "WiFi Voucher Batch",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Network Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Network User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
