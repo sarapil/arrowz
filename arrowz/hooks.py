@@ -49,6 +49,8 @@ app_home = "/desk/arrowz-topology"
 
 # Include JS in all pages
 app_include_js = [
+    # --- Debug Logger (must load first) ---
+    "/assets/arrowz/js/arrowz_debug.js",
     # --- WebRTC Adapter Layer (load order matters) ---
     "/assets/arrowz/js/webrtc_adapters/base_adapter.js",      # Abstract contract (must load first)
     "/assets/arrowz/js/lib/jssip.min.js",                     # JsSIP library
@@ -332,6 +334,11 @@ fixtures = [
     {
         "doctype": "Property Setter",
         "filters": [["module", "=", "Arrowz"]]
+    },
+    # Desktop Icon for app switcher
+    {
+        "doctype": "Desktop Icon",
+        "filters": [["app", "=", "arrowz"]]
     }
 ]
 

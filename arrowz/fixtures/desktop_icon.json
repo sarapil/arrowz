@@ -1,0 +1,18 @@
+[
+  {
+    "doctype": "Desktop Icon",
+    "label": "Arrowz",
+    "icon_type": "App",
+    "app": "arrowz",
+    "link_type": "External",
+    "link": "/desk/arrowz-topology",
+    "logo_url": "/assets/arrowz/images/arrowz-icon-animated.svg",
+    "bg_color": "blue",
+    "standard": 1,
+    "hidden": 0,
+    "blocked": 0,
+    "force_show": 0,
+    "reverse": 0,
+    "restrict_removal": 0
+  }
+]

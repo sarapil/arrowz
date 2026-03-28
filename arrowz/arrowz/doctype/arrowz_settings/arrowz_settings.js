@@ -26,7 +26,7 @@ frappe.ui.form.on('Arrowz Settings', {
         
         // Add quick links
         frm.add_custom_button(__('Open Dashboard'), function() {
-            frappe.set_route('arrowz-dashboard');
+            frappe.set_route('arrowz-topology');
         });
         
         frm.add_custom_button(__('View Call Logs'), function() {
