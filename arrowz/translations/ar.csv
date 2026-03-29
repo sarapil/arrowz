@@ -449,3 +449,458 @@ Server Config,تهيئة الخادم
 Documentation,التوثيق
 Arrowz Communications,اتصالات أروز
 Unified Communications & Network Platform,منصة الاتصالات الموحدة وإدارة الشبكات
+-1 (negative) to +1 (positive),-1 (سلبي) إلى +1 (إيجابي)
+0 = unlimited,0 = غير محدود
+1-5 rating,تقييم 1-5
+24-hour window expiry for WhatsApp,انتهاء نافذة 24 ساعة لواتساب
+AI Analysis,تحليل الذكاء الاصطناعي
+AI Features,ميزات الذكاء الاصطناعي
+AI Model,نموذج الذكاء الاصطناعي
+AI Summary,ملخص الذكاء الاصطناعي
+AMI Host,مضيف AMI
+AMI Password,كلمة مرور AMI
+AMI Port,منفذ AMI
+AMI Settings (Asterisk Manager Interface),إعدادات AMI (واجهة إدارة Asterisk)
+AMI Username,اسم مستخدم AMI
+API Base URL,رابط API الأساسي
+API Key,مفتاح API
+API Secret,سر API
+API Version,إصدار API
+Access Control,التحكم في الوصول
+Access Token,رمز الوصول
+Access URLs,روابط الوصول
+Account ID,معرف الحساب
+Account SID,معرف حساب SID
+Acknowledged,تم الاطلاع
+Active Conversations,المحادثات النشطة
+Add Prefix to CID,إضافة بادئة لمعرف المتصل
+Admin Password,كلمة مرور المدير
+Admin Username,اسم مستخدم المدير
+Advanced Options,خيارات متقدمة
+After Hours Trunk,خط ما بعد ساعات العمل
+Alert Info,معلومات التنبيه
+Allow Recording,السماح بالتسجيل
+Allow clients on the VPN subnet to connect directly to Asterisk,السماح لعملاء شبكة VPN بالاتصال مباشرة بـ Asterisk
+Answer Time,وقت الرد
+App Secret,سر التطبيق
+Arrowz Documentation,وثائق Arrowz
+Assigned Team,الفريق المُعيَّن
+Assigned To,مُعيَّن إلى
+Assigned User,المستخدم المُعيَّن
+Assignment,التعيين
+Asterisk HTTP port for plain WS (usually 8088),منفذ HTTP لـ Asterisk للـ WS العادي (عادةً 8088)
+Asterisk IP on VPN (e.g. 10.10.0.1),عنوان IP لـ Asterisk على VPN (مثل 10.10.0.1)
+Attended,محوّل بإشعار
+Attended Transfer Details,تفاصيل التحويل بإشعار
+Auth Realm,نطاق المصادقة
+Auth Token,رمز المصادقة
+Auth Type,نوع المصادقة
+Authentication,المصادقة
+Authentication Type,نوع المصادقة
+Auto Provision to PBX,التزويد التلقائي للسنترال
+Auto-Answer Internal Calls,الرد التلقائي على المكالمات الداخلية
+Auto-Assign Conversations,تعيين المحادثات تلقائياً
+Auto-Create Leads from Unknown Callers,إنشاء عملاء محتملين من المتصلين غير المعروفين تلقائياً
+Auto-Reply Message,رسالة الرد التلقائي
+Auto-Start Recording,بدء التسجيل تلقائياً
+Auto-generated endpoint for receiving messages,نقطة نهاية مُنشأة تلقائياً لاستقبال الرسائل
+Auto-generated if left empty,يُنشأ تلقائياً إذا تُرك فارغاً
+Automatically create/update/delete this extension in FreePBX,إنشاء/تحديث/حذف هذا التحويلة تلقائياً في FreePBX
+Automation,الأتمتة
+Avg Response Time,متوسط وقت الرد
+Base URL,الرابط الأساسي
+Basic Information,المعلومات الأساسية
+Burst Limit,حد الاندفاع
+Business Account ID,معرف حساب الأعمال
+CRM Information,معلومات CRM
+CRM Integration,تكامل CRM
+Call ID,معرف المكالمة
+Call Information,معلومات المكالمة
+Call log created after successful transfer,سجل مكالمة مُنشأ بعد تحويل ناجح
+Callee ID,معرف المتلقي
+Caller ID,معرف المتصل
+Caller ID Pattern,نمط معرف المتصل
+Calls answered within this time count as within SLA,المكالمات المُجابة خلال هذا الوقت تُحتسب ضمن اتفاقية مستوى الخدمة
+Can Do Blind Transfer,يمكنه التحويل الأعمى
+Capabilities,القدرات
+Channel,القناة
+Channel ID,معرف القناة
+Channel Name,اسم القناة
+Channel Purpose,غرض القناة
+Character Count,عدد الأحرف
+Chatbot Configuration,إعدادات روبوت المحادثة
+Client ID,معرف العميل
+Client Secret,سر العميل
+Codec Settings,إعدادات الترميز
+Codecs,الترميزات
+Color,اللون
+Communications Hub,مركز الاتصالات
+Company,الشركة
+Connection Settings,إعدادات الاتصال
+Connection Status,حالة الاتصال
+Consultation Duration (sec),مدة الاستشارة (ثانية)
+Consultation Ended,انتهت الاستشارة
+Consultation Started,بدأت الاستشارة
+Contact,جهة الاتصال
+Contact Name,اسم جهة الاتصال
+Content,المحتوى
+Context,السياق
+Credentials,بيانات الاعتماد
+Current Call,المكالمة الحالية
+Current Channels,القنوات الحالية
+Current Daily Usage,الاستخدام اليومي الحالي
+Current Status,الحالة الحالية
+Customer,العميل
+DID Pattern,نمط DID
+DTMF Mode,وضع DTMF
+Daily Limit,الحد اليومي
+Default Agent,الوكيل الافتراضي
+Default Caller ID,معرف المتصل الافتراضي
+Default Moderator ID,معرف المشرف الافتراضي
+Default PBX Server,خادم السنترال الافتراضي
+Default Ringtone,نغمة الرنين الافتراضية
+Default Room Type,نوع الغرفة الافتراضي
+Default SMS Provider,مزوّد الرسائل الافتراضي
+Delivered Time,وقت التسليم
+Delivery Details,تفاصيل التسليم
+Delivery Status,حالة التسليم
+Department,القسم
+Description,الوصف
+Destination,الوجهة
+Destination Type,نوع الوجهة
+Dial Pattern,نمط الاتصال
+Dial Pattern Match,مطابقة نمط الاتصال
+Digits to prepend before dialing,أرقام تُضاف قبل الاتصال
+Dinstar Dashboard,لوحة تحكم Dinstar
+Dinstar Gateway,بوابة Dinstar
+Direction,الاتجاه
+Disable for self-signed certificates on internal networks,تعطيل للشهادات الموقعة ذاتياً على الشبكات الداخلية
+Display Name,الاسم المعروض
+Disposition,النتيجة
+Document Linking,ربط المستند
+Driver Class,فئة المُعرّف
+Duration,المدة
+Duration (seconds),المدة (ثواني)
+Enable AI Features,تفعيل ميزات الذكاء الاصطناعي
+Enable AMI,تفعيل AMI
+Enable Auto-Reply,تفعيل الرد التلقائي
+Enable Breakout Rooms,تفعيل غرف الاجتماعات الفرعية
+Enable CRM Integration,تفعيل تكامل CRM
+Enable Call Recording,تفعيل تسجيل المكالمات
+Enable Chat,تفعيل المحادثة
+Enable Chatbot,تفعيل روبوت المحادثة
+Enable File Sharing,تفعيل مشاركة الملفات
+Enable GraphQL API,تفعيل GraphQL API
+Enable Live Transcription,تفعيل النسخ المباشر
+Enable OpenMeetings,تفعيل OpenMeetings
+Enable Polls,تفعيل الاستطلاعات
+Enable Rate Limiting,تفعيل تحديد المعدل
+Enable Recording Playback,تفعيل تشغيل التسجيلات
+Enable Round Robin,تفعيل التوزيع الدوري
+Enable SMS Integration,تفعيل تكامل الرسائل القصيرة
+Enable SSH for fwconsole,تفعيل SSH لـ fwconsole
+Enable Screen Pop,تفعيل النافذة المنبثقة
+Enable Screen Share,تفعيل مشاركة الشاشة
+Enable Sentiment Analysis,تفعيل تحليل المشاعر
+Enable VPN Direct Mode,تفعيل وضع VPN المباشر
+Enable Video Calling,تفعيل مكالمات الفيديو
+Enable Voicemail,تفعيل البريد الصوتي
+Enable Waiting Room,تفعيل غرفة الانتظار
+Enable WebRTC Softphone,تفعيل الهاتف الرقمي WebRTC
+Enable Whiteboard,تفعيل السبورة البيضاء
+Enable Working Hours,تفعيل ساعات العمل
+Enabled,مُفعّل
+Error Code,رمز الخطأ
+Error Message,رسالة الخطأ
+Escalation Level,مستوى التصعيد
+Extension,التحويلة
+Extension Number,رقم التحويلة
+Extension Type,نوع التحويلة
+External Destination,وجهة خارجية
+External ID,المعرف الخارجي
+External Room ID,معرف الغرفة الخارجي
+Failover Trunk,خط احتياطي
+Failure Reason,سبب الفشل
+Features,الميزات
+File Size,حجم الملف
+File Size (bytes),حجم الملف (بايت)
+First Response Time,وقت الرد الأول
+For Twilio,لـ Twilio
+FreePBX GraphQL API,واجهة FreePBX GraphQL
+From Extension,من التحويلة
+From User,من المستخدم
+"Full WebSocket URL (e.g., wss://pbx.example.com:8089/ws)",رابط WebSocket الكامل (مثل wss://pbx.example.com:8089/ws)
+General Settings,الإعدادات العامة
+Goodbye Message Template,قالب رسالة الوداع
+GraphQL Endpoint URL,رابط نقطة نهاية GraphQL
+"HTTP header containing the signature (e.g., X-Hub-Signature-256)",ترويسة HTTP التي تحتوي على التوقيع (مثل X-Hub-Signature-256)
+Has Media,يحتوي وسائط
+Has Recording,يحتوي تسجيل
+Hold Duration (seconds),مدة الانتظار (ثواني)
+Host / IP,المضيف / IP
+Host/IP Address,المضيف / عنوان IP
+IVR Menu,قائمة الرد الآلي
+Icon,الأيقونة
+In MB,بالميجابايت
+In minutes,بالدقائق
+Inbound Context,سياق الوارد
+Initiated At,بدأ في
+Initiated By,بدأه
+Internal ID in FreePBX,المعرف الداخلي في FreePBX
+Internal Notes,ملاحظات داخلية
+Invitation Sent,تم إرسال الدعوة
+Is Active,نشط
+Is Default Provider,المزوّد الافتراضي
+Is Default Server,الخادم الافتراضي
+Join Time,وقت الانضمام
+Join URL,رابط الانضمام
+Last Activity,آخر نشاط
+Last Error Message,آخر رسالة خطأ
+Last Health Check,آخر فحص صحة
+Last Message,آخر رسالة
+Last Registered,آخر تسجيل
+Last Synced,آخر مزامنة
+Last Usage Reset,آخر إعادة تعيين للاستخدام
+Lead,عميل محتمل
+Leave empty to use SIP Domain from server,اتركه فارغاً لاستخدام نطاق SIP من الخادم
+Link Calls to Opportunities,ربط المكالمات بالفرص
+Link DocType,ربط نوع المستند
+Linked Channel ID,معرف القناة المرتبطة
+Linked DocType,نوع المستند المرتبط
+Linked Document,المستند المرتبط
+MOS score 1-5,درجة MOS من 1-5
+Match Caller ID,مطابقة معرف المتصل
+Match Criteria,معايير المطابقة
+Max Channels,الحد الأقصى للقنوات
+Max Concurrent Calls,الحد الأقصى للمكالمات المتزامنة
+Max File Size (MB),الحد الأقصى لحجم الملف (ميجابايت)
+Max Message Length,الحد الأقصى لطول الرسالة
+Max Participants,الحد الأقصى للمشاركين
+Maximum file size in MB,الحد الأقصى لحجم الملف بالميجابايت
+Media URL,رابط الوسائط
+Message History,سجل الرسائل
+Message ID,معرف الرسالة
+Message Information,معلومات الرسالة
+Message Routing,توجيه الرسائل
+Message Templates,قوالب الرسائل
+Metrics,المقاييس
+Moderated Room,غرفة مُشرَف عليها
+Moderator URL,رابط المشرف
+New Call Log,سجل مكالمة جديد
+Notes,ملاحظات
+Number of digits to strip from beginning,عدد الأرقام المراد حذفها من البداية
+OAuth2 Client ID from FreePBX API Application,معرف عميل OAuth2 من تطبيق FreePBX API
+OAuth2 Client Secret from FreePBX API Application,سر عميل OAuth2 من تطبيق FreePBX API
+Only supervisors should have blind transfer,التحويل الأعمى للمشرفين فقط
+OpenAI API Key,مفتاح OpenAI API
+OpenMeetings Settings,إعدادات OpenMeetings
+OpenMeetings URL,رابط OpenMeetings
+OpenMeetings user ID for moderator (usually 1 for admin),معرف مستخدم OpenMeetings للمشرف (عادةً 1 للمدير)
+Optional prefix to match,بادئة اختيارية للمطابقة
+Optional: Match specific caller IDs,اختياري: مطابقة معرفات متصل محددة
+Optional: Only match specific extensions,اختياري: مطابقة تحويلات محددة فقط
+Organizer,المنظم
+Original Call,المكالمة الأصلية
+Out of 5,من 5
+Out of Hours Message,رسالة خارج ساعات العمل
+Outbound Prefix,بادئة الصادر
+Override Caller ID Name,تجاوز اسم معرف المتصل
+Override Caller ID Number,تجاوز رقم معرف المتصل
+PBX Extension ID,معرف تحويلة السنترال
+PBX Server,خادم السنترال
+PBX Synchronization,مزامنة السنترال
+PIN code for voicemail access (4-6 digits),رمز PIN للوصول للبريد الصوتي (4-6 أرقام)
+Participant ID,معرف المشارك
+Participant Name,اسم المشارك
+Participant URL,رابط المشارك
+Party,الطرف
+Party Type,نوع الطرف
+Password,كلمة المرور
+Permanent Room,غرفة دائمة
+Permanent rooms are not deleted after meeting ends,الغرف الدائمة لا تُحذف بعد انتهاء الاجتماع
+"Phone Number ID for WhatsApp, Chat ID for Telegram",معرف رقم الهاتف لواتساب، معرف المحادثة لتيليجرام
+Phone/Chat ID,معرف الهاتف/المحادثة
+Port,المنفذ
+Prefix,البادئة
+Prepend,إضافة أمامية
+Prepend Digits,أرقام مُضافة
+Primary Trunk,الخط الرئيسي
+Priority,الأولوية
+Priority (lower = higher),الأولوية (أقل = أعلى)
+Protocol,البروتوكول
+Provider,المزوّد
+Provider Information,معلومات المزوّد
+Provider Message ID,معرف رسالة المزوّد
+Provider Name,اسم المزوّد
+Provider Type,نوع المزوّد
+"Python class path for the driver (e.g., arrowz.integrations.whatsapp.WhatsAppDriver)",مسار فئة Python للمُعرّف (مثل arrowz.integrations.whatsapp.WhatsAppDriver)
+Qualify (Check Status),فحص الحالة
+Qualify Frequency (sec),تكرار الفحص (ثانية)
+Quality Score,درجة الجودة
+Queue,قائمة الانتظار
+Rate Limit (per minute),حد المعدل (في الدقيقة)
+Rate Limits,حدود المعدل
+Recorded On,سُجل في
+Recording,التسجيل
+Recording Base Path,المسار الأساسي للتسجيلات
+Recording Duration (seconds),مدة التسجيل (ثواني)
+Recording Name,اسم التسجيل
+Recording Path,مسار التسجيل
+Recording Retention (Days),مدة حفظ التسجيلات (أيام)
+Recording Settings,إعدادات التسجيل
+Recording Storage Type,نوع تخزين التسجيلات
+Recording URL,رابط التسجيل
+Registration IP,عنوان IP التسجيل
+Related Call,المكالمة المرتبطة
+Related DocType,نوع المستند المرتبط
+Related Document,المستند المرتبط
+"Remote participant ID (phone number, chat ID, etc.)",معرف المشارك البعيد (رقم هاتف، معرف محادثة، إلخ)
+Request Timeout (seconds),مهلة الطلب (ثواني)
+Requests per Day,الطلبات في اليوم
+Requests per Minute,الطلبات في الدقيقة
+Require Password,يتطلب كلمة مرور
+Required for Custom API provider type,مطلوب لنوع مزوّد API المخصص
+Resolution Time,وقت الحل
+Response Deadline,موعد الرد النهائي
+Result,النتيجة
+Ring Duration (seconds),مدة الرنين (ثواني)
+Ring Group,مجموعة الرنين
+Ring Timeout (seconds),مهلة الرنين (ثواني)
+Room Capabilities,قدرات الغرفة
+Room ID from OpenMeetings,معرف الغرفة من OpenMeetings
+Room Information,معلومات الغرفة
+Room Name,اسم الغرفة
+Room Password,كلمة مرور الغرفة
+Room Type,نوع الغرفة
+Route Information,معلومات المسار
+Route Name,اسم المسار
+Routing Settings,إعدادات التوجيه
+Routing Type,نوع التوجيه
+SIP Domain,نطاق SIP
+SIP Password,كلمة مرور SIP
+SIP Username,اسم مستخدم SIP
+SIP domain when on VPN (defaults to vpn_ws_host if empty),نطاق SIP عند استخدام VPN (يستخدم vpn_ws_host إذا كان فارغاً)
+SLA Settings,إعدادات اتفاقية مستوى الخدمة
+SLA Threshold (seconds),حد اتفاقية الخدمة (ثواني)
+SLA Warning Threshold (seconds),حد تحذير اتفاقية الخدمة (ثواني)
+SMS Settings,إعدادات الرسائل القصيرة
+SSH Access (for fwconsole),وصول SSH (لـ fwconsole)
+SSH Authentication,مصادقة SSH
+SSH Host,مضيف SSH
+SSH Password,كلمة مرور SSH
+SSH Port,منفذ SSH
+SSH Private Key,المفتاح الخاص لـ SSH
+SSH Username,اسم مستخدم SSH
+STUN Server,خادم STUN
+Satisfaction Rating,تقييم الرضا
+Satisfaction Score,درجة الرضا
+Scheduled End,نهاية مجدولة
+Scheduled Start,بداية مجدولة
+Scheduling,الجدولة
+Screen Pop,النافذة المنبثقة
+Screen Pop Mode,وضع النافذة المنبثقة
+Search Contacts First,البحث في جهات الاتصال أولاً
+Segment Count,عدد الأجزاء
+Sender,المرسل
+Sender ID / From Number,معرف المرسل / رقم الإرسال
+Sent On,أُرسل في
+Sent/Received Time,وقت الإرسال/الاستقبال
+Sentiment,المشاعر
+Sentiment Score,درجة المشاعر
+Server Configuration,إعدادات الخادم
+Server Name,اسم الخادم
+Server Type,نوع الخادم
+Session End,نهاية الجلسة
+Session ID,معرف الجلسة
+Session Information,معلومات الجلسة
+Session Start,بداية الجلسة
+Show Customer Popup on Incoming Calls,عرض نافذة العميل عند المكالمات الواردة
+Show Desktop Notifications,عرض إشعارات سطح المكتب
+Shows current token status (Valid/Expired/None),يعرض حالة الرمز الحالية (صالح/منتهي/لا يوجد)
+Signature Header,ترويسة التوقيع
+Statistics,الإحصائيات
+Status,الحالة
+Strip Digits,حذف الأرقام
+Supports Contact Cards,يدعم بطاقات جهات الاتصال
+Supports Delivery Reports,يدعم تقارير التسليم
+Supports Interactive Buttons,يدعم الأزرار التفاعلية
+Supports Location,يدعم الموقع
+Supports MMS,يدعم رسائل الوسائط
+Supports Media,يدعم الوسائط
+Supports Reactions,يدعم ردود الفعل
+Supports Templates,يدعم القوالب
+Supports Text Messages,يدعم الرسائل النصية
+Supports Unicode,يدعم يونيكود
+Sync Status,حالة المزامنة
+TURN Password,كلمة مرور TURN
+TURN Server,خادم TURN
+TURN Username,اسم مستخدم TURN
+Tags,الوسوم
+Team,الفريق
+Technical Details,التفاصيل التقنية
+Time Conditions,شروط الوقت
+Time Group,مجموعة الوقت
+Time to first response in minutes,الوقت للرد الأول بالدقائق
+Timestamp,الطابع الزمني
+Timezone,المنطقة الزمنية
+Timing,التوقيت
+To Extension,إلى التحويلة
+To External Number,إلى رقم خارجي
+To User,إلى المستخدم
+Token Status,حالة الرمز
+Token for webhook verification,رمز التحقق من webhook
+Total Conversations,إجمالي المحادثات
+Total Messages,إجمالي الرسائل
+Total resolution time in minutes,إجمالي وقت الحل بالدقائق
+Transcript,النسخة النصية
+Transcription Language,لغة النسخ
+Transfer Completed At,اكتمل التحويل في
+Transfer Information,معلومات التحويل
+Transfer Parties,أطراف التحويل
+Transfer Time,وقت التحويل
+Transfer Type,نوع التحويل
+Transferred From,حُوِّل من
+Transferred To,حُوِّل إلى
+Transport,النقل
+Trunk,الخط
+Trunk Information,معلومات الخط
+Trunk Name,اسم الخط
+Trunk Selection,اختيار الخط
+Trunk Type,نوع الخط
+Type,النوع
+Unique session identifier from provider,معرف جلسة فريد من المزوّد
+Use Time Condition,استخدام شرط الوقت
+Used for Trunks/Outbound Routes (not in GraphQL),يُستخدم للخطوط/المسارات الصادرة (ليس في GraphQL)
+User Agent,وكيل المستخدم
+Username,اسم المستخدم
+Usually /openmeetings,عادةً /openmeetings
+Usually same as extension number,عادةً نفس رقم التحويلة
+VPN Direct Mode,وضع VPN المباشر
+VPN SIP Domain,نطاق SIP عبر VPN
+VPN WebSocket Host,مضيف WebSocket عبر VPN
+VPN WebSocket Port,منفذ WebSocket عبر VPN
+Verify SSL Certificate,التحقق من شهادة SSL
+Verify Token,رمز التحقق
+Verify Webhook Signature,التحقق من توقيع webhook
+Voicemail PIN,رمز PIN البريد الصوتي
+Was Transferred,تم تحويلها
+WebRTC Enabled,WebRTC مُفعّل
+WebRTC Settings,إعدادات WebRTC
+WebSocket Port,منفذ WebSocket
+WebSocket URL,رابط WebSocket
+Webapp Path,مسار تطبيق الويب
+Webhook Configuration,إعدادات Webhook
+Webhook Endpoint,نقطة نهاية Webhook
+Webhook Secret,سر Webhook
+Webhook URL,رابط Webhook
+Welcome Message Template,قالب رسالة الترحيب
+"WhatsApp Business Account ID, Telegram Bot Username, etc.",معرف حساب واتساب للأعمال، اسم مستخدم بوت تيليجرام، إلخ
+"When enabled, softphone connects directly via VPN (no TURN/STUN, no SDP rewrite, plain WS)",عند التفعيل، يتصل الهاتف الرقمي مباشرة عبر VPN (بدون TURN/STUN أو تعديل SDP، WS عادي)
+Whether this missed call has been acknowledged by the user,ما إذا كانت هذه المكالمة الفائتة قد تم الاطلاع عليها من المستخدم
+Window Active,النافذة نشطة
+Window Expires,انتهاء النافذة
+Working Hours,ساعات العمل
+"e.g., _0X., _00X., _+X., 9|.","مثل: _0X., _00X., _+X., 9|."
+"e.g., _X., +49XXXXXXX, or exact number","مثل: _X., +49XXXXXXX, أو رقم محدد"
+"e.g., https://172.21.0.2/admin/api/api/gql",مثل: https://172.21.0.2/admin/api/api/gql
+"e.g., https://meetings.example.com:5443",مثل: https://meetings.example.com:5443
