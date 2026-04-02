@@ -408,3 +408,16 @@ notification_config = "arrowz.notifications.get_notification_config"
 # - arrowz.api.webhooks.whatsapp_onprem_webhook
 # - arrowz.api.webhooks.telegram_webhook
 # - arrowz.api.webhooks.openmeetings_callback
+
+# CAPS Integration — Capability-Based Access Control
+# ------------------------------------------------------------
+caps_capabilities = [
+    {"name": "AZ_manage_extensions", "category": "Module", "description": "Manage SIP extensions"},
+    {"name": "AZ_manage_calls", "category": "Module", "description": "View and manage call logs"},
+    {"name": "AZ_use_softphone", "category": "Action", "description": "Use WebRTC softphone"},
+    {"name": "AZ_manage_omni", "category": "Module", "description": "Manage omni-channel messaging"},
+    {"name": "AZ_manage_meetings", "category": "Module", "description": "Manage video meetings"},
+    {"name": "AZ_manage_network", "category": "Module", "description": "Manage network devices"},
+    {"name": "AZ_view_cdr", "category": "Report", "description": "View call detail records"},
+    {"name": "AZ_admin_settings", "category": "Module", "description": "Configure Arrowz settings"},
+]
