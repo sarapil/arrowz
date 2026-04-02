@@ -17,6 +17,8 @@ class BillingCycle(Document):
 	@frappe.whitelist(methods=["POST"])
 	def generate_invoice(self):
 		"""Generate an ERPNext Sales Invoice for this billing cycle."""
+		frappe.only_for(["AZ Manager", "System Manager"])
+
 		if self.status != "Active":
 			frappe.throw("Invoices can only be generated for active billing cycles.")
 

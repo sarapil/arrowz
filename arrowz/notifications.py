@@ -237,6 +237,8 @@ def get_notification_summary():
     """
     API to get notification summary for current user
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     counts = get_unread_counts()
     
     # Get recent conversations

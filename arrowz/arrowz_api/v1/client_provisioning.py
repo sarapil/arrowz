@@ -21,7 +21,8 @@ def block_client(mac_address: str, box_name: str = None, reason: str = ""):
 		box_name: Arrowz Box name (auto-detect from client if not provided)
 		reason: Reason for blocking
 	"""
-	frappe.only_for(["System Manager", "Network Manager"])
+	frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
 
 	mac = mac_address.upper().replace("-", ":")
 
@@ -65,7 +66,8 @@ def unblock_client(mac_address: str, box_name: str = None):
 		mac_address: Client MAC address
 		box_name: Arrowz Box name
 	"""
-	frappe.only_for(["System Manager", "Network Manager"])
+	frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
 
 	mac = mac_address.upper().replace("-", ":")
 
@@ -108,7 +110,8 @@ def disconnect_client(mac_address: str, box_name: str = None):
 		mac_address: Client MAC address
 		box_name: Arrowz Box name
 	"""
-	frappe.only_for(["System Manager", "Network Manager"])
+	frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
 
 	mac = mac_address.upper().replace("-", ":")
 
@@ -140,7 +143,8 @@ def assign_bandwidth_plan(mac_address: str, plan_name: str, box_name: str = None
 		plan_name: Bandwidth Plan name
 		box_name: Arrowz Box name
 	"""
-	frappe.only_for(["System Manager", "Network Manager"])
+	frappe.only_for(["AZ Manager", "System Manager"])
+
 
 	mac = mac_address.upper().replace("-", ":")
 
@@ -193,7 +197,8 @@ def get_client_details(mac_address: str):
 	Returns:
 		Client details with sessions, usage, and assignments
 	"""
-	frappe.only_for(["System Manager", "Network Manager", "Network User"])
+	frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
 
 	mac = mac_address.upper().replace("-", ":")
 

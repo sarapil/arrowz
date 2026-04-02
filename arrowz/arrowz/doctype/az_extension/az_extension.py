@@ -503,6 +503,8 @@ UPDATE sip SET data='{display_name} <{self.extension}>' WHERE id='{self.extensio
         
         Tries GraphQL first, falls back to SSH if authentication fails.
         """
+        frappe.only_for(["AZ Manager", "System Manager"])
+
         try:
             if self.sync_status == "Synced":
                 return self.update_in_freepbx()
@@ -540,6 +542,8 @@ UPDATE sip SET data='{display_name} <{self.extension}>' WHERE id='{self.extensio
     @frappe.whitelist()
     def sync_from_pbx(self):
         """Sync extension details from FreePBX"""
+        frappe.only_for(["AZ Manager", "System Manager"])
+
         try:
             query = """
             query fetchExtension($extensionId: ID!) {
@@ -583,6 +587,8 @@ UPDATE sip SET data='{display_name} <{self.extension}>' WHERE id='{self.extensio
     @frappe.whitelist()
     def test_registration(self):
         """Test if extension is registered on PBX"""
+        frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
         try:
             query = """
             query fetchExtension($extensionId: ID!) {
@@ -616,6 +622,8 @@ UPDATE sip SET data='{display_name} <{self.extension}>' WHERE id='{self.extensio
     @frappe.whitelist()
     def sync_password_to_pbx(self):
         """Sync SIP password to FreePBX (Extension + User Manager)"""
+        frappe.only_for(["AZ Manager", "System Manager"])
+
         try:
             server = self.get_server_config()
             if not server.graphql_url or not server.graphql_client_id:

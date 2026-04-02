@@ -24,6 +24,10 @@ def send_sms(to_number, message, provider=None, party_type=None, party=None, rel
         party: Optional CRM party name
         related_call: Optional related call log
     """
+    frappe.only_for(["System Manager"])
+    frappe.only_for(["System Manager"])
+    frappe.only_for(["AZ Manager", "System Manager"])
+
     from arrowz.arrowz.doctype.az_sms_message.az_sms_message import send_sms as _send_sms
     return _send_sms(to_number, message, provider, party_type, party, related_call)
 
@@ -33,6 +37,8 @@ def get_sms_history(phone_number=None, party_type=None, party=None, limit=20):
     """
     Get SMS history for a phone number or party.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     from arrowz.arrowz.doctype.az_sms_message.az_sms_message import get_sms_history as _get_history
     return _get_history(phone_number, party_type, party, limit)
 
@@ -208,6 +214,8 @@ def get_sms_statistics(from_date=None, to_date=None):
     """
     Get SMS statistics for a date range.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     from frappe.utils import today
     
     if not from_date:

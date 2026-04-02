@@ -22,6 +22,10 @@ def get_call_history(extension=None, call_type=None, date_range="today", limit=5
     Returns:
         List of call log records
     """
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     filters = {}
     
     # Extension filter
@@ -111,6 +115,10 @@ def get_call_statistics(extension=None, date_range="today"):
     Returns:
         Statistics dictionary
     """
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     filters = {}
     
     if extension:
@@ -198,6 +206,8 @@ def format_duration(seconds):
 @frappe.whitelist()
 def get_recent_calls(limit=10):
     """Get recent calls for quick access"""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     user_extensions = get_user_extensions()
     
     if not user_extensions:

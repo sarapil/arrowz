@@ -46,6 +46,8 @@ class QuotaAssignment(Document):
 	@frappe.whitelist(methods=["POST"])
 	def reset_usage(self):
 		"""Reset current usage counters."""
+		frappe.only_for(["System Manager"])
+
 		self.current_download_mb = 0
 		self.current_upload_mb = 0
 		self.current_total_mb = 0
@@ -57,6 +59,8 @@ class QuotaAssignment(Document):
 	@frappe.whitelist(methods=["POST"])
 	def recalculate_status(self):
 		"""Recalculate assignment status based on current usage vs quota limits."""
+		frappe.only_for(["AZ Manager", "System Manager"])
+
 		if not self.usage_quota:
 			return
 

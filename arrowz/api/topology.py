@@ -13,7 +13,8 @@ def get_topology_data():
     Full topology: nodes grouped as sub-networks, edges for relationships,
     plus workspace_links for standalone actions and summary stats.
     """
-    frappe.only_for(["System Manager", "Network Manager", "Network User"])
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
 
     user_roles = frappe.get_roles(frappe.session.user)
     can_write = "System Manager" in user_roles or "Network Manager" in user_roles

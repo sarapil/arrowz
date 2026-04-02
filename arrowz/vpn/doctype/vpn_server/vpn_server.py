@@ -17,6 +17,8 @@ class VPNServer(Document):
 	@frappe.whitelist(methods=["POST"])
 	def generate_keys(self):
 		"""Generate WireGuard key pair for this server."""
+		frappe.only_for(["AZ Manager", "System Manager"])
+
 		if self.vpn_type != "WireGuard":
 			frappe.throw("Key generation is only supported for WireGuard servers.")
 		try:
@@ -36,6 +38,8 @@ class VPNServer(Document):
 	@frappe.whitelist(methods=["POST"])
 	def restart_server(self):
 		"""Restart the VPN server process."""
+		frappe.only_for(["AZ Manager", "System Manager"])
+
 		frappe.publish_realtime(
 			"vpn_server_restart",
 			{"server": self.name, "vpn_type": self.vpn_type},

@@ -58,6 +58,8 @@ class AZSMSProvider(Document):
     @frappe.whitelist()
     def test_connection(self):
         """Test the provider connection."""
+        frappe.only_for(["System Manager"])
+
         try:
             if self.provider_type == "Twilio":
                 return self._test_twilio()

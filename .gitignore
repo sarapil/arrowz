@@ -416,3 +416,8 @@ nginx.conf
 !docker-compose.example.yml
 !example_*.json
 !test_fixtures/
+
+# AI Tools
+.aider*
+.copilot/
+.cursor/

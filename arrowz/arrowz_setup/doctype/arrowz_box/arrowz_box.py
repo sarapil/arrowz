@@ -71,6 +71,8 @@ class ArrowzBox(Document):
 	@frappe.whitelist(methods=["POST"])
 	def test_connection(self):
 		"""Test connectivity using the appropriate device provider."""
+		frappe.only_for(["System Manager"])
+
 		try:
 			from arrowz.device_providers.provider_factory import ProviderFactory
 
@@ -116,6 +118,8 @@ class ArrowzBox(Document):
 	@frappe.whitelist(methods=["POST"])
 	def push_full_config(self):
 		"""Compile and push complete configuration to this box."""
+		frappe.only_for(["AZ Manager", "System Manager"])
+
 		from arrowz.arrowz_api.utils.config_compiler import ConfigCompiler
 
 		compiler = ConfigCompiler(self.name)
@@ -138,6 +142,8 @@ class ArrowzBox(Document):
 	@frappe.whitelist(methods=["POST"])
 	def sync_telemetry(self):
 		"""Pull latest telemetry data from the box."""
+		frappe.only_for(["AZ Manager", "System Manager"])
+
 		connector = self._get_connector()
 		telemetry = connector.get_telemetry()
 
@@ -171,6 +177,8 @@ class ArrowzBox(Document):
 	@frappe.whitelist(methods=["POST"])
 	def generate_api_token(self):
 		"""Generate a new API Bearer token for this box."""
+		frappe.only_for(["AZ Manager", "System Manager"])
+
 		import secrets
 
 		token = secrets.token_urlsafe(48)
@@ -190,6 +198,8 @@ class ArrowzBox(Document):
 		Reads all configuration from the device and creates/updates
 		matching Frappe DocType records.
 		"""
+		frappe.only_for(["AZ Manager", "System Manager"])
+
 		from arrowz.device_providers.sync_engine import SyncEngine
 
 		engine = SyncEngine(box_doc=self)
@@ -202,6 +212,8 @@ class ArrowzBox(Document):
 		Compiles all DocType data and pushes to the device via the
 		appropriate provider (BoxConnector REST for Linux, RouterOS API for MikroTik).
 		"""
+		frappe.only_for(["AZ Manager", "System Manager"])
+
 		from arrowz.device_providers.sync_engine import SyncEngine
 
 		engine = SyncEngine(box_doc=self)
@@ -213,6 +225,8 @@ class ArrowzBox(Document):
 
 		Returns differences per section without making any changes.
 		"""
+		frappe.only_for(["AZ Manager", "System Manager"])
+
 		from arrowz.device_providers.sync_engine import SyncEngine
 
 		engine = SyncEngine(box_doc=self)
@@ -224,6 +238,8 @@ class ArrowzBox(Document):
 
 		Useful for debugging / preview of what the device currently has.
 		"""
+		frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
 		from arrowz.device_providers.provider_factory import ProviderFactory
 
 		with ProviderFactory.connect(box_doc=self) as provider:

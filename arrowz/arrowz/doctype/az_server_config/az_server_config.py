@@ -33,6 +33,8 @@ class AZServerConfig(Document):
     @frappe.whitelist()
     def test_connection(self):
         """Test connection to the PBX server"""
+        frappe.only_for(["System Manager"])
+
         import socket
         
         try:
@@ -60,6 +62,8 @@ class AZServerConfig(Document):
     @frappe.whitelist()
     def test_ami_connection(self):
         """Test AMI connection"""
+        frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
         if not self.ami_enabled:
             return {"success": False, "message": "AMI is not enabled"}
         

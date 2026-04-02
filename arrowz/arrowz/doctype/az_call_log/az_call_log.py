@@ -148,6 +148,8 @@ class AZCallLog(Document):
     @frappe.whitelist()
     def request_ai_analysis(self):
         """Request AI analysis for this call (sentiment, summary, transcript)."""
+        frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
         if not self.has_recording:
             frappe.throw("No recording available for AI analysis")
         
@@ -163,6 +165,8 @@ class AZCallLog(Document):
     @frappe.whitelist()
     def play_recording(self):
         """Get recording playback URL."""
+        frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
         if not self.has_recording:
             frappe.throw("No recording available")
         
@@ -176,6 +180,8 @@ class AZCallLog(Document):
 @frappe.whitelist()
 def create_call_log(direction, caller_id, callee_id, extension=None, server=None):
     """Create a new call log entry."""
+    frappe.only_for(["AZ Manager", "System Manager"])
+
     doc = frappe.get_doc({
         "doctype": "AZ Call Log",
         "direction": direction,
@@ -193,6 +199,8 @@ def create_call_log(direction, caller_id, callee_id, extension=None, server=None
 @frappe.whitelist()
 def get_call_history(party_type=None, party=None, extension=None, limit=20):
     """Get call history for a party or extension."""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     filters = {}
     
     if party_type and party:
@@ -221,6 +229,8 @@ def get_call_history(party_type=None, party=None, extension=None, limit=20):
 @frappe.whitelist()
 def get_call_statistics(date_from=None, date_to=None, extension=None):
     """Get call statistics for reporting."""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     from frappe.utils import getdate, today
     
     if not date_from:

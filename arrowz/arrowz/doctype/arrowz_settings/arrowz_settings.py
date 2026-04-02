@@ -16,6 +16,8 @@ class ArrowzSettings(Document):
     @frappe.whitelist()
     def test_openai_connection(self):
         """Test OpenAI API connection"""
+        frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
         if not self.openai_api_key:
             return {"success": False, "message": "API Key not configured"}
         

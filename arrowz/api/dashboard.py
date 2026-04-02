@@ -19,6 +19,8 @@ def get_communications_stats():
     Get communications statistics for the dashboard.
     Returns call counts, SMS counts, and recording counts for today.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     date_filter = today()
     
     # Total calls today
@@ -72,6 +74,8 @@ def get_overview_stats():
     """
     Get overview statistics for the main dashboard.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     from frappe.utils import get_datetime, add_days
     
     today_date = today()
@@ -113,6 +117,8 @@ def get_agent_status_summary():
     """
     Get summary of all agent statuses for wallboard.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     agents = frappe.get_all(
         "AZ Extension",
         filters={"is_active": 1},
@@ -147,6 +153,8 @@ def get_active_calls():
     """
     Get list of currently active calls.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     # In a real implementation, this would query the PBX for active channels
     # For now, return calls that started recently and have no end_time
     
@@ -174,6 +182,8 @@ def get_queue_status():
     """
     Get call queue status for wallboard.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     # This would integrate with FreePBX/Asterisk queue status
     # For now, return sample data structure
     

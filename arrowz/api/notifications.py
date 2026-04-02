@@ -19,6 +19,8 @@ def get_pending_notifications():
     Returns:
         dict with pending_sms and missed_calls counts
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     user = frappe.session.user
     
     # Get user's extensions
@@ -84,6 +86,8 @@ def mark_sms_read(name):
     Args:
         name: SMS Message name
     """
+    frappe.only_for(["AZ Manager", "System Manager"])
+
     try:
         frappe.db.set_value("AZ SMS Message", name, "read_status", 1)
         frappe.db.commit()
@@ -100,6 +104,8 @@ def get_unread_count():
     Returns:
         dict with counts
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     user = frappe.session.user
     
     extensions = frappe.get_all(
@@ -158,6 +164,8 @@ def acknowledge_missed_call(name):
     Args:
         name: Call Log name
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     try:
         frappe.db.set_value("AZ Call Log", name, "acknowledged", 1)
         frappe.db.commit()

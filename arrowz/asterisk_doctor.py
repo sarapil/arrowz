@@ -62,6 +62,7 @@ class AsteriskDoctor:
     }
 
     def __init__(self):
+        frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
         self.findings: List[Dict] = []
         self.stats = {
             "ssl_attacks": 0,
@@ -778,7 +779,8 @@ def run_diagnosis() -> Dict:
     Run full Asterisk health diagnosis.
     API: /api/method/arrowz.asterisk_doctor.run_diagnosis
     """
-    frappe.only_for(["System Manager", "Arrowz Admin"])
+    frappe.only_for(["System Manager"])
+
     doctor = AsteriskDoctor()
     return doctor.run_full_diagnosis()
 
@@ -789,7 +791,8 @@ def apply_fixes(dry_run: bool = True) -> Dict:
     Apply auto-fixable configuration fixes.
     API: /api/method/arrowz.asterisk_doctor.apply_fixes
     """
-    frappe.only_for(["System Manager"])
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     doctor = AsteriskDoctor()
     return doctor.apply_fixes(dry_run=frappe.parse_json(dry_run) if isinstance(dry_run, str) else dry_run)
 
@@ -800,7 +803,8 @@ def get_attack_summary() -> Dict:
     Get summary of security attacks.
     API: /api/method/arrowz.asterisk_doctor.get_attack_summary
     """
-    frappe.only_for(["System Manager", "Arrowz Admin"])
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     doctor = AsteriskDoctor()
     doctor.check_security_attacks()
     return {

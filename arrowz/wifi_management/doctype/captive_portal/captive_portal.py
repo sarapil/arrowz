@@ -54,6 +54,8 @@ class CaptivePortal(Document):
 	@frappe.whitelist(methods=["POST"])
 	def start_portal(self):
 		"""Start the captive portal service."""
+		frappe.only_for(["AZ Manager", "System Manager"])
+
 		if self.status == "Running":
 			frappe.throw(frappe._("Portal is already running"))
 
@@ -66,6 +68,8 @@ class CaptivePortal(Document):
 	@frappe.whitelist(methods=["POST"])
 	def stop_portal(self):
 		"""Stop the captive portal service."""
+		frappe.only_for(["AZ Manager", "System Manager"])
+
 		if self.status == "Stopped":
 			frappe.throw(frappe._("Portal is already stopped"))
 

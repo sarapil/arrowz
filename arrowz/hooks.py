@@ -315,6 +315,8 @@ scheduler_events = {
 
 before_install = "arrowz.install.before_install"
 after_install = "arrowz.install.after_install"
+
+after_migrate = ["arrowz.arrowz.seed.seed_data"]
 after_migrate = "arrowz.install.after_migrate"
 
 # Uninstall cleanup

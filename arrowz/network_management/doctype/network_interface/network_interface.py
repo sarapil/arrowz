@@ -25,6 +25,8 @@ class NetworkInterface(Document):
 	@frappe.whitelist(methods=["POST"])
 	def refresh_status(self):
 		"""Refresh the interface status from the Arrowz Box."""
+		frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
 		# Placeholder for actual status refresh logic via API/SSH
 		frappe.msgprint(frappe._("Status refresh requested for {0}").format(self.interface_name))
 		return {"status": self.status}

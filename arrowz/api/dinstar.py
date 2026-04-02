@@ -98,7 +98,6 @@ def _get_client():
 
 def _check_permission():
     """Check user has admin/network manager role."""
-    frappe.only_for(["System Manager", "Network Manager"])
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -111,6 +110,7 @@ def get_status():
     Get comprehensive Dinstar device status for dashboard.
     Returns system info, port status, call stats, configs, and health score.
     """
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     _check_permission()
     try:
         client = _get_client()
@@ -123,6 +123,7 @@ def get_status():
 @frappe.whitelist()
 def get_port_status():
     """Get per-port GSM module status with SIM, power, signal info."""
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     _check_permission()
     try:
         client = _get_client()
@@ -139,6 +140,7 @@ def get_port_status():
 @frappe.whitelist()
 def get_call_stats():
     """Get per-port call statistics with totals."""
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     _check_permission()
     try:
         client = _get_client()
@@ -152,6 +154,7 @@ def get_call_stats():
 @frappe.whitelist()
 def get_ecc_stats():
     """Get per-port error cause code statistics."""
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     _check_permission()
     try:
         client = _get_client()
@@ -164,6 +167,7 @@ def get_ecc_stats():
 @frappe.whitelist()
 def get_sip_config():
     """Get SIP proxy, timers, and feature configuration."""
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     _check_permission()
     try:
         client = _get_client()
@@ -176,6 +180,7 @@ def get_sip_config():
 @frappe.whitelist()
 def get_media_config():
     """Get media/codec configuration."""
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     _check_permission()
     try:
         client = _get_client()
@@ -188,6 +193,7 @@ def get_media_config():
 @frappe.whitelist()
 def get_network_config():
     """Get WAN/LAN network configuration."""
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     _check_permission()
     try:
         client = _get_client()
@@ -203,6 +209,7 @@ def get_network_config():
 @frappe.whitelist()
 def get_sms_overview():
     """Get SMS overview: per-port counts, routing rules."""
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     _check_permission()
     try:
         client = _get_client()
@@ -218,6 +225,7 @@ def get_sms_overview():
 @frappe.whitelist()
 def get_gsm_status():
     """Get GSM-specific data: operate rules, events."""
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     _check_permission()
     try:
         client = _get_client()
@@ -233,6 +241,7 @@ def get_gsm_status():
 @frappe.whitelist()
 def get_vpn_status():
     """Get VPN configuration and connection status."""
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     _check_permission()
     try:
         client = _get_client()
@@ -257,6 +266,7 @@ def send_sms(port, number, message, encoding="ASCII"):
         message: SMS text
         encoding: ASCII or UCS2
     """
+    frappe.only_for(["System Manager"])
     _check_permission()
     try:
         client = _get_client()
@@ -278,6 +288,7 @@ def control_module(port, action):
         port: GSM port index (0-7)
         action: "reset", "block", "unblock", "block_call", "unblock_call", "power_on", "power_off"
     """
+    frappe.only_for(["System Manager"])
     _check_permission()
     try:
         client = _get_client()
@@ -309,6 +320,7 @@ def control_module(port, action):
 @frappe.whitelist()
 def update_sip_config(**kwargs):
     """Update SIP configuration. Pass field names and values as kwargs."""
+    frappe.only_for(["System Manager"])
     _check_permission()
     try:
         client = _get_client()
@@ -324,6 +336,7 @@ def update_sip_config(**kwargs):
 @frappe.whitelist()
 def update_media_config(**kwargs):
     """Update media/codec configuration."""
+    frappe.only_for(["System Manager"])
     _check_permission()
     try:
         client = _get_client()
@@ -338,6 +351,7 @@ def update_media_config(**kwargs):
 @frappe.whitelist()
 def test_connection():
     """Test connectivity to the Dinstar device."""
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     _check_permission()
     try:
         client = _get_client()
@@ -362,6 +376,8 @@ def get_topology_node():
         "edges": [ connections ],
     }
     """
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     _check_permission()
     try:
         client = _get_client()

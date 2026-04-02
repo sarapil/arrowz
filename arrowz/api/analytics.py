@@ -22,6 +22,8 @@ def get_analytics(date_range="today"):
     Returns:
         dict with total_calls, avg_duration, avg_wait_time, chart_data
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     # Calculate date range
     if date_range == "today":
         from_date = today()
@@ -87,6 +89,8 @@ def get_daily_trend(from_date=None, to_date=None):
     """
     Get daily call trend data.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     if not from_date:
         from_date = add_days(today(), -30)
     if not to_date:
@@ -144,6 +148,8 @@ def get_disposition_breakdown(from_date=None, to_date=None):
     """
     Get call disposition breakdown.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     if not from_date:
         from_date = today()
     if not to_date:
@@ -167,6 +173,8 @@ def get_agent_performance(from_date=None, to_date=None):
     """
     Get performance metrics by agent.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     if not from_date:
         from_date = today()
     if not to_date:
@@ -209,6 +217,8 @@ def get_hourly_heatmap(from_date=None, to_date=None):
     """
     Get hourly activity data for heatmap.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     if not from_date:
         from_date = add_days(today(), -7)
     if not to_date:
@@ -245,6 +255,8 @@ def get_sentiment_distribution(from_date=None, to_date=None):
     """
     Get sentiment score distribution.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     if not from_date:
         from_date = today()
     if not to_date:
@@ -269,6 +281,8 @@ def export_report(from_date=None, to_date=None, format="xlsx"):
     """
     Generate and export a report.
     """
+    frappe.only_for(["AZ Manager", "System Manager"])
+
     if not from_date:
         from_date = add_days(today(), -30)
     if not to_date:

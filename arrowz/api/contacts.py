@@ -29,6 +29,10 @@ def search_contacts(query, limit=10):
     Returns:
         List of contacts with name, phone, doctype
     """
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     if not query or len(query) < 2:
         return []
     
@@ -186,6 +190,10 @@ def get_contact_info(phone):
     Returns:
         Contact info if found, None otherwise
     """
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     if not phone:
         return None
     

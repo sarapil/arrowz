@@ -78,6 +78,8 @@ class AZCallTransferLog(Document):
 @frappe.whitelist()
 def initiate_transfer(call_log, transfer_type, to_extension=None, to_external=None):
     """Initiate a new call transfer."""
+    frappe.only_for(["AZ Manager", "System Manager"])
+
     call = frappe.get_doc("AZ Call Log", call_log)
     
     doc = frappe.get_doc({
@@ -100,6 +102,8 @@ def initiate_transfer(call_log, transfer_type, to_extension=None, to_external=No
 @frappe.whitelist()
 def start_consultation(transfer_log):
     """Start attended transfer consultation phase."""
+    frappe.only_for(["AZ Manager", "System Manager"])
+
     doc = frappe.get_doc("AZ Call Transfer Log", transfer_log)
     doc.status = "Consulting"
     doc.consultation_start = now_datetime()
@@ -110,6 +114,8 @@ def start_consultation(transfer_log):
 @frappe.whitelist()
 def complete_attended_transfer(transfer_log, new_call_log=None):
     """Complete an attended transfer after consultation."""
+    frappe.only_for(["AZ Manager", "System Manager"])
+
     doc = frappe.get_doc("AZ Call Transfer Log", transfer_log)
     doc.consultation_ended = now_datetime()
     doc.complete_transfer(new_call_log)

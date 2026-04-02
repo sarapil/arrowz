@@ -10,6 +10,8 @@ class NetworkAlert(Document):
 	@frappe.whitelist(methods=["POST"])
 	def acknowledge(self):
 		"""Acknowledge this alert."""
+		frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
 		if self.status != "Active":
 			frappe.throw("Only active alerts can be acknowledged.")
 		self.status = "Acknowledged"
@@ -21,6 +23,8 @@ class NetworkAlert(Document):
 	@frappe.whitelist(methods=["POST"])
 	def resolve(self):
 		"""Resolve this alert."""
+		frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
 		if self.status == "Resolved":
 			frappe.throw("This alert is already resolved.")
 		self.status = "Resolved"

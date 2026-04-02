@@ -69,6 +69,8 @@ class ArrowzNetworkSettings(Document):
 	@frappe.whitelist(methods=["POST"])
 	def generate_hmac_secret(self):
 		"""Generate a new HMAC secret key."""
+		frappe.only_for(["AZ Manager", "System Manager"])
+
 		import secrets
 
 		self.hmac_secret = secrets.token_hex(32)
@@ -78,6 +80,8 @@ class ArrowzNetworkSettings(Document):
 	@frappe.whitelist(methods=["POST"])
 	def test_default_box_connection(self):
 		"""Test connectivity to the default Arrowz Box."""
+		frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
 		if not self.default_box:
 			frappe.throw(frappe._("No default box configured"))
 

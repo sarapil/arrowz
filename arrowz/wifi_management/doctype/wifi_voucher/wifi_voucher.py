@@ -20,6 +20,8 @@ class WiFiVoucher(Document):
 	@frappe.whitelist(methods=["POST"])
 	def activate(self, mac_address=None):
 		"""Activate the voucher for a given MAC address."""
+		frappe.only_for(["AZ Manager", "System Manager"])
+
 		if self.status != "Available":
 			frappe.throw(frappe._("Only Available vouchers can be activated"))
 
@@ -39,6 +41,8 @@ class WiFiVoucher(Document):
 	@frappe.whitelist(methods=["POST"])
 	def deactivate(self):
 		"""Deactivate / disable the voucher."""
+		frappe.only_for(["AZ Manager", "System Manager"])
+
 		if self.status not in ("Available", "Active"):
 			frappe.throw(frappe._("Only Available or Active vouchers can be deactivated"))
 

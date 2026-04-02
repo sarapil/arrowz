@@ -117,6 +117,8 @@ class AZOmniChannel(Document):
     @frappe.whitelist()
     def sync_templates(self):
         """Sync message templates from provider"""
+        frappe.only_for(["AZ Manager", "System Manager"])
+
         try:
             driver = self.get_driver()
             templates = driver.fetch_templates()
@@ -135,6 +137,8 @@ class AZOmniChannel(Document):
     @frappe.whitelist()
     def test_send_message(self, recipient, message):
         """Send a test message"""
+        frappe.only_for(["AZ Manager", "System Manager"])
+
         try:
             driver = self.get_driver()
             result = driver.send_text_message(recipient, message)
@@ -154,6 +158,8 @@ class AZOmniChannel(Document):
 @frappe.whitelist()
 def get_channels_by_provider(provider_type):
     """Get all active channels for a provider type"""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     channels = frappe.db.sql("""
         SELECT c.name, c.channel_name, c.phone_number_id, c.channel_type, p.icon, p.color
         FROM `tabAZ Omni Channel` c
@@ -168,6 +174,8 @@ def get_channels_by_provider(provider_type):
 @frappe.whitelist()
 def get_channel_statistics(channel_name):
     """Get detailed statistics for a channel"""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     channel = frappe.get_doc("AZ Omni Channel", channel_name)
     
     # Get conversation statistics

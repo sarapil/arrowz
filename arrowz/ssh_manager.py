@@ -597,42 +597,56 @@ def restart_asterisk(server_name: str) -> dict:
 @frappe.whitelist()
 def test_ssh(server_name: str) -> dict:
     """API endpoint to test SSH connection."""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     return test_ssh_connection(server_name)
 
 
 @frappe.whitelist()
 def ssh_reload(server_name: str) -> dict:
     """API endpoint to reload Asterisk via SSH."""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     return reload_asterisk(server_name)
 
 
 @frappe.whitelist()
 def ssh_get_trunks(server_name: str) -> dict:
     """API endpoint to list trunks."""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     return list_trunks(server_name)
 
 
 @frappe.whitelist()
 def ssh_get_trunk_status(server_name: str) -> dict:
     """API endpoint to get trunk registration status."""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     return get_trunk_status(server_name)
 
 
 @frappe.whitelist()
 def ssh_get_routes(server_name: str) -> dict:
     """API endpoint to list outbound routes."""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     return list_outbound_routes(server_name)
 
 
 @frappe.whitelist()
 def ssh_get_status(server_name: str) -> dict:
     """API endpoint to get system status."""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     return get_system_status(server_name)
 
 
 @frappe.whitelist()
 def ssh_get_calls(server_name: str) -> dict:
     """API endpoint to get active calls."""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     return get_active_calls(server_name)
 
 
@@ -642,6 +656,8 @@ def ssh_debug_key(server_name: str) -> dict:
     API endpoint to debug SSH key configuration.
     Returns information about the stored key for troubleshooting.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     try:
         server = frappe.get_doc("AZ Server Config", server_name)
         

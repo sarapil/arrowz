@@ -20,6 +20,8 @@ def get_webrtc_config(extension_name=None):
     Args:
         extension_name: Optional specific extension to use (for users with multiple extensions)
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     user = frappe.session.user
     
     # Find user's extensions
@@ -242,6 +244,8 @@ def get_user_extensions():
     Get all active extensions for the current user.
     Used for extension selector dropdown.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     user = frappe.session.user
     
     extensions = frappe.get_all(
@@ -271,6 +275,10 @@ def initiate_call(number, video=False, extension_name=None):
     Returns:
         Call log details and session info
     """
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     user = frappe.session.user
     
     # Get user's extension
@@ -336,6 +344,8 @@ def answer_call(call_id, video=False):
         call_id: The call log ID or AMI call ID
         video: Whether to answer with video
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     user = frappe.session.user
     
     # Update call log
@@ -364,6 +374,8 @@ def hangup_call(call_id):
     """
     Hang up an active call.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     user = frappe.session.user
     
     call_log = frappe.db.get_value(
@@ -384,6 +396,8 @@ def reject_call(call_id):
     """
     Reject an incoming call.
     """
+    frappe.only_for(["AZ Manager", "System Manager"])
+
     call_log = frappe.db.get_value(
         "AZ Call Log",
         {"call_id": call_id},
@@ -405,6 +419,8 @@ def toggle_hold(call_id, hold=True):
     """
     Put call on hold or resume.
     """
+    frappe.only_for(["AZ Manager", "System Manager"])
+
     call_log = frappe.db.get_value(
         "AZ Call Log",
         {"call_id": call_id},
@@ -430,6 +446,8 @@ def send_dtmf(call_id, digits):
     """
     Send DTMF tones during a call.
     """
+    frappe.only_for(["AZ Manager", "System Manager"])
+
     # DTMF is handled client-side by JsSIP
     # This logs the event server-side
     frappe.publish_realtime(
@@ -451,6 +469,8 @@ def transfer_call(call_id, target, transfer_type="blind"):
         target: The target extension or number
         transfer_type: "blind" or "attended"
     """
+    frappe.only_for(["AZ Manager", "System Manager"])
+
     from arrowz.arrowz.doctype.az_call_transfer_log.az_call_transfer_log import initiate_transfer
     
     call_log = frappe.db.get_value(
@@ -488,6 +508,8 @@ def get_active_calls():
     """
     Get all active calls for the current user.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     user = frappe.session.user
     
     extension = frappe.db.get_value(
@@ -532,6 +554,8 @@ def show_dialer():
     Show the dialer UI (for URL shortcuts).
     Returns JavaScript to execute.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     return "frappe.require('/assets/arrowz/js/softphone.js', () => arrowz.softphone.show());"
 
 
@@ -545,6 +569,8 @@ def on_incoming_call(caller_id, call_id=None):
         caller_id: The caller's phone number or extension
         call_id: Optional JsSIP call ID for tracking
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     import time
     
     user = frappe.session.user
@@ -615,6 +641,8 @@ def update_call_answered(call_log=None, call_id=None):
     Update call log when call is answered (confirmed).
     Called from WebRTC client when call connects.
     """
+    frappe.only_for(["AZ Manager", "System Manager"])
+
     try:
         doc = None
         if call_log:
@@ -650,6 +678,8 @@ def update_call_ended(call_log=None, call_id=None, duration=0, disposition="ANSW
     Update call log when call ends normally.
     Called from WebRTC client when call terminates.
     """
+    frappe.only_for(["AZ Manager", "System Manager"])
+
     try:
         doc = None
         if call_log:
@@ -694,6 +724,8 @@ def update_call_failed(call_log=None, call_id=None, reason="Failed"):
     Update call log when call fails.
     Called from WebRTC client when call fails or is rejected.
     """
+    frappe.only_for(["AZ Manager", "System Manager"])
+
     try:
         doc = None
         if call_log:
@@ -741,7 +773,8 @@ def update_call_failed(call_log=None, call_id=None, reason="Failed"):
 @frappe.whitelist()
 def reload_asterisk():
     """Reload Asterisk config via AMI socket connection."""
-    frappe.only_for(["System Manager"])
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     
     import socket as sock
     

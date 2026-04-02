@@ -19,7 +19,8 @@ def sync_box(box_name: str):
 	Args:
 		box_name: Name of the Arrowz Box document
 	"""
-	frappe.only_for(["System Manager", "Network Manager"])
+	frappe.only_for(["AZ Manager", "System Manager"])
+
 
 	box = frappe.get_doc("Arrowz Box", box_name)
 	return box.sync_telemetry()
@@ -28,7 +29,8 @@ def sync_box(box_name: str):
 @frappe.whitelist(methods=["POST"])
 def sync_all_boxes():
 	"""Sync telemetry from all active Arrowz Boxes."""
-	frappe.only_for(["System Manager", "Network Manager"])
+	frappe.only_for(["AZ Manager", "System Manager"])
+
 
 	from frappe.query_builder import DocType
 
@@ -61,7 +63,8 @@ def push_config(box_name: str, config_type: str = "full"):
 		box_name: Name of the Arrowz Box
 		config_type: Type of config to push (full/network/firewall/wifi/bandwidth/clients/vpn/dns)
 	"""
-	frappe.only_for(["System Manager", "Network Manager"])
+	frappe.only_for(["AZ Manager", "System Manager"])
+
 
 	box = frappe.get_doc("Arrowz Box", box_name)
 

@@ -141,6 +141,8 @@ class AZSMSMessage(Document):
 @frappe.whitelist()
 def send_sms(to_number, message, provider=None, party_type=None, party=None, related_call=None):
     """Send an SMS message."""
+    frappe.only_for(["AZ Manager", "System Manager"])
+
     doc = frappe.get_doc({
         "doctype": "AZ SMS Message",
         "direction": "Outbound",
@@ -159,6 +161,8 @@ def send_sms(to_number, message, provider=None, party_type=None, party=None, rel
 @frappe.whitelist()
 def get_sms_history(phone_number=None, party_type=None, party=None, limit=20):
     """Get SMS history for a phone number or party."""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     filters = {}
     
     if phone_number:

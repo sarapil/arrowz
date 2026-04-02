@@ -23,6 +23,8 @@ def search_caller(phone_number: str) -> dict:
     Returns:
         dict with matches found
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     if not phone_number:
         return {"matches": []}
     
@@ -268,6 +270,10 @@ def get_caller_history(phone_number: str, limit: int = 10) -> list:
     Returns:
         List of call log records
     """
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     clean_number = clean_phone_number(phone_number)
     
     calls = frappe.db.get_all(
@@ -298,6 +304,10 @@ def get_caller_tickets(party_type: str, party: str) -> list:
     Returns:
         List of open tickets
     """
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     if not frappe.db.exists("DocType", "Issue"):
         return []
     
@@ -337,6 +347,10 @@ def get_caller_orders(party_type: str, party: str) -> list:
     Returns:
         List of recent orders
     """
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     if not frappe.db.exists("DocType", "Sales Order"):
         return []
     
@@ -373,6 +387,10 @@ def link_call_to_party(call_log: str, party_type: str, party: str) -> bool:
     Returns:
         Success status
     """
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     if not frappe.db.exists("AZ Call Log", call_log):
         frappe.throw(_("Call Log not found"))
     

@@ -118,6 +118,8 @@ class VPNPeer(Document):
 	@frappe.whitelist()
 	def generate_client_config(self):
 		"""Generate WireGuard client configuration text."""
+		frappe.only_for(["AZ Manager", "System Manager"])
+
 		server = frappe.get_doc("VPN Server", self.vpn_server)
 		config_lines = [
 			"[Interface]",
@@ -139,6 +141,8 @@ class VPNPeer(Document):
 	@frappe.whitelist(methods=["POST"])
 	def revoke_peer(self):
 		"""Revoke this peer's access."""
+		frappe.only_for(["AZ Manager", "System Manager"])
+
 		self.enabled = 0
 		self.status = "Disconnected"
 		self.save()
@@ -156,6 +160,8 @@ class VPNPeer(Document):
 		Returns:
 			dict: {config: str, qr_base64: str, filename: str}
 		"""
+		frappe.only_for(["AZ Manager", "System Manager"])
+
 		config_text = self.generate_client_config()
 
 		import base64

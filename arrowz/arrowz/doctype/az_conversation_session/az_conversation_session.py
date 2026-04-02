@@ -167,6 +167,8 @@ class AZConversationSession(Document):
     @frappe.whitelist()
     def mark_as_read(self):
         """Mark all messages as read"""
+        frappe.only_for(["AZ Manager", "System Manager"])
+
         self.unread_count = 0
         self.save(ignore_permissions=True)
         return {"status": "success"}
@@ -174,6 +176,8 @@ class AZConversationSession(Document):
     @frappe.whitelist()
     def assign_to_user(self, user):
         """Assign session to a user"""
+        frappe.only_for(["AZ Manager", "System Manager"])
+
         self.assigned_to = user
         self.save(ignore_permissions=True)
         
@@ -193,6 +197,8 @@ class AZConversationSession(Document):
     @frappe.whitelist()
     def resolve(self):
         """Mark session as resolved"""
+        frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
         self.status = "Resolved"
         self.session_end = now_datetime()
         
@@ -208,6 +214,8 @@ class AZConversationSession(Document):
     @frappe.whitelist()
     def escalate(self, level=None, reason=None):
         """Escalate the session"""
+        frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
         self.status = "Escalated"
         self.escalation_level = (level or self.escalation_level + 1)
         self.priority = "Urgent"
@@ -222,6 +230,8 @@ class AZConversationSession(Document):
     @frappe.whitelist()
     def send_message(self, content, message_type="text", media_url=None):
         """Send a message through this session"""
+        frappe.only_for(["AZ Manager", "System Manager"])
+
         channel = frappe.get_doc("AZ Omni Channel", self.channel)
         driver = channel.get_driver()
         
@@ -254,6 +264,8 @@ class AZConversationSession(Document):
 @frappe.whitelist()
 def get_or_create_session(channel, participant_id, participant_name=None, participant_phone=None):
     """Get existing active session or create new one"""
+    frappe.only_for(["AZ Manager", "System Manager"])
+
     # Check for existing active session
     existing = frappe.db.get_value(
         "AZ Conversation Session",
@@ -284,6 +296,8 @@ def get_or_create_session(channel, participant_id, participant_name=None, partic
 @frappe.whitelist()
 def get_sessions_for_user(user=None, status=None, channel=None, limit=50):
     """Get conversation sessions for a user"""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     filters = {}
     
     if user:
@@ -337,6 +351,8 @@ def get_sessions_for_user(user=None, status=None, channel=None, limit=50):
 @frappe.whitelist()
 def check_expired_sessions():
     """Check and expire sessions with expired windows (scheduled task)"""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     expired_sessions = frappe.get_all(
         "AZ Conversation Session",
         filters={

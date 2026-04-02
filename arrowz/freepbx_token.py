@@ -330,6 +330,8 @@ def test_graphql_connection(server_name: str) -> dict:
     Returns:
         dict: Test results
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     try:
         # Test query
         result = execute_graphql(
@@ -375,6 +377,8 @@ def refresh_token(server_name: str) -> dict:
     Returns:
         dict: New token info
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     try:
         manager = FreePBXTokenManager(server_name)
         manager.invalidate_token()

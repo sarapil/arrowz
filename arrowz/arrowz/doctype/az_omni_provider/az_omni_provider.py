@@ -144,6 +144,8 @@ class AZOmniProvider(Document):
     @frappe.whitelist()
     def test_connection(self):
         """Test connection to the provider"""
+        frappe.only_for(["System Manager"])
+
         try:
             driver = self.get_driver()
             result = driver.test_connection()
@@ -158,6 +160,8 @@ class AZOmniProvider(Document):
 @frappe.whitelist()
 def get_available_providers():
     """Get list of enabled providers"""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     providers = frappe.get_all(
         "AZ Omni Provider",
         filters={"is_enabled": 1},
@@ -169,6 +173,8 @@ def get_available_providers():
 @frappe.whitelist()
 def get_provider_capabilities(provider_name):
     """Get capabilities of a specific provider"""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     provider = frappe.get_doc("AZ Omni Provider", provider_name)
     return {
         "supports_text": provider.supports_text,

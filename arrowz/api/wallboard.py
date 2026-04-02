@@ -16,6 +16,8 @@ def get_active_calls():
     """
     Get all currently active calls across all extensions.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     calls = frappe.get_all(
         "AZ Call Log",
         filters={
@@ -47,6 +49,8 @@ def get_agent_status():
     """
     Get status of all configured agents/extensions.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     extensions = frappe.get_all(
         "AZ Extension",
         filters={"is_active": 1},
@@ -106,6 +110,8 @@ def get_hourly_stats(date=None):
     """
     Get hourly call statistics for a given date.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     if not date:
         date = today()
     
@@ -145,6 +151,8 @@ def get_queue_status():
     """
     Get call queue status (if queues are configured).
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     # Placeholder for queue integration
     return {
         "waiting": 0,
@@ -159,6 +167,8 @@ def get_sla_metrics(date=None):
     """
     Get SLA metrics for the specified date.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     if not date:
         date = today()
     
@@ -199,6 +209,8 @@ def get_wallboard_data():
     Get all wallboard data in a single API call.
     Returns comprehensive dashboard data for managers.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     date = today()
     
     # Get today's statistics
@@ -236,6 +248,8 @@ def get_today_stats():
     """
     Get today's call statistics summary.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     date = today()
     
     # Total calls

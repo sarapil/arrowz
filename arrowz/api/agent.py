@@ -15,6 +15,8 @@ def get_my_extension():
     """
     Get the current user's extension configuration.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     user = frappe.session.user
     
     extension = frappe.db.get_value(
@@ -45,6 +47,8 @@ def update_status(status):
     Args:
         status: available, busy, away, dnd, offline
     """
+    frappe.only_for(["AZ Manager", "System Manager"])
+
     user = frappe.session.user
     valid_statuses = ["available", "busy", "away", "dnd", "offline"]
     
@@ -71,6 +75,8 @@ def get_status():
     """
     Get current agent status.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     user = frappe.session.user
     status = frappe.cache().get_value(f"agent_status_{user}") or "available"
     return {"status": status}
@@ -81,6 +87,8 @@ def get_my_stats(date=None):
     """
     Get statistics for the current user.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     from frappe.utils import today
     
     user = frappe.session.user
@@ -108,6 +116,8 @@ def get_recent_contacts(limit=10):
     """
     Get recently called contacts for quick dial.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     user = frappe.session.user
     
     extension = frappe.db.get_value(
@@ -146,6 +156,8 @@ def get_agent_info():
     """
     Get agent information for the dashboard.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     user = frappe.session.user
     
     extension = frappe.db.get_value(
@@ -169,6 +181,8 @@ def get_agent_stats():
     """
     Get agent statistics for today.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     from frappe.utils import today, getdate
     
     user = frappe.session.user
@@ -210,6 +224,8 @@ def get_recent_calls(limit=20):
     """
     Get recent calls for the current user.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     user = frappe.session.user
     
     extension = frappe.db.get_value(
@@ -245,6 +261,8 @@ def set_status(status):
     """
     Set agent status (alias for update_status).
     """
+    frappe.only_for(["AZ Manager", "System Manager"])
+
     return update_status(status)
 
 
@@ -253,6 +271,8 @@ def set_agent_status(status):
     """
     Set agent status (alias for update_status).
     """
+    frappe.only_for(["AZ Manager", "System Manager"])
+
     return update_status(status)
 
 
@@ -262,6 +282,8 @@ def get_agent_dashboard_data():
     Get comprehensive agent dashboard data.
     Returns stats, recent calls, and active call info for the current user.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     from frappe.utils import today, get_datetime
     
     user = frappe.session.user

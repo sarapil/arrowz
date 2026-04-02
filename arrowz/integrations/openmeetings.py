@@ -386,6 +386,7 @@ def create_meeting_room(room_name: str, room_type: str = "Conference",
         link_doctype: DocType to link to
         link_name: Document name to link to
     """
+    frappe.only_for(["System Manager"])
     room = frappe.get_doc({
         "doctype": "AZ Meeting Room",
         "room_name": room_name,
@@ -418,6 +419,7 @@ def generate_meeting_link(room_name: str, participant_name: str,
         participant_email: Email of the participant
         is_moderator: Whether to grant moderator privileges
     """
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     room = frappe.get_doc("AZ Meeting Room", room_name)
     
     result = room.generate_participant_link({

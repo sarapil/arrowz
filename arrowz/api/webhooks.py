@@ -452,7 +452,8 @@ def setup_webhooks():
     
     Returns the webhook URLs to be configured in each provider's dashboard
     """
-    frappe.only_for(["System Manager", "Omni Channel Manager"])
+    frappe.only_for(["System Manager"])
+
     
     site_url = frappe.utils.get_url()
     
@@ -487,6 +488,8 @@ def register_telegram_webhook(bot_token, bot_id=None):
         bot_token: Telegram bot token
         bot_id: Optional bot identifier for multi-bot setup
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     import requests
     
     site_url = frappe.utils.get_url()
@@ -530,7 +533,8 @@ def get_webhook_status():
     """
     Get the status of all configured webhooks
     """
-    frappe.only_for(["System Manager", "Omni Channel Manager"])
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     
     status = {}
     

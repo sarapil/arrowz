@@ -341,6 +341,8 @@ class LocalPBXMonitor:
 @frappe.whitelist()
 def check_pbx_mounts() -> Dict:
     """Check PBX volume mounts."""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     monitor = LocalPBXMonitor()
     return {
         "available": monitor.is_available(),
@@ -352,6 +354,8 @@ def check_pbx_mounts() -> Dict:
 def get_pbx_logs(log_type: str = "full", lines: int = 100, 
                  filter_text: Optional[str] = None) -> Dict:
     """Get PBX logs."""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     monitor = LocalPBXMonitor()
     
     if not monitor.is_available():
@@ -376,6 +380,8 @@ def get_pbx_logs(log_type: str = "full", lines: int = 100,
 @frappe.whitelist()
 def get_extension_config(extension: str) -> Dict:
     """Get extension configuration."""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     monitor = LocalPBXMonitor()
     
     if not monitor.is_available():
@@ -387,6 +393,8 @@ def get_extension_config(extension: str) -> Dict:
 @frappe.whitelist()
 def diagnose_webrtc(extension: Optional[str] = None) -> Dict:
     """Run WebRTC diagnostics."""
+    frappe.only_for(["System Manager"])
+
     monitor = LocalPBXMonitor()
     return monitor.diagnose_webrtc(extension)
 
@@ -394,6 +402,8 @@ def diagnose_webrtc(extension: Optional[str] = None) -> Dict:
 @frappe.whitelist()
 def get_pjsip_configs() -> Dict:
     """Get all PJSIP configuration files."""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     monitor = LocalPBXMonitor()
     
     if not monitor.is_available():
@@ -405,6 +415,8 @@ def get_pjsip_configs() -> Dict:
 @frappe.whitelist()
 def get_call_quality() -> Dict:
     """Get call quality metrics."""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     monitor = LocalPBXMonitor()
     
     if not monitor.is_available():
@@ -416,6 +428,8 @@ def get_call_quality() -> Dict:
 @frappe.whitelist()
 def list_recordings(limit: int = 20) -> Dict:
     """List call recordings."""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     monitor = LocalPBXMonitor()
     
     if not monitor.is_available():
@@ -427,6 +441,8 @@ def list_recordings(limit: int = 20) -> Dict:
 @frappe.whitelist()
 def query_astdb(family: Optional[str] = None, key: Optional[str] = None) -> Dict:
     """Query Asterisk database."""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     monitor = LocalPBXMonitor()
     
     if not monitor.is_available():

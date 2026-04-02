@@ -32,6 +32,8 @@ class SitetoSiteTunnel(Document):
 	@frappe.whitelist(methods=["POST"])
 	def check_status(self):
 		"""Check the current status of the tunnel."""
+		frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
 		frappe.publish_realtime(
 			"site_to_site_tunnel_check",
 			{"tunnel": self.name, "arrowz_box": self.arrowz_box},

@@ -33,6 +33,8 @@ class NetworkClient(Document):
 	@frappe.whitelist(methods=["POST"])
 	def block_client(self):
 		"""Block this client from the network."""
+		frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
 		self.is_blocked = 1
 		self.status = "Blocked"
 		self.save()
@@ -41,6 +43,8 @@ class NetworkClient(Document):
 	@frappe.whitelist(methods=["POST"])
 	def unblock_client(self):
 		"""Unblock this client."""
+		frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
 		self.is_blocked = 0
 		self.status = "Offline"
 		self.save()
@@ -49,6 +53,8 @@ class NetworkClient(Document):
 	@frappe.whitelist(methods=["POST"])
 	def disconnect_client(self):
 		"""Disconnect this client from the network."""
+		frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
 		self.status = "Offline"
 		self.save()
 		frappe.logger().info(f"Client {self.mac_address} disconnected")

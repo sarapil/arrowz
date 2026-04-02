@@ -108,6 +108,7 @@ def get_recording_info(call_log):
     """
     Get recording metadata without downloading.
     """
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     doc = frappe.get_doc("AZ Call Log", call_log)
     
     if not doc.has_recording:

@@ -418,6 +418,8 @@ EOF'''
 @frappe.whitelist()
 def test_pbx_connection(server_name: str) -> Dict:
     """Test connection to PBX server."""
+    frappe.only_for(["System Manager"])
+
     monitor = PBXMonitor(server_name)
     return monitor.test_connection()
 
@@ -425,6 +427,8 @@ def test_pbx_connection(server_name: str) -> Dict:
 @frappe.whitelist()
 def get_pbx_status(server_name: str) -> Dict:
     """Get quick PBX status."""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     monitor = PBXMonitor(server_name)
     
     return {
@@ -438,6 +442,8 @@ def get_pbx_status(server_name: str) -> Dict:
 @frappe.whitelist()
 def get_extension_webrtc_status(server_name: str, extension: str) -> Dict:
     """Check WebRTC configuration for an extension."""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     monitor = PBXMonitor(server_name)
     return monitor.check_webrtc_settings(extension)
 
@@ -445,6 +451,8 @@ def get_extension_webrtc_status(server_name: str, extension: str) -> Dict:
 @frappe.whitelist()
 def configure_extension_webrtc(server_name: str, extension: str) -> Dict:
     """Configure extension for WebRTC."""
+    frappe.only_for(["System Manager"])
+
     monitor = PBXMonitor(server_name)
     return monitor.configure_webrtc_extension(extension)
 
@@ -452,6 +460,8 @@ def configure_extension_webrtc(server_name: str, extension: str) -> Dict:
 @frappe.whitelist()
 def get_pbx_logs(server_name: str, log_type: str = "recent", lines: int = 50) -> Dict:
     """Get PBX logs."""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     monitor = PBXMonitor(server_name)
     
     if log_type == "errors":
@@ -469,6 +479,8 @@ def get_pbx_logs(server_name: str, log_type: str = "recent", lines: int = 50) ->
 @frappe.whitelist()
 def run_pbx_diagnostics(server_name: str, extension: str = None) -> Dict:
     """Run full PBX diagnostics."""
+    frappe.only_for(["System Manager"])
+
     monitor = PBXMonitor(server_name)
     return monitor.full_diagnostics(extension)
 
@@ -476,6 +488,8 @@ def run_pbx_diagnostics(server_name: str, extension: str = None) -> Dict:
 @frappe.whitelist()
 def enable_sip_trace(server_name: str, verbose: bool = False) -> Dict:
     """Enable SIP tracing on PBX."""
+    frappe.only_for(["AZ Manager", "System Manager"])
+
     monitor = PBXMonitor(server_name)
     return monitor.enable_sip_trace(verbose)
 
@@ -483,6 +497,8 @@ def enable_sip_trace(server_name: str, verbose: bool = False) -> Dict:
 @frappe.whitelist()
 def disable_sip_trace(server_name: str) -> Dict:
     """Disable SIP tracing on PBX."""
+    frappe.only_for(["AZ Manager", "System Manager"])
+
     monitor = PBXMonitor(server_name)
     return monitor.disable_sip_trace()
 
@@ -496,6 +512,8 @@ def diagnose_ringing_issue(server_name: str, extension: str = None) -> Dict:
     2. Media path is broken (ICE/NAT issue)
     3. Missing WebRTC settings
     """
+    frappe.only_for(["System Manager"])
+
     monitor = PBXMonitor(server_name)
     
     results = {
@@ -573,6 +591,8 @@ def live_call_trace(server_name: str, duration: int = 30) -> Dict:
     Start a live trace of SIP messages for the specified duration.
     Returns the captured SIP messages.
     """
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     monitor = PBXMonitor(server_name)
     
     # Enable SIP trace

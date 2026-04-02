@@ -28,6 +28,8 @@ class WiFiVoucherBatch(Document):
 	@frappe.whitelist(methods=["POST"])
 	def generate_vouchers(self):
 		"""Generate voucher codes for this batch."""
+		frappe.only_for(["AZ Manager", "System Manager"])
+
 		if self.status != "Draft":
 			frappe.throw(frappe._("Vouchers can only be generated for Draft batches"))
 

@@ -37,6 +37,7 @@ def get_communication_history(doctype, docname, channels=None, limit=50, offset=
     Returns:
         Dict with communications list and metadata
     """
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     if isinstance(channels, str):
         channels = json.loads(channels) if channels else None
     
@@ -215,6 +216,7 @@ def get_communication_stats(doctype, docname):
     
     Returns counts and summaries for each channel
     """
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     stats = {
         "total_communications": 0,
         "total_unread": 0,
@@ -388,6 +390,7 @@ def send_message(channel, recipient, message, message_type="text",
     Returns:
         Message status and ID
     """
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     if isinstance(template_params, str):
         template_params = json.loads(template_params) if template_params else None
     
@@ -590,6 +593,7 @@ def get_conversation_messages(session_id, limit=50, before_timestamp=None):
         limit: Number of messages
         before_timestamp: For pagination, get messages before this time
     """
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     session = frappe.get_doc("AZ Conversation Session", session_id)
     
     filters = {"parent": session_id}
@@ -622,6 +626,7 @@ def get_conversation_messages(session_id, limit=50, before_timestamp=None):
 @frappe.whitelist()
 def mark_messages_read(session_id):
     """Mark all messages in a session as read"""
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     session = frappe.get_doc("AZ Conversation Session", session_id)
     session.unread_count = 0
     session.save(ignore_permissions=True)
@@ -632,6 +637,7 @@ def mark_messages_read(session_id):
 @frappe.whitelist()
 def assign_conversation(session_id, user):
     """Assign a conversation to a user"""
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     session = frappe.get_doc("AZ Conversation Session", session_id)
     session.assigned_to = user
     session.save(ignore_permissions=True)
@@ -654,6 +660,7 @@ def assign_conversation(session_id, user):
 @frappe.whitelist()
 def close_conversation(session_id, reason=None):
     """Close a conversation session"""
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     session = frappe.get_doc("AZ Conversation Session", session_id)
     session.status = "Closed"
     session.closed_by = frappe.session.user
@@ -675,6 +682,7 @@ def get_active_conversations(user=None, channel_type=None, limit=50):
         channel_type: Filter by channel
         limit: Number of conversations
     """
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     # Check if table exists
     if not frappe.db.table_exists("tabAZ Conversation Session"):
         return []
@@ -711,6 +719,7 @@ def get_active_conversations(user=None, channel_type=None, limit=50):
 @frappe.whitelist()
 def get_quick_replies(channel_type):
     """Get quick reply templates for a channel"""
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     # This could be extended to support custom quick replies per user/team
     default_replies = {
         "WhatsApp": [
@@ -749,6 +758,7 @@ def schedule_meeting(reference_doctype, reference_name, participants,
         room_type: "Permanent" or "Temporary"
         allow_recording: Whether recording is allowed
     """
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     if isinstance(participants, str):
         participants = json.loads(participants)
     
@@ -790,6 +800,7 @@ def start_whatsapp_conversation(phone_number, reference_doctype=None,
     
     If the 24h window is closed, a template message must be used
     """
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     # Check for existing active session
     existing = frappe.get_all(
         "AZ Conversation Session",
@@ -859,6 +870,7 @@ def get_communications_stats():
     Get communications statistics for the dashboard.
     Returns call counts, SMS counts, and recording counts for today.
     """
+    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     from frappe.utils import today
     
     user = frappe.session.user

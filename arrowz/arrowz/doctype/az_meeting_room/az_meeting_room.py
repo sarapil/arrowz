@@ -160,6 +160,8 @@ class AZMeetingRoom(Document):
     @frappe.whitelist()
     def generate_participant_link(self, participant_data):
         """Generate a unique link for a specific participant"""
+        frappe.only_for(["AZ Manager", "System Manager"])
+
         try:
             connector = self.get_connector()
             
@@ -190,6 +192,8 @@ class AZMeetingRoom(Document):
     @frappe.whitelist()
     def add_participant(self, doctype=None, docname=None, email=None, name=None, is_moderator=False):
         """Add a participant to the meeting"""
+        frappe.only_for(["AZ Manager", "System Manager"])
+
         participant = {
             "participant_type": "External" if not doctype else "Internal",
             "email": email,
@@ -242,6 +246,8 @@ class AZMeetingRoom(Document):
     @frappe.whitelist()
     def start_meeting(self):
         """Start the meeting"""
+        frappe.only_for(["AZ Manager", "System Manager"])
+
         self.status = "Active"
         
         if not self.external_room_id:
@@ -268,6 +274,8 @@ class AZMeetingRoom(Document):
     @frappe.whitelist()
     def end_meeting(self):
         """End the meeting"""
+        frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
         self.status = "Completed"
         self.save(ignore_permissions=True)
         
@@ -285,6 +293,8 @@ class AZMeetingRoom(Document):
     @frappe.whitelist()
     def send_invitations(self):
         """Send email invitations to all participants"""
+        frappe.only_for(["AZ Manager", "System Manager"])
+
         from frappe.core.doctype.communication.email import make
         
         for participant in self.participants:
@@ -331,6 +341,8 @@ class AZMeetingRoom(Document):
 @frappe.whitelist()
 def create_instant_meeting(room_name=None, link_doctype=None, link_name=None):
     """Create an instant meeting room"""
+    frappe.only_for(["AZ Manager", "System Manager"])
+
     room = frappe.get_doc({
         "doctype": "AZ Meeting Room",
         "room_name": room_name or _("Instant Meeting - {0}").format(now_datetime().strftime("%Y-%m-%d %H:%M")),
@@ -357,6 +369,8 @@ def create_instant_meeting(room_name=None, link_doctype=None, link_name=None):
 @frappe.whitelist()
 def get_upcoming_meetings(user=None, limit=10):
     """Get upcoming meetings for a user"""
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+
     filters = {
         "status": ["in", ["Scheduled", "Active"]],
         "scheduled_start": [">=", now_datetime()]
