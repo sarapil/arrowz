@@ -1,0 +1,16 @@
+[
+  {
+    "name": "AZ_full_access",
+    "capabilities": [
+      "AZ_manage_extensions",
+      "AZ_manage_calls",
+      "AZ_use_softphone",
+      "AZ_manage_omni",
+      "AZ_manage_meetings",
+      "AZ_manage_network",
+      "AZ_view_cdr",
+      "AZ_admin_settings"
+    ],
+    "description": "Full Arrowz access"
+  }
+]
