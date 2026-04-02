@@ -1,0 +1,32 @@
+# FreePBX Docker Compose - Shared Network Overlay
+# ================================================
+#
+# This file adds FreePBX to the arrowz_shared_net network.
+# Place this next to your existing FreePBX docker-compose.yml
+#
+# Usage:
+#   docker-compose -f docker-compose.yml -f docker-compose.shared-net.yml up -d
+#
+# Or set in .env:
+#   COMPOSE_FILE=docker-compose.yml:docker-compose.shared-net.yml
+#
+# Prerequisites:
+#   The arrowz_shared_net network must exist BEFORE starting:
+#   docker network create --driver bridge --subnet 172.30.0.0/16 arrowz_shared_net
+
+version: "3.8"
+
+services:
+  freepbx:
+    networks:
+      default:        # Keep original network for backward compat
+      arrowz_shared:  # Add to shared network
+        aliases:
+          - freepbx
+          - pbx
+          - asterisk
+
+networks:
+  arrowz_shared:
+    external: true
+    name: arrowz_shared_net

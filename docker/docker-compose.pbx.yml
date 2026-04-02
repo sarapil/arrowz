@@ -1,0 +1,52 @@
+# FreePBX Integration Volumes for Arrowz Development
+# =================================================
+#
+# This file extends the main docker-compose to add FreePBX volume mounts
+# 
+# Usage:
+#   docker-compose -f docker-compose.yml -f docker-compose.pbx.yml up -d
+#
+# Or add to your .env file:
+#   COMPOSE_FILE=docker-compose.yml:docker-compose.pbx.yml
+
+version: "3.8"
+
+services:
+  frappe:
+    volumes:
+      # ===== FreePBX Integration Volumes =====
+      # All mounted as read-only (ro) for safety
+      
+      # Asterisk Logs (Full logging for debugging)
+      - /opt/proj/initpbx/fpbx_data/log/asterisk:/mnt/pbx/logs/asterisk:ro
+      - /opt/proj/initpbx/fpbx_data/log/apache2:/mnt/pbx/logs/apache2:ro
+      - /opt/proj/initpbx/fpbx_data/log/pbx:/mnt/pbx/logs/pbx:ro
+      
+      # Asterisk Configuration (PJSIP, RTP, HTTP, etc.)
+      - /opt/proj/initpbx/fpbx_data/etc/asterisk:/mnt/pbx/etc/asterisk:ro
+      - /opt/proj/initpbx/fpbx_data/etc/freepbx.conf:/mnt/pbx/etc/freepbx.conf:ro
+      
+      # Asterisk Internal Database (SQLite - device states, hints, etc.)
+      - /opt/proj/initpbx/fpbx_data/ast_lib/astdb.sqlite3:/mnt/pbx/astdb.sqlite3:ro
+      
+      # CDR Database backups
+      - /opt/proj/initpbx/fpbx_data/db:/mnt/pbx/db:ro
+      
+      # MySQL Database (for direct queries if needed)
+      - /opt/proj/initpbx/fpbx_data/mysql:/mnt/pbx/mysql:ro
+      
+      # Call Recordings
+      - /opt/proj/initpbx/fpbx_data/ast_spool/monitor:/mnt/pbx/recordings:ro
+      
+      # Voicemail Files
+      - /opt/proj/initpbx/fpbx_data/ast_spool/voicemail:/mnt/pbx/voicemail:ro
+      
+      # CDR & Call Accounting Data
+      - /opt/proj/initpbx/fpbx_data/ast_spool/callaccounting:/mnt/pbx/callaccounting:ro
+      
+      # TLS/DTLS Keys & Certificates (for WebRTC debugging)
+      - /opt/proj/initpbx/fpbx_data/ast_lib/keys:/mnt/pbx/keys:ro
+      - /opt/proj/initpbx/fpbx_data/etc/ssl:/mnt/pbx/ssl:ro
+      
+      # TURN Server Configuration
+      - /opt/proj/initpbx/fpbx_data/etc/turnserver.conf:/mnt/pbx/turnserver.conf:ro

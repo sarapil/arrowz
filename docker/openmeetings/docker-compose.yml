@@ -1,0 +1,142 @@
+# Apache OpenMeetings - Arrowz Integration
+# ==========================================
+#
+# OpenMeetings video conferencing server for Arrowz.
+# Connected to arrowz_shared_net for direct access from Frappe and FreePBX.
+#
+# Usage:
+#   cd /opt/proj/openmeetings  (or wherever you place this)
+#   docker-compose up -d
+#
+# Prerequisites:
+#   docker network create --driver bridge --subnet 172.30.0.0/16 arrowz_shared_net
+#
+# Access:
+#   - From VPS host:       https://localhost:5443/openmeetings
+#   - From Frappe container: http://openmeetings:5443/openmeetings
+#   - From browser (via Nginx proxy): https://dev.tavira-group.com/openmeetings
+#
+# Default admin:  admin / your-secure-password-here
+# 
+# Arrowz Integration:
+#   Set om_url in AZ Server Config to: http://openmeetings:5443/openmeetings
+#   (Direct container-to-container via shared network — no SSL needed internally)
+
+version: "3.8"
+
+services:
+  openmeetings:
+    image: apache/openmeetings:latest
+    container_name: arrowz-openmeetings
+    hostname: openmeetings
+    restart: unless-stopped
+    
+    ports:
+      # Web UI (HTTPS) — expose on host for Nginx proxy
+      - "5443:5443"
+      # KMS (Kurento Media Server) ports for WebRTC media
+      - "8888:8888"
+    
+    environment:
+      # Database configuration (uses its own DB below)
+      DB_TYPE: mysql
+      DB_HOST: om-db
+      DB_PORT: "3306"
+      DB_NAME: openmeetings
+      DB_USER: om
+      DB_PASS: om_secure_password_change_me
+      
+      # OpenMeetings admin
+      OM_ADMIN_USER: admin
+      OM_ADMIN_PASS: your-secure-password-here
+      
+      # SMTP (optional — for meeting invitations)
+      # SMTP_SERVER: smtp.example.com
+      # SMTP_PORT: "587"
+      # SMTP_USER: notifications@example.com
+      # SMTP_PASS: smtp_password
+      # SMTP_USE_TLS: "true"
+      # SMTP_SYSTEM_EMAIL: noreply@tavira-group.com
+      
+    volumes:
+      # Persistent data
+      - om-data:/opt/om/data
+      # Recordings
+      - om-recordings:/opt/om/recordings
+      # Uploads
+      - om-uploads:/opt/om/upload
+      # Logs
+      - om-logs:/opt/om/logs
+    
+    networks:
+      default:          # Internal network (with om-db)
+      arrowz_shared:    # Shared network (with Frappe, FreePBX)
+        aliases:
+          - openmeetings
+          - om
+    
+    depends_on:
+      om-db:
+        condition: service_healthy
+  
+  # Dedicated MySQL for OpenMeetings
+  # (Separate from Frappe's MariaDB to avoid conflicts)
+  om-db:
+    image: mysql:8.0
+    container_name: arrowz-om-db
+    restart: unless-stopped
+    
+    environment:
+      MYSQL_ROOT_PASSWORD: om_root_password_change_me
+      MYSQL_DATABASE: openmeetings
+      MYSQL_USER: om
+      MYSQL_PASSWORD: om_secure_password_change_me
+    
+    volumes:
+      - om-mysql-data:/var/lib/mysql
+    
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pom_root_password_change_me"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    
+    networks:
+      - default  # Only accessible from OpenMeetings
+
+  # Kurento Media Server (WebRTC media processing)
+  # Required for video/audio in OpenMeetings
+  kms:
+    image: kurento/kurento-media-server:latest
+    container_name: arrowz-kms
+    hostname: kms
+    restart: unless-stopped
+    
+    environment:
+      KMS_STUN_IP: stun.l.google.com
+      KMS_STUN_PORT: "19302"
+      # If you have a TURN server:
+      # KMS_TURN_URL: user:pass@your-turn-server:3478
+    
+    ports:
+      # WebRTC UDP media range
+      - "40000-40100:40000-40100/udp"
+    
+    networks:
+      default:          # Talk to OpenMeetings
+      arrowz_shared:    # Media relay accessible from shared network
+        aliases:
+          - kms
+          - kurento
+
+volumes:
+  om-data:
+  om-recordings:
+  om-uploads:
+  om-logs:
+  om-mysql-data:
+
+networks:
+  arrowz_shared:
+    external: true
+    name: arrowz_shared_net
