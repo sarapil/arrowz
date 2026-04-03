@@ -26,7 +26,17 @@ def after_install():
     
     # Add custom fields to existing doctypes
     add_custom_fields()
-    
+
+    # ── Desktop Icon injection (Frappe v16 /desk) ──
+    from arrowz.desktop_utils import inject_app_desktop_icon
+    inject_app_desktop_icon(
+        app="arrowz",
+        label="Arrowz",
+        route="/desk/arrowz-topology",
+        logo_url="/assets/arrowz/images/arrowz-logo-animated.svg",
+        bg_color="#8B5CF6",
+    )
+
     frappe.msgprint(_("Arrowz installed successfully! Configure your PBX settings to get started."))
 
 

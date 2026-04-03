@@ -1,0 +1,22 @@
+{
+ "app": "arrowz",
+ "creation": "2026-04-03 08:34:44.210364",
+ "docstatus": 0,
+ "doctype": "Desktop Icon",
+ "hidden": 0,
+ "icon": "network",
+ "icon_type": "Link",
+ "idx": 0,
+ "label": "Arrowz Network",
+ "link_to": "Arrowz Network",
+ "link_type": "Workspace Sidebar",
+ "logo_url": "",
+ "modified": "2026-04-03 08:34:44.210364",
+ "modified_by": "Administrator",
+ "name": "Arrowz Network",
+ "owner": "Administrator",
+ "parent_icon": "Arrowz",
+ "restrict_removal": 0,
+ "roles": [],
+ "standard": 1
+}
