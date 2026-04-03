@@ -126,37 +126,50 @@ def generate_search_patterns(clean_number: str) -> list:
 
 
 def search_in_doctype(doctype: str, fields: list, patterns: list) -> list:
-    """Search in a doctype for phone patterns"""
+    """Search in a doctype for phone patterns using parameterized queries."""
     results = []
-    
+
     # Check if doctype exists
     if not frappe.db.exists("DocType", doctype):
         return results
-    
-    # Build conditions
-    conditions = []
-    for field in fields:
-        # Check if field exists
+
+    # Validate doctype name against meta (prevents table name injection)
+    try:
         meta = frappe.get_meta(doctype)
+    except Exception:
+        return results
+
+    # Build parameterized conditions
+    conditions = []
+    params = []
+    valid_fields = []
+    for field in fields:
         if not meta.has_field(field):
             continue
-        
+        valid_fields.append(field)
         for pattern in patterns:
-            conditions.append(f"{field} LIKE '%{pattern}%'")
-    
-    if not conditions:
+            conditions.append(f"`{field}` LIKE %s")
+            params.append(f"%{pattern}%")
+
+    if not conditions or not valid_fields:
         return results
-    
+
+    # Build safe SELECT field list from validated meta fields
+    select_fields = ", ".join(f"`{f}`" for f in valid_fields)
+
     try:
-        results = frappe.db.sql(f"""
-            SELECT name, {', '.join(fields + ['name'])}
-            FROM `tab{doctype}`
-            WHERE {' OR '.join(conditions)}
-            LIMIT 5
-        """, as_dict=True)
+        results = frappe.db.sql(
+            "SELECT `name`, {select_fields} FROM `tab{doctype}` WHERE {where} LIMIT 5".format(
+                select_fields=select_fields,
+                doctype=doctype.replace("`", ""),
+                where=" OR ".join(conditions),
+            ),
+            params,
+            as_dict=True,
+        )
     except Exception:
         pass
-    
+
     return results
 
 
