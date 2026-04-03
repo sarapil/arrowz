@@ -158,15 +158,14 @@ def search_in_doctype(doctype: str, fields: list, patterns: list) -> list:
     select_fields = ", ".join(f"`{f}`" for f in valid_fields)
 
     try:
-        results = frappe.db.sql(
-            "SELECT `name`, {select_fields} FROM `tab{doctype}` WHERE {where} LIMIT 5".format(
-                select_fields=select_fields,
-                doctype=doctype.replace("`", ""),
-                where=" OR ".join(conditions),
-            ),
-            params,
-            as_dict=True,
+        # Use meta.name to ensure we only reference a validated doctype/table name
+        table_name = f"tab{meta.name}"
+        where_clause = " OR ".join(conditions)
+        query = (
+            "SELECT `name`, {select_fields} FROM `{table}` WHERE {where} LIMIT 5"
+            .format(select_fields=select_fields, table=table_name, where=where_clause)
         )
+        results = frappe.db.sql(query, tuple(params), as_dict=True)
     except Exception:
         pass
 
@@ -283,8 +282,6 @@ def get_caller_history(phone_number: str, limit: int = 10) -> list:
     Returns:
         List of call log records
     """
-    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
-    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
 
     clean_number = clean_phone_number(phone_number)
@@ -317,8 +314,6 @@ def get_caller_tickets(party_type: str, party: str) -> list:
     Returns:
         List of open tickets
     """
-    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
-    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
 
     if not frappe.db.exists("DocType", "Issue"):
@@ -360,8 +355,6 @@ def get_caller_orders(party_type: str, party: str) -> list:
     Returns:
         List of recent orders
     """
-    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
-    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
 
     if not frappe.db.exists("DocType", "Sales Order"):
@@ -400,8 +393,6 @@ def link_call_to_party(call_log: str, party_type: str, party: str) -> bool:
     Returns:
         Success status
     """
-    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
-    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
 
     if not frappe.db.exists("AZ Call Log", call_log):

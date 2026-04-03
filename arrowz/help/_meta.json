@@ -1,0 +1,12 @@
+{
+  "app": "arrowz",
+  "name": "Arrowz",
+  "icon": "phone",
+  "color": "#2ECC71",
+  "languages": [
+    "en",
+    "ar"
+  ],
+  "default_language": "en",
+  "fallback_language": "en"
+}

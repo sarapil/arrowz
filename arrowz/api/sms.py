@@ -24,8 +24,6 @@ def send_sms(to_number, message, provider=None, party_type=None, party=None, rel
         party: Optional CRM party name
         related_call: Optional related call log
     """
-    frappe.only_for(["System Manager"])
-    frappe.only_for(["System Manager"])
     frappe.only_for(["AZ Manager", "System Manager"])
 
     from arrowz.arrowz.doctype.az_sms_message.az_sms_message import send_sms as _send_sms

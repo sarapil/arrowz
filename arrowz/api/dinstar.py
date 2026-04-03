@@ -46,8 +46,8 @@ def _get_client():
 
     # Try AZ Server Config first
     host = None
-    username = "admin"
-    password = "admin"
+    username = None
+    password = None
     protocol = "https"
 
     try:
@@ -61,11 +61,11 @@ def _get_client():
             if configs:
                 doc = frappe.get_doc("AZ Server Config", configs[0].name)
                 host = getattr(doc, "dinstar_host", None) or getattr(doc, "dinstar_ip", None)
-                username = getattr(doc, "dinstar_username", None) or "admin"
+                username = getattr(doc, "dinstar_username", None)
                 # Only attempt get_password if the field actually exists on the doctype
                 if doc.meta.has_field("dinstar_password"):
                     try:
-                        password = doc.get_password("dinstar_password") or "admin"
+                        password = doc.get_password("dinstar_password")
                     except Exception:
                         pass
     except Exception:
@@ -74,9 +74,16 @@ def _get_client():
     # Fallback to site_config
     if not host:
         host = frappe.conf.get("dinstar_host", "172.22.0.2")
-        username = frappe.conf.get("dinstar_username", "admin")
-        password = frappe.conf.get("dinstar_password", "admin")
+        username = username or frappe.conf.get("dinstar_username")
+        password = password or frappe.conf.get("dinstar_password")
         protocol = frappe.conf.get("dinstar_protocol", "https")
+
+    if not username or not password:
+        frappe.throw(
+            _("Dinstar credentials not configured. Set dinstar_username and dinstar_password "
+              "in AZ Server Config or site_config.json."),
+            title=_("Missing Credentials"),
+        )
 
     # Default port: 10443 = socat proxy in FreePBX container
     # (FreePBX:10443 → Dinstar:443 via OpenVPN tun1)
@@ -376,7 +383,6 @@ def get_topology_node():
         "edges": [ connections ],
     }
     """
-    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     _check_permission()
     try:

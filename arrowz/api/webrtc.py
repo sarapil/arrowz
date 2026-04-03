@@ -275,8 +275,6 @@ def initiate_call(number, video=False, extension_name=None):
     Returns:
         Call log details and session info
     """
-    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
-    frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
 
     user = frappe.session.user
