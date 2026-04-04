@@ -102,8 +102,8 @@ class DinstarClient:
     def __init__(
         self,
         host: str,
-        username: str = "admin",
-        password: str = "admin",
+        username: str,
+        password: str,
         protocol: str = "https",
         verify_ssl: bool = False,
         timeout: int = 15,

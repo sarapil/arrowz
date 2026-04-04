@@ -17,7 +17,7 @@ app_email = "support@arrowz.io"
 app_license = "MIT"
 
 # Required Apps
-required_apps = ["frappe", "frappe_visual"]
+required_apps = ["frappe", "frappe_visual", "arkan_help"]
 
 # Optional: Recommended apps for full functionality
 # required_apps = ["frappe", "erpnext", "frappe_visual"]
@@ -340,7 +340,12 @@ fixtures = [
     {
         "doctype": "Desktop Icon",
         "filters": [["app", "=", "arrowz"]]
-    }
+    },
+    # Workspace fixtures
+    {
+        "doctype": "Workspace",
+        "filters": [["module", "like", "Arrowz%"]]
+    },
 ]
 
 # -----------------------------------------------------------------------------

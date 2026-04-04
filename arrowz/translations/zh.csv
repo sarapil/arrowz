@@ -1,0 +1,923 @@
+{0} alert on {1}: {2}%,{0} alert on {1}: {2}%
+{0} contains invalid characters,{0} contains invalid characters
+{0} has invalid format: {1},{0} has invalid format: {1}
+{0} is not a valid CIDR: {1},{0} is not a valid CIDR: {1}
+{0} is not a valid hostname: {1},{0} is not a valid hostname: {1}
+{0} is not a valid IP address,{0} is not a valid IP address
+{0} is not a valid IP address: {1},{0} is not a valid IP address: {1}
+{0} is not a valid IP address or hostname,{0} is not a valid IP address or hostname
+{0} is not a valid MAC address: {1},{0} is not a valid MAC address: {1}
+{0} is not a valid subnet mask: {1},{0} is not a valid subnet mask: {1}
+{0} is required for Static connection type,{0} is required for Static connection type
+{0} is too long (max 253 characters),{0} is too long (max 253 characters)
+{0} must be 0 (unlimited) or a positive number,{0} must be 0 (unlimited) or a positive number
+{0} must be 32 characters or fewer,{0} must be 32 characters or fewer
+{0} must be a number,{0} must be a number
+{0} must be a number: {1},{0} must be a number: {1}
+"{0} must be a valid IP address, CIDR notation, or address group name.","{0} must be a valid IP address, CIDR notation, or address group name."
+{0} must be a valid IP address or CIDR notation.,{0} must be a valid IP address or CIDR notation.
+{0} must be a valid port number or range (e.g. 80 or 80-443).,{0} must be a valid port number or range (e.g. 80 or 80-443).
+"{0} must be a valid port number, range (e.g. 80-443), or comma-separated list.","{0} must be a valid port number, range (e.g. 80-443), or comma-separated list."
+{0} must be between 1 and 4094,{0} must be between 1 and 4094
+{0} must be between 1 and 65535: {1},{0} must be between 1 and 65535: {1}
+{0} must be between 68 and 9000,{0} must be between 68 and 9000
+{0} port out of range: {1},{0} port out of range: {1}
+{0} start must be less than end: {1},{0} start must be less than end: {1}
+{0} vouchers generated successfully,{0} vouchers generated successfully
+24-hour window has expired. Please use a template message.,24-hour window has expired. Please use a template message.
+Access denied on box {0}. Check permissions.,Access denied on box {0}. Check permissions.
+Access Policies,Access Policies
+Access Policy '{0}' has expired (ended {1}).,Access Policy '{0}' has expired (ended {1}).
+Access Policy '{0}' has reached its max connections limit ({1}).,Access Policy '{0}' has reached its max connections limit ({1}).
+Access Policy '{0}' is not yet valid (starts {1}).,Access Policy '{0}' is not yet valid (starts {1}).
+Access Token is required for WhatsApp,Access Token is required for WhatsApp
+Account has expired,Account has expired
+Account is {0},Account is {0}
+Account not yet active,Account not yet active
+Actions,Actions
+Action Value is required when action is {0}.,Action Value is required when action is {0}.
+Active,Active
+Agent Dashboard,Agent Dashboard
+Alerts,Alerts
+{alert_type} alert: current value {value} {op} {threshold},{alert_type} alert: current value {value} {op} {threshold}
+All,All
+Allowed IPs must be specified.,Allowed IPs must be specified.
+Analytics,Analytics
+API Port must be between 1 and 65535,API Port must be between 1 and 65535
+API request failed: {0},API request failed: {0}
+API Token Expiry must be at least 1 day,API Token Expiry must be at least 1 day
+Are you sure you want to close this conversation?,Are you sure you want to close this conversation?
+Arrowz,Arrowz
+Arrowz Alert: {0},Arrowz Alert: {0}
+Arrowz cleanup completed. Custom fields have been removed.,Arrowz cleanup completed. Custom fields have been removed.
+Arrowz installed successfully! Configure your PBX settings to get started.,Arrowz installed successfully! Configure your PBX settings to get started.
+Arrowz Settings,Arrowz Settings
+Assign,Assign
+Assign Conversation,Assign Conversation
+Assign To,Assign To
+At least one authentication method is required,At least one authentication method is required
+At least one authentication method must be enabled,At least one authentication method must be enabled
+Attachment,Attachment
+Authentication failed,Authentication failed
+Authentication failed for box {0}. Check API token.,Authentication failed for box {0}. Check API token.
+Authentication successful,Authentication successful
+Auth Error,Auth Error
+Auto Refresh,Auto Refresh
+Bandwidth plan assigned,Bandwidth plan assigned
+Bandwidth Plan is required when action is Shape.,Bandwidth Plan is required when action is Shape.
+Bandwidth Plans,Bandwidth Plans
+Billing Plans,Billing Plans
+Both GraphQL and SSH sync failed. GraphQL: {0}. SSH: {1},Both GraphQL and SSH sync failed. GraphQL: {0}. SSH: {1}
+Bot Token is required for Telegram,Bot Token is required for Telegram
+Box {0} has not sent heartbeat for {1} seconds,Box {0} has not sent heartbeat for {1} seconds
+Boxes,Boxes
+Burst Download speed cannot be less than the base Download speed.,Burst Download speed cannot be less than the base Download speed.
+Burst Upload speed cannot be less than the base Upload speed.,Burst Upload speed cannot be less than the base Upload speed.
+Call,Call
+Call Log,Call Log
+Call Log not found,Call Log not found
+Calls,Calls
+Calls Today,Calls Today
+Cannot determine box for client {0},Cannot determine box for client {0}
+Cannot import driver module: {0},Cannot import driver module: {0}
+Captive Portal {0} started,Captive Portal {0} started
+Captive Portal {0} stopped,Captive Portal {0} stopped
+Chat ID / Username,Chat ID / Username
+Check Status,Check Status
+Circular reference detected: {0} cannot be a parent of itself,Circular reference detected: {0} cannot be a parent of itself
+Circular reference detected in parent group hierarchy,Circular reference detected in parent group hierarchy
+Client blocked,Client blocked
+Client Config,Client Config
+Client disconnected,Client disconnected
+Client Group is required when Target Type is Group,Client Group is required when Target Type is Group
+Client not found: {0},Client not found: {0}
+👥 Clients,👥 Clients
+Clients,Clients
+Client unblocked,Client unblocked
+Close,Close
+Code Length must be between 4 and 20,Code Length must be between 4 and 20
+Communication History,Communication History
+💬 Communications,💬 Communications
+Communications,Communications
+Comparing configurations...,Comparing configurations...
+Config pushed successfully!,Config pushed successfully!
+Configuration applied successfully,Configuration applied successfully
+Configuration Diff,Configuration Diff
+Connection failed,Connection failed
+Connection Failed,Connection Failed
+Connection failed: {0},Connection failed: {0}
+Connections,Connections
+Connection successful,Connection successful
+Connection successful!,Connection successful!
+Connection Test,Connection Test
+Conversation assigned,Conversation assigned
+Conversation closed,Conversation closed
+Copied!,Copied!
+Copy & Close,Copy & Close
+Copy to Clipboard,Copy to Clipboard
+Details,Details
+Device Configuration,Device Configuration
+DHCP Start and End addresses are required when DHCP is enabled,DHCP Start and End addresses are required when DHCP is enabled
+Dinstar Connection Error,Dinstar Connection Error
+Dinstar GSM Gateway,Dinstar GSM Gateway
+Disabled,Disabled
+Download PNG,Download PNG
+Download Speed (Kbps) must be greater than 0.,Download Speed (Kbps) must be greater than 0.
+Driver class '{0}' not found in module '{1}',Driver class '{0}' not found in module '{1}'
+Edit,Edit
+Email,Email
+End Date must be after Start Date,End Date must be after Start Date
+End Time,End Time
+End Time cannot be before Start Time,End Time cannot be before Start Time
+End time must be after start time,End time must be after start time
+Error,Error
+Extensions,Extensions
+Extension synced via SSH: {0},Extension synced via SSH: {0}
+Failed to assign conversation,Failed to assign conversation
+Failed to close conversation,Failed to close conversation
+Failed to connect to box {0} after {1} attempts: {2},Failed to connect to box {0} after {1} attempts: {2}
+Failed to connect to Dinstar gateway,Failed to connect to Dinstar gateway
+Failed to connect to OpenMeetings: {0},Failed to connect to OpenMeetings: {0}
+Failed to create meeting room: {0},Failed to create meeting room: {0}
+Failed to create room in OpenMeetings,Failed to create room in OpenMeetings
+Failed to generate access link,Failed to generate access link
+Failed to get file: {0},Failed to get file: {0}
+Failed to load communications,Failed to load communications
+Failed to load conversation,Failed to load conversation
+Failed to load provider driver: {0},Failed to load provider driver: {0}
+Failed to load topology,Failed to load topology
+Failed to load visual engine,Failed to load visual engine
+Failed to schedule meeting,Failed to schedule meeting
+Failed to send,Failed to send
+Failed to send contact: {0},Failed to send contact: {0}
+Failed to send location: {0},Failed to send location: {0}
+Failed to send media: {0},Failed to send media: {0}
+Failed to send message,Failed to send message
+Failed to send message: {0},Failed to send message: {0}
+Failed to send SMS,Failed to send SMS
+Failover Threshold must be at least 1,Failover Threshold must be at least 1
+🛡️ Firewall,🛡️ Firewall
+Firewall rule #{0} configuration pushed.,Firewall rule #{0} configuration pushed.
+Focus,Focus
+Focus Group,Focus Group
+frappe_visual is not installed,frappe_visual is not installed
+Free text for active conversations only,Free text for active conversations only
+Generate API Token,Generate API Token
+Generate Keys,Generate Keys
+GraphQL authentication failed. Trying SSH fallback...,GraphQL authentication failed. Trying SSH fallback...
+📱 GSM Gateway,📱 GSM Gateway
+Health Check Interval must be at least 5 seconds,Health Check Interval must be at least 5 seconds
+HMAC secret regenerated,HMAC secret regenerated
+Idle Timeout must be a positive number,Idle Timeout must be a positive number
+🏗️ Infrastructure,🏗️ Infrastructure
+Instant Meeting - {0},Instant Meeting - {0}
+Interface Name cannot be empty,Interface Name cannot be empty
+Internal IP must be a valid IPv4 address.,Internal IP must be a valid IPv4 address.
+Invalid Box IP,Invalid Box IP
+Invalid CIDR format for Destination. Expected format: x.x.x.x/y,Invalid CIDR format for Destination. Expected format: x.x.x.x/y
+Invalid config type: {0},Invalid config type: {0}
+Invalid credentials,Invalid credentials
+Invalid DNS Server,Invalid DNS Server
+Invalid domain pattern. Use formats like example.com or *.example.com,Invalid domain pattern. Use formats like example.com or *.example.com
+Invalid driver class path. Use format: module.path.ClassName,Invalid driver class path. Use format: module.path.ClassName
+Invalid email format,Invalid email format
+Invalid hostname format: {0},Invalid hostname format: {0}
+Invalid Invoice Day,Invalid Invoice Day
+Invalid IP Address format for Gateway IP,Invalid IP Address format for Gateway IP
+Invalid IP or network address: {0},Invalid IP or network address: {0}
+Invalid MAC Address format: {0}. Expected format: AA:BB:CC:DD:EE:FF,Invalid MAC Address format: {0}. Expected format: AA:BB:CC:DD:EE:FF
+Invalid MAC address format: {0}. Expected: XX:XX:XX:XX:XX:XX,Invalid MAC address format: {0}. Expected: XX:XX:XX:XX:XX:XX
+Invalid MAC address format. Expected format: XX:XX:XX:XX:XX:XX,Invalid MAC address format. Expected format: XX:XX:XX:XX:XX:XX
+Invalid MikroTik Port,Invalid MikroTik Port
+Invalid MTU,Invalid MTU
+Invalid Port,Invalid Port
+Invalid Retention Period,Invalid Retention Period
+Invalid secret token,Invalid secret token
+Invalid signature,Invalid signature
+Invalid status: {0},Invalid status: {0}
+Invalid Subnet Mask format,Invalid Subnet Mask format
+Invalid token,Invalid token
+Invalid Token Expiry,Invalid Token Expiry
+Invalid voucher code,Invalid voucher code
+Invoice day must be between 1 and 28,Invoice day must be between 1 and 28
+IP Address {0} is not within the LAN network range {1},IP Address {0} is not within the LAN network range {1}
+"IP Range must be in CIDR notation (e.g., 192.168.1.0/24) or range format (e.g., 192.168.1.1-192.168.1.254)","IP Range must be in CIDR notation (e.g., 192.168.1.0/24) or range format (e.g., 192.168.1.1-192.168.1.254)"
+Items,Items
+Listen Port must be between 1 and 65535,Listen Port must be between 1 and 65535
+Loading...,Loading...
+MAC Address is required,MAC Address is required
+Max Devices must be 0 or a positive number,Max Devices must be 0 or a positive number
+Maximum devices exceeded,Maximum devices exceeded
+Meeting Invitation: {0},Meeting Invitation: {0}
+Meeting Name,Meeting Name
+Meeting scheduled successfully,Meeting scheduled successfully
+Meeting Starting Soon,Meeting Starting Soon
+Message,Message
+Message (for active conversations),Message (for active conversations)
+Messages,Messages
+Message sent,Message sent
+Message sent successfully,Message sent successfully
+Method not allowed,Method not allowed
+MikroTik API Port must be between 1 and 65535,MikroTik API Port must be between 1 and 65535
+Moderator,Moderator
+📊 Monitoring,📊 Monitoring
+MTU must be between 68 and 9000,MTU must be between 68 and 9000
+Name,Name
+NAT rule configuration pushed ({0}).,NAT rule configuration pushed ({0}).
+Network Client is required when Target Type is Client,Network Client is required when Target Type is Client
+Network Settings,Network Settings
+Network Topology,Network Topology
+New API Token,New API Token
+New API token generated. Save it securely.,New API token generated. Save it securely.
+New Box,New Box
+New Extension,New Extension
+New Firewall Zone,New Firewall Zone
+New Meeting Room,New Meeting Room
+New Omni Provider,New Omni Provider
+New S2S Tunnel,New S2S Tunnel
+New Trunk,New Trunk
+New VPN Peer,New VPN Peer
+New VPN Server,New VPN Server
+New WiFi Network,New WiFi Network
+No active extension configured,No active extension configured
+No active Telegram channel configured,No active Telegram channel configured
+No active WhatsApp channel configured,No active WhatsApp channel configured
+No additional properties,No additional properties
+No Arrowz Box specified and no default box configured,No Arrowz Box specified and no default box configured
+No communications yet,No communications yet
+No default box configured,No default box configured
+No documents with unread messages,No documents with unread messages
+No driver class configured for this provider,No driver class configured for this provider
+No new messages,No new messages
+No OpenMeetings server configured,No OpenMeetings server configured
+No phone number found,No phone number found
+No recording available for this call,No recording available for this call
+Note: This peer's policy requires 2FA authentication at connection time.,Note: This peer's policy requires 2FA authentication at connection time.
+Notify at Percentage must be between 0 and 100,Notify at Percentage must be between 0 and 100
+No write permission,No write permission
+Only Available or Active vouchers can be deactivated,Only Available or Active vouchers can be deactivated
+Only Available vouchers can be activated,Only Available vouchers can be activated
+Open,Open
+Open Form,Open Form
+Open List,Open List
+OpenMeetings API error: {0},OpenMeetings API error: {0}
+OpenMeetings server timeout,OpenMeetings server timeout
+Participants,Participants
+Password is required when encryption is not Open,Password is required when encryption is not Open
+Peer access revoked.,Peer access revoked.
+Peer network {0} is not within the policy's allowed networks.,Peer network {0} is not within the policy's allowed networks.
+Peer network {0} overlaps with blocked network {1}.,Peer network {0} overlaps with blocked network {1}.
+Permission Error,Permission Error
+Phone,Phone
+Phone Number,Phone Number
+Phone Number ID is required for WhatsApp,Phone Number ID is required for WhatsApp
+Please enter number and message,Please enter number and message
+Please select exactly one document,Please select exactly one document
+Please set {0} for target type {1}.,Please set {0} for target type {1}.
+Portal is already running,Portal is already running
+Portal is already stopped,Portal is already stopped
+Port forward configuration pushed ({0} → {1}:{2}).,Port forward configuration pushed ({0} → {1}:{2}).
+"Port match value must be a number or range (e.g., 80 or 8000-8080)","Port match value must be a number or range (e.g., 80 or 8000-8080)"
+Port number must be between 1 and 65535,Port number must be between 1 and 65535
+Port numbers in {0} must be between 1 and 65535.,Port numbers in {0} must be between 1 and 65535.
+Port range start must be less than end,Port range start must be less than end
+Ports refreshed,Ports refreshed
+PPPoE Username is required for PPPoE connection type,PPPoE Username is required for PPPoE connection type
+Priority must be a non-negative integer.,Priority must be a non-negative integer.
+Properties,Properties
+Public Key is required for a VPN peer.,Public Key is required for a VPN peer.
+Pull from Device,Pull from Device
+Pulling configuration from device...,Pulling configuration from device...
+Pulling telemetry...,Pulling telemetry...
+Push Config,Push Config
+Push failed,Push failed
+Push Frappe configuration to the device? Device config will be overwritten.,Push Frappe configuration to the device? Device config will be overwritten.
+Pushing configuration...,Pushing configuration...
+Pushing configuration to device...,Pushing configuration to device...
+Push to Device,Push to Device
+QoS Policy must have at least one class defined.,QoS Policy must have at least one class defined.
+QR Code,QR Code
+Quick Edit,Quick Edit
+Reading device configuration...,Reading device configuration...
+Recording file not found,Recording file not found
+Refresh,Refresh
+Report generation queued,Report generation queued
+Request timed out. Please try again.,Request timed out. Please try again.
+Required for initiating new conversations (24-hour rule),Required for initiating new conversations (24-hour rule)
+Restart Server,Restart Server
+Retention days must be at least 1,Retention days must be at least 1
+Retry,Retry
+Revoke Access,Revoke Access
+"Rule Set Name must contain only alphanumeric characters, hyphens, underscores, or spaces.","Rule Set Name must contain only alphanumeric characters, hyphens, underscores, or spaces."
+Running,Running
+Scan with WireGuard mobile app,Scan with WireGuard mobile app
+Schedule,Schedule
+Scheduled end must be after scheduled start,Scheduled end must be after scheduled start
+Schedule Video Meeting,Schedule Video Meeting
+Send,Send
+Send SMS,Send SMS
+Send Telegram Message,Send Telegram Message
+Send WhatsApp Message,Send WhatsApp Message
+Server Address should include CIDR notation (e.g. 10.10.0.1/24),Server Address should include CIDR notation (e.g. 10.10.0.1/24)
+Service {0} failed on {1},Service {0} failed on {1}
+Session ended,Session ended
+Session not found,Session not found
+Session Timeout must be a positive number,Session Timeout must be a positive number
+Show Diff,Show Diff
+Site-to-Site Tunnels,Site-to-Site Tunnels
+SMS,SMS
+SMS Error,SMS Error
+SMS Messages,SMS Messages
+SMS sent successfully,SMS sent successfully
+Softphone not available or no phone number found,Softphone not available or no phone number found
+Softphone not available. Please check your extension configuration.,Softphone not available. Please check your extension configuration.
+SSL Certificate Path is required when SSL is enabled,SSL Certificate Path is required when SSL is enabled
+SSL Key Path is required when SSL is enabled,SSL Key Path is required when SSL is enabled
+Start Time,Start Time
+Status check initiated,Status check initiated
+Status refresh requested for {0},Status refresh requested for {0}
+Stopped,Stopped
+Sync,Sync
+Sync Telemetry,Sync Telemetry
+Telegram,Telegram
+Telegram bulk messaging coming soon,Telegram bulk messaging coming soon
+Telegram message sent successfully,Telegram message sent successfully
+Telemetry synced successfully,Telemetry synced successfully
+Template,Template
+Template required for new conversations,Template required for new conversations
+Test Connection,Test Connection
+Testing connection...,Testing connection...
+This will disconnect and disable this peer. Continue?,This will disconnect and disable this peer. Continue?
+This will regenerate the server keys. All peers will need to update their config. Continue?,This will regenerate the server keys. All peers will need to update their config. Continue?
+Throttle Download (kbps) must be greater than 0,Throttle Download (kbps) must be greater than 0
+Throttle Upload (kbps) must be greater than 0,Throttle Upload (kbps) must be greater than 0
+Time slots overlap on {0}: {1}-{2} and {3}-{4},Time slots overlap on {0}: {1}-{2} and {3}-{4}
+Token,Token
+Token copied to clipboard,Token copied to clipboard
+Topology Error,Topology Error
+Translated Address is required for DNAT rules.,Translated Address is required for DNAT rules.
+Translated Address is required for SNAT rules.,Translated Address is required for SNAT rules.
+Tunnels,Tunnels
+TX Power must be 0 (auto) or a positive value,TX Power must be 0 (auto) or a positive value
+Type a message...,Type a message...
+Unauthorized,Unauthorized
+Unknown,Unknown
+Unknown provider,Unknown provider
+Unread Messages,Unread Messages
+Upload Speed (Kbps) must be greater than 0.,Upload Speed (Kbps) must be greater than 0.
+Use Template (required if 24h window expired),Use Template (required if 24h window expired)
+Valid From must be before Valid Until,Valid From must be before Valid Until
+Verification failed,Verification failed
+Video,Video
+View,View
+View All Conversations,View All Conversations
+View Box,View Box
+View Device Config,View Device Config
+View Location,View Location
+View Peers,View Peers
+View Server,View Server
+VLAN ID must be between 1 and 4094,VLAN ID must be between 1 and 4094
+☎️ VoIP & PBX,☎️ VoIP & PBX
+Voucher {0} activated,Voucher {0} activated
+Voucher {0} deactivated,Voucher {0} deactivated
+Voucher activated,Voucher activated
+Voucher Code cannot be empty,Voucher Code cannot be empty
+Voucher Count must be greater than 0,Voucher Count must be greater than 0
+Voucher is {0},Voucher is {0}
+Vouchers can only be generated for Draft batches,Vouchers can only be generated for Draft batches
+🔒 VPN,🔒 VPN
+VPN Peers,VPN Peers
+Wallboard,Wallboard
+WAN failover on {0}: {1} → {2},WAN failover on {0}: {1} → {2}
+Webhook verification failed,Webhook verification failed
+WhatsApp,WhatsApp
+WhatsApp message sent successfully,WhatsApp message sent successfully
+WhatsApp Window Expiring,WhatsApp Window Expiring
+WiFi,WiFi
+📶 WiFi & Hotspot,📶 WiFi & Hotspot
+WiFi Vouchers,WiFi Vouchers
+Window,Window
+WireGuard Client Configuration,WireGuard Client Configuration
+WireGuard QR Code,WireGuard QR Code
+You don't have permission to access this recording,You don't have permission to access this recording
+You don't have permission to delete recordings,You don't have permission to delete recordings
+Your Meeting Starting Soon,Your Meeting Starting Soon
+Your report is ready,Your report is ready
+Zone configuration pushed for {0},Zone configuration pushed for {0}
+"Zone Name must contain only alphanumeric characters, hyphens, or underscores.","Zone Name must contain only alphanumeric characters, hyphens, or underscores."
+Today's Calls,Today's Calls
+Active Calls,Active Calls
+Missed Calls,Missed Calls
+SMS Today,SMS Today
+Dashboards & Pages,Dashboards & Pages
+Routing & Trunks,Routing & Trunks
+Omni-Channel & Meetings,Omni-Channel & Meetings
+Network Infrastructure,Network Infrastructure
+Firewall & Security,Firewall & Security
+Client Management,Client Management
+Bandwidth Control,Bandwidth Control
+IP Accounting & Quotas,IP Accounting & Quotas
+Monitoring & Alerts,Monitoring & Alerts
+WiFi Networks,WiFi Networks
+Hotspot & Portal,Hotspot & Portal
+Vouchers & Users,Vouchers & Users
+VPN Management,VPN Management
+Billing & Invoicing,Billing & Invoicing
+Setup & Devices,Setup & Devices
+VoIP & Telephony,VoIP & Telephony
+Omni-Channel,Omni-Channel
+Meetings,Meetings
+Network & Devices,Network & Devices
+Settings,Settings
+Topology,Topology
+Make Call,Make Call
+Call Logs,Call Logs
+Transfer Logs,Transfer Logs
+Trunks,Trunks
+Inbound Routes,Inbound Routes
+Outbound Routes,Outbound Routes
+SMS Providers,SMS Providers
+Conversations,Conversations
+Omni Channels,Omni Channels
+Omni Providers,Omni Providers
+Meeting Rooms,Meeting Rooms
+Recordings,Recordings
+Arrowz Boxes,Arrowz Boxes
+Box Health Logs,Box Health Logs
+MikroTik Sync Logs,MikroTik Sync Logs
+Server Config,Server Config
+Documentation,Documentation
+Arrowz Communications,Arrowz Communications
+Unified Communications & Network Platform,Unified Communications & Network Platform
+-1 (negative) to +1 (positive),-1 (negative) to +1 (positive)
+0 = unlimited,0 = unlimited
+1-5 rating,1-5 rating
+24-hour window expiry for WhatsApp,24-hour window expiry for WhatsApp
+AI Analysis,AI Analysis
+AI Features,AI Features
+AI Model,AI Model
+AI Summary,AI Summary
+AMI Host,AMI Host
+AMI Password,AMI Password
+AMI Port,AMI Port
+AMI Settings (Asterisk Manager Interface),AMI Settings (Asterisk Manager Interface)
+AMI Username,AMI Username
+API Base URL,API Base URL
+API Key,API Key
+API Secret,API Secret
+API Version,API Version
+Access Control,Access Control
+Access Token,Access Token
+Access URLs,Access URLs
+Account ID,Account ID
+Account SID,Account SID
+Acknowledged,Acknowledged
+Active Conversations,Active Conversations
+Add Prefix to CID,Add Prefix to CID
+Admin Password,Admin Password
+Admin Username,Admin Username
+Advanced Options,Advanced Options
+After Hours Trunk,After Hours Trunk
+Alert Info,Alert Info
+Allow Recording,Allow Recording
+Allow clients on the VPN subnet to connect directly to Asterisk,Allow clients on the VPN subnet to connect directly to Asterisk
+Answer Time,Answer Time
+App Secret,App Secret
+Arrowz Documentation,Arrowz Documentation
+Assigned Team,Assigned Team
+Assigned To,Assigned To
+Assigned User,Assigned User
+Assignment,Assignment
+Asterisk HTTP port for plain WS (usually 8088),Asterisk HTTP port for plain WS (usually 8088)
+Asterisk IP on VPN (e.g. 10.10.0.1),Asterisk IP on VPN (e.g. 10.10.0.1)
+Attended,Attended
+Attended Transfer Details,Attended Transfer Details
+Auth Realm,Auth Realm
+Auth Token,Auth Token
+Auth Type,Auth Type
+Authentication,Authentication
+Authentication Type,Authentication Type
+Auto Provision to PBX,Auto Provision to PBX
+Auto-Answer Internal Calls,Auto-Answer Internal Calls
+Auto-Assign Conversations,Auto-Assign Conversations
+Auto-Create Leads from Unknown Callers,Auto-Create Leads from Unknown Callers
+Auto-Reply Message,Auto-Reply Message
+Auto-Start Recording,Auto-Start Recording
+Auto-generated endpoint for receiving messages,Auto-generated endpoint for receiving messages
+Auto-generated if left empty,Auto-generated if left empty
+Automatically create/update/delete this extension in FreePBX,Automatically create/update/delete this extension in FreePBX
+Automation,Automation
+Avg Response Time,Avg Response Time
+Base URL,Base URL
+Basic Information,Basic Information
+Burst Limit,Burst Limit
+Business Account ID,Business Account ID
+CRM Information,CRM Information
+CRM Integration,CRM Integration
+Call ID,Call ID
+Call Information,Call Information
+Call log created after successful transfer,Call log created after successful transfer
+Callee ID,Callee ID
+Caller ID,Caller ID
+Caller ID Pattern,Caller ID Pattern
+Calls answered within this time count as within SLA,Calls answered within this time count as within SLA
+Can Do Blind Transfer,Can Do Blind Transfer
+Capabilities,Capabilities
+Channel,Channel
+Channel ID,Channel ID
+Channel Name,Channel Name
+Channel Purpose,Channel Purpose
+Character Count,Character Count
+Chatbot Configuration,Chatbot Configuration
+Client ID,Client ID
+Client Secret,Client Secret
+Codec Settings,Codec Settings
+Codecs,Codecs
+Color,Color
+Communications Hub,Communications Hub
+Company,Company
+Connection Settings,Connection Settings
+Connection Status,Connection Status
+Consultation Duration (sec),Consultation Duration (sec)
+Consultation Ended,Consultation Ended
+Consultation Started,Consultation Started
+Contact,Contact
+Contact Name,Contact Name
+Content,Content
+Context,Context
+Credentials,Credentials
+Current Call,Current Call
+Current Channels,Current Channels
+Current Daily Usage,Current Daily Usage
+Current Status,Current Status
+Customer,Customer
+DID Pattern,DID Pattern
+DTMF Mode,DTMF Mode
+Daily Limit,Daily Limit
+Default Agent,Default Agent
+Default Caller ID,Default Caller ID
+Default Moderator ID,Default Moderator ID
+Default PBX Server,Default PBX Server
+Default Ringtone,Default Ringtone
+Default Room Type,Default Room Type
+Default SMS Provider,Default SMS Provider
+Delivered Time,Delivered Time
+Delivery Details,Delivery Details
+Delivery Status,Delivery Status
+Department,Department
+Description,Description
+Destination,Destination
+Destination Type,Destination Type
+Dial Pattern,Dial Pattern
+Dial Pattern Match,Dial Pattern Match
+Digits to prepend before dialing,Digits to prepend before dialing
+Dinstar Dashboard,Dinstar Dashboard
+Dinstar Gateway,Dinstar Gateway
+Direction,Direction
+Disable for self-signed certificates on internal networks,Disable for self-signed certificates on internal networks
+Display Name,Display Name
+Disposition,Disposition
+Document Linking,Document Linking
+Driver Class,Driver Class
+Duration,Duration
+Duration (seconds),Duration (seconds)
+Enable AI Features,Enable AI Features
+Enable AMI,Enable AMI
+Enable Auto-Reply,Enable Auto-Reply
+Enable Breakout Rooms,Enable Breakout Rooms
+Enable CRM Integration,Enable CRM Integration
+Enable Call Recording,Enable Call Recording
+Enable Chat,Enable Chat
+Enable Chatbot,Enable Chatbot
+Enable File Sharing,Enable File Sharing
+Enable GraphQL API,Enable GraphQL API
+Enable Live Transcription,Enable Live Transcription
+Enable OpenMeetings,Enable OpenMeetings
+Enable Polls,Enable Polls
+Enable Rate Limiting,Enable Rate Limiting
+Enable Recording Playback,Enable Recording Playback
+Enable Round Robin,Enable Round Robin
+Enable SMS Integration,Enable SMS Integration
+Enable SSH for fwconsole,Enable SSH for fwconsole
+Enable Screen Pop,Enable Screen Pop
+Enable Screen Share,Enable Screen Share
+Enable Sentiment Analysis,Enable Sentiment Analysis
+Enable VPN Direct Mode,Enable VPN Direct Mode
+Enable Video Calling,Enable Video Calling
+Enable Voicemail,Enable Voicemail
+Enable Waiting Room,Enable Waiting Room
+Enable WebRTC Softphone,Enable WebRTC Softphone
+Enable Whiteboard,Enable Whiteboard
+Enable Working Hours,Enable Working Hours
+Enabled,Enabled
+Error Code,Error Code
+Error Message,Error Message
+Escalation Level,Escalation Level
+Extension,Extension
+Extension Number,Extension Number
+Extension Type,Extension Type
+External Destination,External Destination
+External ID,External ID
+External Room ID,External Room ID
+Failover Trunk,Failover Trunk
+Failure Reason,Failure Reason
+Features,Features
+File Size,File Size
+File Size (bytes),File Size (bytes)
+First Response Time,First Response Time
+For Twilio,For Twilio
+FreePBX GraphQL API,FreePBX GraphQL API
+From Extension,From Extension
+From User,From User
+"Full WebSocket URL (e.g., wss://pbx.example.com:8089/ws)","Full WebSocket URL (e.g., wss://pbx.example.com:8089/ws)"
+General Settings,General Settings
+Goodbye Message Template,Goodbye Message Template
+GraphQL Endpoint URL,GraphQL Endpoint URL
+"HTTP header containing the signature (e.g., X-Hub-Signature-256)","HTTP header containing the signature (e.g., X-Hub-Signature-256)"
+Has Media,Has Media
+Has Recording,Has Recording
+Hold Duration (seconds),Hold Duration (seconds)
+Host / IP,Host / IP
+Host/IP Address,Host/IP Address
+IVR Menu,IVR Menu
+Icon,Icon
+In MB,In MB
+In minutes,In minutes
+Inbound Context,Inbound Context
+Initiated At,Initiated At
+Initiated By,Initiated By
+Internal ID in FreePBX,Internal ID in FreePBX
+Internal Notes,Internal Notes
+Invitation Sent,Invitation Sent
+Is Active,Is Active
+Is Default Provider,Is Default Provider
+Is Default Server,Is Default Server
+Join Time,Join Time
+Join URL,Join URL
+Last Activity,Last Activity
+Last Error Message,Last Error Message
+Last Health Check,Last Health Check
+Last Message,Last Message
+Last Registered,Last Registered
+Last Synced,Last Synced
+Last Usage Reset,Last Usage Reset
+Lead,Lead
+Leave empty to use SIP Domain from server,Leave empty to use SIP Domain from server
+Link Calls to Opportunities,Link Calls to Opportunities
+Link DocType,Link DocType
+Linked Channel ID,Linked Channel ID
+Linked DocType,Linked DocType
+Linked Document,Linked Document
+MOS score 1-5,MOS score 1-5
+Match Caller ID,Match Caller ID
+Match Criteria,Match Criteria
+Max Channels,Max Channels
+Max Concurrent Calls,Max Concurrent Calls
+Max File Size (MB),Max File Size (MB)
+Max Message Length,Max Message Length
+Max Participants,Max Participants
+Maximum file size in MB,Maximum file size in MB
+Media URL,Media URL
+Message History,Message History
+Message ID,Message ID
+Message Information,Message Information
+Message Routing,Message Routing
+Message Templates,Message Templates
+Metrics,Metrics
+Moderated Room,Moderated Room
+Moderator URL,Moderator URL
+New Call Log,New Call Log
+Notes,Notes
+Number of digits to strip from beginning,Number of digits to strip from beginning
+OAuth2 Client ID from FreePBX API Application,OAuth2 Client ID from FreePBX API Application
+OAuth2 Client Secret from FreePBX API Application,OAuth2 Client Secret from FreePBX API Application
+Only supervisors should have blind transfer,Only supervisors should have blind transfer
+OpenAI API Key,OpenAI API Key
+OpenMeetings Settings,OpenMeetings Settings
+OpenMeetings URL,OpenMeetings URL
+OpenMeetings user ID for moderator (usually 1 for admin),OpenMeetings user ID for moderator (usually 1 for admin)
+Optional prefix to match,Optional prefix to match
+Optional: Match specific caller IDs,Optional: Match specific caller IDs
+Optional: Only match specific extensions,Optional: Only match specific extensions
+Organizer,Organizer
+Original Call,Original Call
+Out of 5,Out of 5
+Out of Hours Message,Out of Hours Message
+Outbound Prefix,Outbound Prefix
+Override Caller ID Name,Override Caller ID Name
+Override Caller ID Number,Override Caller ID Number
+PBX Extension ID,PBX Extension ID
+PBX Server,PBX Server
+PBX Synchronization,PBX Synchronization
+PIN code for voicemail access (4-6 digits),PIN code for voicemail access (4-6 digits)
+Participant ID,Participant ID
+Participant Name,Participant Name
+Participant URL,Participant URL
+Party,Party
+Party Type,Party Type
+Password,Password
+Permanent Room,Permanent Room
+Permanent rooms are not deleted after meeting ends,Permanent rooms are not deleted after meeting ends
+"Phone Number ID for WhatsApp, Chat ID for Telegram","Phone Number ID for WhatsApp, Chat ID for Telegram"
+Phone/Chat ID,Phone/Chat ID
+Port,Port
+Prefix,Prefix
+Prepend,Prepend
+Prepend Digits,Prepend Digits
+Primary Trunk,Primary Trunk
+Priority,Priority
+Priority (lower = higher),Priority (lower = higher)
+Protocol,Protocol
+Provider,Provider
+Provider Information,Provider Information
+Provider Message ID,Provider Message ID
+Provider Name,Provider Name
+Provider Type,Provider Type
+"Python class path for the driver (e.g., arrowz.integrations.whatsapp.WhatsAppDriver)","Python class path for the driver (e.g., arrowz.integrations.whatsapp.WhatsAppDriver)"
+Qualify (Check Status),Qualify (Check Status)
+Qualify Frequency (sec),Qualify Frequency (sec)
+Quality Score,Quality Score
+Queue,Queue
+Rate Limit (per minute),Rate Limit (per minute)
+Rate Limits,Rate Limits
+Recorded On,Recorded On
+Recording,Recording
+Recording Base Path,Recording Base Path
+Recording Duration (seconds),Recording Duration (seconds)
+Recording Name,Recording Name
+Recording Path,Recording Path
+Recording Retention (Days),Recording Retention (Days)
+Recording Settings,Recording Settings
+Recording Storage Type,Recording Storage Type
+Recording URL,Recording URL
+Registration IP,Registration IP
+Related Call,Related Call
+Related DocType,Related DocType
+Related Document,Related Document
+"Remote participant ID (phone number, chat ID, etc.)","Remote participant ID (phone number, chat ID, etc.)"
+Request Timeout (seconds),Request Timeout (seconds)
+Requests per Day,Requests per Day
+Requests per Minute,Requests per Minute
+Require Password,Require Password
+Required for Custom API provider type,Required for Custom API provider type
+Resolution Time,Resolution Time
+Response Deadline,Response Deadline
+Result,Result
+Ring Duration (seconds),Ring Duration (seconds)
+Ring Group,Ring Group
+Ring Timeout (seconds),Ring Timeout (seconds)
+Room Capabilities,Room Capabilities
+Room ID from OpenMeetings,Room ID from OpenMeetings
+Room Information,Room Information
+Room Name,Room Name
+Room Password,Room Password
+Room Type,Room Type
+Route Information,Route Information
+Route Name,Route Name
+Routing Settings,Routing Settings
+Routing Type,Routing Type
+SIP Domain,SIP Domain
+SIP Password,SIP Password
+SIP Username,SIP Username
+SIP domain when on VPN (defaults to vpn_ws_host if empty),SIP domain when on VPN (defaults to vpn_ws_host if empty)
+SLA Settings,SLA Settings
+SLA Threshold (seconds),SLA Threshold (seconds)
+SLA Warning Threshold (seconds),SLA Warning Threshold (seconds)
+SMS Settings,SMS Settings
+SSH Access (for fwconsole),SSH Access (for fwconsole)
+SSH Authentication,SSH Authentication
+SSH Host,SSH Host
+SSH Password,SSH Password
+SSH Port,SSH Port
+SSH Private Key,SSH Private Key
+SSH Username,SSH Username
+STUN Server,STUN Server
+Satisfaction Rating,Satisfaction Rating
+Satisfaction Score,Satisfaction Score
+Scheduled End,Scheduled End
+Scheduled Start,Scheduled Start
+Scheduling,Scheduling
+Screen Pop,Screen Pop
+Screen Pop Mode,Screen Pop Mode
+Search Contacts First,Search Contacts First
+Segment Count,Segment Count
+Sender,Sender
+Sender ID / From Number,Sender ID / From Number
+Sent On,Sent On
+Sent/Received Time,Sent/Received Time
+Sentiment,Sentiment
+Sentiment Score,Sentiment Score
+Server Configuration,Server Configuration
+Server Name,Server Name
+Server Type,Server Type
+Session End,Session End
+Session ID,Session ID
+Session Information,Session Information
+Session Start,Session Start
+Show Customer Popup on Incoming Calls,Show Customer Popup on Incoming Calls
+Show Desktop Notifications,Show Desktop Notifications
+Shows current token status (Valid/Expired/None),Shows current token status (Valid/Expired/None)
+Signature Header,Signature Header
+Statistics,Statistics
+Status,Status
+Strip Digits,Strip Digits
+Supports Contact Cards,Supports Contact Cards
+Supports Delivery Reports,Supports Delivery Reports
+Supports Interactive Buttons,Supports Interactive Buttons
+Supports Location,Supports Location
+Supports MMS,Supports MMS
+Supports Media,Supports Media
+Supports Reactions,Supports Reactions
+Supports Templates,Supports Templates
+Supports Text Messages,Supports Text Messages
+Supports Unicode,Supports Unicode
+Sync Status,Sync Status
+TURN Password,TURN Password
+TURN Server,TURN Server
+TURN Username,TURN Username
+Tags,Tags
+Team,Team
+Technical Details,Technical Details
+Time Conditions,Time Conditions
+Time Group,Time Group
+Time to first response in minutes,Time to first response in minutes
+Timestamp,Timestamp
+Timezone,Timezone
+Timing,Timing
+To Extension,To Extension
+To External Number,To External Number
+To User,To User
+Token Status,Token Status
+Token for webhook verification,Token for webhook verification
+Total Conversations,Total Conversations
+Total Messages,Total Messages
+Total resolution time in minutes,Total resolution time in minutes
+Transcript,Transcript
+Transcription Language,Transcription Language
+Transfer Completed At,Transfer Completed At
+Transfer Information,Transfer Information
+Transfer Parties,Transfer Parties
+Transfer Time,Transfer Time
+Transfer Type,Transfer Type
+Transferred From,Transferred From
+Transferred To,Transferred To
+Transport,Transport
+Trunk,Trunk
+Trunk Information,Trunk Information
+Trunk Name,Trunk Name
+Trunk Selection,Trunk Selection
+Trunk Type,Trunk Type
+Type,Type
+Unique session identifier from provider,Unique session identifier from provider
+Use Time Condition,Use Time Condition
+Used for Trunks/Outbound Routes (not in GraphQL),Used for Trunks/Outbound Routes (not in GraphQL)
+User Agent,User Agent
+Username,Username
+Usually /openmeetings,Usually /openmeetings
+Usually same as extension number,Usually same as extension number
+VPN Direct Mode,VPN Direct Mode
+VPN SIP Domain,VPN SIP Domain
+VPN WebSocket Host,VPN WebSocket Host
+VPN WebSocket Port,VPN WebSocket Port
+Verify SSL Certificate,Verify SSL Certificate
+Verify Token,Verify Token
+Verify Webhook Signature,Verify Webhook Signature
+Voicemail PIN,Voicemail PIN
+Was Transferred,Was Transferred
+WebRTC Enabled,WebRTC Enabled
+WebRTC Settings,WebRTC Settings
+WebSocket Port,WebSocket Port
+WebSocket URL,WebSocket URL
+Webapp Path,Webapp Path
+Webhook Configuration,Webhook Configuration
+Webhook Endpoint,Webhook Endpoint
+Webhook Secret,Webhook Secret
+Webhook URL,Webhook URL
+Welcome Message Template,Welcome Message Template
+"WhatsApp Business Account ID, Telegram Bot Username, etc.","WhatsApp Business Account ID, Telegram Bot Username, etc."
+"When enabled, softphone connects directly via VPN (no TURN/STUN, no SDP rewrite, plain WS)","When enabled, softphone connects directly via VPN (no TURN/STUN, no SDP rewrite, plain WS)"
+Whether this missed call has been acknowledged by the user,Whether this missed call has been acknowledged by the user
+Window Active,Window Active
+Window Expires,Window Expires
+Working Hours,Working Hours
+"e.g., _0X., _00X., _+X., 9|.","e.g., _0X., _00X., _+X., 9|."
+"e.g., _X., +49XXXXXXX, or exact number","e.g., _X., +49XXXXXXX, or exact number"
+"e.g., https://172.21.0.2/admin/api/api/gql","e.g., https://172.21.0.2/admin/api/api/gql"
+"e.g., https://meetings.example.com:5443","e.g., https://meetings.example.com:5443"
+{0} {1},{0} {1}
+{0} ⇄ {1},{0} ⇄ {1}
+↓ {0} / ↑ {1},↓ {0} / ↑ {1}
+{0} active peers using this policy,{0} active peers using this policy
+{0} connected peers,{0} connected peers
+"{0} must be a valid IP address, CIDR notation, or address group name.","{0} must be a valid IP address, CIDR notation, or address group name."
+"{0} must be a valid port number, range (e.g. 80-443), or comma-separated list.","{0} must be a valid port number, range (e.g. 80-443), or comma-separated list."
+{0} Results,{0} Results
+{0} should include CIDR notation (e.g. 192.168.1.0/24),{0} should include CIDR notation (e.g. 192.168.1.0/24)
+"IP Range must be in CIDR notation (e.g., 192.168.1.0/24) or range format (e.g., 192.168.1.1-192.168.1.254)","IP Range must be in CIDR notation (e.g., 192.168.1.0/24) or range format (e.g., 192.168.1.1-192.168.1.254)"
+Last handshake: {0},Last handshake: {0}
+"Port match value must be a number or range (e.g., 80 or 8000-8080)","Port match value must be a number or range (e.g., 80 or 8000-8080)"
+"Rule Set Name must contain only alphanumeric characters, hyphens, underscores, or spaces.","Rule Set Name must contain only alphanumeric characters, hyphens, underscores, or spaces."
+Valid: {0} → {1},Valid: {0} → {1}
+Valid from: {0},Valid from: {0}
+Valid until: {0},Valid until: {0}
+"Zone Name must contain only alphanumeric characters, hyphens, or underscores.","Zone Name must contain only alphanumeric characters, hyphens, or underscores."
