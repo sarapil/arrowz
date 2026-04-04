@@ -1,4 +1,6 @@
-# Copyright (c) 2026, Arrowz Team and contributors
+# Copyright (c) 2024, Moataz M Hassan (Arkan Lab)
+# Developer Website: https://arkan.it.com
+# License: MIT
 # For license information, please see license.txt
 
 from arrowz.arrowz_api.utils.box_connector import BoxConnector

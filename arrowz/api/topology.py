@@ -1,3 +1,8 @@
+# Copyright (c) 2024, Moataz M Hassan (Arkan Lab)
+# Developer Website: https://arkan.it.com
+# License: MIT
+# For license information, please see license.txt
+
 """
 Topology API v2 — Comprehensive network topology data for visual graph.
 Aggregates ALL modules: VPN, PBX, Network, WiFi, Firewall, Clients, Monitoring.

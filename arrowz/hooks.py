@@ -1,3 +1,8 @@
+# Copyright (c) 2024, Moataz M Hassan (Arkan Lab)
+# Developer Website: https://arkan.it.com
+# License: MIT
+# For license information, please see license.txt
+
 """
 Arrowz Hooks Configuration
 
@@ -7,7 +12,7 @@ Compatible with Frappe/ERPNext v16+
 
 app_name = "arrowz"
 app_title = "Arrowz"
-app_publisher = "Arrowz Team"
+app_publisher = "Arkan Lab"
 app_description = "Unified Network & WiFi Management Platform with VoIP"
 app_version = "16.0.0"
 app_icon = "/assets/arrowz/images/arrowz-icon-animated.svg"
@@ -67,7 +72,8 @@ app_include_js = [
     "/assets/arrowz/js/screen_pop.js",
     "/assets/arrowz/js/omni_panel.js",
     "/assets/arrowz/js/omni_doctype_extension.js",
-    # "/assets/arrowz/js/arrowz_desk_lcd.js"  # Disabled — TAVIRA theme provides LCD
+    # "/assets/arrowz/js/arrowz_desk_lcd.js"  # Disabled — TAVIRA theme provides LCD,
+    "/assets/arrowz/js/fv_integration.js",
 ]
 
 # Include CSS in all pages

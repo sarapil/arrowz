@@ -1,4 +1,8 @@
-// Copyright (c) 2026, Arrowz Team
+// Copyright (c) 2024, Moataz M Hassan (Arkan Lab)
+// Developer Website: https://arkan.it.com
+// License: MIT
+// For license information, please see license.txt
+
 // License: MIT
 
 frappe.ui.form.on('AZ Conversation Session', {
