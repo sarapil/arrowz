@@ -1,0 +1,50 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ _("Arrowz Onboarding") }}{% endblock %}
+
+{% block page_content %}
+<div id="arrowz-onboarding-container" data-page="arrowz-onboarding"></div>
+
+<style>
+  #arrowz-onboarding-container { min-height: 80vh; padding: 24px 0; }
+  .az-onboard-hero { text-align: center; padding: 60px 20px; }
+  .az-onboard-hero h1 { font-size: 2rem; font-weight: 700; color: var(--text-color); margin-bottom: 16px; }
+  .az-onboard-hero p { color: var(--text-muted); font-size: 1.1rem; max-width: 500px; margin: 0 auto 32px; }
+  .az-onboard-steps { max-width: 700px; margin: 0 auto; padding: 0 20px; }
+  .az-step { display: flex; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--border-color); }
+  .az-step-num { width: 40px; height: 40px; border-radius: 50%; background: rgba(139, 92, 246, 0.1); color: #8B5CF6; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
+  .az-step h3 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+  .az-step p { font-size: 0.9rem; color: var(--text-muted); }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const container = document.getElementById('arrowz-onboarding-container');
+  const steps = [
+    { title: __("Configure Server"), desc: __("Set up AZ Server Config with your AMI, WebSocket, and SIP credentials.") },
+    { title: __("Register Extensions"), desc: __("Create AZ Extension records for each SIP extension in your PBX.") },
+    { title: __("Add Network Devices"), desc: __("Register your MikroTik routers or Linux boxes in Arrowz Box.") },
+    { title: __("Set Up Omni-Channel"), desc: __("Configure WhatsApp Cloud API and Telegram Bot tokens in AZ Omni Provider.") },
+    { title: __("Test Softphone"), desc: __("Open the softphone from the navbar and make a test call.") },
+    { title: __("Sync & Monitor"), desc: __("Run initial device sync and verify bandwidth monitoring dashboards.") },
+  ];
+  container.innerHTML = `
+    <div class="az-onboard-hero">
+      <h1>🚀 ${__("Get Started with Arrowz")}</h1>
+      <p>${__("Follow these steps to set up your unified communications platform.")}</p>
+    </div>
+    <div class="az-onboard-steps">
+      ${steps.map((s, i) => `
+        <div class="az-step">
+          <div class="az-step-num">${i + 1}</div>
+          <div>
+            <h3>${s.title}</h3>
+            <p>${s.desc}</p>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+});
+</script>
+{% endblock %}

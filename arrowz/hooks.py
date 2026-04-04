@@ -107,9 +107,11 @@ doctype_js = {
 # Website
 # -----------------------------------------------------------------------------
 
-# website_route_rules = [
-#     {"from_route": "/arrowz/<path:app_path>", "to_route": "arrowz"}
-# ]
+website_route_rules = [
+    {"from_route": "/arrowz-about", "to_route": "arrowz_about"},
+    {"from_route": "/arrowz-onboarding", "to_route": "arrowz_onboarding"},
+    {"from_route": "/عن-arrowz", "to_route": "arrowz_about"},
+]
 
 # Home Pages
 # home_page = "arrowz-topology"  # Removed: should not override global home page

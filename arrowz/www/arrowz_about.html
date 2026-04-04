@@ -1,0 +1,72 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ _("About Arrowz") }}{% endblock %}
+
+{% block page_content %}
+<div id="arrowz-about-container" data-page="arrowz-about"></div>
+
+<style>
+  :root { --az-primary: #8B5CF6; --az-primary-light: #A78BFA; --az-gradient: linear-gradient(135deg, #8B5CF6, #6D28D9); }
+  #arrowz-about-container { min-height: 80vh; padding: 24px 0; }
+  .az-about-hero { text-align: center; padding: 60px 20px; }
+  .az-about-hero img { width: 160px; height: 160px; margin-bottom: 24px; }
+  .az-about-hero h1 { font-size: 2.5rem; font-weight: 800; background: var(--az-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px; }
+  .az-about-hero p { font-size: 1.15rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 32px; }
+  .az-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; padding: 40px 20px; max-width: 1000px; margin: 0 auto; }
+  .az-feature-card { padding: 28px; border-radius: 16px; background: var(--card-bg); border: 1px solid var(--border-color); transition: transform 0.2s, box-shadow 0.2s; }
+  .az-feature-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(139, 92, 246, 0.12); }
+  .az-feature-card h3 { font-size: 1.1rem; font-weight: 700; color: var(--text-color); margin-bottom: 8px; }
+  .az-feature-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+  .az-stat-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px; border-radius: 20px; background: rgba(139, 92, 246, 0.08); color: var(--az-primary); font-weight: 600; font-size: 0.9rem; }
+  .az-stats-row { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin: 32px 0; }
+  .az-footer { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 0.85rem; }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const container = document.getElementById('arrowz-about-container');
+  container.innerHTML = `
+    <div class="az-about-hero">
+      <img src="/assets/arrowz/images/arrowz-logo.svg" alt="Arrowz" onerror="this.style.display='none'">
+      <h1>${__("Arrowz")}</h1>
+      <p>${__("Unified Network & WiFi Management Platform with Enterprise VoIP — WebRTC Softphone, MikroTik RouterOS, FreePBX Integration")}</p>
+      <div class="az-stats-row">
+        <span class="az-stat-badge">🌐 ${__("7 Modules")}</span>
+        <span class="az-stat-badge">📞 ${__("WebRTC Softphone")}</span>
+        <span class="az-stat-badge">🔧 ${__("MikroTik + Linux")}</span>
+        <span class="az-stat-badge">💬 ${__("WhatsApp + Telegram")}</span>
+      </div>
+    </div>
+    <div class="az-features">
+      <div class="az-feature-card">
+        <h3>📞 ${__("VoIP & Softphone")}</h3>
+        <p>${__("Browser-based WebRTC softphone with JsSIP integration, call management, CDR logging, and FreePBX/Asterisk AMI connectivity.")}</p>
+      </div>
+      <div class="az-feature-card">
+        <h3>🌐 ${__("Network Management")}</h3>
+        <p>${__("Full MikroTik RouterOS management — Interfaces, Firewall, VPN, Bandwidth control, WiFi provisioning via device provider architecture.")}</p>
+      </div>
+      <div class="az-feature-card">
+        <h3>💬 ${__("Omni-Channel Communications")}</h3>
+        <p>${__("WhatsApp Cloud API and Telegram Bot integration for unified customer messaging with conversation threading.")}</p>
+      </div>
+      <div class="az-feature-card">
+        <h3>🎥 ${__("Video Conferencing")}</h3>
+        <p>${__("OpenMeetings integration for video conferencing with room management, scheduling, and recording capabilities.")}</p>
+      </div>
+      <div class="az-feature-card">
+        <h3>📊 ${__("Monitoring & Analytics")}</h3>
+        <p>${__("Real-time bandwidth monitoring, device health tracking, sync audit trails, and network performance dashboards.")}</p>
+      </div>
+      <div class="az-feature-card">
+        <h3>🔒 ${__("Security & Access")}</h3>
+        <p>${__("CAPS capability-based access control, firewall rule management, VPN configuration, and security logging.")}</p>
+      </div>
+    </div>
+    <div class="az-footer">
+      <p>${__("Built by")} <strong>Arkan Lab</strong> • ${__("Powered by")} <strong>Frappe Framework</strong></p>
+    </div>
+  `;
+});
+</script>
+{% endblock %}

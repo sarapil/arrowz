@@ -16,6 +16,14 @@
   <a href="#architecture">Architecture</a>
 </p>
 
+<p align="center">
+  <a href="https://github.com/ArkanLab/arrowz/actions/workflows/ci.yml"><img src="https://github.com/ArkanLab/arrowz/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/ArkanLab/arrowz/actions/workflows/linters.yml"><img src="https://github.com/ArkanLab/arrowz/actions/workflows/linters.yml/badge.svg" alt="Linters"></a>
+  <img src="https://img.shields.io/badge/Frappe-v16-blue" alt="Frappe v16">
+  <img src="https://img.shields.io/badge/License-MIT-yellow" alt="MIT License">
+  <img src="https://img.shields.io/badge/i18n-Arabic%20%2B%2011%20languages-brightgreen" alt="Multilingual">
+</p>
+
 ---
 
 ## 🎯 What is Arrowz?
