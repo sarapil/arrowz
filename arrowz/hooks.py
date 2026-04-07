@@ -22,10 +22,44 @@ app_email = "support@arrowz.io"
 app_license = "MIT"
 
 # Required Apps
-required_apps = ["frappe", "frappe_visual", "arkan_help"]
+required_apps = ["frappe", "frappe_visual", "arkan_help", "base_base"]
 
 # Optional: Recommended apps for full functionality
 # required_apps = ["frappe", "erpnext", "frappe_visual"]
+
+# ---------------------------------------------------------------------------
+# Feature Registry (Open Core) — consumed by base_base.utils.feature_gating
+# ---------------------------------------------------------------------------
+app_feature_registry = {
+    # FREE TIER — Core VoIP & networking
+    "extension_management": "free",
+    "call_routing": "free",
+    "call_logs": "free",
+    "basic_ivr": "free",
+    "voicemail": "free",
+    "softphone": "free",
+    "network_monitoring_basic": "free",
+    "device_management": "free",
+    "wifi_management": "free",
+    "basic_reports": "free",
+    # PREMIUM TIER — Advanced VoIP & omnichannel
+    "ai_call_analytics": "premium",
+    "omnichannel": "premium",
+    "whatsapp_integration": "premium",
+    "telegram_integration": "premium",
+    "advanced_ivr": "premium",
+    "call_recording_ai": "premium",
+    "sentiment_analysis": "premium",
+    "auto_dialer": "premium",
+    "conference_bridge": "premium",
+    "network_analytics": "premium",
+    "mikrotik_advanced": "premium",
+    "bandwidth_management": "premium",
+    "custom_dashboards": "premium",
+    "api_bulk_operations": "premium",
+    "white_labeling": "premium",
+    "priority_support": "premium",
+}
 
 # v16+: Export Python type annotations
 export_python_type_annotations = True

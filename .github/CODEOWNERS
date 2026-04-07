@@ -1,0 +1,36 @@
+# CODEOWNERS — مالكو الكود
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+#
+# These owners will be automatically requested for review when a PR
+# modifies files matching the patterns.
+# سيتم طلب مراجعة هؤلاء المالكين تلقائياً عند تعديل ملفات مطابقة.
+
+# ─── Default Owner — المالك الافتراضي ─────────────────────────────────────────
+*                           @sarapil/arrowz-maintainers
+
+# ─── Core Configuration — الإعدادات الأساسية ──────────────────────────────────
+arrowz/hooks.py       @sarapil/arrowz-maintainers
+arrowz/install.py     @sarapil/arrowz-maintainers
+arrowz/seed.py        @sarapil/arrowz-maintainers
+pyproject.toml              @sarapil/arrowz-maintainers
+setup.cfg                   @sarapil/arrowz-maintainers
+
+# ─── API Layer — طبقة الواجهة البرمجية ────────────────────────────────────────
+arrowz/api/           @sarapil/arrowz-maintainers
+
+# ─── Security & Permissions — الأمان والصلاحيات ───────────────────────────────
+arrowz/caps/          @sarapil/arrowz-maintainers
+SECURITY.md                 @sarapil/arrowz-maintainers
+
+# ─── CI/CD — خط الأنابيب ─────────────────────────────────────────────────────
+.github/workflows/          @sarapil/arrowz-maintainers
+
+# ─── Frontend — الواجهة الأمامية ──────────────────────────────────────────────
+arrowz/public/        @sarapil/arrowz-maintainers
+
+# ─── Translations — الترجمات ──────────────────────────────────────────────────
+arrowz/translations/  @sarapil/arrowz-maintainers
+
+# ─── Documentation — التوثيق ──────────────────────────────────────────────────
+arrowz/help/          @sarapil/arrowz-maintainers
+*.md                        @sarapil/arrowz-maintainers
