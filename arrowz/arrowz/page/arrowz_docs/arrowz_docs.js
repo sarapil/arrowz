@@ -15,7 +15,7 @@ frappe.pages['arrowz-docs'].on_page_load = function(wrapper) {
         title: __('Arrowz Documentation'),
         single_column: true
     });
-    
+
     wrapper.docs = new ArrowzDocs(page);
 };
 
@@ -24,15 +24,15 @@ class ArrowzDocs {
         this.page = page;
         this.make();
     }
-    
+
     make() {
         this.page.set_secondary_action(__('Refresh'), () => this.render(), 'refresh');
-        
+
         this.$container = $(`
             <div class="arrowz-docs">
                 <style>
                     .arrowz-docs { padding: 20px; max-width: 1400px; margin: 0 auto; }
-                    .docs-hero { 
+                    .docs-hero {
                         background: linear-gradient(135deg, #5e35b1 0%, #7c4dff 100%);
                         color: white;
                         padding: 50px;
@@ -62,7 +62,7 @@ class ArrowzDocs {
                         margin-top: 15px;
                     }
                     .docs-section { margin-bottom: 40px; }
-                    .section-header { 
+                    .section-header {
                         display: flex;
                         align-items: center;
                         gap: 12px;
@@ -80,7 +80,7 @@ class ArrowzDocs {
                         justify-content: center;
                         font-size: 18px;
                     }
-                    .doc-grid { 
+                    .doc-grid {
                         display: grid;
                         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
                         gap: 16px;
@@ -125,7 +125,7 @@ class ArrowzDocs {
                     .badge-v16 { background: #e3f2fd; color: #1565c0; }
                     .badge-ar { background: #fff3e0; color: #e65100; }
                     .badge-en { background: #f3e5f5; color: #7b1fa2; }
-                    
+
                     /* Icon backgrounds */
                     .bg-blue { background: #e3f2fd; }
                     .bg-green { background: #e8f5e9; }
@@ -137,7 +137,7 @@ class ArrowzDocs {
                     .bg-gray { background: #f5f5f5; }
                     .bg-whatsapp { background: #dcf8c6; }
                     .bg-telegram { background: #e3f2fd; }
-                    
+
                     /* Quick stats */
                     .stats-row {
                         display: grid;
@@ -155,22 +155,22 @@ class ArrowzDocs {
                     .stat-card .stat-icon { font-size: 28px; margin-bottom: 8px; }
                     .stat-card .stat-value { font-size: 28px; font-weight: 700; color: var(--text-color); }
                     .stat-card .stat-label { color: var(--text-muted); font-size: 13px; margin-top: 4px; }
-                    
+
                     /* API table */
                     .api-table { width: 100%; border-collapse: collapse; }
                     .api-table th { background: var(--bg-color); text-align: left; padding: 12px; font-weight: 600; }
                     .api-table td { padding: 12px; border-bottom: 1px solid var(--border-color); }
                     .api-table code { background: var(--bg-color); padding: 2px 6px; border-radius: 4px; font-size: 13px; }
-                    .method-badge { 
-                        display: inline-block; 
-                        padding: 2px 8px; 
-                        border-radius: 4px; 
-                        font-size: 11px; 
-                        font-weight: 600; 
+                    .method-badge {
+                        display: inline-block;
+                        padding: 2px 8px;
+                        border-radius: 4px;
+                        font-size: 11px;
+                        font-weight: 600;
                     }
                     .method-get { background: #e3f2fd; color: #1565c0; }
                     .method-post { background: #e8f5e9; color: #2e7d32; }
-                    
+
                     /* Mobile */
                     @media (max-width: 768px) {
                         .docs-hero { padding: 30px 20px; }
@@ -178,14 +178,14 @@ class ArrowzDocs {
                         .doc-grid { grid-template-columns: 1fr; }
                     }
                 </style>
-                
+
                 <!-- Hero Section -->
                 <div class="docs-hero">
                     <h1>📚 Arrowz Documentation Hub</h1>
                     <p>Complete guides, references, and resources for developers & administrators</p>
                     <div class="version-badge">✨ Version 16.0.0 - Frappe v16 Compatible</div>
                 </div>
-                
+
                 <!-- Quick Stats -->
                 <div class="stats-row">
                     <div class="stat-card">
@@ -209,7 +209,7 @@ class ArrowzDocs {
                         <div class="stat-label">Languages (EN/AR)</div>
                     </div>
                 </div>
-                
+
                 <!-- Getting Started -->
                 <div class="docs-section">
                     <div class="section-header">
@@ -230,9 +230,9 @@ class ArrowzDocs {
                         </a>
                         <a href="/assets/arrowz/docs/FEATURES_AR.md" target="_blank" class="doc-card">
                             <div class="card-icon bg-orange">✨</div>
-                            <h5>دليل المميزات (العربية)</h5>
-                            <p>دليل شامل من 20 قسم لجميع مميزات التطبيق</p>
-                            <span class="card-badge badge-ar">العربية</span>
+                            <h5>Features Guide (Arabic)</h5>
+                            <p>Comprehensive 20-section guide covering all app features</p>
+                            <span class="card-badge badge-ar">Arabic</span>
                         </a>
                         <a href="/assets/arrowz/docs/ROADMAP.md" target="_blank" class="doc-card">
                             <div class="card-icon bg-cyan">🗺️</div>
@@ -241,7 +241,7 @@ class ArrowzDocs {
                         </a>
                     </div>
                 </div>
-                
+
                 <!-- Developer Documentation -->
                 <div class="docs-section">
                     <div class="section-header">
@@ -284,18 +284,18 @@ class ArrowzDocs {
                         <a href="/assets/arrowz/docs/DEVELOPMENT_SESSION_SUMMARY.md" target="_blank" class="doc-card">
                             <div class="card-icon bg-yellow">📋</div>
                             <h5>Development Session Summary</h5>
-                            <p>ملخص جلسات التطوير - Complete development history and decisions</p>
+                            <p>Complete development history and decisions</p>
                             <span class="card-badge badge-new">New</span>
                         </a>
                         <a href="/assets/arrowz/docs/TECHNICAL_IMPLEMENTATION.md" target="_blank" class="doc-card">
                             <div class="card-icon bg-red">🛠️</div>
                             <h5>Technical Implementation</h5>
-                            <p>تفاصيل التنفيذ التقني - Code patterns and implementation details</p>
+                            <p>Code patterns and implementation details</p>
                             <span class="card-badge badge-new">New</span>
                         </a>
                     </div>
                 </div>
-                
+
                 <!-- Server Administration -->
                 <div class="docs-section">
                     <div class="section-header">
@@ -321,7 +321,7 @@ class ArrowzDocs {
                         </a>
                     </div>
                 </div>
-                
+
                 <!-- Integrations -->
                 <div class="docs-section">
                     <div class="section-header">
@@ -349,13 +349,13 @@ class ArrowzDocs {
                         </a>
                         <a href="/assets/arrowz/docs/omni_channel_platform_ar.md" target="_blank" class="doc-card">
                             <div class="card-icon bg-orange">💬</div>
-                            <h5>منصة القنوات المتعددة</h5>
-                            <p>دليل شامل لإعداد قنوات الواتساب والتليجرام</p>
-                            <span class="card-badge badge-ar">العربية</span>
+                            <h5>Omni-Channel Platform (Arabic)</h5>
+                            <p>Comprehensive guide for WhatsApp and Telegram channel setup</p>
+                            <span class="card-badge badge-ar">Arabic</span>
                         </a>
                     </div>
                 </div>
-                
+
                 <!-- Application Pages -->
                 <div class="docs-section">
                     <div class="section-header">
@@ -364,7 +364,7 @@ class ArrowzDocs {
                     </div>
                     <div class="doc-grid" id="pages-grid"></div>
                 </div>
-                
+
                 <!-- DocTypes Reference -->
                 <div class="docs-section">
                     <div class="section-header">
@@ -385,7 +385,7 @@ class ArrowzDocs {
                         </table>
                     </div>
                 </div>
-                
+
                 <!-- API Reference -->
                 <div class="docs-section">
                     <div class="section-header">
@@ -456,7 +456,7 @@ class ArrowzDocs {
                         </table>
                     </div>
                 </div>
-                
+
                 <!-- Context Files (AI) -->
                 <div class="docs-section">
                     <div class="section-header">
@@ -472,7 +472,7 @@ class ArrowzDocs {
                         <div class="doc-card">
                             <div class="card-icon bg-orange">🔮</div>
                             <h5>CONTEXT-AR.md</h5>
-                            <p>السياق التقني للمساعدين الذكيين (العربية)</p>
+                            <p>Technical context for AI assistants (Arabic)</p>
                         </div>
                         <div class="doc-card">
                             <div class="card-icon bg-purple">🧠</div>
@@ -493,17 +493,17 @@ class ArrowzDocs {
                 </div>
             </div>
         `).appendTo(this.page.main);
-        
+
         this.render();
     }
-    
+
     async render() {
         await Promise.all([
             this.loadPages(),
             this.loadDocTypes()
         ]);
     }
-    
+
     loadPages() {
         const pages = [
             { name: 'arrowz', icon: '📡', title: 'Communications Hub', desc: 'Main workspace with stats and quick actions' },
@@ -513,9 +513,9 @@ class ArrowzDocs {
             { name: 'arrowz-communications', icon: '💬', title: 'Communications', desc: 'Calls, SMS, Chat' },
             { name: 'arrowz-docs', icon: '📚', title: 'Documentation', desc: 'You are here!' },
         ];
-        
+
         const $grid = this.$container.find('#pages-grid').empty();
-        
+
         pages.forEach(page => {
             $grid.append(`
                 <a href="/desk/${page.name}" class="doc-card">
@@ -526,7 +526,7 @@ class ArrowzDocs {
             `);
         });
     }
-    
+
     async loadDocTypes() {
         const doctypes = [
             { name: 'AZ Call Log', icon: '📞', desc: 'Call records with details' },
@@ -538,9 +538,9 @@ class ArrowzDocs {
             { name: 'AZ Meeting Room', icon: '🎥', desc: 'Video rooms' },
             { name: 'Arrowz Settings', icon: '⚙️', desc: 'Global settings' }
         ];
-        
+
         const $tbody = this.$container.find('#doctypes-table').empty();
-        
+
         for (const dt of doctypes) {
             let count = 0;
             try {
@@ -552,7 +552,7 @@ class ArrowzDocs {
             } catch (e) {
                 count = '-';
             }
-            
+
             const slug = dt.name.toLowerCase().replace(/ /g, '-');
             $tbody.append(`
                 <tr>

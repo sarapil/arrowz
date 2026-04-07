@@ -164,20 +164,20 @@ class AsteriskDoctor:
             self.add_finding(
                 self.CRITICAL,
                 "ssl",
-                "شهادة SSL مفقودة (fullchain.pem / privkey.pem)",
-                f"ملفات الشهادة المطلوبة:\n"
-                f"  fullchain.pem: {'✓ موجود' if has_fullchain else '✗ مفقود'}\n"
-                f"  privkey.pem: {'✓ موجود' if has_privkey else '✗ مفقود'}\n"
-                f"  tavirapbx-fullchain.crt: {'✓ موجود' if has_tavira_cert else '✗ مفقود'}\n"
-                f"  tavirapbx.key: {'✓ موجود' if has_tavira_key else '✗ مفقود'}",
-                fix="نسخ الشهادة: cp tavirapbx-fullchain.crt fullchain.pem && cp tavirapbx.key privkey.pem",
+                "SSL certificate missing (fullchain.pem / privkey.pem)",
+                f"Required certificate files:\n"
+                f"  fullchain.pem: {'✓ present' if has_fullchain else '✗ missing'}\n"
+                f"  privkey.pem: {'✓ present' if has_privkey else '✗ missing'}\n"
+                f"  tavirapbx-fullchain.crt: {'✓ present' if has_tavira_cert else '✗ missing'}\n"
+                f"  tavirapbx.key: {'✓ present' if has_tavira_key else '✗ missing'}",
+                fix="Copy certificates: cp tavirapbx-fullchain.crt fullchain.pem && cp tavirapbx.key privkey.pem",
                 auto_fixable=True
             )
         else:
             self.add_finding(
                 self.INFO, "ssl",
-                "شهادات SSL موجودة",
-                "fullchain.pem و privkey.pem موجودان",
+                "SSL certificates present",
+                "fullchain.pem and privkey.pem are present",
             )
 
     def check_pjsip_transports(self) -> None:
@@ -192,11 +192,11 @@ class AsteriskDoctor:
                 self.add_finding(
                     self.CRITICAL,
                     "transport",
-                    f"external_signaling_port خاطئ: '{port_val}'",
-                    f"external_signaling_port يجب أن يكون رقم port وليس domain.\n"
-                    f"القيمة الحالية: {port_val}\n"
-                    f"هذا يمنع UDP transport من العمل.",
-                    fix="تغيير القيمة لرقم port مثل 51600 في FreePBX SIP Settings",
+                    f"external_signaling_port invalid: '{port_val}'",
+                    f"external_signaling_port must be a numeric port, not a domain.\n"
+                    f"Current value: {port_val}\n"
+                    f"This prevents UDP transport from working.",
+                    fix="Change value to a numeric port like 51600 in FreePBX SIP Settings",
                     auto_fixable=True
                 )
 
@@ -209,10 +209,10 @@ class AsteriskDoctor:
                 self.add_finding(
                     self.CRITICAL,
                     "transport",
-                    "WSS Transport يشير لشهادة غير موجودة",
-                    "pjsip.transports_custom.conf يشير إلى fullchain.pem\n"
-                    "لكن الملف غير موجود في /etc/asterisk/keys/",
-                    fix="تحديث المسار ليشير إلى tavirapbx-fullchain.crt",
+                    "WSS Transport references non-existent certificate",
+                    "pjsip.transports_custom.conf references fullchain.pem\n"
+                    "but the file does not exist in /etc/asterisk/keys/",
+                    fix="Update path to reference tavirapbx-fullchain.crt",
                     auto_fixable=True
                 )
 
@@ -230,14 +230,14 @@ class AsteriskDoctor:
 
         duplicates = {k: v for k, v in section_counts.items() if v > 1}
         if duplicates:
-            dup_list = "\n".join(f"  [{k}]: {v} مرات" for k, v in duplicates.items())
+            dup_list = "\n".join(f"  [{k}]: {v} times" for k, v in duplicates.items())
             self.add_finding(
                 self.CRITICAL,
                 "pjsip_config",
-                f"كائنات PJSIP مكررة ({len(duplicates)} تكرار)",
-                f"الكائنات المكررة:\n{dup_list}\n\n"
-                f"التكرار يمنع Asterisk من تحميل الإعدادات.",
-                fix="حذف التكرارات من pjsip.endpoint_custom.conf",
+                f"Duplicate PJSIP objects ({len(duplicates)} duplicates)",
+                f"Duplicate objects:\n{dup_list}\n\n"
+                f"Duplicates prevent Asterisk from loading configuration.",
+                fix="Remove duplicates from pjsip.endpoint_custom.conf",
                 auto_fixable=True
             )
 
@@ -261,11 +261,11 @@ class AsteriskDoctor:
                 self.add_finding(
                     self.HIGH,
                     "pjsip_config",
-                    f"[{aor_name}] يحتوي على خيارات endpoint",
-                    f"خيارات endpoint في AOR (غير صالحة):\n"
+                    f"[{aor_name}] contains endpoint-only options",
+                    f"Endpoint options in AOR (invalid):\n"
                     f"  {', '.join(bad_opts)}\n"
-                    f"هذه الخيارات تخص [endpoint] وليس [aor].",
-                    fix=f"حذف الخيارات غير الصالحة من [{aor_name}]",
+                    f"These options belong to [endpoint], not [aor].",
+                    fix=f"Remove invalid options from [{aor_name}]",
                     auto_fixable=True
                 )
 
@@ -276,10 +276,10 @@ class AsteriskDoctor:
             self.add_finding(
                 self.MEDIUM,
                 "codec",
-                "Opus max_bandwidth خاطئ: 'fullband'",
-                "القيمة 'fullband' غير معروفة في Asterisk 22.\n"
-                "القيم المسموحة: narrow, medium, wide, super_wide, full",
-                fix="تغيير max_bandwidth=fullband إلى max_bandwidth=full",
+                "Opus max_bandwidth invalid: 'fullband'",
+                "Value 'fullband' is not recognized in Asterisk 22.\n"
+                "Allowed values: narrow, medium, wide, super_wide, full",
+                fix="Change max_bandwidth=fullband to max_bandwidth=full",
                 auto_fixable=True
             )
 
@@ -311,9 +311,9 @@ class AsteriskDoctor:
                 self.add_finding(
                     self.HIGH,
                     "modules",
-                    f"فشل تحميل {len(critical_modules)} modules مهمة",
+                    f"Failed to load {len(critical_modules)} critical modules",
                     "Modules:\n" + "\n".join(f"  - {m}" for m in critical_modules),
-                    fix="تثبيت المكتبات المطلوبة أو تعطيل الـ modules",
+                    fix="Install required libraries or disable the modules",
                 )
             break  # Only need the latest log
 
@@ -333,12 +333,12 @@ class AsteriskDoctor:
             self.add_finding(
                 self.HIGH,
                 "ami",
-                f"فشل اتصال UCP بـ Asterisk Manager ({ami_errors} مرة)",
-                f"UCP لا يستطيع الاتصال بـ AMI.\n"
-                f"الفترة: {first_date} → {last_date}\n"
-                f"عدد المحاولات الفاشلة: {ami_errors}\n"
-                f"التأثير: UCP Panel و Firewall module لا يعملان.",
-                fix="تحقق من إعدادات AMI في manager.conf و أن Asterisk يعمل",
+                f"UCP failed to connect to Asterisk Manager ({ami_errors} times)",
+                f"UCP cannot connect to AMI.\n"
+                f"Period: {first_date} → {last_date}\n"
+                f"Failed attempts: {ami_errors}\n"
+                f"Impact: UCP Panel and Firewall module are not functioning.",
+                fix="Check AMI settings in manager.conf and verify Asterisk is running",
             )
 
     def check_firewall_module(self) -> None:
@@ -351,20 +351,20 @@ class AsteriskDoctor:
             self.add_finding(
                 self.HIGH,
                 "firewall",
-                "Firewall Module لا يستطيع الاتصال بـ Asterisk",
-                "FreePBX Firewall لا يعمل بسبب فشل اتصال AMI.\n"
-                "Smart Firewall لا يستطيع قراءة PJSIP contacts.",
-                fix="إصلاح اتصال AMI أولاً (مشكلة مرتبطة)",
+                "Firewall Module cannot connect to Asterisk",
+                "FreePBX Firewall is not working due to AMI connection failure.\n"
+                "Smart Firewall cannot read PJSIP contacts.",
+                fix="Fix AMI connection first (related issue)",
             )
 
         if "lsmod: command not found" in content:
             self.add_finding(
                 self.MEDIUM,
                 "firewall",
-                "أمر lsmod غير متوفر في الـ container",
-                "lsmod مطلوب لـ iptables cleanup لكنه غير مثبت.\n"
-                "يؤثر على تنظيف قواعد الجدار الناري.",
-                fix="تثبيت kmod: apt-get install kmod",
+                "lsmod command not available in the container",
+                "lsmod is required for iptables cleanup but not installed.\n"
+                "Affects firewall rules cleanup.",
+                fix="Install kmod: apt-get install kmod",
             )
 
     def check_security_attacks(self) -> None:
@@ -408,21 +408,21 @@ class AsteriskDoctor:
             self.add_finding(
                 self.HIGH,
                 "security",
-                f"هجوم SIP Brute-Force: {brute_int} محاولة",
-                f"عدد المحاولات: {brute_int}\n"
-                f"عدد الـ IPs المهاجمة: {len(attacker_ips)}\n"
+                f"SIP Brute-Force attack: {brute_int} attempts",
+                f"Attempts: {brute_int}\n"
+                f"Attacking IPs count: {len(attacker_ips)}\n"
                 f"IPs:\n" + "\n".join(f"  - {ip}" for ip in attacker_ips[:10]),
-                fix="فعّل fail2ban وحجب الـ IPs المهاجمة",
+                fix="Enable fail2ban and block attacking IPs",
             )
 
         if ssl_int > 100:
             self.add_finding(
                 self.MEDIUM,
                 "security",
-                f"فحص SSL مستمر: {ssl_int} محاولة",
-                f"محاولات اتصال SSL من scanners خارجية.\n"
-                f"غير مؤثرة على التشغيل لكنها تملأ اللوجات.",
-                fix="حجب الـ IPs عبر iptables أو fail2ban",
+                f"Continuous SSL scanning: {ssl_int} attempts",
+                f"SSL connection attempts from external scanners.\n"
+                f"Not affecting operation but filling up logs.",
+                fix="Block IPs via iptables or fail2ban",
             )
 
     def check_websocket_errors(self) -> None:
@@ -443,10 +443,10 @@ class AsteriskDoctor:
             self.add_finding(
                 self.MEDIUM,
                 "websocket",
-                f"أخطاء WebSocket: {ws_count} خطأ",
-                f"أخطاء قراءة WebSocket (Broken pipe, Connection reset).\n"
-                f"قد تكون بسبب انقطاع اتصال WebRTC clients.",
-                fix="تحقق من استقرار شبكة العملاء",
+                f"WebSocket errors: {ws_count} errors",
+                f"WebSocket read errors (Broken pipe, Connection reset).\n"
+                f"May be caused by WebRTC client disconnections.",
+                fix="Check client network stability",
             )
 
     def check_codec_negotiation(self) -> None:
@@ -467,11 +467,11 @@ class AsteriskDoctor:
             self.add_finding(
                 self.HIGH,
                 "codec",
-                f"فشل تفاوض Codec: {neg_count} مكالمة فاشلة",
-                f"Asterisk لم يستطع التفاوض على codec مشترك مع الطرف الآخر.\n"
-                f"هذا يعني أن المكالمات لم يتم إنشاء صوت لها.\n"
-                f"Extensions المتأثرة: 2210, 2211",
-                fix="تأكد من إعدادات codecs المشتركة بين الأطراف (opus, ulaw, alaw)",
+                f"Codec negotiation failed: {neg_count} failed calls",
+                f"Asterisk could not negotiate a common codec with the remote party.\n"
+                f"This means calls had no audio established.\n"
+                f"Affected extensions: 2210, 2211",
+                fix="Ensure common codec settings between parties (opus, ulaw, alaw)",
             )
 
     def check_graphql_errors(self) -> None:
@@ -485,10 +485,10 @@ class AsteriskDoctor:
             self.add_finding(
                 self.LOW,
                 "api",
-                f"أخطاء GraphQL API: {error_count} خطأ",
-                "أخطاء في FreePBX GraphQL API.\n"
-                "تشمل Internal server error و missing required fields.",
-                fix="تحقق من إصدار FreePBX modules",
+                f"GraphQL API errors: {error_count} errors",
+                "Errors in FreePBX GraphQL API.\n"
+                "Including Internal server error and missing required fields.",
+                fix="Check FreePBX modules version",
             )
 
     # ─── Run All Diagnostics ──────────────────────────────────────
@@ -579,7 +579,7 @@ class AsteriskDoctor:
         if not fixable:
             return {
                 "status": "ok",
-                "message": "لا توجد إصلاحات تلقائية مطلوبة",
+                "message": "No auto-fixes required",
                 "fixes": [],
             }
 
