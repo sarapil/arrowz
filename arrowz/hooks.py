@@ -88,35 +88,21 @@ app_home = "/desk/arrowz-topology"
 
 # Include JS in all pages
 app_include_js = [
-    # --- Debug Logger (must load first) ---
-    "/assets/arrowz/js/arrowz_debug.js",
-    # --- WebRTC Adapter Layer (load order matters) ---
-    "/assets/arrowz/js/webrtc_adapters/base_adapter.js",      # Abstract contract (must load first)
-    "/assets/arrowz/js/lib/jssip.min.js",                     # JsSIP library
-    "/assets/arrowz/js/webrtc_adapters/jssip_adapter.js",     # JsSIP concrete adapter
-    "/assets/arrowz/js/webrtc_adapters/tab_leader.js",        # Cross-tab leader election
-    "/assets/arrowz/js/webrtc_adapters/adapter_factory.js",   # Orchestration factory
-    "/assets/arrowz/js/webrtc_adapters/softphone_bridge.js", # Bridge → softphone UI
-    "/assets/arrowz/js/audio_visualizer.js",               # Audio signal visualizer
     # --- Core App ---
+    "/assets/arrowz/js/lib/jssip.min.js",                     # JsSIP library
     "/assets/arrowz/js/arrowz.js",
-    "/assets/arrowz/js/arrowz_theme.js",
     "/assets/arrowz/js/phone_actions.js",
-    "/assets/arrowz/js/softphone_v3.js",
+    "/assets/arrowz/js/softphone_v2.js",
     "/assets/arrowz/js/screen_pop.js",
     "/assets/arrowz/js/omni_panel.js",
     "/assets/arrowz/js/omni_doctype_extension.js",
-    # "/assets/arrowz/js/arrowz_desk_lcd.js"  # Disabled — TAVIRA theme provides LCD,
-    "/assets/arrowz/js/fv_integration.js",
 ]
 
 # Include CSS in all pages
 app_include_css = [
-    "/assets/arrowz/css/arrowz_brand.css",
-    "/assets/arrowz/css/arrowz_theme.css",
     "/assets/arrowz/css/arrowz.css",
     "/assets/arrowz/css/phone_actions.css",
-    "/assets/arrowz/css/softphone_v2.css",
+    "/assets/arrowz/css/softphone.css",
     "/assets/arrowz/css/screen_pop.css",
     "/assets/arrowz/css/omni_panel.css"
 ]
