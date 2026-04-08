@@ -11,19 +11,19 @@
  * - Real-time status indicators (SMS, Calls, Line status)
  * - Contact search across all linked DocTypes
  * - Responsive design
- * 
+ *
  * BUILD: 2024-02-24-v3-openrelay-turn
  */
 
 (function() {
     'use strict';
-    
+
     // Version check - helps confirm browser has latest code
     console.log('%c[Arrowz Softphone] BUILD: 2024-02-24-v3-openrelay-turn', 'color: #00ff00; font-weight: bold;');
-    
+
     // Arrowz namespace
     window.arrowz = window.arrowz || {};
-    
+
     // ========== Cross-Tab Leader Election ==========
     // Ensures only ONE tab registers with Asterisk at a time.
     // Uses BroadcastChannel + localStorage for leader election.
@@ -32,11 +32,11 @@
     const TAB_ID = Math.random().toString(36).substring(2, 10) + '_' + Date.now();
     const HEARTBEAT_INTERVAL = 2000; // ms
     const LEADER_TIMEOUT = 6000; // ms - if no heartbeat for this long, leader is dead
-    
+
     let _tabChannel = null;
     let _heartbeatTimer = null;
     let _isLeader = false;
-    
+
     function _initTabChannel() {
         try {
             _tabChannel = new BroadcastChannel('arrowz_softphone');
@@ -76,17 +76,17 @@
             _isLeader = true;
         }
     }
-    
+
     function _tryBecomeLeader() {
         const now = Date.now();
         const stored = localStorage.getItem(TAB_LEADER_KEY);
         const heartbeat = parseInt(localStorage.getItem(TAB_HEARTBEAT_KEY) || '0');
-        
+
         // Become leader if: no leader, or leader heartbeat expired
         if (!stored || stored === TAB_ID || (now - heartbeat > LEADER_TIMEOUT)) {
             localStorage.setItem(TAB_LEADER_KEY, TAB_ID);
             localStorage.setItem(TAB_HEARTBEAT_KEY, String(now));
-            
+
             // Verify we won (check again after a small delay for race conditions)
             setTimeout(() => {
                 if (localStorage.getItem(TAB_LEADER_KEY) === TAB_ID) {
@@ -104,7 +104,7 @@
             }, 50 + Math.random() * 100);
         }
     }
-    
+
     function _startHeartbeat() {
         _stopHeartbeat();
         _heartbeatTimer = setInterval(() => {
@@ -113,14 +113,14 @@
             }
         }, HEARTBEAT_INTERVAL);
     }
-    
+
     function _stopHeartbeat() {
         if (_heartbeatTimer) {
             clearInterval(_heartbeatTimer);
             _heartbeatTimer = null;
         }
     }
-    
+
     function _releaseLeadership() {
         if (_isLeader) {
             _isLeader = false;
@@ -134,12 +134,12 @@
             }
         }
     }
-    
+
     // Initialize leader election immediately
     _initTabChannel();
     _tryBecomeLeader();
     // ========== End Cross-Tab Leader Election ==========
-    
+
     // Softphone V2
     arrowz.softphone = {
         initialized: false,
@@ -161,37 +161,37 @@
         isDropdownOpen: false,
         pendingSMS: [],
         missedCalls: 0,
-        
+
         // Initialize softphone
         async init() {
             if (this.initialized) return;
-            
+
             try {
                 // Add navbar widget first
                 this.renderNavbarWidget();
-                
+
                 // Load JsSIP if not available
                 if (typeof JsSIP === 'undefined') {
                     await this.loadJsSIP();
                 }
-                
+
                 // Get all user extensions
                 await this.loadExtensions();
-                
+
                 // Initialize audio
                 this.initAudio();
-                
+
                 // Setup real-time listeners
                 this.setupRealtimeListeners();
-                
+
                 // Check for missed calls/SMS
                 this.checkNotifications();
-                
+
                 // Register cleanup on page unload to prevent stale registrations
                 this.setupUnloadCleanup();
-                
+
                 this.initialized = true;
-                
+
                 // If not leader, don't start JsSIP (loadExtensions calls setupJsSIP)
                 // The leader election will trigger setupJsSIP when this tab becomes leader
                 if (!_isLeader) {
@@ -208,13 +208,13 @@
                 } else {
                     console.log('Arrowz Softphone V2 initialized (leader)');
                 }
-                
+
             } catch (error) {
                 console.error('Arrowz Softphone init error:', error);
                 this.updateNavbarStatus('error', 'Error');
             }
         },
-        
+
         // Load JsSIP library
         loadJsSIP() {
             return new Promise((resolve, reject) => {
@@ -229,42 +229,42 @@
                 document.head.appendChild(script);
             });
         },
-        
+
         // Load user's extensions
         async loadExtensions() {
             try {
                 const r = await frappe.call({
                     method: 'arrowz.api.webrtc.get_webrtc_config'
                 });
-                
+
                 if (!r.message) {
                     this.updateNavbarStatus('no-config', __('No Extension'));
                     return;
                 }
-                
+
                 this.config = r.message;
                 this.activeExtension = r.message.extension_name;
                 this.allExtensions = r.message.all_extensions || [];
-                
+
                 // Resolve PBX public IP for SDP rewriting (Docker NAT workaround)
                 // Extract host from websocket URL or SIP domain
                 if (r.message.sip_domain) {
                     this._pbxHost = r.message.sip_domain;
                 }
-                // Store public IP if provided, or use the SIP domain  
+                // Store public IP if provided, or use the SIP domain
                 if (r.message.pbx_public_ip) {
                     this._pbxPublicIP = r.message.pbx_public_ip;
                 }
-                
+
                 // Setup JsSIP with first/active extension
                 await this.setupJsSIP();
-                
+
             } catch (e) {
                 console.error('Error loading extensions:', e);
                 this.updateNavbarStatus('error', __('Error'));
             }
         },
-        
+
         // Initialize audio elements
         initAudio() {
             // Remote audio
@@ -277,7 +277,7 @@
             } else {
                 this.audioPlayer = document.getElementById('arrowz-remote-audio');
             }
-            
+
             // Ringtone
             if (!document.getElementById('arrowz-ringtone')) {
                 this.ringtone = document.createElement('audio');
@@ -291,17 +291,17 @@
                 this.ringtone = document.getElementById('arrowz-ringtone');
             }
         },
-        
+
         // Setup JsSIP User Agent
         async setupJsSIP() {
             if (!this.config) return;
-            
+
             // Only the leader tab should register with Asterisk
             if (!_isLeader) {
                 console.log('Arrowz: Not leader tab, skipping JsSIP setup');
                 return;
             }
-            
+
             // Stop any existing UA before creating a new one
             if (this.ua) {
                 try {
@@ -310,11 +310,11 @@
                 } catch(e) {}
                 this.ua = null;
             }
-            
+
             const socket = new JsSIP.WebSocketInterface(this.config.websocket_servers[0]);
-            
+
             console.log('Arrowz: Setting up JsSIP with URI:', this.config.sip_uri);
-            
+
             const configuration = {
                 sockets: [socket],
                 uri: this.config.sip_uri,
@@ -325,27 +325,27 @@
                 register_expires: 300,
                 user_agent: 'Arrowz-WebRTC/2.0'
             };
-            
+
             if (this.config.outbound_proxy) {
                 configuration.outbound_proxy_set = this.config.outbound_proxy;
             }
-            
+
             // Create new UA with unique ID
             const newUA = new JsSIP.UA(configuration);
             const uaId = Date.now();
             newUA._arrowz_id = uaId;
             this._currentUAId = uaId;
             this.ua = newUA;
-            
+
             // Event handlers - check if this is still the current UA
             const checkCurrentUA = () => this.ua && this.ua._arrowz_id === uaId;
-            
+
             this.ua.on('connected', () => {
                 if (!checkCurrentUA()) return;
                 console.log('Arrowz: WebSocket connected');
                 this.updateNavbarStatus('connecting', __('Connecting...'));
             });
-            
+
             this.ua.on('disconnected', (e) => {
                 if (!checkCurrentUA()) {
                     console.log('Arrowz: Ignoring disconnected event from old UA');
@@ -354,7 +354,7 @@
                 console.log('Arrowz: WebSocket disconnected', e);
                 this.registered = false;
                 this.updateNavbarStatus('disconnected', __('Offline'));
-                
+
                 // Track disconnection count for SSL certificate warning
                 this._disconnectCount = (this._disconnectCount || 0) + 1;
                 if (this._disconnectCount >= 3 && !this._sslWarningShown) {
@@ -370,14 +370,14 @@
                     }
                 }
             });
-            
+
             this.ua.on('registered', () => {
                 if (!checkCurrentUA()) return;
                 console.log('Arrowz: SIP registered');
                 this.registered = true;
                 this.updateNavbarStatus('registered', this.config.extension);
             });
-            
+
             this.ua.on('unregistered', () => {
                 if (!checkCurrentUA()) {
                     console.log('Arrowz: Ignoring unregistered event from old UA');
@@ -387,7 +387,7 @@
                 this.registered = false;
                 this.updateNavbarStatus('unregistered', __('Unregistered'));
             });
-            
+
             this.ua.on('registrationFailed', (e) => {
                 if (!checkCurrentUA()) return;
                 console.error('Arrowz: Registration failed:', e.cause);
@@ -398,21 +398,21 @@
                     indicator: 'red'
                 }, 7);
             });
-            
+
             this.ua.on('newRTCSession', (e) => {
                 if (!checkCurrentUA()) return;
                 this.handleNewSession(e);
             });
-            
+
             this.ua.start();
         },
-        
+
         // Cleanup on page unload to prevent stale SIP registrations
         setupUnloadCleanup() {
             window.addEventListener('beforeunload', () => {
                 // Release leadership so another tab can take over
                 _releaseLeadership();
-                
+
                 if (this.ua) {
                     try {
                         this.ua.unregister({ all: true });
@@ -430,7 +430,7 @@
                 }
             });
         },
-        
+
         // Setup real-time listeners for notifications
         setupRealtimeListeners() {
             // Listen for incoming SMS
@@ -439,21 +439,21 @@
                 this.updateNavbarBadge();
                 this.showNotification('sms', data);
             });
-            
+
             // Listen for missed calls
             frappe.realtime.on('arrowz_missed_call', (data) => {
                 this.missedCalls++;
                 this.updateNavbarBadge();
             });
         },
-        
+
         // Check for pending notifications
         async checkNotifications() {
             try {
                 const r = await frappe.call({
                     method: 'arrowz.api.notifications.get_pending_notifications'
                 });
-                
+
                 if (r.message) {
                     this.pendingSMS = r.message.pending_sms || [];
                     this.missedCalls = r.message.missed_calls || 0;
@@ -463,23 +463,23 @@
                 // Notifications API might not exist yet
             }
         },
-        
+
         // Render navbar widget
         renderNavbarWidget() {
             // Remove existing widget
             const existing = document.getElementById('arrowz-softphone-widget');
             if (existing) existing.remove();
-            
+
             // Priority 1: Theme topbar (.topbar-right from tavira/flux theme)
             let navbarContainer = document.querySelector('.topbar-right');
             let insertMode = 'topbar';
-            
+
             // Priority 2: Frappe v16 desktop navbar
             if (!navbarContainer) {
                 navbarContainer = document.querySelector('.navbar-container .flex');
                 insertMode = 'desktop';
             }
-            
+
             // Priority 3: Legacy navbar selectors for older Frappe versions
             if (!navbarContainer) {
                 navbarContainer = document.querySelector('.navbar .navbar-collapse .navbar-nav') ||
@@ -488,14 +488,17 @@
                                   document.querySelector('#navbar-user')?.parentElement;
                 insertMode = 'legacy';
             }
-            
+
             if (!navbarContainer) {
-                // Retry after a short delay - topbar/navbar might not be rendered yet
-                setTimeout(() => this.renderNavbarWidget(), 500);
-                console.log('Arrowz: Topbar/Navbar not found, will retry...');
+                // Retry with a limit to prevent infinite loops (e.g., on setup wizard page)
+                this._navRetryCount = (this._navRetryCount || 0) + 1;
+                if (this._navRetryCount < 10) {
+                    setTimeout(() => this.renderNavbarWidget(), 500);
+                }
                 return;
             }
-            
+            this._navRetryCount = 0;
+
             // Create widget
             let widget = document.createElement('div');
             widget.id = 'arrowz-softphone-widget';
@@ -513,11 +516,11 @@
                     <!-- Content loaded dynamically -->
                 </div>
             `;
-            
+
             if (insertMode === 'topbar') {
                 // Insert as first child of .topbar-right (before avatar/notifications)
                 navbarContainer.insertBefore(widget, navbarContainer.firstChild);
-                
+
                 // Move dropdown to document.body to escape topbar's
                 // overflow:hidden + backdrop-filter containing block
                 const dropdown = widget.querySelector('#arrowz-sp-dropdown');
@@ -537,10 +540,10 @@
             } else {
                 navbarContainer.insertBefore(widget, navbarContainer.firstChild);
             }
-            
+
             // Add styles
             this.addStyles();
-            
+
             // Close dropdown on outside click
             document.addEventListener('click', (e) => {
                 if (!e.target.closest('#arrowz-softphone-widget') && !e.target.closest('#arrowz-sp-dropdown')) {
@@ -548,7 +551,7 @@
                 }
             });
         },
-        
+
         // Toggle dropdown/modal
         toggleDropdown() {
             if (this.isDropdownOpen) {
@@ -557,7 +560,7 @@
                 this.openDropdown();
             }
         },
-        
+
         // Open dropdown
         openDropdown() {
             if (this._isIncomingRinging && this.session) {
@@ -571,7 +574,7 @@
                 // No call - show dialer
                 this.showDialerUI();
             }
-            
+
             const dropdown = document.getElementById('arrowz-sp-dropdown');
             const widget = document.getElementById('arrowz-softphone-widget');
             if (dropdown) {
@@ -586,19 +589,19 @@
                         dropdown.style.left = 'auto';
                     }
                 }
-                
+
                 dropdown.classList.add('open');
-                
+
                 // Check if mobile
                 if (window.innerWidth < 768) {
                     dropdown.classList.add('mobile-modal');
                     document.body.classList.add('arrowz-modal-open');
                 }
             }
-            
+
             this.isDropdownOpen = true;
         },
-        
+
         // Close dropdown
         closeDropdown() {
             const dropdown = document.getElementById('arrowz-sp-dropdown');
@@ -609,12 +612,12 @@
             }
             this.isDropdownOpen = false;
         },
-        
+
         // Show dialer UI
         showDialerUI() {
             const dropdown = document.getElementById('arrowz-sp-dropdown');
             if (!dropdown) return;
-            
+
             // Build extension buttons if multiple
             let extensionButtons = '';
             if (this.allExtensions.length > 1) {
@@ -633,7 +636,7 @@
                     </div>
                 `;
             }
-            
+
             // Active calls indicator
             const activeCount = this.getActiveSessionCount();
             let activeCallsIndicator = '';
@@ -643,14 +646,14 @@
                         <span style="font-size:10px;color:#4CAF50;font-weight:500;">
                             📞 ${activeCount} ${__('active')}
                         </span>
-                        <button onclick="arrowz.softphone.showMultiLineCallUI()" 
+                        <button onclick="arrowz.softphone.showMultiLineCallUI()"
                                 style="padding:2px 6px;font-size:10px;background:#4CAF50;color:white;border:none;border-radius:3px;cursor:pointer;">
                             ${__('View')}
                         </button>
                     </div>
                 `;
             }
-            
+
             dropdown.innerHTML = `
                 <div class="sp-header" style="padding:6px 10px;">
                     <div class="sp-header-info">
@@ -660,14 +663,14 @@
                     </div>
                     <button class="sp-close-btn" onclick="arrowz.softphone.closeDropdown()" style="font-size:20px;">×</button>
                 </div>
-                
+
                 ${activeCallsIndicator}
-                
+
                 <div class="sp-content">
                     ${extensionButtons}
-                    
+
                     <div class="sp-dial-display" style="padding:6px 10px;gap:4px;">
-                        <input type="tel" class="sp-dial-input" id="sp-dial-input" 
+                        <input type="tel" class="sp-dial-input" id="sp-dial-input"
                                placeholder="${__('Number or search...')}"
                                style="padding:6px;font-size:15px;"
                                oninput="arrowz.softphone.handleSearchInput(this.value)"
@@ -675,7 +678,7 @@
                         <button class="sp-backspace" onclick="arrowz.softphone.backspace()" style="padding:6px 10px;font-size:13px;">⌫</button>
                     </div>
                     <div class="sp-search-results" id="sp-search-results" style="margin:0 10px;"></div>
-                    
+
                     <div class="sp-dialpad" style="gap:3px;padding:4px 10px 6px;">
                         <button class="sp-key" onclick="arrowz.softphone.pressKey('1')">1</button>
                         <button class="sp-key" onclick="arrowz.softphone.pressKey('2')">2</button>
@@ -690,9 +693,9 @@
                         <button class="sp-key" onclick="arrowz.softphone.pressKey('0')">0</button>
                         <button class="sp-key" onclick="arrowz.softphone.pressKey('#')">#</button>
                     </div>
-                    
+
                     <div class="sp-actions" style="padding:4px 10px 6px;">
-                        <button class="sp-call-btn ${!this.registered ? 'disabled' : ''}" 
+                        <button class="sp-call-btn ${!this.registered ? 'disabled' : ''}"
                                 onclick="arrowz.softphone.dial()" ${!this.registered ? 'disabled' : ''}
                                 style="width:42px;height:42px;">
                             <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;">
@@ -701,7 +704,7 @@
                         </button>
                     </div>
                 </div>
-                
+
                 <div class="sp-footer" style="padding:0;">
                     <button class="sp-footer-btn" onclick="arrowz.softphone.showHistory()" style="padding:5px;font-size:9px;">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -714,21 +717,21 @@
                 </div>
             `;
         },
-        
+
         // Show active call UI
         showActiveCallUI(number) {
             const dropdown = document.getElementById('arrowz-sp-dropdown');
             if (!dropdown) return;
-            
+
             const callee = number || this._currentCallee || __('Unknown');
             const activeCount = this.getActiveSessionCount();
-            
+
             // If more than one call, show multi-line UI
             if (activeCount > 1) {
                 this.showMultiLineCallUI();
                 return;
             }
-            
+
             dropdown.innerHTML = `
                 <div class="sp-call-screen" style="padding:10px;">
                     <div class="sp-call-header" style="margin-bottom:8px;display:flex;align-items:center;gap:10px;">
@@ -745,7 +748,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="sp-call-actions" style="display:flex;justify-content:center;gap:6px;margin-bottom:8px;">
                         <button class="sp-call-action" onclick="arrowz.softphone.toggleMute()" id="sp-mute-btn"
                                 style="padding:6px;width:44px;display:flex;flex-direction:column;align-items:center;gap:1px;border:none;border-radius:6px;background:var(--bg-color);cursor:pointer;">
@@ -777,7 +780,7 @@
                             <span style="font-size:8px;">${__('Add')}</span>
                         </button>
                     </div>
-                    
+
                     <div class="sp-keypad-overlay" id="sp-keypad-overlay" style="display:none;padding:6px;border-top:1px solid var(--border-color);">
                         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;">
                             <button onclick="arrowz.softphone.sendDTMF('1')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">1</button>
@@ -794,7 +797,7 @@
                             <button onclick="arrowz.softphone.sendDTMF('#')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">#</button>
                         </div>
                     </div>
-                    
+
                     <div class="sp-hangup-section" style="display:flex;justify-content:center;padding:6px 0;">
                         <button class="sp-hangup-btn" onclick="arrowz.softphone.hangup()"
                                 style="width:42px;height:42px;border-radius:50%;border:none;background:#f44336;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;">
@@ -805,19 +808,19 @@
                     </div>
                 </div>
             `;
-            
+
             dropdown.classList.add('open');
             if (window.innerWidth < 768) {
                 dropdown.classList.add('mobile-modal');
             }
             this.isDropdownOpen = true;
         },
-        
+
         // Show incoming call UI
         showIncomingCallUI(caller) {
             const dropdown = document.getElementById('arrowz-sp-dropdown');
             if (!dropdown) return;
-            
+
             dropdown.innerHTML = `
                 <div class="sp-incoming-screen" style="padding:12px;text-align:center;">
                     <div class="sp-incoming-animation" style="position:relative;width:56px;height:56px;margin:0 auto 10px;">
@@ -848,32 +851,32 @@
                     </div>
                 </div>
             `;
-            
+
             dropdown.classList.add('open', 'incoming');
             if (window.innerWidth < 768) {
                 dropdown.classList.add('mobile-modal');
             }
             this.isDropdownOpen = true;
         },
-        
+
         // Handle search input
         async handleSearchInput(query) {
             const resultsContainer = document.getElementById('sp-search-results');
             if (!resultsContainer) return;
-            
+
             if (query.length < 2) {
                 resultsContainer.style.display = 'none';
                 return;
             }
-            
+
             try {
                 const r = await frappe.call({
                     method: 'arrowz.api.contacts.search_contacts',
                     args: { query: query, limit: 10 }
                 });
-                
+
                 const contacts = r.message || [];
-                
+
                 if (contacts.length === 0) {
                     resultsContainer.innerHTML = `
                         <div class="sp-no-results">${__('No contacts found')}</div>
@@ -890,32 +893,32 @@
                         </div>
                     `).join('');
                 }
-                
+
                 resultsContainer.style.display = 'block';
-                
+
             } catch (e) {
                 console.error('Search error:', e);
             }
         },
-        
+
         // Select contact from search
         selectContact(phone, name) {
             const dialInput = document.getElementById('sp-dial-input');
             if (dialInput) {
                 dialInput.value = phone;
             }
-            
+
             const searchInput = document.getElementById('sp-search-input');
             if (searchInput) {
                 searchInput.value = name;
             }
-            
+
             const resultsContainer = document.getElementById('sp-search-results');
             if (resultsContainer) {
                 resultsContainer.style.display = 'none';
             }
         },
-        
+
         // Wait for registration with timeout
         waitForRegistration(timeout = 10000) {
             return new Promise((resolve, reject) => {
@@ -924,22 +927,22 @@
                     resolve(true);
                     return;
                 }
-                
+
                 const timeoutId = setTimeout(() => {
                     cleanup();
                     reject(new Error('Registration timeout'));
                 }, timeout);
-                
+
                 const onRegistered = () => {
                     cleanup();
                     resolve(true);
                 };
-                
+
                 const onFailed = (e) => {
                     cleanup();
                     reject(new Error(e?.cause || 'Registration failed'));
                 };
-                
+
                 const cleanup = () => {
                     clearTimeout(timeoutId);
                     if (this.ua) {
@@ -947,7 +950,7 @@
                         this.ua.off('registrationFailed', onFailed);
                     }
                 };
-                
+
                 if (this.ua) {
                     this.ua.on('registered', onRegistered);
                     this.ua.on('registrationFailed', onFailed);
@@ -956,31 +959,31 @@
                 }
             });
         },
-        
+
         // Switch extension
         async switchExtension(extensionName) {
             if (extensionName === this.activeExtension) return;
-            
+
             try {
                 // Stop current UA
                 if (this.ua) {
                     this.ua.stop();
                     this.registered = false;
                 }
-                
+
                 this.updateNavbarStatus('connecting', __('Switching...'));
-                
+
                 // Get new config
                 const r = await frappe.call({
                     method: 'arrowz.api.webrtc.get_webrtc_config',
                     args: { extension_name: extensionName }
                 });
-                
+
                 if (r.message) {
                     this.config = r.message;
                     this.activeExtension = extensionName;
                     await this.setupJsSIP();
-                    
+
                     // Wait for registration to complete
                     try {
                         await this.waitForRegistration(10000);
@@ -988,18 +991,18 @@
                         console.warn('Registration wait failed:', regError.message);
                         // Continue anyway, the UI will show offline status
                     }
-                    
+
                     // Refresh dropdown
                     if (this.isDropdownOpen) {
                         this.showDialerUI();
                     }
-                    
+
                     frappe.show_alert({
                         message: __('Switched to extension {0}', [r.message.extension]),
                         indicator: 'green'
                     }, 3);
                 }
-                
+
             } catch (e) {
                 console.error('Switch extension error:', e);
                 frappe.show_alert({
@@ -1008,20 +1011,20 @@
                 });
             }
         },
-        
+
         // Press key on dialpad
         pressKey(digit) {
             const input = document.getElementById('sp-dial-input');
             if (input) {
                 input.value += digit;
             }
-            
+
             // Send DTMF if in call
             if (this.session) {
                 this.sendDTMF(digit);
             }
         },
-        
+
         // Backspace
         backspace() {
             const input = document.getElementById('sp-dial-input');
@@ -1029,12 +1032,12 @@
                 input.value = input.value.slice(0, -1);
             }
         },
-        
+
         // Make call
         async dial() {
             const input = document.getElementById('sp-dial-input');
             const number = input?.value.trim();
-            
+
             if (!number) {
                 frappe.show_alert({
                     message: __('Please enter a number'),
@@ -1042,20 +1045,20 @@
                 });
                 return;
             }
-            
+
             await this.makeCall(number);
         },
-        
+
         // Get active session count
         getActiveSessionCount() {
             return this.sessions.filter(s => s && !s.isEnded()).length;
         },
-        
+
         // Get session by index
         getSession(index) {
             return this.sessions[index] || null;
         },
-        
+
         // Find first available line slot
         findAvailableLine() {
             for (let i = 0; i < this.maxLines; i++) {
@@ -1065,13 +1068,13 @@
             }
             return -1;
         },
-        
+
         // Switch to specific line
         switchToLine(index) {
             if (index < 0 || index >= this.maxLines) return;
             const session = this.sessions[index];
             if (!session || session.isEnded()) return;
-            
+
             // Put current line on hold if different
             const currentSession = this.sessions[this.activeLineIndex];
             if (currentSession && !currentSession.isEnded() && this.activeLineIndex !== index) {
@@ -1079,21 +1082,21 @@
                     currentSession.hold();
                 }
             }
-            
+
             // Unhold new line
             this.activeLineIndex = index;
             this.session = session;
             if (session.isOnHold().local) {
                 session.unhold();
             }
-            
+
             // Update UI
             if (this.isDropdownOpen) {
                 this.showMultiLineCallUI();
             }
             this.updateNavbarStatus('in-call', this._callNumbers[index] || __('Line') + ' ' + (index + 1));
         },
-        
+
         // Hold all lines except specified
         holdAllExcept(exceptIndex) {
             this.sessions.forEach((s, i) => {
@@ -1102,10 +1105,10 @@
                 }
             });
         },
-        
+
         // Initialize call number tracking
         _callNumbers: {},
-        
+
         // Make outgoing call
         async makeCall(number) {
             if (!this.registered) {
@@ -1115,7 +1118,7 @@
                 });
                 return;
             }
-            
+
             // Check for available line
             const lineIndex = this.findAvailableLine();
             if (lineIndex === -1) {
@@ -1125,13 +1128,13 @@
                 });
                 return;
             }
-            
+
             // Put current calls on hold
             this.holdAllExcept(-1);
-            
+
             try {
                 this._currentCallee = number;
-                
+
                 // Get microphone access with optimized constraints for WebRTC/VoIP
                 this.localStream = await navigator.mediaDevices.getUserMedia({
                     audio: {
@@ -1143,34 +1146,34 @@
                     },
                     video: false
                 });
-                
+
                 // Show call UI immediately
                 this.showActiveCallUI(number);
                 this.updateNavbarStatus('calling', number);
-                
+
                 // Build ICE servers - include both STUN and TURN for NAT traversal
                 // Start with reliable public TURN servers
                 let iceServers = [
                     { urls: 'stun:stun.l.google.com:19302' },
                     { urls: 'stun:stun1.l.google.com:19302' },
                     // OpenRelay TURN servers (free, reliable)
-                    { 
+                    {
                         urls: 'turn:openrelay.metered.ca:80',
                         username: 'openrelayproject',
                         credential: 'openrelayproject'
                     },
-                    { 
+                    {
                         urls: 'turn:openrelay.metered.ca:443',
                         username: 'openrelayproject',
                         credential: 'openrelayproject'
                     },
-                    { 
+                    {
                         urls: 'turn:openrelay.metered.ca:443?transport=tcp',
                         username: 'openrelayproject',
                         credential: 'openrelayproject'
                     }
                 ];
-                
+
                 // Add configured ICE servers from backend (prepend for priority)
                 if (this.config.ice_servers && this.config.ice_servers.length > 0) {
                     // Filter out non-working TURN servers
@@ -1184,9 +1187,9 @@
                     });
                     iceServers = [...configuredServers, ...iceServers];
                 }
-                
+
                 console.log('Arrowz: Using ICE servers:', JSON.stringify(iceServers.map(s => s.urls)));
-                
+
                 // WebRTC call options - use 'negotiate' for FreePBX compatibility
                 // FreePBX may not always support RTCP-MUX or BUNDLE strictly
                 const options = {
@@ -1206,18 +1209,18 @@
                     // Session timers for call keep-alive
                     sessionTimersExpires: 1800
                 };
-                
+
                 // Format number
                 let dialNumber = number.replace(/[^\d+*#]/g, '');
                 if (dialNumber.length >= 10 && /^\d+$/.test(dialNumber)) {
                     dialNumber = '+' + dialNumber;
                 }
-                
+
                 const targetUri = `sip:${dialNumber}@${this.config.sip_domain}`;
-                
+
                 console.log('Arrowz: Making call to:', targetUri);
                 console.log('Arrowz: Call options:', JSON.stringify(options.pcConfig));
-                
+
                 // Create call log and store reference
                 frappe.call({
                     method: 'arrowz.api.webrtc.initiate_call',
@@ -1230,17 +1233,17 @@
                         }
                     }
                 });
-                
+
                 // Store pending line index BEFORE calling ua.call()
                 // (newRTCSession event fires synchronously inside ua.call())
                 this._pendingOutgoingLineIndex = lineIndex;
-                
+
                 // Make the call
                 const newSession = this.ua.call(targetUri, options);
-                
+
                 // Clear pending line index
                 this._pendingOutgoingLineIndex = undefined;
-                
+
                 // These are now set in handleNewSession, but set them here too for safety
                 newSession._lineIndex = lineIndex;
                 this.sessions[lineIndex] = newSession;
@@ -1248,14 +1251,14 @@
                 this.activeLineIndex = lineIndex;
                 this._callNumbers[lineIndex] = number;
                 this.callStartTimes[lineIndex] = null;
-                
+
                 // Safety net: if handleNewSession didn't attach events, do it now
                 if (!newSession._eventsAttached) {
                     newSession._eventsAttached = true;
                     this.setupSessionEvents(newSession, lineIndex);
                 }
                 console.log('Arrowz: Call session created on line', lineIndex + 1);
-                
+
             } catch (error) {
                 this._pendingOutgoingLineIndex = undefined;  // Clear on error
                 console.error('Make call error:', error);
@@ -1266,14 +1269,14 @@
                 this.endCall();
             }
         },
-        
+
         // Handle new RTC session
         handleNewSession(e) {
             const session = e.session;
-            
+
             // Determine line index based on call direction
             let lineIndex;
-            
+
             if (session.direction === 'outgoing') {
                 // For outgoing calls, use the pending line index we stored before ua.call()
                 lineIndex = this._pendingOutgoingLineIndex;
@@ -1287,7 +1290,7 @@
                 // For incoming calls, find available line
                 lineIndex = this.findAvailableLine();
             }
-                
+
             if (lineIndex === -1 || lineIndex === undefined) {
                 // All lines busy - reject with busy signal
                 session.terminate({ status_code: 486, reason_phrase: 'Busy Here' });
@@ -1297,27 +1300,27 @@
                 }, 5);
                 return;
             }
-            
+
             // Store session in array
             session._lineIndex = lineIndex;
             this.sessions[lineIndex] = session;
             this.session = session;
             this.activeLineIndex = lineIndex;
-            
+
             if (session.direction === 'incoming') {
                 const caller = session.remote_identity.display_name || session.remote_identity.uri.user;
                 this._currentCallee = caller;
                 this._callNumbers[lineIndex] = caller;
                 this.callStartTimes[lineIndex] = null;
                 this._isIncomingRinging = true;  // Track ringing state for UI
-                
+
                 this.playRingtone();
                 this.showIncomingCallUI(caller);
                 this.updateNavbarStatus('incoming', caller);
-                
+
                 // Browser notification
                 this.showBrowserNotification(caller);
-                
+
                 // CRITICAL: Pre-request microphone access immediately when call arrives
                 // This reduces answer delay from ~15 seconds to ~1-2 seconds
                 console.log('Arrowz: Pre-requesting microphone access for faster answer...');
@@ -1336,7 +1339,7 @@
                     // User will get prompted again when they click Answer
                     this._preGrantedStream = null;
                 });
-                
+
                 frappe.call({
                     method: 'arrowz.api.webrtc.on_incoming_call',
                     args: { caller_id: caller, call_id: session.id },
@@ -1349,58 +1352,58 @@
                     }
                 });
             }
-            
+
             // Only setup events if not already done (avoid duplicate handlers)
             if (!session._eventsAttached) {
                 session._eventsAttached = true;
                 this.setupSessionEvents(session, lineIndex);
             }
         },
-        
+
         // Setup session events
         setupSessionEvents(targetSession, lineIndex) {
             const session = targetSession || this.session;
             if (!session) return;
-            
+
             const idx = lineIndex !== undefined ? lineIndex : this.activeLineIndex;
             console.log('Arrowz: Setting up session events for line', idx + 1);
-            
+
             // Log SDP for debugging + fix Docker NAT IPs
             session.on('sdp', (e) => {
                 console.log('Arrowz: SDP event -', e.originator, 'type:', e.type);
-                
+
                 // Fix remote SDP: Replace Docker internal IPs with public IP
                 // Asterisk inside Docker sends 172.x.x.x as ICE candidates and c= address
                 // These are unreachable from external WebRTC clients
                 if (e.originator === 'remote' && e.sdp) {
                     const originalSdp = e.sdp;
-                    
+
                     // Get public IP from SIP domain config
                     // The PBX public IP is resolved from the SIP domain or external_media_address
                     const pbxPublicIP = this._pbxPublicIP || '157.173.125.136';
-                    
+
                     // Detect Docker/private IPs in the SDP
                     const privateIPRegex = /\b(172\.\d{1,3}\.\d{1,3}\.\d{1,3})\b/g;
                     const privateIPs = [...new Set((originalSdp.match(privateIPRegex) || []))];
-                    
+
                     if (privateIPs.length > 0) {
                         console.warn('Arrowz: ⚠️ Remote SDP contains Docker/private IPs:', privateIPs.join(', '));
                         console.log('Arrowz: Rewriting SDP to use public IP:', pbxPublicIP);
-                        
+
                         // Replace private IPs in connection line (c=) and ICE candidates (a=candidate:)
                         let fixedSdp = originalSdp;
                         privateIPs.forEach(privateIP => {
                             fixedSdp = fixedSdp.split(privateIP).join(pbxPublicIP);
                         });
-                        
+
                         e.sdp = fixedSdp;
-                        
+
                         // Log the changes
                         const newCandidates = fixedSdp.split('\n').filter(l => l.startsWith('a=candidate:'));
                         console.log('Arrowz: ✅ SDP rewritten - new ICE candidates:');
                         newCandidates.forEach(c => console.log('  ', c.trim()));
                     }
-                    
+
                     // Log original candidates for debugging
                     const candidateLines = e.sdp.split('\n').filter(line => line.startsWith('a=candidate:'));
                     if (candidateLines.length > 0) {
@@ -1409,7 +1412,7 @@
                     } else {
                         console.warn('Arrowz: No ICE candidates in remote SDP - FreePBX may not have ICE enabled');
                     }
-                    
+
                     // Check connection address
                     const connectionLine = e.sdp.split('\n').find(line => line.startsWith('c='));
                     if (connectionLine) {
@@ -1419,10 +1422,10 @@
                         }
                     }
                 }
-                
+
                 console.log('Arrowz: SDP content (first 500 chars):', e.sdp?.substring(0, 500));
             });
-            
+
             session.on('peerconnection', (e) => {
                 console.log('Arrowz: Peerconnection event received for line', idx + 1);
                 const pc = e.peerconnection;
@@ -1430,12 +1433,12 @@
                 let hostCandidateReceived = false;
                 let relayCandidateReceived = false;
                 let srflxCandidateReceived = false;
-                
+
                 pc.onicecandidate = (event) => {
                     if (event.candidate) {
                         const c = event.candidate;
-                        console.log('Arrowz: ICE candidate:', c.type, c.address + ':' + c.port, 
-                            c.protocol, 'priority:', c.priority, 
+                        console.log('Arrowz: ICE candidate:', c.type, c.address + ':' + c.port,
+                            c.protocol, 'priority:', c.priority,
                             c.relatedAddress ? 'relayed from ' + c.relatedAddress : '');
                         if (c.type === 'host') hostCandidateReceived = true;
                         if (c.type === 'srflx') srflxCandidateReceived = true;
@@ -1444,7 +1447,7 @@
                             console.log('Arrowz: ✅ TURN relay candidate available - NAT traversal should work');
                         }
                     } else {
-                        console.log('Arrowz: ICE gathering complete - host:', hostCandidateReceived, 
+                        console.log('Arrowz: ICE gathering complete - host:', hostCandidateReceived,
                             'srflx:', srflxCandidateReceived, 'relay:', relayCandidateReceived);
                         if (!relayCandidateReceived) {
                             console.warn('Arrowz: ⚠️ No TURN relay candidates - TURN server may be down or credentials wrong');
@@ -1455,17 +1458,17 @@
                         }
                     }
                 };
-                
+
                 pc.oniceconnectionstatechange = () => {
                     const state = pc.iceConnectionState;
                     console.log('Arrowz: ICE connection state:', state);
-                    
+
                     // Log selected candidate pair when connected
                     if ((state === 'connected' || state === 'completed') && pc.getStats) {
                         pc.getStats().then(stats => {
                             stats.forEach(report => {
                                 if (report.type === 'candidate-pair' && report.state === 'succeeded') {
-                                    console.log('Arrowz: Connected via candidate pair:', 
+                                    console.log('Arrowz: Connected via candidate pair:',
                                         'local:', report.localCandidateId,
                                         'remote:', report.remoteCandidateId);
                                 }
@@ -1478,7 +1481,7 @@
                             });
                         }).catch(() => {});
                     }
-                    
+
                     switch (state) {
                         case 'connected':
                         case 'completed':
@@ -1488,7 +1491,7 @@
                             }
                             console.log('Arrowz: ICE connection established successfully');
                             break;
-                            
+
                         case 'failed':
                             console.error('Arrowz: ICE connection failed - terminating call on line', idx + 1);
                             // Log stats to understand why it failed
@@ -1513,7 +1516,7 @@
                             }, 7);
                             this.endCallOnLine(idx, 'ICE Connection Failed');
                             break;
-                            
+
                         case 'disconnected':
                             console.warn('Arrowz: ICE disconnected on line', idx + 1, '- waiting 5s for recovery');
                             iceFailureTimeout = setTimeout(() => {
@@ -1523,27 +1526,27 @@
                                 }
                             }, 5000);
                             break;
-                            
+
                         case 'closed':
                             if (iceFailureTimeout) {
                                 clearTimeout(iceFailureTimeout);
                             }
                             break;
-                            
+
                         case 'checking':
                             console.log('Arrowz: ICE checking - attempting to connect...');
                             break;
                     }
                 };
-                
+
                 pc.onicegatheringstatechange = () => {
                     console.log('Arrowz: ICE gathering state:', pc.iceGatheringState);
                 };
-                
+
                 pc.onconnectionstatechange = () => {
                     const state = pc.connectionState;
                     console.log('Arrowz: Connection state on line', idx + 1, ':', state);
-                    
+
                     if (state === 'failed') {
                         console.error('Arrowz: PeerConnection failed on line', idx + 1);
                         if (!this._callConfirmed) {
@@ -1551,7 +1554,7 @@
                         }
                     }
                 };
-                
+
                 pc.ontrack = (event) => {
                     console.log('Arrowz: Track received:', event.track.kind);
                     if (event.streams && event.streams[0]) {
@@ -1561,26 +1564,26 @@
                     }
                 };
             });
-            
+
             session.on('connecting', () => {
                 console.log('Arrowz: Session connecting on line', idx + 1);
             });
-            
+
             session.on('sending', (e) => {
                 console.log('Arrowz: Session sending INVITE on line', idx + 1);
             });
-            
+
             session.on('progress', () => {
                 this.updateCallStatus(__('Ringing...'));
                 this.updateNavbarStatus('ringing', this._callNumbers[idx] || this._currentCallee);
             });
-            
+
             // 'accepted' fires when answer is sent (for incoming) or received (for outgoing)
             session.on('accepted', () => {
                 console.log('Arrowz: Session accepted on line', idx + 1);
                 this.stopRingtone();  // Stop ringtone immediately on accept
             });
-            
+
             session.on('confirmed', () => {
                 console.log('Arrowz: Session confirmed on line', idx + 1);
                 this._callConfirmed = true;   // Mark call as fully connected
@@ -1592,12 +1595,12 @@
                 this.startCallTimer();
                 this.updateCallStatus(__('Connected'));
                 this.updateNavbarStatus('in-call', this._callNumbers[idx] || this._currentCallee);
-                
+
                 // Show multi-line UI if more than one call
                 if (this.getActiveSessionCount() > 1 && this.isDropdownOpen) {
                     this.showMultiLineCallUI();
                 }
-                
+
                 // Update call log as answered in database
                 if (this._currentCallLog) {
                     frappe.call({
@@ -1607,7 +1610,7 @@
                     }).catch(() => console.warn('Failed to update call answered status'));
                 }
             });
-            
+
             session.on('ended', () => {
                 console.log('Arrowz: Session ended on line', idx + 1);
                 this._isIncomingRinging = false;
@@ -1621,7 +1624,7 @@
                 }
                 this.endCallOnLine(idx);
             });
-            
+
             // Handle call rejection by remote party
             session.on('rejected', (e) => {
                 console.warn('Arrowz: Call rejected on line', idx + 1, ':', e.cause);
@@ -1629,7 +1632,7 @@
                 this._isIncomingRinging = false;
                 this._callConfirmed = false;
                 this.stopRingtone();
-                
+
                 let reason = 'Call Rejected';
                 if (e.cause === 'Busy Here' || e.message?.status_code === 486) {
                     reason = __('Busy');
@@ -1638,7 +1641,7 @@
                 }
                 this.endCallOnLine(idx, reason);
             });
-            
+
             // Handle call cancellation (FreePBX sends CANCEL before answer)
             session.on('cancel', () => {
                 console.warn('Arrowz: Call cancelled on line', idx + 1);
@@ -1648,7 +1651,7 @@
                 this.stopRingtone();
                 this.endCallOnLine(idx, __('Call Cancelled'));
             });
-            
+
             // Handle call redirect
             session.on('redirected', (e) => {
                 console.warn('Arrowz: Call redirected on line', idx + 1);
@@ -1656,7 +1659,7 @@
                 this._callConfirmed = false;
                 this.endCallOnLine(idx, __('Call Redirected'));
             });
-            
+
             // Handle SIP request timeout
             session.on('transporterror', () => {
                 console.error('Arrowz: Transport error on line', idx + 1);
@@ -1664,7 +1667,7 @@
                 this._callConfirmed = false;
                 this.endCallOnLine(idx, __('Connection Error'));
             });
-            
+
             session.on('failed', (e) => {
                 console.error('Arrowz: Call failed on line', idx + 1, ':', e.cause);
                 console.error('Arrowz: Failure details:', JSON.stringify({
@@ -1677,7 +1680,7 @@
                 this._isIncomingRinging = false;  // Reset ringing flag
                 this._callConfirmed = false;  // Reset confirmed flag
                 this.stopRingtone();  // Stop ringtone immediately on failure
-                
+
                 // Map common causes to user-friendly messages
                 let errorMessage = e.cause;
                 if (e.cause === 'SIP Failure Code') {
@@ -1705,7 +1708,7 @@
                 } else if (e.cause === 'Request Timeout') {
                     errorMessage = __('No response from server');
                 }
-                
+
                 // Update failed call in database
                 if (this._currentCallLog) {
                     frappe.call({
@@ -1714,10 +1717,10 @@
                         async: true
                     }).catch(() => {});
                 }
-                
+
                 this.endCallOnLine(idx, errorMessage);
             });
-            
+
             session.on('hold', () => {
                 console.log('Arrowz: Line', idx + 1, 'on hold');
                 if (idx === this.activeLineIndex) {
@@ -1725,7 +1728,7 @@
                     document.getElementById('sp-hold-btn')?.classList.add('active');
                 }
             });
-            
+
             session.on('unhold', () => {
                 console.log('Arrowz: Line', idx + 1, 'resumed');
                 if (idx === this.activeLineIndex) {
@@ -1734,14 +1737,14 @@
                 }
             });
         },
-        
+
         // Answer incoming call
         async answerCall() {
             if (!this.session) {
                 console.error('Arrowz: No session to answer');
                 return;
             }
-            
+
             try {
                 // Use pre-granted stream if available (instant answer), otherwise request now
                 if (this._preGrantedStream) {
@@ -1759,30 +1762,30 @@
                         video: false
                     });
                 }
-                
+
                 // Build ICE servers - include TURN if available for NAT traversal
                 // Start with reliable public STUN/TURN servers as fallback
                 let iceServers = [
                     { urls: 'stun:stun.l.google.com:19302' },
                     { urls: 'stun:stun1.l.google.com:19302' },
                     // OpenRelay TURN servers (free, reliable)
-                    { 
+                    {
                         urls: 'turn:openrelay.metered.ca:80',
                         username: 'openrelayproject',
                         credential: 'openrelayproject'
                     },
-                    { 
+                    {
                         urls: 'turn:openrelay.metered.ca:443',
                         username: 'openrelayproject',
                         credential: 'openrelayproject'
                     },
-                    { 
+                    {
                         urls: 'turn:openrelay.metered.ca:443?transport=tcp',
                         username: 'openrelayproject',
                         credential: 'openrelayproject'
                     }
                 ];
-                
+
                 // Add configured ICE servers from backend (prepend for priority)
                 if (this.config.ice_servers && this.config.ice_servers.length > 0) {
                     // Filter out non-working TURN servers, keep STUN
@@ -1799,10 +1802,10 @@
                     // Prepend configured servers
                     iceServers = [...configuredServers, ...iceServers];
                 }
-                
+
                 // Log ICE configuration for debugging
                 console.log('Arrowz: Using ICE servers:', JSON.stringify(iceServers.map(s => s.urls)));
-                
+
                 // Log the remote SDP (offer from FreePBX) for debugging
                 const remoteDesc = this.session._request?.body;
                 if (remoteDesc) {
@@ -1818,7 +1821,7 @@
                         console.warn('Arrowz: Remote SDP has no DTLS setup - not WebRTC compatible');
                     }
                 }
-                
+
                 const options = {
                     mediaConstraints: { audio: true, video: false },
                     mediaStream: this.localStream,
@@ -1834,9 +1837,9 @@
                         offerToReceiveVideo: false
                     }
                 };
-                
+
                 console.log('Arrowz: Answering call with options:', JSON.stringify(options.pcConfig));
-                
+
                 // Listen for the peerconnection:setremotedescriptionfailed event
                 this.session.on('peerconnection:setremotedescriptionfailed', (e) => {
                     console.error('Arrowz: setRemoteDescription failed:', e.error);
@@ -1852,11 +1855,11 @@
                         }, 10);
                     }
                 });
-                
+
                 // Mark that we're answering (prevents accidental hangup before confirmed)
                 this._isAnswering = true;
                 this._isIncomingRinging = false;  // No longer ringing
-                
+
                 // Answer the call with proper error handling
                 try {
                     this.session.answer(options);
@@ -1870,14 +1873,14 @@
                     }, 7);
                     return;
                 }
-                
+
                 this.stopRingtone();
                 this.showActiveCallUI(this._currentCallee);
-                
+
             } catch (error) {
                 console.error('Answer call error:', error);
                 let errorMessage = __('Failed to access microphone');
-                
+
                 if (error.name === 'NotAllowedError') {
                     errorMessage = __('Microphone permission denied');
                 } else if (error.name === 'NotFoundError') {
@@ -1885,28 +1888,28 @@
                 } else if (error.message) {
                     errorMessage = error.message;
                 }
-                
+
                 frappe.show_alert({
                     message: errorMessage,
                     indicator: 'red'
                 }, 7);
-                
+
                 // Don't close the call UI, let the user try again or reject
             }
         },
-        
+
         // Reject call
         rejectCall() {
             this.stopRingtone();
             this._isIncomingRinging = false;  // No longer ringing
-            
+
             // Clean up pre-granted stream if user rejects the call
             if (this._preGrantedStream) {
                 console.log('Arrowz: Cleaning up pre-granted stream after reject');
                 this._preGrantedStream.getTracks().forEach(track => track.stop());
                 this._preGrantedStream = null;
             }
-            
+
             if (this.session) {
                 try {
                     this.session.terminate({ status_code: 603, reason_phrase: 'Decline' });
@@ -1916,7 +1919,7 @@
             this.closeDropdown();
             this.updateNavbarStatus('registered', this.config?.extension || '---');
         },
-        
+
         // Hangup call
         hangup() {
             // Don't hangup if we're still in the process of answering
@@ -1924,7 +1927,7 @@
                 console.log('Arrowz: Ignoring hangup - call is being answered');
                 return;
             }
-            
+
             if (this.session) {
                 try {
                     this.session.terminate();
@@ -1936,16 +1939,16 @@
                 this.endCall();
             }
         },
-        
+
         // End call on specific line
         endCallOnLine(lineIndex, reason) {
             const session = this.sessions[lineIndex];
-            
+
             // Clean up this specific line
             this.sessions[lineIndex] = null;
             this.callStartTimes[lineIndex] = null;
             delete this._callNumbers[lineIndex];
-            
+
             // If this was the active line, find another active line
             if (lineIndex === this.activeLineIndex) {
                 const nextActiveLine = this.sessions.findIndex(s => s && !s.isEnded());
@@ -1969,7 +1972,7 @@
                     return;
                 }
             }
-            
+
             // Update multi-line UI if still have calls
             if (this.getActiveSessionCount() > 0 && this.isDropdownOpen) {
                 if (this.getActiveSessionCount() > 1) {
@@ -1978,7 +1981,7 @@
                     this.showActiveCallUI(this._callNumbers[this.activeLineIndex]);
                 }
             }
-            
+
             if (reason) {
                 frappe.show_alert({
                     message: __('Line {0}: {1}', [lineIndex + 1, reason]),
@@ -1986,35 +1989,35 @@
                 }, 3);
             }
         },
-        
+
         // Get call duration for specific line
         getCallDurationForLine(lineIndex) {
             const startTime = this.callStartTimes[lineIndex];
             if (!startTime) return 0;
             return Math.floor((new Date() - startTime) / 1000);
         },
-        
+
         // End call cleanup (all lines)
         endCall(reason) {
             this.stopCallTimer();
             this.stopRingtone();
-            
+
             // Reset call state flags
             this._isAnswering = false;
             this._callConfirmed = false;
-            
+
             // Clean up pre-granted stream if it wasn't used
             if (this._preGrantedStream) {
                 console.log('Arrowz: Cleaning up unused pre-granted stream');
                 this._preGrantedStream.getTracks().forEach(track => track.stop());
                 this._preGrantedStream = null;
             }
-            
+
             if (this.localStream) {
                 this.localStream.getTracks().forEach(t => t.stop());
                 this.localStream = null;
             }
-            
+
             // Clear all sessions
             this.sessions = [];
             this.session = null;
@@ -2025,13 +2028,13 @@
             this.activeLineIndex = 0;
             this._currentCallee = null;
             this._currentCallLog = null;  // Reset call log reference
-            
+
             this.updateNavbarStatus('registered', this.config?.extension || '---');
-            
+
             if (this.isDropdownOpen) {
                 this.showDialerUI();
             }
-            
+
             if (reason) {
                 frappe.show_alert({
                     message: __('Call ended: {0}', [reason]),
@@ -2039,19 +2042,19 @@
                 }, 3);
             }
         },
-        
+
         // Show multi-line call UI
         showMultiLineCallUI() {
             const dropdown = document.getElementById('arrowz-sp-dropdown');
             if (!dropdown) return;
-            
+
             const activeCount = this.getActiveSessionCount();
-            
+
             // Build lines status HTML
             let linesHtml = '';
             this.sessions.forEach((session, idx) => {
                 if (!session || session.isEnded()) return;
-                
+
                 const number = this._callNumbers[idx] || __('Unknown');
                 const isActive = idx === this.activeLineIndex;
                 const isHeld = session.isOnHold()?.local;
@@ -2063,9 +2066,9 @@
                     const secs = elapsed % 60;
                     duration = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
                 }
-                
+
                 linesHtml += `
-                    <div class="sp-line-item ${isActive ? 'active' : ''} ${isHeld ? 'held' : ''}" 
+                    <div class="sp-line-item ${isActive ? 'active' : ''} ${isHeld ? 'held' : ''}"
                          onclick="arrowz.softphone.switchToLine(${idx})">
                         <div class="sp-line-indicator">${idx + 1}</div>
                         <div class="sp-line-info">
@@ -2079,7 +2082,7 @@
                     </div>
                 `;
             });
-            
+
             dropdown.innerHTML = `
                 <div class="sp-header">
                     <div class="sp-header-info">
@@ -2088,12 +2091,12 @@
                     </div>
                     <button class="sp-close-btn" onclick="arrowz.softphone.closeDropdown()">×</button>
                 </div>
-                
+
                 <div class="sp-content sp-multiline">
                     <div class="sp-lines-container">
                         ${linesHtml}
                     </div>
-                    
+
                     <div class="sp-multiline-actions">
                         <button class="sp-action-compact" onclick="arrowz.softphone.toggleMute()" id="sp-mute-btn" title="${__('Mute')}">
                             <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
@@ -2119,11 +2122,11 @@
                     </div>
                 </div>
             `;
-            
+
             dropdown.classList.add('open');
             this.isDropdownOpen = true;
         },
-        
+
         // Hangup specific line
         hangupLine(lineIndex) {
             const session = this.sessions[lineIndex];
@@ -2135,7 +2138,7 @@
                 }
             }
         },
-        
+
         // Hangup all lines
         hangupAll() {
             this.sessions.forEach((session, idx) => {
@@ -2148,7 +2151,7 @@
                 }
             });
         },
-        
+
         // Show dialer for adding new call
         showDialerForNewCall() {
             // Put current call on hold first
@@ -2157,17 +2160,17 @@
             }
             this.showDialerUI();
         },
-        
+
         // Toggle mute
         toggleMute() {
             if (!this.session) return;
-            
+
             const muteBtn = document.getElementById('sp-mute-btn');
             if (!muteBtn) return;
-            
+
             const mutedIcon = muteBtn.querySelector('.muted');
             const unmutedIcon = muteBtn.querySelector('.unmuted');
-            
+
             if (this.session.isMuted().audio) {
                 this.session.unmute({ audio: true });
                 muteBtn.classList.remove('muted');
@@ -2180,18 +2183,18 @@
                 if (unmutedIcon) unmutedIcon.style.display = 'none';
             }
         },
-        
+
         // Toggle hold
         toggleHold() {
             if (!this.session) return;
-            
+
             if (this.session.isOnHold().local) {
                 this.session.unhold();
             } else {
                 this.session.hold();
             }
         },
-        
+
         // Toggle keypad
         toggleKeypad() {
             const overlay = document.getElementById('sp-keypad-overlay');
@@ -2199,18 +2202,18 @@
                 overlay.style.display = overlay.style.display === 'none' ? 'block' : 'none';
             }
         },
-        
+
         // Send DTMF
         sendDTMF(digit) {
             if (this.session) {
                 this.session.sendDTMF(digit);
             }
         },
-        
+
         // Transfer call
         transfer() {
             if (!this.session) return;
-            
+
             frappe.prompt({
                 fieldtype: 'Data',
                 fieldname: 'target',
@@ -2226,18 +2229,18 @@
                 }
             }, __('Transfer Call'));
         },
-        
+
         // Update navbar status
         updateNavbarStatus(status, text) {
             const dot = document.querySelector('.arrowz-sp-trigger .sp-status-dot');
             const statusText = document.querySelector('.arrowz-sp-trigger .sp-status-text');
             const timer = document.querySelector('.arrowz-sp-trigger .sp-call-timer');
             const trigger = document.querySelector('.arrowz-sp-trigger');
-            
+
             if (dot) {
                 dot.className = 'sp-status-dot ' + status;
             }
-            
+
             if (statusText && timer) {
                 if (['calling', 'ringing', 'in-call', 'incoming'].includes(status)) {
                     statusText.style.display = 'none';
@@ -2248,23 +2251,23 @@
                     timer.style.display = 'none';
                 }
             }
-            
+
             if (trigger) {
                 trigger.setAttribute('data-status', status);
             }
         },
-        
+
         // Update call status text
         updateCallStatus(text) {
             const el = document.getElementById('sp-call-status');
             if (el) el.textContent = text;
         },
-        
+
         // Update navbar badge
         updateNavbarBadge() {
             const badge = document.querySelector('.arrowz-sp-trigger .sp-badge');
             const count = this.pendingSMS.length + this.missedCalls;
-            
+
             if (badge) {
                 if (count > 0) {
                     badge.textContent = count > 99 ? '99+' : count;
@@ -2274,25 +2277,25 @@
                 }
             }
         },
-        
+
         // Start call timer
         startCallTimer() {
             const timerEl = document.getElementById('sp-call-duration');
             const navTimer = document.querySelector('.sp-call-timer');
-            
+
             this.callTimer = setInterval(() => {
                 if (this.callStartTime) {
                     const elapsed = Math.floor((new Date() - this.callStartTime) / 1000);
                     const mins = Math.floor(elapsed / 60);
                     const secs = elapsed % 60;
                     const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-                    
+
                     if (timerEl) timerEl.textContent = formatted;
                     if (navTimer) navTimer.textContent = formatted;
                 }
             }, 1000);
         },
-        
+
         // Stop call timer
         stopCallTimer() {
             if (this.callTimer) {
@@ -2300,13 +2303,13 @@
                 this.callTimer = null;
             }
         },
-        
+
         // Get call duration in seconds
         getCallDuration() {
             if (!this.callStartTime) return 0;
             return Math.floor((new Date() - this.callStartTime) / 1000);
         },
-        
+
         // Play ringtone
         playRingtone() {
             try {
@@ -2319,7 +2322,7 @@
                 });
             } catch (e) {}
         },
-        
+
         // Stop ringtone
         stopRingtone() {
             try {
@@ -2327,7 +2330,7 @@
                 this.ringtone.currentTime = 0;
             } catch (e) {}
         },
-        
+
         // Show browser notification
         showBrowserNotification(caller) {
             if ('Notification' in window && Notification.permission === 'granted') {
@@ -2337,16 +2340,16 @@
                     requireInteraction: true,
                     tag: 'incoming-call'
                 });
-                
+
                 notification.onclick = () => {
                     window.focus();
                     notification.close();
                 };
-                
+
                 this.currentNotification = notification;
             }
         },
-        
+
         // Show notification
         showNotification(type, data) {
             if (type === 'sms') {
@@ -2356,28 +2359,28 @@
                 }, 5);
             }
         },
-        
+
         // Show call history
         showHistory() {
             frappe.set_route('List', 'AZ Call Log');
             this.closeDropdown();
         },
-        
+
         // Show settings
         showSettings() {
             frappe.set_route('Form', 'AZ Extension', this.activeExtension);
             this.closeDropdown();
         },
-        
+
         // Public show method
         show() {
             this.openDropdown();
         },
-        
+
         // Add styles
         addStyles() {
             if (document.getElementById('arrowz-softphone-v2-styles')) return;
-            
+
             const style = document.createElement('style');
             style.id = 'arrowz-softphone-v2-styles';
             style.textContent = `
@@ -2387,7 +2390,7 @@
                     display: flex;
                     align-items: center;
                 }
-                
+
                 .arrowz-softphone-desktop .arrowz-sp-trigger {
                     display: flex;
                     align-items: center;
@@ -2398,30 +2401,30 @@
                     transition: all 0.2s;
                     background: transparent;
                 }
-                
+
                 .arrowz-softphone-desktop .arrowz-sp-trigger:hover {
                     background: var(--bg-dark-gray, rgba(0,0,0,0.05));
                 }
-                
+
                 .arrowz-softphone-desktop .sp-icon {
                     width: 20px;
                     height: 20px;
                     color: var(--text-muted, #6c757d);
                 }
-                
+
                 .arrowz-softphone-desktop .arrowz-sp-dropdown {
                     position: absolute;
                     top: calc(100% + 8px);
                     right: 0;
                     z-index: 1050;
                 }
-                
+
                 /* Legacy Navbar Widget */
                 .arrowz-softphone-nav {
                     position: relative;
                     margin-right: 8px;
                 }
-                
+
                 .arrowz-sp-trigger {
                     display: flex;
                     align-items: center;
@@ -2433,47 +2436,47 @@
                     transition: all 0.2s;
                     user-select: none;
                 }
-                
+
                 .arrowz-sp-trigger:hover {
                     background: var(--bg-dark-gray);
                 }
-                
+
                 .arrowz-sp-trigger[data-status="in-call"],
                 .arrowz-sp-trigger[data-status="calling"],
                 .arrowz-sp-trigger[data-status="ringing"] {
                     background: rgba(76, 175, 80, 0.15);
                     animation: pulse-bg 2s infinite;
                 }
-                
+
                 .arrowz-sp-trigger[data-status="incoming"] {
                     background: rgba(33, 150, 243, 0.15);
                     animation: shake-trigger 0.5s infinite;
                 }
-                
+
                 @keyframes pulse-bg {
                     0%, 100% { background: rgba(76, 175, 80, 0.15); }
                     50% { background: rgba(76, 175, 80, 0.25); }
                 }
-                
+
                 @keyframes shake-trigger {
                     0%, 100% { transform: translateX(0); }
                     25% { transform: translateX(-2px); }
                     75% { transform: translateX(2px); }
                 }
-                
+
                 .sp-icon-wrapper {
                     position: relative;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                 }
-                
+
                 .sp-icon {
                     width: 18px;
                     height: 18px;
                     color: var(--text-color);
                 }
-                
+
                 .sp-status-dot {
                     position: absolute;
                     bottom: -2px;
@@ -2485,7 +2488,7 @@
                     background: #9e9e9e;
                     transition: background 0.3s;
                 }
-                
+
                 .sp-status-dot.registered { background: #4CAF50; }
                 .sp-status-dot.connecting { background: #ff9800; animation: blink 1s infinite; }
                 .sp-status-dot.disconnected, .sp-status-dot.failed { background: #f44336; }
@@ -2493,17 +2496,17 @@
                 .sp-status-dot.calling, .sp-status-dot.ringing { background: #4CAF50; animation: pulse-dot 1s infinite; }
                 .sp-status-dot.in-call { background: #4CAF50; }
                 .sp-status-dot.incoming { background: #2196F3; animation: pulse-dot 0.5s infinite; }
-                
+
                 @keyframes blink {
                     0%, 100% { opacity: 1; }
                     50% { opacity: 0.4; }
                 }
-                
+
                 @keyframes pulse-dot {
                     0%, 100% { transform: scale(1); }
                     50% { transform: scale(1.3); }
                 }
-                
+
                 .sp-badge {
                     position: absolute;
                     top: -4px;
@@ -2517,20 +2520,20 @@
                     min-width: 16px;
                     text-align: center;
                 }
-                
+
                 .sp-status-text {
                     font-size: 12px;
                     font-weight: 500;
                     color: var(--text-color);
                 }
-                
+
                 .sp-call-timer {
                     font-size: 12px;
                     font-weight: 600;
                     color: #4CAF50;
                     font-family: monospace;
                 }
-                
+
                 /* Dropdown */
                 .arrowz-sp-dropdown {
                     position: absolute;
@@ -2550,19 +2553,19 @@
                     display: flex;
                     flex-direction: column;
                 }
-                
+
                 /* Portal mode: dropdown appended to body to escape topbar overflow */
                 .arrowz-sp-dropdown.arrowz-sp-dropdown-portal {
                     position: fixed;
                     z-index: 1060;
                 }
-                
+
                 .arrowz-sp-dropdown.open {
                     opacity: 1;
                     visibility: visible;
                     transform: translateY(0);
                 }
-                
+
                 /* Mobile Modal */
                 .arrowz-sp-dropdown.mobile-modal {
                     position: fixed;
@@ -2574,11 +2577,11 @@
                     max-width: 350px;
                     max-height: 90vh;
                 }
-                
+
                 .arrowz-sp-dropdown.mobile-modal.open {
                     transform: translate(-50%, -50%);
                 }
-                
+
                 body.arrowz-modal-open::before {
                     content: '';
                     position: fixed;
@@ -2589,7 +2592,7 @@
                     background: rgba(0,0,0,0.5);
                     z-index: 1040;
                 }
-                
+
                 /* Header */
                 .sp-header {
                     display: flex;
@@ -2601,38 +2604,38 @@
                     flex-shrink: 0;
                     border-radius: 10px 10px 0 0;
                 }
-                
+
                 /* Content wrapper */
                 .sp-content {
                     flex: 1;
                     overflow: visible;
                 }
-                
+
                 .sp-header-info {
                     display: flex;
                     align-items: center;
                     gap: 8px;
                 }
-                
+
                 .sp-status-indicator {
                     width: 10px;
                     height: 10px;
                     border-radius: 50%;
                     background: #f44336;
                 }
-                
+
                 .sp-status-indicator.online { background: #4CAF50; }
-                
+
                 .sp-ext-number {
                     font-size: 16px;
                     font-weight: 600;
                 }
-                
+
                 .sp-status-label {
                     font-size: 12px;
                     opacity: 0.8;
                 }
-                
+
                 .sp-close-btn {
                     background: none;
                     border: none;
@@ -2644,16 +2647,16 @@
                     opacity: 0.7;
                     transition: opacity 0.2s;
                 }
-                
+
                 .sp-close-btn:hover { opacity: 1; }
-                
+
                 /* Extension Selector */
                 .sp-extension-selector {
                     padding: 10px 16px;
                     background: var(--bg-color);
                     border-bottom: 1px solid var(--border-color);
                 }
-                
+
                 .sp-ext-label {
                     font-size: 11px;
                     color: var(--text-muted);
@@ -2661,13 +2664,13 @@
                     text-transform: uppercase;
                     letter-spacing: 0.5px;
                 }
-                
+
                 .sp-ext-buttons {
                     display: flex;
                     gap: 6px;
                     flex-wrap: wrap;
                 }
-                
+
                 .sp-ext-btn {
                     padding: 6px 12px;
                     border: 1px solid var(--border-color);
@@ -2678,24 +2681,24 @@
                     cursor: pointer;
                     transition: all 0.2s;
                 }
-                
+
                 .sp-ext-btn:hover {
                     border-color: #5e35b1;
                     color: #5e35b1;
                 }
-                
+
                 .sp-ext-btn.active {
                     background: #5e35b1;
                     border-color: #5e35b1;
                     color: white;
                 }
-                
+
                 /* Search */
                 .sp-search-container {
                     padding: 12px 16px;
                     position: relative;
                 }
-                
+
                 .sp-search-input {
                     width: 100%;
                     padding: 10px 14px;
@@ -2705,12 +2708,12 @@
                     background: var(--fg-color);
                     transition: border-color 0.2s;
                 }
-                
+
                 .sp-search-input:focus {
                     outline: none;
                     border-color: #5e35b1;
                 }
-                
+
                 .sp-search-results {
                     position: absolute;
                     top: 100%;
@@ -2725,7 +2728,7 @@
                     z-index: 10;
                     display: none;
                 }
-                
+
                 .sp-contact-item {
                     display: flex;
                     align-items: center;
@@ -2734,11 +2737,11 @@
                     cursor: pointer;
                     transition: background 0.2s;
                 }
-                
+
                 .sp-contact-item:hover {
                     background: var(--bg-color);
                 }
-                
+
                 .sp-contact-avatar {
                     width: 36px;
                     height: 36px;
@@ -2751,12 +2754,12 @@
                     font-weight: 600;
                     font-size: 14px;
                 }
-                
+
                 .sp-contact-details {
                     flex: 1;
                     min-width: 0;
                 }
-                
+
                 .sp-contact-name {
                     font-weight: 500;
                     font-size: 13px;
@@ -2764,32 +2767,32 @@
                     overflow: hidden;
                     text-overflow: ellipsis;
                 }
-                
+
                 .sp-contact-phone {
                     font-size: 12px;
                     color: var(--text-muted);
                 }
-                
+
                 .sp-contact-type {
                     font-size: 10px;
                     color: #5e35b1;
                     text-transform: uppercase;
                 }
-                
+
                 .sp-no-results {
                     padding: 16px;
                     text-align: center;
                     color: var(--text-muted);
                     font-size: 13px;
                 }
-                
+
                 /* Dial Display */
                 .sp-dial-display {
                     display: flex;
                     padding: 6px 10px;
                     gap: 6px;
                 }
-                
+
                 .sp-dial-input {
                     flex: 1;
                     padding: 8px;
@@ -2801,12 +2804,12 @@
                     font-family: monospace;
                     background: var(--fg-color);
                 }
-                
+
                 .sp-dial-input:focus {
                     outline: none;
                     border-color: #5e35b1;
                 }
-                
+
                 .sp-backspace {
                     padding: 8px 12px;
                     border: 1px solid var(--border-color);
@@ -2816,11 +2819,11 @@
                     cursor: pointer;
                     transition: all 0.2s;
                 }
-                
+
                 .sp-backspace:hover {
                     background: var(--bg-color);
                 }
-                
+
                 /* Dialpad */
                 .sp-dialpad {
                     display: grid;
@@ -2828,7 +2831,7 @@
                     gap: 4px;
                     padding: 4px 10px 8px;
                 }
-                
+
                 .sp-key {
                     height: 32px;
                     border: none;
@@ -2843,45 +2846,45 @@
                     justify-content: center;
                     transition: all 0.15s;
                 }
-                
+
                 .sp-key:hover {
                     background: var(--border-color);
                 }
-                
+
                 .sp-key:active {
                     transform: scale(0.95);
                     background: #5e35b1;
                     color: white;
                 }
-                
+
                 .sp-key span {
                     font-size: 9px;
                     color: var(--text-muted);
                     letter-spacing: 1px;
                 }
-                
+
                 .sp-key:active span {
                     color: rgba(255,255,255,0.7);
                 }
-                
+
                 /* Compact dialpad for in-call */
                 .sp-dialpad.compact {
                     padding: 10px;
                 }
-                
+
                 .sp-dialpad.compact .sp-key {
                     aspect-ratio: 1.5;
                     font-size: 18px;
                     border-radius: 8px;
                 }
-                
+
                 /* Actions */
                 .sp-actions {
                     display: flex;
                     justify-content: center;
                     padding: 0 16px 16px;
                 }
-                
+
                 .sp-call-btn {
                     width: 64px;
                     height: 64px;
@@ -2895,22 +2898,22 @@
                     justify-content: center;
                     transition: all 0.2s;
                 }
-                
+
                 .sp-call-btn:hover {
                     background: #43a047;
                     transform: scale(1.05);
                 }
-                
+
                 .sp-call-btn.disabled {
                     background: #9e9e9e;
                     cursor: not-allowed;
                 }
-                
+
                 .sp-call-btn svg {
                     width: 28px;
                     height: 28px;
                 }
-                
+
                 /* Footer */
                 .sp-footer {
                     display: flex;
@@ -2919,7 +2922,7 @@
                     flex-shrink: 0;
                     border-radius: 0 0 12px 12px;
                 }
-                
+
                 .sp-footer-btn {
                     flex: 1;
                     padding: 12px;
@@ -2934,31 +2937,31 @@
                     cursor: pointer;
                     transition: all 0.2s;
                 }
-                
+
                 .sp-footer-btn:hover {
                     background: var(--fg-color);
                     color: #5e35b1;
                 }
-                
+
                 .sp-footer-btn svg {
                     width: 16px;
                     height: 16px;
                 }
-                
+
                 .sp-footer-btn:first-child {
                     border-right: 1px solid var(--border-color);
                 }
-                
+
                 /* Call Screen */
                 .sp-call-screen {
                     padding: 20px;
                     text-align: center;
                 }
-                
+
                 .sp-call-header {
                     margin-bottom: 20px;
                 }
-                
+
                 .sp-call-avatar {
                     width: 80px;
                     height: 80px;
@@ -2970,23 +2973,23 @@
                     justify-content: center;
                     margin: 0 auto 16px;
                 }
-                
+
                 .sp-call-avatar svg {
                     width: 40px;
                     height: 40px;
                 }
-                
+
                 .sp-callee-number {
                     font-size: 22px;
                     font-weight: 600;
                 }
-                
+
                 #sp-call-status {
                     font-size: 14px;
                     color: var(--text-muted);
                     margin-top: 4px;
                 }
-                
+
                 #sp-call-duration {
                     font-size: 28px;
                     font-weight: 300;
@@ -2994,14 +2997,14 @@
                     color: #4CAF50;
                     margin-top: 8px;
                 }
-                
+
                 .sp-call-actions {
                     display: grid;
                     grid-template-columns: repeat(4, 1fr);
                     gap: 12px;
                     margin-bottom: 20px;
                 }
-                
+
                 .sp-call-action {
                     display: flex;
                     flex-direction: column;
@@ -3014,35 +3017,35 @@
                     cursor: pointer;
                     transition: all 0.2s;
                 }
-                
+
                 .sp-call-action:hover {
                     background: var(--border-color);
                 }
-                
+
                 .sp-call-action.active {
                     background: #f44336;
                     color: white;
                 }
-                
+
                 .sp-call-action svg {
                     width: 24px;
                     height: 24px;
                 }
-                
+
                 .sp-call-action span {
                     font-size: 11px;
                 }
-                
+
                 .sp-keypad-overlay {
                     margin-top: 10px;
                     padding-top: 10px;
                     border-top: 1px solid var(--border-color);
                 }
-                
+
                 .sp-hangup-section {
                     margin-top: 10px;
                 }
-                
+
                 .sp-hangup-btn {
                     width: 64px;
                     height: 64px;
@@ -3056,31 +3059,31 @@
                     justify-content: center;
                     transition: all 0.2s;
                 }
-                
+
                 .sp-hangup-btn:hover {
                     background: #d32f2f;
                     transform: scale(1.05);
                 }
-                
+
                 .sp-hangup-btn svg {
                     width: 28px;
                     height: 28px;
                     transform: rotate(135deg);
                 }
-                
+
                 /* Incoming Call Screen */
                 .sp-incoming-screen {
                     padding: 30px 20px;
                     text-align: center;
                 }
-                
+
                 .sp-incoming-animation {
                     position: relative;
                     width: 100px;
                     height: 100px;
                     margin: 0 auto 20px;
                 }
-                
+
                 .sp-pulse-ring {
                     position: absolute;
                     top: 0;
@@ -3091,16 +3094,16 @@
                     border: 3px solid #2196F3;
                     animation: pulse-ring 1.5s infinite;
                 }
-                
+
                 .sp-pulse-ring.delay {
                     animation-delay: 0.5s;
                 }
-                
+
                 @keyframes pulse-ring {
                     0% { transform: scale(0.8); opacity: 1; }
                     100% { transform: scale(1.5); opacity: 0; }
                 }
-                
+
                 .sp-caller-avatar {
                     position: absolute;
                     top: 50%;
@@ -3115,30 +3118,30 @@
                     align-items: center;
                     justify-content: center;
                 }
-                
+
                 .sp-caller-avatar svg {
                     width: 35px;
                     height: 35px;
                 }
-                
+
                 .sp-caller-id {
                     font-size: 24px;
                     font-weight: 600;
                     margin-bottom: 4px;
                 }
-                
+
                 .sp-incoming-label {
                     font-size: 14px;
                     color: var(--text-muted);
                     margin-bottom: 30px;
                 }
-                
+
                 .sp-incoming-actions {
                     display: flex;
                     justify-content: center;
                     gap: 40px;
                 }
-                
+
                 .sp-reject-btn, .sp-answer-btn {
                     width: 64px;
                     height: 64px;
@@ -3150,181 +3153,181 @@
                     justify-content: center;
                     transition: all 0.2s;
                 }
-                
+
                 .sp-reject-btn {
                     background: #f44336;
                     color: white;
                 }
-                
+
                 .sp-reject-btn:hover {
                     background: #d32f2f;
                     transform: scale(1.05);
                 }
-                
+
                 .sp-answer-btn {
                     background: #4CAF50;
                     color: white;
                     animation: pulse-answer 1s infinite;
                 }
-                
+
                 .sp-answer-btn:hover {
                     background: #43a047;
                 }
-                
+
                 @keyframes pulse-answer {
                     0%, 100% { transform: scale(1); }
                     50% { transform: scale(1.08); }
                 }
-                
+
                 .sp-reject-btn svg, .sp-answer-btn svg {
                     width: 28px;
                     height: 28px;
                 }
-                
+
                 .sp-reject-btn svg {
                     transform: rotate(135deg);
                 }
-                
+
                 /* Mobile Responsive */
                 @media (max-width: 768px) {
                     .sp-status-text {
                         display: none;
                     }
-                    
+
                     .arrowz-sp-dropdown {
                         width: calc(100vw - 40px);
                         max-height: calc(100vh - 100px);
                     }
-                    
+
                     .sp-dialpad .sp-key {
                         aspect-ratio: 1.2;
                         font-size: 20px;
                     }
-                    
+
                     .sp-call-actions {
                         grid-template-columns: repeat(2, 1fr);
                     }
                 }
-                
+
                 /* ======================================
                    COMPACT UI - No Scroll Required
                    ====================================== */
-                
+
                 /* Compact Dialpad */
                 .sp-dialpad {
                     gap: 4px !important;
                     padding: 0 12px 8px !important;
                 }
-                
+
                 .sp-key {
                     aspect-ratio: 1.5 !important;
                     font-size: 18px !important;
                     padding: 4px !important;
                 }
-                
+
                 .sp-key span {
                     font-size: 7px !important;
                     display: none;
                 }
-                
+
                 /* Compact Search */
                 .sp-search-container {
                     padding: 8px 12px !important;
                 }
-                
+
                 .sp-search-input {
                     padding: 8px 12px !important;
                     font-size: 13px !important;
                 }
-                
+
                 /* Compact Dial Display */
                 .sp-dial-display {
                     padding: 0 12px 8px !important;
                 }
-                
+
                 .sp-dial-input {
                     padding: 8px !important;
                     font-size: 18px !important;
                 }
-                
+
                 .sp-backspace {
                     padding: 8px 12px !important;
                     font-size: 16px !important;
                 }
-                
+
                 /* Compact Header */
                 .sp-header {
                     padding: 8px 12px !important;
                 }
-                
+
                 .sp-ext-number {
                     font-size: 14px !important;
                 }
-                
+
                 /* Compact Call Button */
                 .sp-actions {
                     padding: 0 12px 8px !important;
                 }
-                
+
                 .sp-call-btn {
                     width: 52px !important;
                     height: 52px !important;
                 }
-                
+
                 .sp-call-btn svg {
                     width: 24px !important;
                     height: 24px !important;
                 }
-                
+
                 /* Compact Footer */
                 .sp-footer {
                     padding: 0 !important;
                 }
-                
+
                 .sp-footer-btn {
                     padding: 8px !important;
                     font-size: 11px !important;
                 }
-                
+
                 .sp-footer-btn svg {
                     width: 14px !important;
                     height: 14px !important;
                 }
-                
+
                 /* Compact Extension Selector */
                 .sp-extension-selector {
                     padding: 6px 12px !important;
                 }
-                
+
                 .sp-ext-btn {
                     padding: 4px 10px !important;
                     font-size: 11px !important;
                 }
-                
+
                 /* Dropdown max height reduced */
                 .arrowz-sp-dropdown {
                     max-height: 420px !important;
                 }
-                
+
                 .sp-content {
                     max-height: calc(420px - 90px) !important;
                 }
-                
+
                 /* ======================================
                    MULTI-LINE UI Styles
                    ====================================== */
-                
+
                 .sp-content.sp-multiline {
                     padding: 8px;
                 }
-                
+
                 .sp-lines-container {
                     display: flex;
                     flex-direction: column;
                     gap: 6px;
                     margin-bottom: 10px;
                 }
-                
+
                 .sp-line-item {
                     display: flex;
                     align-items: center;
@@ -3336,20 +3339,20 @@
                     transition: all 0.2s;
                     border: 2px solid transparent;
                 }
-                
+
                 .sp-line-item:hover {
                     background: var(--border-color);
                 }
-                
+
                 .sp-line-item.active {
                     border-color: #4CAF50;
                     background: rgba(76, 175, 80, 0.1);
                 }
-                
+
                 .sp-line-item.held {
                     opacity: 0.7;
                 }
-                
+
                 .sp-line-indicator {
                     width: 28px;
                     height: 28px;
@@ -3362,20 +3365,20 @@
                     font-size: 12px;
                     font-weight: 600;
                 }
-                
+
                 .sp-line-item.active .sp-line-indicator {
                     background: #4CAF50;
                 }
-                
+
                 .sp-line-item.held .sp-line-indicator {
                     background: #ff9800;
                 }
-                
+
                 .sp-line-info {
                     flex: 1;
                     min-width: 0;
                 }
-                
+
                 .sp-line-number {
                     font-size: 14px;
                     font-weight: 500;
@@ -3383,26 +3386,26 @@
                     overflow: hidden;
                     text-overflow: ellipsis;
                 }
-                
+
                 .sp-line-status {
                     font-size: 11px;
                     color: var(--text-muted);
                 }
-                
+
                 .sp-line-item.active .sp-line-status {
                     color: #4CAF50;
                 }
-                
+
                 .sp-line-item.held .sp-line-status {
                     color: #ff9800;
                 }
-                
+
                 .sp-line-duration {
                     font-size: 12px;
                     font-family: monospace;
                     color: var(--text-muted);
                 }
-                
+
                 .sp-line-hangup {
                     width: 24px;
                     height: 24px;
@@ -3417,19 +3420,19 @@
                     justify-content: center;
                     transition: all 0.2s;
                 }
-                
+
                 .sp-line-hangup:hover {
                     background: #d32f2f;
                     transform: scale(1.1);
                 }
-                
+
                 .sp-multiline-actions {
                     display: flex;
                     justify-content: center;
                     gap: 12px;
                     padding: 8px 0;
                 }
-                
+
                 .sp-action-compact {
                     width: 44px;
                     height: 44px;
@@ -3443,126 +3446,126 @@
                     justify-content: center;
                     transition: all 0.2s;
                 }
-                
+
                 .sp-action-compact:hover {
                     background: var(--border-color);
                     transform: scale(1.05);
                 }
-                
+
                 .sp-action-compact.danger {
                     background: #f44336;
                     color: white;
                 }
-                
+
                 .sp-action-compact.danger:hover {
                     background: #d32f2f;
                 }
-                
+
                 .sp-action-compact.active {
                     background: #ff9800;
                     color: white;
                 }
-                
+
                 /* Compact Call Screen */
                 .sp-call-screen {
                     padding: 12px !important;
                 }
-                
+
                 .sp-call-header {
                     margin-bottom: 12px !important;
                 }
-                
+
                 .sp-call-avatar {
                     width: 60px !important;
                     height: 60px !important;
                     margin-bottom: 8px !important;
                 }
-                
+
                 .sp-call-avatar svg {
                     width: 30px !important;
                     height: 30px !important;
                 }
-                
+
                 .sp-callee-number {
                     font-size: 18px !important;
                 }
-                
+
                 #sp-call-duration {
                     font-size: 22px !important;
                     margin-top: 4px !important;
                 }
-                
+
                 .sp-call-actions {
                     gap: 8px !important;
                     margin-bottom: 12px !important;
                 }
-                
+
                 .sp-call-action {
                     padding: 8px 6px !important;
                 }
-                
+
                 .sp-call-action svg {
                     width: 20px !important;
                     height: 20px !important;
                 }
-                
+
                 .sp-call-action span {
                     font-size: 10px !important;
                 }
-                
+
                 .sp-hangup-btn {
                     width: 52px !important;
                     height: 52px !important;
                 }
-                
+
                 .sp-hangup-btn svg {
                     width: 24px !important;
                     height: 24px !important;
                 }
-                
+
                 /* Compact Incoming Call */
                 .sp-incoming-screen {
                     padding: 16px !important;
                 }
-                
+
                 .sp-incoming-animation {
                     width: 80px !important;
                     height: 80px !important;
                     margin-bottom: 12px !important;
                 }
-                
+
                 .sp-caller-avatar {
                     width: 56px !important;
                     height: 56px !important;
                 }
-                
+
                 .sp-caller-id {
                     font-size: 20px !important;
                 }
-                
+
                 .sp-incoming-label {
                     margin-bottom: 16px !important;
                 }
-                
+
                 .sp-incoming-actions {
                     gap: 30px !important;
                 }
-                
+
                 .sp-reject-btn, .sp-answer-btn {
                     width: 52px !important;
                     height: 52px !important;
                 }
-                
+
                 .sp-reject-btn svg, .sp-answer-btn svg {
                     width: 24px !important;
                     height: 24px !important;
                 }
             `;
-            
+
             document.head.appendChild(style);
         }
     };
-    
+
     // Initialize on page load
     $(document).ready(function() {
         if (frappe.session.user !== 'Guest') {
@@ -3571,5 +3574,5 @@
             }, 1500);
         }
     });
-    
+
 })();
