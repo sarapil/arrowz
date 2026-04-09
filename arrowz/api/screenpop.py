@@ -193,8 +193,8 @@ def get_contact_info(contact_name: str) -> dict:
         last_call = frappe.db.get_value(
             "AZ Call Log",
             {"party": contact_name, "party_type": "Contact"},
-            ["call_datetime"],
-            order_by="call_datetime desc"
+            ["start_time"],
+            order_by="start_time desc"
         )
         if last_call:
             info["last_contact"] = frappe.utils.pretty_date(last_call)
@@ -226,8 +226,8 @@ def get_lead_info(lead_name: str) -> dict:
         last_call = frappe.db.get_value(
             "AZ Call Log",
             {"party": lead_name, "party_type": "Lead"},
-            ["call_datetime"],
-            order_by="call_datetime desc"
+            ["start_time"],
+            order_by="start_time desc"
         )
         if last_call:
             info["last_contact"] = frappe.utils.pretty_date(last_call)
@@ -296,10 +296,10 @@ def get_caller_history(phone_number: str, limit: int = 10) -> list:
             "caller_id": ["like", f"%{clean_number[-10:]}%"]
         },
         fields=[
-            "name", "call_datetime", "direction", "duration_seconds",
-            "status", "agent", "recording_url"
+            "name", "start_time", "direction", "duration",
+            "status", "extension", "recording_url"
         ],
-        order_by="call_datetime desc",
+        order_by="start_time desc",
         limit=limit
     )
     

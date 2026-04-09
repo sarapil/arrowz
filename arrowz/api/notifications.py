@@ -51,8 +51,8 @@ def get_pending_notifications():
                     "read_status": 0,
                     "recipient": ["in", extensions]
                 },
-                fields=["name", "sender", "message", "received_time"],
-                order_by="received_time desc",
+                fields=["name", "phone_number", "message_content", "sent_time"],
+                order_by="sent_time desc",
                 limit=10
             )
             pending_sms = sms_messages

@@ -166,8 +166,7 @@ def get_communication_history(doctype, docname, channels=None, limit=50, offset=
                     "link_name": docname
                 },
                 fields=["name", "room_name", "status", "room_type", "scheduled_start",
-                        "scheduled_end", "actual_start_time", "actual_end_time",
-                        "allow_recording"],
+                        "scheduled_end", "allow_recording"],
                 order_by="scheduled_start desc",
                 limit=limit,
                 start=offset
@@ -193,7 +192,7 @@ def get_communication_history(doctype, docname, channels=None, limit=50, offset=
                     "scheduled_start": meeting.scheduled_start,
                     "scheduled_end": meeting.scheduled_end,
                     "participants": participant_count,
-                    "last_activity": meeting.actual_start_time or meeting.scheduled_start
+                    "last_activity": meeting.scheduled_start
                 })
         except Exception:
             pass  # Table doesn't exist
@@ -607,7 +606,7 @@ def get_conversation_messages(session_id, limit=50, before_timestamp=None):
         "AZ Conversation Message",
         filters=filters,
         fields=["name", "message_id", "direction", "message_type", "content",
-                "media_url", "media_filename", "timestamp", "status", "error_message"],
+                "media_url", "timestamp", "status", "error_message"],
         order_by="timestamp desc",
         limit=limit
     )
