@@ -12,25 +12,153 @@
  "is_hidden": 0,
  "label": "Arrowz VoIP",
  "links": [
-  {"hidden": 0, "is_query_report": 0, "label": "Communications", "onboard": 0, "type": "Card Break"},
-  {"hidden": 0, "is_query_report": 0, "label": "Call Logs", "link_to": "AZ Call Log", "link_type": "DocType", "onboard": 1, "type": "Link"},
-  {"hidden": 0, "is_query_report": 0, "label": "SMS Messages", "link_to": "AZ SMS Message", "link_type": "DocType", "onboard": 1, "type": "Link"},
-  {"hidden": 0, "is_query_report": 0, "label": "Transfer Logs", "link_to": "AZ Call Transfer Log", "link_type": "DocType", "onboard": 0, "type": "Link"},
-  {"hidden": 0, "is_query_report": 0, "label": "Conversations", "link_to": "AZ Conversation Session", "link_type": "DocType", "onboard": 0, "type": "Link"},
-  {"hidden": 0, "is_query_report": 0, "label": "SMS Providers", "link_to": "AZ SMS Provider", "link_type": "DocType", "onboard": 0, "type": "Link"},
-
-  {"hidden": 0, "is_query_report": 0, "label": "Routing & Trunks", "onboard": 0, "type": "Card Break"},
-  {"hidden": 0, "is_query_report": 0, "label": "Extensions", "link_to": "AZ Extension", "link_type": "DocType", "onboard": 1, "type": "Link"},
-  {"hidden": 0, "is_query_report": 0, "label": "Inbound Routes", "link_to": "AZ Inbound Route", "link_type": "DocType", "onboard": 0, "type": "Link"},
-  {"hidden": 0, "is_query_report": 0, "label": "Outbound Routes", "link_to": "AZ Outbound Route", "link_type": "DocType", "onboard": 0, "type": "Link"},
-  {"hidden": 0, "is_query_report": 0, "label": "Trunks", "link_to": "AZ Trunk", "link_type": "DocType", "onboard": 0, "type": "Link"},
-  {"hidden": 0, "is_query_report": 0, "label": "PBX Servers", "link_to": "AZ Server Config", "link_type": "DocType", "onboard": 0, "type": "Link"},
-
-  {"hidden": 0, "is_query_report": 0, "label": "Omni-Channel & Meetings", "onboard": 0, "type": "Card Break"},
-  {"hidden": 0, "is_query_report": 0, "label": "Meeting Rooms", "link_to": "AZ Meeting Room", "link_type": "DocType", "onboard": 1, "type": "Link"},
-  {"hidden": 0, "is_query_report": 0, "label": "Omni Providers", "link_to": "AZ Omni Provider", "link_type": "DocType", "onboard": 0, "type": "Link"},
-  {"hidden": 0, "is_query_report": 0, "label": "Omni Channels", "link_to": "AZ Omni Channel", "link_type": "DocType", "onboard": 0, "type": "Link"},
-  {"hidden": 0, "is_query_report": 0, "label": "VoIP Settings", "link_to": "Arrowz Settings", "link_type": "DocType", "onboard": 0, "type": "Link"}
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Communications",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Call Logs",
+   "link_to": "AZ Call Log",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "SMS Messages",
+   "link_to": "AZ SMS Message",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Transfer Logs",
+   "link_to": "AZ Call Transfer Log",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Conversations",
+   "link_to": "AZ Conversation Session",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "SMS Providers",
+   "link_to": "AZ SMS Provider",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Routing & Trunks",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Extensions",
+   "link_to": "AZ Extension",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Inbound Routes",
+   "link_to": "AZ Inbound Route",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Outbound Routes",
+   "link_to": "AZ Outbound Route",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Trunks",
+   "link_to": "AZ Trunk",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "PBX Servers",
+   "link_to": "AZ Server Config",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Omni-Channel & Meetings",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Meeting Rooms",
+   "link_to": "AZ Meeting Room",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Omni Providers",
+   "link_to": "AZ Omni Provider",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Omni Channels",
+   "link_to": "AZ Omni Channel",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "VoIP Settings",
+   "link_to": "Arrowz Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
  ],
  "modified": "2026-04-02 00:00:00.000000",
  "modified_by": "Administrator",
@@ -44,10 +172,42 @@
  "roles": [],
  "sequence_id": 10,
  "shortcuts": [
-  {"color": "Blue", "format": "{} Calls", "icon": "phone", "label": "Today's Calls", "link_to": "AZ Call Log", "stats_filter": "[[\"AZ Call Log\",\"start_time\",\"Timespan\",\"today\"]]", "type": "DocType"},
-  {"color": "Green", "format": "{} Active", "icon": "call", "label": "Active Calls", "link_to": "AZ Call Log", "stats_filter": "[[\"AZ Call Log\",\"status\",\"in\",[\"Ringing\",\"In Progress\",\"On Hold\"]]]", "type": "DocType"},
-  {"color": "Red", "format": "{} Missed", "icon": "call-failed", "label": "Missed Calls", "link_to": "AZ Call Log", "stats_filter": "[[\"AZ Call Log\",\"status\",\"=\",\"Missed\"],[\"AZ Call Log\",\"start_time\",\"Timespan\",\"today\"]]", "type": "DocType"},
-  {"color": "Yellow", "format": "{} SMS", "icon": "comment", "label": "SMS Today", "link_to": "AZ SMS Message", "stats_filter": "[[\"AZ SMS Message\",\"direction\",\"=\",\"Outbound\"],[\"AZ SMS Message\",\"sent_time\",\"Timespan\",\"today\"]]", "type": "DocType"}
+  {
+   "color": "Blue",
+   "format": "{} Calls",
+   "icon": "phone",
+   "label": "Today's Calls",
+   "link_to": "AZ Call Log",
+   "stats_filter": "[[\"AZ Call Log\",\"start_time\",\"Timespan\",\"today\"]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "format": "{} Active",
+   "icon": "call",
+   "label": "Active Calls",
+   "link_to": "AZ Call Log",
+   "stats_filter": "[[\"AZ Call Log\",\"status\",\"in\",[\"Ringing\",\"In Progress\",\"On Hold\"]]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Red",
+   "format": "{} Missed",
+   "icon": "call-failed",
+   "label": "Missed Calls",
+   "link_to": "AZ Call Log",
+   "stats_filter": "[[\"AZ Call Log\",\"status\",\"=\",\"Missed\"],[\"AZ Call Log\",\"start_time\",\"Timespan\",\"today\"]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Yellow",
+   "format": "{} SMS",
+   "icon": "comment",
+   "label": "SMS Today",
+   "link_to": "AZ SMS Message",
+   "stats_filter": "[[\"AZ SMS Message\",\"direction\",\"=\",\"Outbound\"],[\"AZ SMS Message\",\"sent_time\",\"Timespan\",\"today\"]]",
+   "type": "DocType"
+  }
  ],
- "title": "Arrowz VoIP"
+ "title": "VoIP"
 }
