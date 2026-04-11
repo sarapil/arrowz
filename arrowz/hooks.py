@@ -87,25 +87,10 @@ app_home = "/desk/arrowz-topology"
 # -----------------------------------------------------------------------------
 
 # Include JS in all pages
-app_include_js = [
-    # --- Core App ---
-    "/assets/arrowz/js/lib/jssip.min.js",                     # JsSIP library
-    "/assets/arrowz/js/arrowz.js",
-    "/assets/arrowz/js/phone_actions.js",
-    "/assets/arrowz/js/softphone_v2.js",
-    "/assets/arrowz/js/screen_pop.js",
-    "/assets/arrowz/js/omni_panel.js",
-    "/assets/arrowz/js/omni_doctype_extension.js",
-]
+app_include_js = ["/assets/arrowz/js/arrowz_combined.js"]
 
 # Include CSS in all pages
-app_include_css = [
-    "/assets/arrowz/css/arrowz.css",
-    "/assets/arrowz/css/phone_actions.css",
-    "/assets/arrowz/css/softphone.css",
-    "/assets/arrowz/css/screen_pop.css",
-    "/assets/arrowz/css/omni_panel.css"
-]
+app_include_css = ["/assets/arrowz/css/arrowz_combined.css"]
 
 # -----------------------------------------------------------------------------
 # DocType-specific JavaScript

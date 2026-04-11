@@ -1,0 +1,6670 @@
+/* arrowz — Combined JS (reduces HTTP requests) */
+/* Auto-generated from 7 individual files */
+
+
+/* === jssip.min.js === */
+!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{("undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this).JsSIP=e()}}(function(){return function e(t,n,s){function r(l,o){if(!n[l]){if(!t[l]){var u="function"==typeof require&&require;if(!o&&u)return u(l,!0);if(i)return i(l,!0);var a=new Error("Cannot find module '"+l+"'");throw a.code="MODULE_NOT_FOUND",a}var c=n[l]={exports:{}};t[l][0].call(c.exports,function(e){return r(t[l][1][e]||e)},c,c.exports,e,t,n,s)}return n[l].exports}for(var i="function"==typeof require&&require,l=0;l<s.length;l++)r(s[l]);return r}({1:[function(e,t,n){"use strict";var s,r="object"==typeof Reflect?Reflect:null,i=r&&"function"==typeof r.apply?r.apply:function(e,t,n){return Function.prototype.apply.call(e,t,n)};s=r&&"function"==typeof r.ownKeys?r.ownKeys:Object.getOwnPropertySymbols?function(e){return Object.getOwnPropertyNames(e).concat(Object.getOwnPropertySymbols(e))}:function(e){return Object.getOwnPropertyNames(e)};var l=Number.isNaN||function(e){return e!=e};function o(){o.init.call(this)}t.exports=o,t.exports.once=function(e,t){return new Promise(function(n,s){function r(n){e.removeListener(t,i),s(n)}function i(){"function"==typeof e.removeListener&&e.removeListener("error",r),n([].slice.call(arguments))}g(e,t,i,{once:!0}),"error"!==t&&function(e,t,n){"function"==typeof e.on&&g(e,"error",t,n)}(e,r,{once:!0})})},o.EventEmitter=o,o.prototype._events=void 0,o.prototype._eventsCount=0,o.prototype._maxListeners=void 0;var u=10;function a(e){if("function"!=typeof e)throw new TypeError('The "listener" argument must be of type Function. Received type '+typeof e)}function c(e){return void 0===e._maxListeners?o.defaultMaxListeners:e._maxListeners}function h(e,t,n,s){var r,i,l,o;if(a(n),void 0===(i=e._events)?(i=e._events=Object.create(null),e._eventsCount=0):(void 0!==i.newListener&&(e.emit("newListener",t,n.listener?n.listener:n),i=e._events),l=i[t]),void 0===l)l=i[t]=n,++e._eventsCount;else if("function"==typeof l?l=i[t]=s?[n,l]:[l,n]:s?l.unshift(n):l.push(n),(r=c(e))>0&&l.length>r&&!l.warned){l.warned=!0;var u=new Error("Possible EventEmitter memory leak detected. "+l.length+" "+String(t)+" listeners added. Use emitter.setMaxListeners() to increase limit");u.name="MaxListenersExceededWarning",u.emitter=e,u.type=t,u.count=l.length,o=u,console&&console.warn&&console.warn(o)}return e}function d(){if(!this.fired)return this.target.removeListener(this.type,this.wrapFn),this.fired=!0,0===arguments.length?this.listener.call(this.target):this.listener.apply(this.target,arguments)}function _(e,t,n){var s={fired:!1,wrapFn:void 0,target:e,type:t,listener:n},r=d.bind(s);return r.listener=n,s.wrapFn=r,r}function p(e,t,n){var s=e._events;if(void 0===s)return[];var r=s[t];return void 0===r?[]:"function"==typeof r?n?[r.listener||r]:[r]:n?function(e){for(var t=new Array(e.length),n=0;n<t.length;++n)t[n]=e[n].listener||e[n];return t}(r):m(r,r.length)}function f(e){var t=this._events;if(void 0!==t){var n=t[e];if("function"==typeof n)return 1;if(void 0!==n)return n.length}return 0}function m(e,t){for(var n=new Array(t),s=0;s<t;++s)n[s]=e[s];return n}function g(e,t,n,s){if("function"==typeof e.on)s.once?e.once(t,n):e.on(t,n);else{if("function"!=typeof e.addEventListener)throw new TypeError('The "emitter" argument must be of type EventEmitter. Received type '+typeof e);e.addEventListener(t,function r(i){s.once&&e.removeEventListener(t,r),n(i)})}}Object.defineProperty(o,"defaultMaxListeners",{enumerable:!0,get:function(){return u},set:function(e){if("number"!=typeof e||e<0||l(e))throw new RangeError('The value of "defaultMaxListeners" is out of range. It must be a non-negative number. Received '+e+".");u=e}}),o.init=function(){void 0!==this._events&&this._events!==Object.getPrototypeOf(this)._events||(this._events=Object.create(null),this._eventsCount=0),this._maxListeners=this._maxListeners||void 0},o.prototype.setMaxListeners=function(e){if("number"!=typeof e||e<0||l(e))throw new RangeError('The value of "n" is out of range. It must be a non-negative number. Received '+e+".");return this._maxListeners=e,this},o.prototype.getMaxListeners=function(){return c(this)},o.prototype.emit=function(e){for(var t=[],n=1;n<arguments.length;n++)t.push(arguments[n]);var s="error"===e,r=this._events;if(void 0!==r)s=s&&void 0===r.error;else if(!s)return!1;if(s){var l;if(t.length>0&&(l=t[0]),l instanceof Error)throw l;var o=new Error("Unhandled error."+(l?" ("+l.message+")":""));throw o.context=l,o}var u=r[e];if(void 0===u)return!1;if("function"==typeof u)i(u,this,t);else{var a=u.length,c=m(u,a);for(n=0;n<a;++n)i(c[n],this,t)}return!0},o.prototype.addListener=function(e,t){return h(this,e,t,!1)},o.prototype.on=o.prototype.addListener,o.prototype.prependListener=function(e,t){return h(this,e,t,!0)},o.prototype.once=function(e,t){return a(t),this.on(e,_(this,e,t)),this},o.prototype.prependOnceListener=function(e,t){return a(t),this.prependListener(e,_(this,e,t)),this},o.prototype.removeListener=function(e,t){var n,s,r,i,l;if(a(t),void 0===(s=this._events))return this;if(void 0===(n=s[e]))return this;if(n===t||n.listener===t)0===--this._eventsCount?this._events=Object.create(null):(delete s[e],s.removeListener&&this.emit("removeListener",e,n.listener||t));else if("function"!=typeof n){for(r=-1,i=n.length-1;i>=0;i--)if(n[i]===t||n[i].listener===t){l=n[i].listener,r=i;break}if(r<0)return this;0===r?n.shift():function(e,t){for(;t+1<e.length;t++)e[t]=e[t+1];e.pop()}(n,r),1===n.length&&(s[e]=n[0]),void 0!==s.removeListener&&this.emit("removeListener",e,l||t)}return this},o.prototype.off=o.prototype.removeListener,o.prototype.removeAllListeners=function(e){var t,n,s;if(void 0===(n=this._events))return this;if(void 0===n.removeListener)return 0===arguments.length?(this._events=Object.create(null),this._eventsCount=0):void 0!==n[e]&&(0===--this._eventsCount?this._events=Object.create(null):delete n[e]),this;if(0===arguments.length){var r,i=Object.keys(n);for(s=0;s<i.length;++s)"removeListener"!==(r=i[s])&&this.removeAllListeners(r);return this.removeAllListeners("removeListener"),this._events=Object.create(null),this._eventsCount=0,this}if("function"==typeof(t=n[e]))this.removeListener(e,t);else if(void 0!==t)for(s=t.length-1;s>=0;s--)this.removeListener(e,t[s]);return this},o.prototype.listeners=function(e){return p(this,e,!0)},o.prototype.rawListeners=function(e){return p(this,e,!1)},o.listenerCount=function(e,t){return"function"==typeof e.listenerCount?e.listenerCount(t):f.call(e,t)},o.prototype.listenerCount=f,o.prototype.eventNames=function(){return this._eventsCount>0?s(this._events):[]}},{}],2:[function(e,t,n){var s,r,i=t.exports={};function l(){throw new Error("setTimeout has not been defined")}function o(){throw new Error("clearTimeout has not been defined")}function u(e){if(s===setTimeout)return setTimeout(e,0);if((s===l||!s)&&setTimeout)return s=setTimeout,setTimeout(e,0);try{return s(e,0)}catch(t){try{return s.call(null,e,0)}catch(t){return s.call(this,e,0)}}}!function(){try{s="function"==typeof setTimeout?setTimeout:l}catch(e){s=l}try{r="function"==typeof clearTimeout?clearTimeout:o}catch(e){r=o}}();var a,c=[],h=!1,d=-1;function _(){h&&a&&(h=!1,a.length?c=a.concat(c):d=-1,c.length&&p())}function p(){if(!h){var e=u(_);h=!0;for(var t=c.length;t;){for(a=c,c=[];++d<t;)a&&a[d].run();d=-1,t=c.length}a=null,h=!1,function(e){if(r===clearTimeout)return clearTimeout(e);if((r===o||!r)&&clearTimeout)return r=clearTimeout,clearTimeout(e);try{return r(e)}catch(t){try{return r.call(null,e)}catch(t){return r.call(this,e)}}}(e)}}function f(e,t){this.fun=e,this.array=t}function m(){}i.nextTick=function(e){var t=new Array(arguments.length-1);if(arguments.length>1)for(var n=1;n<arguments.length;n++)t[n-1]=arguments[n];c.push(new f(e,t)),1!==c.length||h||u(p)},f.prototype.run=function(){this.fun.apply(null,this.array)},i.title="browser",i.browser=!0,i.env={},i.argv=[],i.version="",i.versions={},i.on=m,i.addListener=m,i.once=m,i.off=m,i.removeListener=m,i.removeAllListeners=m,i.emit=m,i.prependListener=m,i.prependOnceListener=m,i.listeners=function(e){return[]},i.binding=function(e){throw new Error("process.binding is not supported")},i.cwd=function(){return"/"},i.chdir=function(e){throw new Error("process.chdir is not supported")},i.umask=function(){return 0}},{}],3:[function(e,t,n){const s=e("./Utils"),r=e("./Constants"),i=e("./Grammar"),l=e("./URI"),o=e("./Socket"),u=e("./Exceptions");n.settings={authorization_user:null,password:null,realm:null,ha1:null,authorization_jwt:null,display_name:null,uri:null,contact_uri:null,instance_id:null,use_preloaded_route:!1,session_timers:!0,session_timers_refresh_method:r.UPDATE,session_timers_force_refresher:!1,no_answer_timeout:60,register:!0,register_expires:600,registrar_server:null,sockets:null,connection_recovery_max_interval:r.CONNECTION_RECOVERY_MAX_INTERVAL,connection_recovery_min_interval:r.CONNECTION_RECOVERY_MIN_INTERVAL,via_host:`${s.createRandomToken(12)}.invalid`};const a={mandatory:{sockets(e){const t=[];if(o.isSocket(e))t.push({socket:e});else{if(!Array.isArray(e)||!e.length)return;for(const n of e)Object.prototype.hasOwnProperty.call(n,"socket")&&o.isSocket(n.socket)?t.push(n):o.isSocket(n)&&t.push({socket:n})}return t},uri(e){/^sip:/i.test(e)||(e=`${r.SIP}:${e}`);const t=l.parse(e);return t&&t.user?t:void 0}},optional:{authorization_user:e=>-1===i.parse(`"${e}"`,"quoted_string")?void 0:e,authorization_jwt(e){if("string"==typeof e)return e},user_agent(e){if("string"==typeof e)return e},connection_recovery_max_interval(e){if(s.isDecimal(e)){const t=Number(e);if(t>0)return t}},connection_recovery_min_interval(e){if(s.isDecimal(e)){const t=Number(e);if(t>0)return t}},contact_uri(e){if("string"==typeof e){const t=i.parse(e,"SIP_URI");if(-1!==t)return t}},display_name:e=>e,instance_id:e=>(/^uuid:/i.test(e)&&(e=e.substr(5)),-1===i.parse(e,"uuid")?void 0:e),no_answer_timeout(e){if(s.isDecimal(e)){const t=Number(e);if(t>0)return t}},session_timers(e){if("boolean"==typeof e)return e},session_timers_refresh_method(e){if("string"==typeof e&&((e=e.toUpperCase())===r.INVITE||e===r.UPDATE))return e},session_timers_force_refresher(e){if("boolean"==typeof e)return e},password:e=>String(e),realm:e=>String(e),ha1:e=>String(e),register(e){if("boolean"==typeof e)return e},register_expires(e){if(s.isDecimal(e)){const t=Number(e);if(t>0)return t}},registrar_server(e){/^sip:/i.test(e)||(e=`${r.SIP}:${e}`);const t=l.parse(e);return t?t.user?void 0:t:void 0},use_preloaded_route(e){if("boolean"==typeof e)return e}}};n.load=(e,t)=>{for(const n in a.mandatory){if(!t.hasOwnProperty(n))throw new u.ConfigurationError(n);{const s=t[n],r=a.mandatory[n](s);if(void 0===r)throw new u.ConfigurationError(n,s);e[n]=r}}for(const n in a.optional)if(t.hasOwnProperty(n)){const r=t[n];if(s.isEmpty(r))continue;const i=a.optional[n](r);if(void 0===i)throw new u.ConfigurationError(n,r);e[n]=i}}},{"./Constants":4,"./Exceptions":8,"./Grammar":9,"./Socket":24,"./URI":29,"./Utils":30}],4:[function(e,t,n){const s=e("../package.json");t.exports={USER_AGENT:`${s.title} ${s.version}`,SIP:"sip",SIPS:"sips",causes:{CONNECTION_ERROR:"Connection Error",REQUEST_TIMEOUT:"Request Timeout",SIP_FAILURE_CODE:"SIP Failure Code",INTERNAL_ERROR:"Internal Error",BUSY:"Busy",REJECTED:"Rejected",REDIRECTED:"Redirected",UNAVAILABLE:"Unavailable",NOT_FOUND:"Not Found",ADDRESS_INCOMPLETE:"Address Incomplete",INCOMPATIBLE_SDP:"Incompatible SDP",MISSING_SDP:"Missing SDP",AUTHENTICATION_ERROR:"Authentication Error",BYE:"Terminated",WEBRTC_ERROR:"WebRTC Error",CANCELED:"Canceled",NO_ANSWER:"No Answer",EXPIRES:"Expires",NO_ACK:"No ACK",DIALOG_ERROR:"Dialog Error",USER_DENIED_MEDIA_ACCESS:"User Denied Media Access",BAD_MEDIA_DESCRIPTION:"Bad Media Description",RTP_TIMEOUT:"RTP Timeout"},SIP_ERROR_CAUSES:{REDIRECTED:[300,301,302,305,380],BUSY:[486,600],REJECTED:[403,603],NOT_FOUND:[404,604],UNAVAILABLE:[480,410,408,430],ADDRESS_INCOMPLETE:[484,424],INCOMPATIBLE_SDP:[488,606],AUTHENTICATION_ERROR:[401,407]},ACK:"ACK",BYE:"BYE",CANCEL:"CANCEL",INFO:"INFO",INVITE:"INVITE",MESSAGE:"MESSAGE",NOTIFY:"NOTIFY",OPTIONS:"OPTIONS",REGISTER:"REGISTER",REFER:"REFER",UPDATE:"UPDATE",SUBSCRIBE:"SUBSCRIBE",DTMF_TRANSPORT:{INFO:"INFO",RFC2833:"RFC2833"},REASON_PHRASE:{100:"Trying",180:"Ringing",181:"Call Is Being Forwarded",182:"Queued",183:"Session Progress",199:"Early Dialog Terminated",200:"OK",202:"Accepted",204:"No Notification",300:"Multiple Choices",301:"Moved Permanently",302:"Moved Temporarily",305:"Use Proxy",380:"Alternative Service",400:"Bad Request",401:"Unauthorized",402:"Payment Required",403:"Forbidden",404:"Not Found",405:"Method Not Allowed",406:"Not Acceptable",407:"Proxy Authentication Required",408:"Request Timeout",410:"Gone",412:"Conditional Request Failed",413:"Request Entity Too Large",414:"Request-URI Too Long",415:"Unsupported Media Type",416:"Unsupported URI Scheme",417:"Unknown Resource-Priority",420:"Bad Extension",421:"Extension Required",422:"Session Interval Too Small",423:"Interval Too Brief",424:"Bad Location Information",428:"Use Identity Header",429:"Provide Referrer Identity",430:"Flow Failed",433:"Anonymity Disallowed",436:"Bad Identity-Info",437:"Unsupported Certificate",438:"Invalid Identity Header",439:"First Hop Lacks Outbound Support",440:"Max-Breadth Exceeded",469:"Bad Info Package",470:"Consent Needed",478:"Unresolvable Destination",480:"Temporarily Unavailable",481:"Call/Transaction Does Not Exist",482:"Loop Detected",483:"Too Many Hops",484:"Address Incomplete",485:"Ambiguous",486:"Busy Here",487:"Request Terminated",488:"Not Acceptable Here",489:"Bad Event",491:"Request Pending",493:"Undecipherable",494:"Security Agreement Required",500:"JsSIP Internal Error",501:"Not Implemented",502:"Bad Gateway",503:"Service Unavailable",504:"Server Time-out",505:"Version Not Supported",513:"Message Too Large",580:"Precondition Failure",600:"Busy Everywhere",603:"Decline",604:"Does Not Exist Anywhere",606:"Not Acceptable"},ALLOWED_METHODS:"INVITE,ACK,CANCEL,BYE,UPDATE,MESSAGE,OPTIONS,REFER,INFO,NOTIFY",ACCEPTED_BODY_TYPES:"application/sdp, application/dtmf-relay",MAX_FORWARDS:69,SESSION_EXPIRES:90,MIN_SESSION_EXPIRES:60,CONNECTION_RECOVERY_MAX_INTERVAL:30,CONNECTION_RECOVERY_MIN_INTERVAL:2}},{"../package.json":40}],5:[function(e,t,n){const s=e("./Logger"),r=e("./SIPMessage"),i=e("./Constants"),l=e("./Transactions"),o=e("./Dialog/RequestSender"),u=e("./Utils"),a=new s("Dialog"),c={STATUS_EARLY:1,STATUS_CONFIRMED:2};t.exports=class{static get C(){return c}constructor(e,t,n,s=c.STATUS_CONFIRMED){if(this._owner=e,this._ua=e._ua,this._uac_pending_reply=!1,this._uas_pending_reply=!1,!t.hasHeader("contact"))return{error:"unable to create a Dialog without Contact header field"};t instanceof r.IncomingResponse&&(s=t.status_code<200?c.STATUS_EARLY:c.STATUS_CONFIRMED);const i=t.parseHeader("contact");"UAS"===n?(this._id={call_id:t.call_id,local_tag:t.to_tag,remote_tag:t.from_tag,toString(){return this.call_id+this.local_tag+this.remote_tag}},this._state=s,this._remote_seqnum=t.cseq,this._local_uri=t.parseHeader("to").uri,this._remote_uri=t.parseHeader("from").uri,this._remote_target=i.uri,this._route_set=t.getHeaders("record-route"),this._ack_seqnum=this._remote_seqnum):"UAC"===n&&(this._id={call_id:t.call_id,local_tag:t.from_tag,remote_tag:t.to_tag,toString(){return this.call_id+this.local_tag+this.remote_tag}},this._state=s,this._local_seqnum=t.cseq,this._local_uri=t.parseHeader("from").uri,this._remote_uri=t.parseHeader("to").uri,this._remote_target=i.uri,this._route_set=t.getHeaders("record-route").reverse(),this._ack_seqnum=null),this._ua.newDialog(this),a.debug(`new ${n} dialog created with status ${this._state===c.STATUS_EARLY?"EARLY":"CONFIRMED"}`)}get id(){return this._id}get local_seqnum(){return this._local_seqnum}set local_seqnum(e){this._local_seqnum=e}get owner(){return this._owner}get uac_pending_reply(){return this._uac_pending_reply}set uac_pending_reply(e){this._uac_pending_reply=e}get uas_pending_reply(){return this._uas_pending_reply}update(e,t){this._state=c.STATUS_CONFIRMED,a.debug(`dialog ${this._id.toString()}  changed to CONFIRMED state`),"UAC"===t&&(this._route_set=e.getHeaders("record-route").reverse())}terminate(){a.debug(`dialog ${this._id.toString()} deleted`),this._ua.destroyDialog(this)}sendRequest(e,t={}){const n=u.cloneArray(t.extraHeaders),s=u.cloneObject(t.eventHandlers),r=t.body||null,i=this._createRequest(e,n,r);s.onAuthenticated=()=>{this._local_seqnum+=1};return new o(this,i,s).send(),i}receiveRequest(e){this._checkInDialogRequest(e)&&(e.method===i.ACK&&null!==this._ack_seqnum?this._ack_seqnum=null:e.method===i.INVITE&&(this._ack_seqnum=e.cseq),this._owner.receiveRequest(e))}_createRequest(e,t,n){t=u.cloneArray(t),this._local_seqnum||(this._local_seqnum=Math.floor(1e4*Math.random()));const s=e===i.CANCEL||e===i.ACK?this._local_seqnum:this._local_seqnum+=1;return new r.OutgoingRequest(e,this._remote_target,this._ua,{cseq:s,call_id:this._id.call_id,from_uri:this._local_uri,from_tag:this._id.local_tag,to_uri:this._remote_uri,to_tag:this._id.remote_tag,route_set:this._route_set},t,n)}_checkInDialogRequest(e){if(this._remote_seqnum)if(e.cseq<this._remote_seqnum){if(e.method!==i.ACK)return e.reply(500),!1;if(null===this._ack_seqnum||e.cseq!==this._ack_seqnum)return!1}else e.cseq>this._remote_seqnum&&(this._remote_seqnum=e.cseq);else this._remote_seqnum=e.cseq;if(e.method===i.INVITE||e.method===i.UPDATE&&e.body){if(!0===this._uac_pending_reply)e.reply(491);else{if(!0===this._uas_pending_reply){const t=1+(10*Math.random()|0);return e.reply(500,null,[`Retry-After:${t}`]),!1}{this._uas_pending_reply=!0;const t=()=>{e.server_transaction.state!==l.C.STATUS_ACCEPTED&&e.server_transaction.state!==l.C.STATUS_COMPLETED&&e.server_transaction.state!==l.C.STATUS_TERMINATED||(e.server_transaction.removeListener("stateChanged",t),this._uas_pending_reply=!1)};e.server_transaction.on("stateChanged",t)}}e.hasHeader("contact")&&e.server_transaction.on("stateChanged",()=>{e.server_transaction.state===l.C.STATUS_ACCEPTED&&(this._remote_target=e.parseHeader("contact").uri)})}else e.method===i.NOTIFY&&e.hasHeader("contact")&&e.server_transaction.on("stateChanged",()=>{e.server_transaction.state===l.C.STATUS_COMPLETED&&(this._remote_target=e.parseHeader("contact").uri)});return!0}}},{"./Constants":4,"./Dialog/RequestSender":6,"./Logger":11,"./SIPMessage":23,"./Transactions":26,"./Utils":30}],6:[function(e,t,n){const s=e("../Constants"),r=e("../Transactions"),i=e("../RTCSession"),l=e("../RequestSender"),o={onRequestTimeout:()=>{},onTransportError:()=>{},onSuccessResponse:()=>{},onErrorResponse:()=>{},onAuthenticated:()=>{},onDialogError:()=>{}};t.exports=class{constructor(e,t,n){this._dialog=e,this._ua=e._ua,this._request=t,this._eventHandlers=n,this._reattempt=!1,this._reattemptTimer=null;for(const e in o)Object.prototype.hasOwnProperty.call(o,e)&&(this._eventHandlers[e]||(this._eventHandlers[e]=o[e]))}get request(){return this._request}send(){const e=new l(this._ua,this._request,{onRequestTimeout:()=>{this._eventHandlers.onRequestTimeout()},onTransportError:()=>{this._eventHandlers.onTransportError()},onAuthenticated:e=>{this._eventHandlers.onAuthenticated(e)},onReceiveResponse:e=>{this._receiveResponse(e)}});if(e.send(),(this._request.method===s.INVITE||this._request.method===s.UPDATE&&this._request.body)&&e.clientTransaction.state!==r.C.STATUS_TERMINATED){this._dialog.uac_pending_reply=!0;const t=()=>{e.clientTransaction.state!==r.C.STATUS_ACCEPTED&&e.clientTransaction.state!==r.C.STATUS_COMPLETED&&e.clientTransaction.state!==r.C.STATUS_TERMINATED||(e.clientTransaction.removeListener("stateChanged",t),this._dialog.uac_pending_reply=!1)};e.clientTransaction.on("stateChanged",t)}}_receiveResponse(e){408===e.status_code||481===e.status_code?this._eventHandlers.onDialogError(e):e.method===s.INVITE&&491===e.status_code?this._reattempt?e.status_code>=200&&e.status_code<300?this._eventHandlers.onSuccessResponse(e):e.status_code>=300&&this._eventHandlers.onErrorResponse(e):(this._request.cseq=this._dialog.local_seqnum+=1,this._reattemptTimer=setTimeout(()=>{this._dialog.owner.status!==i.C.STATUS_TERMINATED&&(this._reattempt=!0,this._request_sender.send())},1e3)):e.status_code>=200&&e.status_code<300?this._eventHandlers.onSuccessResponse(e):e.status_code>=300&&this._eventHandlers.onErrorResponse(e)}}},{"../Constants":4,"../RTCSession":16,"../RequestSender":22,"../Transactions":26}],7:[function(e,t,n){const s=e("./Logger"),r=e("./Utils"),i=new s("DigestAuthentication");t.exports=class{constructor(e){this._credentials=e,this._cnonce=null,this._nc=0,this._ncHex="00000000",this._algorithm=null,this._realm=null,this._nonce=null,this._opaque=null,this._stale=null,this._qop=null,this._method=null,this._uri=null,this._ha1=null,this._response=null}get(e){switch(e){case"realm":return this._realm;case"ha1":return this._ha1;default:return void i.warn('get() | cannot get "%s" parameter',e)}}authenticate({method:e,ruri:t,body:n},s,l=null){if(this._algorithm=s.algorithm,this._realm=s.realm,this._nonce=s.nonce,this._opaque=s.opaque,this._stale=s.stale,this._algorithm){if("MD5"!==this._algorithm)return i.warn('authenticate() | challenge with Digest algorithm different than "MD5", authentication aborted'),!1}else this._algorithm="MD5";if(!this._nonce)return i.warn("authenticate() | challenge without Digest nonce, authentication aborted"),!1;if(!this._realm)return i.warn("authenticate() | challenge without Digest realm, authentication aborted"),!1;if(!this._credentials.password){if(!this._credentials.ha1)return i.warn("authenticate() | no plain SIP password nor ha1 provided, authentication aborted"),!1;if(this._credentials.realm!==this._realm)return i.warn('authenticate() | no plain SIP password, and stored `realm` does not match the given `realm`, cannot authenticate [stored:"%s", given:"%s"]',this._credentials.realm,this._realm),!1}if(s.qop)if(s.qop.indexOf("auth-int")>-1)this._qop="auth-int";else{if(!(s.qop.indexOf("auth")>-1))return i.warn('authenticate() | challenge without Digest qop different than "auth" or "auth-int", authentication aborted'),!1;this._qop="auth"}else this._qop=null;this._method=e,this._uri=t,this._cnonce=l||r.createRandomToken(12),this._nc+=1;const o=Number(this._nc).toString(16);let u,a;return this._ncHex="00000000".substr(0,8-o.length)+o,4294967296===this._nc&&(this._nc=1,this._ncHex="00000001"),this._credentials.password?this._ha1=r.calculateMD5(`${this._credentials.username}:${this._realm}:${this._credentials.password}`):this._ha1=this._credentials.ha1,"auth"===this._qop?(u=`${this._method}:${this._uri}`,a=r.calculateMD5(u),i.debug('authenticate() | using qop=auth [a2:"%s"]',u),this._response=r.calculateMD5(`${this._ha1}:${this._nonce}:${this._ncHex}:${this._cnonce}:auth:${a}`)):"auth-int"===this._qop?(u=`${this._method}:${this._uri}:${r.calculateMD5(n||"")}`,a=r.calculateMD5(u),i.debug('authenticate() | using qop=auth-int [a2:"%s"]',u),this._response=r.calculateMD5(`${this._ha1}:${this._nonce}:${this._ncHex}:${this._cnonce}:auth-int:${a}`)):null===this._qop&&(u=`${this._method}:${this._uri}`,a=r.calculateMD5(u),i.debug('authenticate() | using qop=null [a2:"%s"]',u),this._response=r.calculateMD5(`${this._ha1}:${this._nonce}:${a}`)),i.debug("authenticate() | response generated"),!0}toString(){const e=[];if(!this._response)throw new Error("response field does not exist, cannot generate Authorization header");return e.push(`algorithm=${this._algorithm}`),e.push(`username="${this._credentials.username}"`),e.push(`realm="${this._realm}"`),e.push(`nonce="${this._nonce}"`),e.push(`uri="${this._uri}"`),e.push(`response="${this._response}"`),this._opaque&&e.push(`opaque="${this._opaque}"`),this._qop&&(e.push(`qop=${this._qop}`),e.push(`cnonce="${this._cnonce}"`),e.push(`nc=${this._ncHex}`)),`Digest ${e.join(", ")}`}}},{"./Logger":11,"./Utils":30}],8:[function(e,t,n){class s extends Error{constructor(e,t){super(),this.code=1,this.name="CONFIGURATION_ERROR",this.parameter=e,this.value=t,this.message=this.value?`Invalid value ${JSON.stringify(this.value)} for parameter "${this.parameter}"`:`Missing parameter: ${this.parameter}`}}class r extends Error{constructor(e){super(),this.code=2,this.name="INVALID_STATE_ERROR",this.status=e,this.message=`Invalid status: ${e}`}}class i extends Error{constructor(e){super(),this.code=3,this.name="NOT_SUPPORTED_ERROR",this.message=e}}class l extends Error{constructor(e){super(),this.code=4,this.name="NOT_READY_ERROR",this.message=e}}t.exports={ConfigurationError:s,InvalidStateError:r,NotSupportedError:i,NotReadyError:l}},{}],9:[function(e,t,n){t.exports=function(){function t(e){return'"'+e.replace(/\\/g,"\\\\").replace(/"/g,'\\"').replace(/\x08/g,"\\b").replace(/\t/g,"\\t").replace(/\n/g,"\\n").replace(/\f/g,"\\f").replace(/\r/g,"\\r").replace(/[\x00-\x07\x0B\x0E-\x1F\x80-\uFFFF]/g,escape)+'"'}var n={parse:function(n,s){var r={CRLF:c,DIGIT:h,ALPHA:d,HEXDIG:_,WSP:p,OCTET:f,DQUOTE:m,SP:g,HTAB:T,alphanum:C,reserved:v,unreserved:E,mark:S,escaped:A,LWS:R,SWS:b,HCOLON:y,TEXT_UTF8_TRIM:w,TEXT_UTF8char:I,UTF8_NONASCII:N,UTF8_CONT:O,LHEX:function(){var e;null===(e=h())&&(/^[a-f]/.test(n.charAt(i))?(e=n.charAt(i),i++):(e=null,0===l&&a("[a-f]")));return e},token:U,token_nodot:x,separators:function(){var e;40===n.charCodeAt(i)?(e="(",i++):(e=null,0===l&&a('"("'));null===e&&(41===n.charCodeAt(i)?(e=")",i++):(e=null,0===l&&a('")"')),null===e&&(60===n.charCodeAt(i)?(e="<",i++):(e=null,0===l&&a('"<"')),null===e&&(62===n.charCodeAt(i)?(e=">",i++):(e=null,0===l&&a('">"')),null===e&&(64===n.charCodeAt(i)?(e="@",i++):(e=null,0===l&&a('"@"')),null===e&&(44===n.charCodeAt(i)?(e=",",i++):(e=null,0===l&&a('","')),null===e&&(59===n.charCodeAt(i)?(e=";",i++):(e=null,0===l&&a('";"')),null===e&&(58===n.charCodeAt(i)?(e=":",i++):(e=null,0===l&&a('":"')),null===e&&(92===n.charCodeAt(i)?(e="\\",i++):(e=null,0===l&&a('"\\\\"')),null===e&&null===(e=m())&&(47===n.charCodeAt(i)?(e="/",i++):(e=null,0===l&&a('"/"')),null===e&&(91===n.charCodeAt(i)?(e="[",i++):(e=null,0===l&&a('"["')),null===e&&(93===n.charCodeAt(i)?(e="]",i++):(e=null,0===l&&a('"]"')),null===e&&(63===n.charCodeAt(i)?(e="?",i++):(e=null,0===l&&a('"?"')),null===e&&(61===n.charCodeAt(i)?(e="=",i++):(e=null,0===l&&a('"="')),null===e&&(123===n.charCodeAt(i)?(e="{",i++):(e=null,0===l&&a('"{"')),null===e&&(125===n.charCodeAt(i)?(e="}",i++):(e=null,0===l&&a('"}"')),null===e&&null===(e=g())&&(e=T()))))))))))))))));return e},word:D,STAR:P,SLASH:q,EQUAL:L,LPAREN:M,RPAREN:H,RAQUOT:$,LAQUOT:F,COMMA:k,SEMI:j,COLON:G,LDQUOT:W,RDQUOT:V,comment:function e(){var t,n,s,r;if(r=i,null!==(t=M())){for(n=[],null===(s=B())&&null===(s=X())&&(s=e());null!==s;)n.push(s),null===(s=B())&&null===(s=X())&&(s=e());null!==n&&null!==(s=H())?t=[t,n,s]:(t=null,i=r)}else t=null,i=r;return t},ctext:B,quoted_string:z,quoted_string_clean:K,qdtext:Y,quoted_pair:X,SIP_URI_noparams:J,SIP_URI:Q,uri_scheme:Z,uri_scheme_sips:ee,uri_scheme_sip:te,userinfo:ne,user:se,user_unreserved:re,password:ie,hostport:le,host:oe,hostname:ue,domainlabel:ae,toplabel:ce,IPv6reference:he,IPv6address:de,h16:_e,ls32:pe,IPv4address:fe,dec_octet:me,port:ge,uri_parameters:Te,uri_parameter:Ce,transport_param:ve,user_param:Ee,method_param:Se,ttl_param:Ae,maddr_param:Re,lr_param:be,other_param:ye,pname:we,pvalue:Ie,paramchar:Ne,param_unreserved:Oe,headers:Ue,header:xe,hname:De,hvalue:Pe,hnv_unreserved:qe,Request_Response:function(){var e;null===(e=ht())&&(e=Le());return e},Request_Line:Le,Request_URI:Me,absoluteURI:He,hier_part:$e,net_path:Fe,abs_path:ke,opaque_part:je,uric:Ge,uric_no_slash:We,path_segments:Ve,segment:Be,param:ze,pchar:Ke,scheme:Ye,authority:Xe,srvr:Je,reg_name:Qe,query:Ze,SIP_Version:et,INVITEm:tt,ACKm:nt,OPTIONSm:st,BYEm:rt,CANCELm:it,REGISTERm:lt,SUBSCRIBEm:ot,NOTIFYm:ut,REFERm:at,Method:ct,Status_Line:ht,Status_Code:dt,extension_code:_t,Reason_Phrase:pt,Allow_Events:function(){var e,t,n,s,r,l;if(r=i,null!==(e=Ht())){for(t=[],l=i,null!==(n=k())&&null!==(s=Ht())?n=[n,s]:(n=null,i=l);null!==n;)t.push(n),l=i,null!==(n=k())&&null!==(s=Ht())?n=[n,s]:(n=null,i=l);null!==t?e=[e,t]:(e=null,i=r)}else e=null,i=r;return e},Call_ID:function(){var e,t,s,r,o,u;r=i,o=i,null!==(e=D())?(u=i,64===n.charCodeAt(i)?(t="@",i++):(t=null,0===l&&a('"@"')),null!==t&&null!==(s=D())?t=[t,s]:(t=null,i=u),null!==(t=null!==t?t:"")?e=[e,t]:(e=null,i=o)):(e=null,i=o);null!==e&&(e=function(e){kn=n.substring(i,e)}(r));null===e&&(i=r);return e},Contact:function(){var e,t,n,s,r,l,o;if(r=i,null===(e=P()))if(l=i,null!==(e=ft())){for(t=[],o=i,null!==(n=k())&&null!==(s=ft())?n=[n,s]:(n=null,i=o);null!==n;)t.push(n),o=i,null!==(n=k())&&null!==(s=ft())?n=[n,s]:(n=null,i=o);null!==t?e=[e,t]:(e=null,i=l)}else e=null,i=l;null!==e&&(e=function(){var e,t;for(t=kn.multi_header.length,e=0;e<t;e++)if(null===kn.multi_header[e].parsed){kn=null;break}kn=null!==kn?kn.multi_header:-1}());null===e&&(i=r);return e},contact_param:ft,name_addr:mt,display_name:gt,contact_params:Tt,c_p_q:Ct,c_p_expires:vt,delta_seconds:Et,qvalue:St,generic_param:At,gen_value:Rt,Content_Disposition:function(){var e,t,n,s,r,l;if(r=i,null!==(e=bt())){for(t=[],l=i,null!==(n=j())&&null!==(s=yt())?n=[n,s]:(n=null,i=l);null!==n;)t.push(n),l=i,null!==(n=j())&&null!==(s=yt())?n=[n,s]:(n=null,i=l);null!==t?e=[e,t]:(e=null,i=r)}else e=null,i=r;return e},disp_type:bt,disp_param:yt,handling_param:wt,Content_Encoding:function(){var e,t,n,s,r,l;if(r=i,null!==(e=U())){for(t=[],l=i,null!==(n=k())&&null!==(s=U())?n=[n,s]:(n=null,i=l);null!==n;)t.push(n),l=i,null!==(n=k())&&null!==(s=U())?n=[n,s]:(n=null,i=l);null!==t?e=[e,t]:(e=null,i=r)}else e=null,i=r;return e},Content_Length:function(){var e,t,n;if(n=i,null!==(t=h()))for(e=[];null!==t;)e.push(t),t=h();else e=null;null!==e&&(e=void(kn=parseInt(e.join(""))));null===e&&(i=n);return e},Content_Type:function(){var e,t;t=i,null!==(e=It())&&(e=function(e){kn=n.substring(i,e)}(t));null===e&&(i=t);return e},media_type:It,m_type:Nt,discrete_type:Ot,composite_type:Ut,extension_token:xt,x_token:Dt,m_subtype:Pt,m_parameter:qt,m_value:Lt,CSeq:function(){var e,t,n,s;s=i,null!==(e=Mt())&&null!==(t=R())&&null!==(n=ct())?e=[e,t,n]:(e=null,i=s);return e},CSeq_value:Mt,Expires:function(){var e,t;t=i,null!==(e=Et())&&(e=void(kn=e));null===e&&(i=t);return e},Event:function(){var e,t,n,s,r,l,o;if(r=i,l=i,null!==(e=Ht())){for(t=[],o=i,null!==(n=j())&&null!==(s=At())?n=[n,s]:(n=null,i=o);null!==n;)t.push(n),o=i,null!==(n=j())&&null!==(s=At())?n=[n,s]:(n=null,i=o);null!==t?e=[e,t]:(e=null,i=l)}else e=null,i=l;null!==e&&(u=e[0],e=void(kn.event=u.join("").toLowerCase()));var u;null===e&&(i=r);return e},event_type:Ht,From:function(){var e,t,n,s,r,l,o;r=i,l=i,null===(e=J())&&(e=mt());if(null!==e){for(t=[],o=i,null!==(n=j())&&null!==(s=$t())?n=[n,s]:(n=null,i=o);null!==n;)t.push(n),o=i,null!==(n=j())&&null!==(s=$t())?n=[n,s]:(n=null,i=o);null!==t?e=[e,t]:(e=null,i=l)}else e=null,i=l;null!==e&&(e=function(){var e=kn.tag;try{kn=new Fn(kn.uri,kn.display_name,kn.params),e&&kn.setParam("tag",e)}catch(e){kn=-1}}());null===e&&(i=r);return e},from_param:$t,tag_param:Ft,Max_Forwards:function(){var e,t,n;if(n=i,null!==(t=h()))for(e=[];null!==t;)e.push(t),t=h();else e=null;null!==e&&(e=void(kn=parseInt(e.join(""))));null===e&&(i=n);return e},Min_Expires:function(){var e,t;t=i,null!==(e=Et())&&(e=void(kn=e));null===e&&(i=t);return e},Name_Addr_Header:function(){var e,t,n,s,r,l,o,u,a,c;u=i,a=i,e=[],t=gt();for(;null!==t;)e.push(t),t=gt();if(null!==e)if(null!==(t=F()))if(null!==(n=Q()))if(null!==(s=$())){for(r=[],c=i,null!==(l=j())&&null!==(o=At())?l=[l,o]:(l=null,i=c);null!==l;)r.push(l),c=i,null!==(l=j())&&null!==(o=At())?l=[l,o]:(l=null,i=c);null!==r?e=[e,t,n,s,r]:(e=null,i=a)}else e=null,i=a;else e=null,i=a;else e=null,i=a;else e=null,i=a;null!==e&&(e=function(){try{kn=new Fn(kn.uri,kn.display_name,kn.params)}catch(e){kn=-1}}());null===e&&(i=u);return e},Proxy_Authenticate:function(){return kt()},challenge:kt,other_challenge:jt,auth_param:Gt,digest_cln:Wt,realm:Vt,realm_value:Bt,domain:zt,URI:Kt,nonce:Yt,nonce_value:Xt,opaque:Jt,stale:Qt,algorithm:Zt,qop_options:en,qop_value:tn,Proxy_Require:function(){var e,t,n,s,r,l;if(r=i,null!==(e=U())){for(t=[],l=i,null!==(n=k())&&null!==(s=U())?n=[n,s]:(n=null,i=l);null!==n;)t.push(n),l=i,null!==(n=k())&&null!==(s=U())?n=[n,s]:(n=null,i=l);null!==t?e=[e,t]:(e=null,i=r)}else e=null,i=r;return e},Record_Route:function(){var e,t,n,s,r,l,o;if(r=i,l=i,null!==(e=nn())){for(t=[],o=i,null!==(n=k())&&null!==(s=nn())?n=[n,s]:(n=null,i=o);null!==n;)t.push(n),o=i,null!==(n=k())&&null!==(s=nn())?n=[n,s]:(n=null,i=o);null!==t?e=[e,t]:(e=null,i=l)}else e=null,i=l;null!==e&&(e=function(){var e,t;for(t=kn.multi_header.length,e=0;e<t;e++)if(null===kn.multi_header[e].parsed){kn=null;break}kn=null!==kn?kn.multi_header:-1}());null===e&&(i=r);return e},rec_route:nn,Reason:function(){var e,t,s,r,o,u,c;o=i,u=i,"sip"===n.substr(i,3).toLowerCase()?(e=n.substr(i,3),i+=3):(e=null,0===l&&a('"SIP"'));null===e&&(e=U());if(null!==e){for(t=[],c=i,null!==(s=j())&&null!==(r=sn())?s=[s,r]:(s=null,i=c);null!==s;)t.push(s),c=i,null!==(s=j())&&null!==(r=sn())?s=[s,r]:(s=null,i=c);null!==t?e=[e,t]:(e=null,i=u)}else e=null,i=u;null!==e&&(e=function(e,t){if(kn.protocol=t.toLowerCase(),kn.params||(kn.params={}),kn.params.text&&'"'===kn.params.text[0]){var n=kn.params.text;kn.text=n.substring(1,n.length-1),delete kn.params.text}}(0,e[0]));null===e&&(i=o);return e},reason_param:sn,reason_cause:rn,Require:function(){var e,t,n,s,r,l;if(r=i,null!==(e=U())){for(t=[],l=i,null!==(n=k())&&null!==(s=U())?n=[n,s]:(n=null,i=l);null!==n;)t.push(n),l=i,null!==(n=k())&&null!==(s=U())?n=[n,s]:(n=null,i=l);null!==t?e=[e,t]:(e=null,i=r)}else e=null,i=r;return e},Route:function(){var e,t,n,s,r,l;if(r=i,null!==(e=ln())){for(t=[],l=i,null!==(n=k())&&null!==(s=ln())?n=[n,s]:(n=null,i=l);null!==n;)t.push(n),l=i,null!==(n=k())&&null!==(s=ln())?n=[n,s]:(n=null,i=l);null!==t?e=[e,t]:(e=null,i=r)}else e=null,i=r;return e},route_param:ln,Subscription_State:function(){var e,t,n,s,r,l;if(r=i,null!==(e=on())){for(t=[],l=i,null!==(n=j())&&null!==(s=un())?n=[n,s]:(n=null,i=l);null!==n;)t.push(n),l=i,null!==(n=j())&&null!==(s=un())?n=[n,s]:(n=null,i=l);null!==t?e=[e,t]:(e=null,i=r)}else e=null,i=r;return e},substate_value:on,subexp_params:un,event_reason_value:an,Subject:function(){var e;return e=null!==(e=w())?e:""},Supported:function(){var e,t,n,s,r,l;if(r=i,null!==(e=U())){for(t=[],l=i,null!==(n=k())&&null!==(s=U())?n=[n,s]:(n=null,i=l);null!==n;)t.push(n),l=i,null!==(n=k())&&null!==(s=U())?n=[n,s]:(n=null,i=l);null!==t?e=[e,t]:(e=null,i=r)}else e=null,i=r;return e=null!==e?e:""},To:function(){var e,t,n,s,r,l,o;r=i,l=i,null===(e=J())&&(e=mt());if(null!==e){for(t=[],o=i,null!==(n=j())&&null!==(s=cn())?n=[n,s]:(n=null,i=o);null!==n;)t.push(n),o=i,null!==(n=j())&&null!==(s=cn())?n=[n,s]:(n=null,i=o);null!==t?e=[e,t]:(e=null,i=l)}else e=null,i=l;null!==e&&(e=function(){var e=kn.tag;try{kn=new Fn(kn.uri,kn.display_name,kn.params),e&&kn.setParam("tag",e)}catch(e){kn=-1}}());null===e&&(i=r);return e},to_param:cn,Via:function(){var e,t,n,s,r,l;if(r=i,null!==(e=hn())){for(t=[],l=i,null!==(n=k())&&null!==(s=hn())?n=[n,s]:(n=null,i=l);null!==n;)t.push(n),l=i,null!==(n=k())&&null!==(s=hn())?n=[n,s]:(n=null,i=l);null!==t?e=[e,t]:(e=null,i=r)}else e=null,i=r;return e},via_param:hn,via_params:dn,via_ttl:_n,via_maddr:pn,via_received:fn,via_branch:mn,response_port:gn,rport:Tn,sent_protocol:Cn,protocol_name:vn,transport:En,sent_by:Sn,via_host:An,via_port:Rn,ttl:bn,WWW_Authenticate:function(){return kt()},Session_Expires:function(){var e,t,n,s,r,l;if(r=i,null!==(e=yn())){for(t=[],l=i,null!==(n=j())&&null!==(s=wn())?n=[n,s]:(n=null,i=l);null!==n;)t.push(n),l=i,null!==(n=j())&&null!==(s=wn())?n=[n,s]:(n=null,i=l);null!==t?e=[e,t]:(e=null,i=r)}else e=null,i=r;return e},s_e_expires:yn,s_e_params:wn,s_e_refresher:In,extension_header:function(){var e,t,n,s;s=i,null!==(e=U())&&null!==(t=y())&&null!==(n=Nn())?e=[e,t,n]:(e=null,i=s);return e},header_value:Nn,message_body:function(){var e,t;e=[],t=f();for(;null!==t;)e.push(t),t=f();return e},uuid_URI:function(){var e,t,s;s=i,"uuid:"===n.substr(i,5)?(e="uuid:",i+=5):(e=null,0===l&&a('"uuid:"'));null!==e&&null!==(t=On())?e=[e,t]:(e=null,i=s);return e},uuid:On,hex4:Un,hex8:xn,hex12:Dn,Refer_To:function(){var e,t,n,s,r,l,o;r=i,l=i,null===(e=J())&&(e=mt());if(null!==e){for(t=[],o=i,null!==(n=j())&&null!==(s=At())?n=[n,s]:(n=null,i=o);null!==n;)t.push(n),o=i,null!==(n=j())&&null!==(s=At())?n=[n,s]:(n=null,i=o);null!==t?e=[e,t]:(e=null,i=l)}else e=null,i=l;null!==e&&(e=function(){try{kn=new Fn(kn.uri,kn.display_name,kn.params)}catch(e){kn=-1}}());null===e&&(i=r);return e},Replaces:function(){var e,t,n,s,r,l;if(r=i,null!==(e=Pn())){for(t=[],l=i,null!==(n=j())&&null!==(s=qn())?n=[n,s]:(n=null,i=l);null!==n;)t.push(n),l=i,null!==(n=j())&&null!==(s=qn())?n=[n,s]:(n=null,i=l);null!==t?e=[e,t]:(e=null,i=r)}else e=null,i=r;return e},call_id:Pn,replaces_param:qn,to_tag:Ln,from_tag:Mn,early_flag:Hn};if(void 0!==s){if(void 0===r[s])throw new Error("Invalid rule name: "+t(s)+".")}else s="CRLF";var i=0,l=0,o=0,u=[];function a(e){i<o||(i>o&&(o=i,u=[]),u.push(e))}function c(){var e;return"\r\n"===n.substr(i,2)?(e="\r\n",i+=2):(e=null,0===l&&a('"\\r\\n"')),e}function h(){var e;return/^[0-9]/.test(n.charAt(i))?(e=n.charAt(i),i++):(e=null,0===l&&a("[0-9]")),e}function d(){var e;return/^[a-zA-Z]/.test(n.charAt(i))?(e=n.charAt(i),i++):(e=null,0===l&&a("[a-zA-Z]")),e}function _(){var e;return/^[0-9a-fA-F]/.test(n.charAt(i))?(e=n.charAt(i),i++):(e=null,0===l&&a("[0-9a-fA-F]")),e}function p(){var e;return null===(e=g())&&(e=T()),e}function f(){var e;return/^[\0-\xFF]/.test(n.charAt(i))?(e=n.charAt(i),i++):(e=null,0===l&&a("[\\0-\\xFF]")),e}function m(){var e;return/^["]/.test(n.charAt(i))?(e=n.charAt(i),i++):(e=null,0===l&&a('["]')),e}function g(){var e;return 32===n.charCodeAt(i)?(e=" ",i++):(e=null,0===l&&a('" "')),e}function T(){var e;return 9===n.charCodeAt(i)?(e="\t",i++):(e=null,0===l&&a('"\\t"')),e}function C(){var e;return/^[a-zA-Z0-9]/.test(n.charAt(i))?(e=n.charAt(i),i++):(e=null,0===l&&a("[a-zA-Z0-9]")),e}function v(){var e;return 59===n.charCodeAt(i)?(e=";",i++):(e=null,0===l&&a('";"')),null===e&&(47===n.charCodeAt(i)?(e="/",i++):(e=null,0===l&&a('"/"')),null===e&&(63===n.charCodeAt(i)?(e="?",i++):(e=null,0===l&&a('"?"')),null===e&&(58===n.charCodeAt(i)?(e=":",i++):(e=null,0===l&&a('":"')),null===e&&(64===n.charCodeAt(i)?(e="@",i++):(e=null,0===l&&a('"@"')),null===e&&(38===n.charCodeAt(i)?(e="&",i++):(e=null,0===l&&a('"&"')),null===e&&(61===n.charCodeAt(i)?(e="=",i++):(e=null,0===l&&a('"="')),null===e&&(43===n.charCodeAt(i)?(e="+",i++):(e=null,0===l&&a('"+"')),null===e&&(36===n.charCodeAt(i)?(e="$",i++):(e=null,0===l&&a('"$"')),null===e&&(44===n.charCodeAt(i)?(e=",",i++):(e=null,0===l&&a('","'))))))))))),e}function E(){var e;return null===(e=C())&&(e=S()),e}function S(){var e;return 45===n.charCodeAt(i)?(e="-",i++):(e=null,0===l&&a('"-"')),null===e&&(95===n.charCodeAt(i)?(e="_",i++):(e=null,0===l&&a('"_"')),null===e&&(46===n.charCodeAt(i)?(e=".",i++):(e=null,0===l&&a('"."')),null===e&&(33===n.charCodeAt(i)?(e="!",i++):(e=null,0===l&&a('"!"')),null===e&&(126===n.charCodeAt(i)?(e="~",i++):(e=null,0===l&&a('"~"')),null===e&&(42===n.charCodeAt(i)?(e="*",i++):(e=null,0===l&&a('"*"')),null===e&&(39===n.charCodeAt(i)?(e="'",i++):(e=null,0===l&&a('"\'"')),null===e&&(40===n.charCodeAt(i)?(e="(",i++):(e=null,0===l&&a('"("')),null===e&&(41===n.charCodeAt(i)?(e=")",i++):(e=null,0===l&&a('")"')))))))))),e}function A(){var e,t,s,r,o;return r=i,o=i,37===n.charCodeAt(i)?(e="%",i++):(e=null,0===l&&a('"%"')),null!==e&&null!==(t=_())&&null!==(s=_())?e=[e,t,s]:(e=null,i=o),null!==e&&(e=e.join("")),null===e&&(i=r),e}function R(){var e,t,n,s,r,l;for(s=i,r=i,l=i,e=[],t=p();null!==t;)e.push(t),t=p();if(null!==e&&null!==(t=c())?e=[e,t]:(e=null,i=l),null!==(e=null!==e?e:"")){if(null!==(n=p()))for(t=[];null!==n;)t.push(n),n=p();else t=null;null!==t?e=[e,t]:(e=null,i=r)}else e=null,i=r;return null!==e&&(e=" "),null===e&&(i=s),e}function b(){var e;return e=null!==(e=R())?e:""}function y(){var e,t,s,r,o;for(r=i,o=i,e=[],null===(t=g())&&(t=T());null!==t;)e.push(t),null===(t=g())&&(t=T());return null!==e?(58===n.charCodeAt(i)?(t=":",i++):(t=null,0===l&&a('":"')),null!==t&&null!==(s=b())?e=[e,t,s]:(e=null,i=o)):(e=null,i=o),null!==e&&(e=":"),null===e&&(i=r),e}function w(){var e,t,s,r,l,o,u;if(l=i,o=i,null!==(t=I()))for(e=[];null!==t;)e.push(t),t=I();else e=null;if(null!==e){for(t=[],u=i,s=[],r=R();null!==r;)s.push(r),r=R();for(null!==s&&null!==(r=I())?s=[s,r]:(s=null,i=u);null!==s;){for(t.push(s),u=i,s=[],r=R();null!==r;)s.push(r),r=R();null!==s&&null!==(r=I())?s=[s,r]:(s=null,i=u)}null!==t?e=[e,t]:(e=null,i=o)}else e=null,i=o;return null!==e&&(e=function(e){return n.substring(i,e)}(l)),null===e&&(i=l),e}function I(){var e;return/^[!-~]/.test(n.charAt(i))?(e=n.charAt(i),i++):(e=null,0===l&&a("[!-~]")),null===e&&(e=N()),e}function N(){var e;return/^[\x80-\uFFFF]/.test(n.charAt(i))?(e=n.charAt(i),i++):(e=null,0===l&&a("[\\x80-\\uFFFF]")),e}function O(){var e;return/^[\x80-\xBF]/.test(n.charAt(i))?(e=n.charAt(i),i++):(e=null,0===l&&a("[\\x80-\\xBF]")),e}function U(){var e,t,s;if(s=i,null===(t=C())&&(45===n.charCodeAt(i)?(t="-",i++):(t=null,0===l&&a('"-"')),null===t&&(46===n.charCodeAt(i)?(t=".",i++):(t=null,0===l&&a('"."')),null===t&&(33===n.charCodeAt(i)?(t="!",i++):(t=null,0===l&&a('"!"')),null===t&&(37===n.charCodeAt(i)?(t="%",i++):(t=null,0===l&&a('"%"')),null===t&&(42===n.charCodeAt(i)?(t="*",i++):(t=null,0===l&&a('"*"')),null===t&&(95===n.charCodeAt(i)?(t="_",i++):(t=null,0===l&&a('"_"')),null===t&&(43===n.charCodeAt(i)?(t="+",i++):(t=null,0===l&&a('"+"')),null===t&&(96===n.charCodeAt(i)?(t="`",i++):(t=null,0===l&&a('"`"')),null===t&&(39===n.charCodeAt(i)?(t="'",i++):(t=null,0===l&&a('"\'"')),null===t&&(126===n.charCodeAt(i)?(t="~",i++):(t=null,0===l&&a('"~"')))))))))))),null!==t)for(e=[];null!==t;)e.push(t),null===(t=C())&&(45===n.charCodeAt(i)?(t="-",i++):(t=null,0===l&&a('"-"')),null===t&&(46===n.charCodeAt(i)?(t=".",i++):(t=null,0===l&&a('"."')),null===t&&(33===n.charCodeAt(i)?(t="!",i++):(t=null,0===l&&a('"!"')),null===t&&(37===n.charCodeAt(i)?(t="%",i++):(t=null,0===l&&a('"%"')),null===t&&(42===n.charCodeAt(i)?(t="*",i++):(t=null,0===l&&a('"*"')),null===t&&(95===n.charCodeAt(i)?(t="_",i++):(t=null,0===l&&a('"_"')),null===t&&(43===n.charCodeAt(i)?(t="+",i++):(t=null,0===l&&a('"+"')),null===t&&(96===n.charCodeAt(i)?(t="`",i++):(t=null,0===l&&a('"`"')),null===t&&(39===n.charCodeAt(i)?(t="'",i++):(t=null,0===l&&a('"\'"')),null===t&&(126===n.charCodeAt(i)?(t="~",i++):(t=null,0===l&&a('"~"'))))))))))));else e=null;return null!==e&&(e=function(e){return n.substring(i,e)}(s)),null===e&&(i=s),e}function x(){var e,t,s;if(s=i,null===(t=C())&&(45===n.charCodeAt(i)?(t="-",i++):(t=null,0===l&&a('"-"')),null===t&&(33===n.charCodeAt(i)?(t="!",i++):(t=null,0===l&&a('"!"')),null===t&&(37===n.charCodeAt(i)?(t="%",i++):(t=null,0===l&&a('"%"')),null===t&&(42===n.charCodeAt(i)?(t="*",i++):(t=null,0===l&&a('"*"')),null===t&&(95===n.charCodeAt(i)?(t="_",i++):(t=null,0===l&&a('"_"')),null===t&&(43===n.charCodeAt(i)?(t="+",i++):(t=null,0===l&&a('"+"')),null===t&&(96===n.charCodeAt(i)?(t="`",i++):(t=null,0===l&&a('"`"')),null===t&&(39===n.charCodeAt(i)?(t="'",i++):(t=null,0===l&&a('"\'"')),null===t&&(126===n.charCodeAt(i)?(t="~",i++):(t=null,0===l&&a('"~"'))))))))))),null!==t)for(e=[];null!==t;)e.push(t),null===(t=C())&&(45===n.charCodeAt(i)?(t="-",i++):(t=null,0===l&&a('"-"')),null===t&&(33===n.charCodeAt(i)?(t="!",i++):(t=null,0===l&&a('"!"')),null===t&&(37===n.charCodeAt(i)?(t="%",i++):(t=null,0===l&&a('"%"')),null===t&&(42===n.charCodeAt(i)?(t="*",i++):(t=null,0===l&&a('"*"')),null===t&&(95===n.charCodeAt(i)?(t="_",i++):(t=null,0===l&&a('"_"')),null===t&&(43===n.charCodeAt(i)?(t="+",i++):(t=null,0===l&&a('"+"')),null===t&&(96===n.charCodeAt(i)?(t="`",i++):(t=null,0===l&&a('"`"')),null===t&&(39===n.charCodeAt(i)?(t="'",i++):(t=null,0===l&&a('"\'"')),null===t&&(126===n.charCodeAt(i)?(t="~",i++):(t=null,0===l&&a('"~"')))))))))));else e=null;return null!==e&&(e=function(e){return n.substring(i,e)}(s)),null===e&&(i=s),e}function D(){var e,t,s;if(s=i,null===(t=C())&&(45===n.charCodeAt(i)?(t="-",i++):(t=null,0===l&&a('"-"')),null===t&&(46===n.charCodeAt(i)?(t=".",i++):(t=null,0===l&&a('"."')),null===t&&(33===n.charCodeAt(i)?(t="!",i++):(t=null,0===l&&a('"!"')),null===t&&(37===n.charCodeAt(i)?(t="%",i++):(t=null,0===l&&a('"%"')),null===t&&(42===n.charCodeAt(i)?(t="*",i++):(t=null,0===l&&a('"*"')),null===t&&(95===n.charCodeAt(i)?(t="_",i++):(t=null,0===l&&a('"_"')),null===t&&(43===n.charCodeAt(i)?(t="+",i++):(t=null,0===l&&a('"+"')),null===t&&(96===n.charCodeAt(i)?(t="`",i++):(t=null,0===l&&a('"`"')),null===t&&(39===n.charCodeAt(i)?(t="'",i++):(t=null,0===l&&a('"\'"')),null===t&&(126===n.charCodeAt(i)?(t="~",i++):(t=null,0===l&&a('"~"')),null===t&&(40===n.charCodeAt(i)?(t="(",i++):(t=null,0===l&&a('"("')),null===t&&(41===n.charCodeAt(i)?(t=")",i++):(t=null,0===l&&a('")"')),null===t&&(60===n.charCodeAt(i)?(t="<",i++):(t=null,0===l&&a('"<"')),null===t&&(62===n.charCodeAt(i)?(t=">",i++):(t=null,0===l&&a('">"')),null===t&&(58===n.charCodeAt(i)?(t=":",i++):(t=null,0===l&&a('":"')),null===t&&(92===n.charCodeAt(i)?(t="\\",i++):(t=null,0===l&&a('"\\\\"')),null===t&&null===(t=m())&&(47===n.charCodeAt(i)?(t="/",i++):(t=null,0===l&&a('"/"')),null===t&&(91===n.charCodeAt(i)?(t="[",i++):(t=null,0===l&&a('"["')),null===t&&(93===n.charCodeAt(i)?(t="]",i++):(t=null,0===l&&a('"]"')),null===t&&(63===n.charCodeAt(i)?(t="?",i++):(t=null,0===l&&a('"?"')),null===t&&(123===n.charCodeAt(i)?(t="{",i++):(t=null,0===l&&a('"{"')),null===t&&(125===n.charCodeAt(i)?(t="}",i++):(t=null,0===l&&a('"}"')))))))))))))))))))))))),null!==t)for(e=[];null!==t;)e.push(t),null===(t=C())&&(45===n.charCodeAt(i)?(t="-",i++):(t=null,0===l&&a('"-"')),null===t&&(46===n.charCodeAt(i)?(t=".",i++):(t=null,0===l&&a('"."')),null===t&&(33===n.charCodeAt(i)?(t="!",i++):(t=null,0===l&&a('"!"')),null===t&&(37===n.charCodeAt(i)?(t="%",i++):(t=null,0===l&&a('"%"')),null===t&&(42===n.charCodeAt(i)?(t="*",i++):(t=null,0===l&&a('"*"')),null===t&&(95===n.charCodeAt(i)?(t="_",i++):(t=null,0===l&&a('"_"')),null===t&&(43===n.charCodeAt(i)?(t="+",i++):(t=null,0===l&&a('"+"')),null===t&&(96===n.charCodeAt(i)?(t="`",i++):(t=null,0===l&&a('"`"')),null===t&&(39===n.charCodeAt(i)?(t="'",i++):(t=null,0===l&&a('"\'"')),null===t&&(126===n.charCodeAt(i)?(t="~",i++):(t=null,0===l&&a('"~"')),null===t&&(40===n.charCodeAt(i)?(t="(",i++):(t=null,0===l&&a('"("')),null===t&&(41===n.charCodeAt(i)?(t=")",i++):(t=null,0===l&&a('")"')),null===t&&(60===n.charCodeAt(i)?(t="<",i++):(t=null,0===l&&a('"<"')),null===t&&(62===n.charCodeAt(i)?(t=">",i++):(t=null,0===l&&a('">"')),null===t&&(58===n.charCodeAt(i)?(t=":",i++):(t=null,0===l&&a('":"')),null===t&&(92===n.charCodeAt(i)?(t="\\",i++):(t=null,0===l&&a('"\\\\"')),null===t&&null===(t=m())&&(47===n.charCodeAt(i)?(t="/",i++):(t=null,0===l&&a('"/"')),null===t&&(91===n.charCodeAt(i)?(t="[",i++):(t=null,0===l&&a('"["')),null===t&&(93===n.charCodeAt(i)?(t="]",i++):(t=null,0===l&&a('"]"')),null===t&&(63===n.charCodeAt(i)?(t="?",i++):(t=null,0===l&&a('"?"')),null===t&&(123===n.charCodeAt(i)?(t="{",i++):(t=null,0===l&&a('"{"')),null===t&&(125===n.charCodeAt(i)?(t="}",i++):(t=null,0===l&&a('"}"'))))))))))))))))))))))));else e=null;return null!==e&&(e=function(e){return n.substring(i,e)}(s)),null===e&&(i=s),e}function P(){var e,t,s,r,o;return r=i,o=i,null!==(e=b())?(42===n.charCodeAt(i)?(t="*",i++):(t=null,0===l&&a('"*"')),null!==t&&null!==(s=b())?e=[e,t,s]:(e=null,i=o)):(e=null,i=o),null!==e&&(e="*"),null===e&&(i=r),e}function q(){var e,t,s,r,o;return r=i,o=i,null!==(e=b())?(47===n.charCodeAt(i)?(t="/",i++):(t=null,0===l&&a('"/"')),null!==t&&null!==(s=b())?e=[e,t,s]:(e=null,i=o)):(e=null,i=o),null!==e&&(e="/"),null===e&&(i=r),e}function L(){var e,t,s,r,o;return r=i,o=i,null!==(e=b())?(61===n.charCodeAt(i)?(t="=",i++):(t=null,0===l&&a('"="')),null!==t&&null!==(s=b())?e=[e,t,s]:(e=null,i=o)):(e=null,i=o),null!==e&&(e="="),null===e&&(i=r),e}function M(){var e,t,s,r,o;return r=i,o=i,null!==(e=b())?(40===n.charCodeAt(i)?(t="(",i++):(t=null,0===l&&a('"("')),null!==t&&null!==(s=b())?e=[e,t,s]:(e=null,i=o)):(e=null,i=o),null!==e&&(e="("),null===e&&(i=r),e}function H(){var e,t,s,r,o;return r=i,o=i,null!==(e=b())?(41===n.charCodeAt(i)?(t=")",i++):(t=null,0===l&&a('")"')),null!==t&&null!==(s=b())?e=[e,t,s]:(e=null,i=o)):(e=null,i=o),null!==e&&(e=")"),null===e&&(i=r),e}function $(){var e,t,s,r;return s=i,r=i,62===n.charCodeAt(i)?(e=">",i++):(e=null,0===l&&a('">"')),null!==e&&null!==(t=b())?e=[e,t]:(e=null,i=r),null!==e&&(e=">"),null===e&&(i=s),e}function F(){var e,t,s,r;return s=i,r=i,null!==(e=b())?(60===n.charCodeAt(i)?(t="<",i++):(t=null,0===l&&a('"<"')),null!==t?e=[e,t]:(e=null,i=r)):(e=null,i=r),null!==e&&(e="<"),null===e&&(i=s),e}function k(){var e,t,s,r,o;return r=i,o=i,null!==(e=b())?(44===n.charCodeAt(i)?(t=",",i++):(t=null,0===l&&a('","')),null!==t&&null!==(s=b())?e=[e,t,s]:(e=null,i=o)):(e=null,i=o),null!==e&&(e=","),null===e&&(i=r),e}function j(){var e,t,s,r,o;return r=i,o=i,null!==(e=b())?(59===n.charCodeAt(i)?(t=";",i++):(t=null,0===l&&a('";"')),null!==t&&null!==(s=b())?e=[e,t,s]:(e=null,i=o)):(e=null,i=o),null!==e&&(e=";"),null===e&&(i=r),e}function G(){var e,t,s,r,o;return r=i,o=i,null!==(e=b())?(58===n.charCodeAt(i)?(t=":",i++):(t=null,0===l&&a('":"')),null!==t&&null!==(s=b())?e=[e,t,s]:(e=null,i=o)):(e=null,i=o),null!==e&&(e=":"),null===e&&(i=r),e}function W(){var e,t,n,s;return n=i,s=i,null!==(e=b())&&null!==(t=m())?e=[e,t]:(e=null,i=s),null!==e&&(e='"'),null===e&&(i=n),e}function V(){var e,t,n,s;return n=i,s=i,null!==(e=m())&&null!==(t=b())?e=[e,t]:(e=null,i=s),null!==e&&(e='"'),null===e&&(i=n),e}function B(){var e;return/^[!-']/.test(n.charAt(i))?(e=n.charAt(i),i++):(e=null,0===l&&a("[!-']")),null===e&&(/^[*-[]/.test(n.charAt(i))?(e=n.charAt(i),i++):(e=null,0===l&&a("[*-[]")),null===e&&(/^[\]-~]/.test(n.charAt(i))?(e=n.charAt(i),i++):(e=null,0===l&&a("[\\]-~]")),null===e&&null===(e=N())&&(e=R()))),e}function z(){var e,t,s,r,l,o;if(l=i,o=i,null!==(e=b()))if(null!==(t=m())){for(s=[],null===(r=Y())&&(r=X());null!==r;)s.push(r),null===(r=Y())&&(r=X());null!==s&&null!==(r=m())?e=[e,t,s,r]:(e=null,i=o)}else e=null,i=o;else e=null,i=o;return null!==e&&(e=function(e){return n.substring(i,e)}(l)),null===e&&(i=l),e}function K(){var e,t,s,r,l,o;if(l=i,o=i,null!==(e=b()))if(null!==(t=m())){for(s=[],null===(r=Y())&&(r=X());null!==r;)s.push(r),null===(r=Y())&&(r=X());null!==s&&null!==(r=m())?e=[e,t,s,r]:(e=null,i=o)}else e=null,i=o;else e=null,i=o;return null!==e&&(e=function(e){var t=n.substring(i,e).trim();return t.substring(1,t.length-1).replace(/\\([\x00-\x09\x0b-\x0c\x0e-\x7f])/g,"$1")}(l)),null===e&&(i=l),e}function Y(){var e;return null===(e=R())&&(33===n.charCodeAt(i)?(e="!",i++):(e=null,0===l&&a('"!"')),null===e&&(/^[#-[]/.test(n.charAt(i))?(e=n.charAt(i),i++):(e=null,0===l&&a("[#-[]")),null===e&&(/^[\]-~]/.test(n.charAt(i))?(e=n.charAt(i),i++):(e=null,0===l&&a("[\\]-~]")),null===e&&(e=N())))),e}function X(){var e,t,s;return s=i,92===n.charCodeAt(i)?(e="\\",i++):(e=null,0===l&&a('"\\\\"')),null!==e?(/^[\0-\t]/.test(n.charAt(i))?(t=n.charAt(i),i++):(t=null,0===l&&a("[\\0-\\t]")),null===t&&(/^[\x0B-\f]/.test(n.charAt(i))?(t=n.charAt(i),i++):(t=null,0===l&&a("[\\x0B-\\f]")),null===t&&(/^[\x0E-]/.test(n.charAt(i))?(t=n.charAt(i),i++):(t=null,0===l&&a("[\\x0E-]")))),null!==t?e=[e,t]:(e=null,i=s)):(e=null,i=s),e}function J(){var e,t,s,r,o,u;return o=i,u=i,null!==(e=Z())?(58===n.charCodeAt(i)?(t=":",i++):(t=null,0===l&&a('":"')),null!==t&&null!==(s=null!==(s=ne())?s:"")&&null!==(r=le())?e=[e,t,s,r]:(e=null,i=u)):(e=null,i=u),null!==e&&(e=function(){try{kn.uri=new $n(kn.scheme,kn.user,kn.host,kn.port),delete kn.scheme,delete kn.user,delete kn.host,delete kn.host_type,delete kn.port}catch(e){kn=-1}}()),null===e&&(i=o),e}function Q(){var e,t,r,o,u,c,h,d;return h=i,d=i,null!==(e=Z())?(58===n.charCodeAt(i)?(t=":",i++):(t=null,0===l&&a('":"')),null!==t&&null!==(r=null!==(r=ne())?r:"")&&null!==(o=le())&&null!==(u=Te())&&null!==(c=null!==(c=Ue())?c:"")?e=[e,t,r,o,u,c]:(e=null,i=d)):(e=null,i=d),null!==e&&(e=function(){try{kn.uri=new $n(kn.scheme,kn.user,kn.host,kn.port,kn.uri_params,kn.uri_headers),delete kn.scheme,delete kn.user,delete kn.host,delete kn.host_type,delete kn.port,delete kn.uri_params,"SIP_URI"===s&&(kn=kn.uri)}catch(e){kn=-1}}()),null===e&&(i=h),e}function Z(){var e;return null===(e=ee())&&(e=te()),e}function ee(){var e,t,s;return t=i,"sips"===n.substr(i,4).toLowerCase()?(e=n.substr(i,4),i+=4):(e=null,0===l&&a('"sips"')),null!==e&&(s=e,e=void(kn.scheme=s.toLowerCase())),null===e&&(i=t),e}function te(){var e,t,s;return t=i,"sip"===n.substr(i,3).toLowerCase()?(e=n.substr(i,3),i+=3):(e=null,0===l&&a('"sip"')),null!==e&&(s=e,e=void(kn.scheme=s.toLowerCase())),null===e&&(i=t),e}function ne(){var e,t,s,r,o,u;return r=i,o=i,null!==(e=se())?(u=i,58===n.charCodeAt(i)?(t=":",i++):(t=null,0===l&&a('":"')),null!==t&&null!==(s=ie())?t=[t,s]:(t=null,i=u),null!==(t=null!==t?t:"")?(64===n.charCodeAt(i)?(s="@",i++):(s=null,0===l&&a('"@"')),null!==s?e=[e,t,s]:(e=null,i=o)):(e=null,i=o)):(e=null,i=o),null!==e&&(e=function(e){kn.user=decodeURIComponent(n.substring(i-1,e))}(r)),null===e&&(i=r),e}function se(){var e,t;if(null===(t=E())&&null===(t=A())&&(t=re()),null!==t)for(e=[];null!==t;)e.push(t),null===(t=E())&&null===(t=A())&&(t=re());else e=null;return e}function re(){var e;return 38===n.charCodeAt(i)?(e="&",i++):(e=null,0===l&&a('"&"')),null===e&&(61===n.charCodeAt(i)?(e="=",i++):(e=null,0===l&&a('"="')),null===e&&(43===n.charCodeAt(i)?(e="+",i++):(e=null,0===l&&a('"+"')),null===e&&(36===n.charCodeAt(i)?(e="$",i++):(e=null,0===l&&a('"$"')),null===e&&(44===n.charCodeAt(i)?(e=",",i++):(e=null,0===l&&a('","')),null===e&&(59===n.charCodeAt(i)?(e=";",i++):(e=null,0===l&&a('";"')),null===e&&(63===n.charCodeAt(i)?(e="?",i++):(e=null,0===l&&a('"?"')),null===e&&(47===n.charCodeAt(i)?(e="/",i++):(e=null,0===l&&a('"/"'))))))))),e}function ie(){var e,t,s;for(s=i,e=[],null===(t=E())&&null===(t=A())&&(38===n.charCodeAt(i)?(t="&",i++):(t=null,0===l&&a('"&"')),null===t&&(61===n.charCodeAt(i)?(t="=",i++):(t=null,0===l&&a('"="')),null===t&&(43===n.charCodeAt(i)?(t="+",i++):(t=null,0===l&&a('"+"')),null===t&&(36===n.charCodeAt(i)?(t="$",i++):(t=null,0===l&&a('"$"')),null===t&&(44===n.charCodeAt(i)?(t=",",i++):(t=null,0===l&&a('","')))))));null!==t;)e.push(t),null===(t=E())&&null===(t=A())&&(38===n.charCodeAt(i)?(t="&",i++):(t=null,0===l&&a('"&"')),null===t&&(61===n.charCodeAt(i)?(t="=",i++):(t=null,0===l&&a('"="')),null===t&&(43===n.charCodeAt(i)?(t="+",i++):(t=null,0===l&&a('"+"')),null===t&&(36===n.charCodeAt(i)?(t="$",i++):(t=null,0===l&&a('"$"')),null===t&&(44===n.charCodeAt(i)?(t=",",i++):(t=null,0===l&&a('","')))))));return null!==e&&(e=function(e){kn.password=n.substring(i,e)}(s)),null===e&&(i=s),e}function le(){var e,t,s,r,o;return r=i,null!==(e=oe())?(o=i,58===n.charCodeAt(i)?(t=":",i++):(t=null,0===l&&a('":"')),null!==t&&null!==(s=ge())?t=[t,s]:(t=null,i=o),null!==(t=null!==t?t:"")?e=[e,t]:(e=null,i=r)):(e=null,i=r),e}function oe(){var e,t;return t=i,null===(e=ue())&&null===(e=fe())&&(e=he()),null!==e&&(e=function(e){return kn.host=n.substring(i,e).toLowerCase(),kn.host}(t)),null===e&&(i=t),e}function ue(){var e,t,s,r,o,u;for(r=i,o=i,e=[],u=i,null!==(t=ae())?(46===n.charCodeAt(i)?(s=".",i++):(s=null,0===l&&a('"."')),null!==s?t=[t,s]:(t=null,i=u)):(t=null,i=u);null!==t;)e.push(t),u=i,null!==(t=ae())?(46===n.charCodeAt(i)?(s=".",i++):(s=null,0===l&&a('"."')),null!==s?t=[t,s]:(t=null,i=u)):(t=null,i=u);return null!==e&&null!==(t=ce())?(46===n.charCodeAt(i)?(s=".",i++):(s=null,0===l&&a('"."')),null!==(s=null!==s?s:"")?e=[e,t,s]:(e=null,i=o)):(e=null,i=o),null!==e&&(e=function(e){return kn.host_type="domain",n.substring(i,e)}(r)),null===e&&(i=r),e}function ae(){var e,t,s,r;if(r=i,null!==(e=C())){for(t=[],null===(s=C())&&(45===n.charCodeAt(i)?(s="-",i++):(s=null,0===l&&a('"-"')),null===s&&(95===n.charCodeAt(i)?(s="_",i++):(s=null,0===l&&a('"_"'))));null!==s;)t.push(s),null===(s=C())&&(45===n.charCodeAt(i)?(s="-",i++):(s=null,0===l&&a('"-"')),null===s&&(95===n.charCodeAt(i)?(s="_",i++):(s=null,0===l&&a('"_"'))));null!==t?e=[e,t]:(e=null,i=r)}else e=null,i=r;return e}function ce(){var e,t,s,r;if(r=i,null!==(e=d())){for(t=[],null===(s=C())&&(45===n.charCodeAt(i)?(s="-",i++):(s=null,0===l&&a('"-"')),null===s&&(95===n.charCodeAt(i)?(s="_",i++):(s=null,0===l&&a('"_"'))));null!==s;)t.push(s),null===(s=C())&&(45===n.charCodeAt(i)?(s="-",i++):(s=null,0===l&&a('"-"')),null===s&&(95===n.charCodeAt(i)?(s="_",i++):(s=null,0===l&&a('"_"'))));null!==t?e=[e,t]:(e=null,i=r)}else e=null,i=r;return e}function he(){var e,t,s,r,o;return r=i,o=i,91===n.charCodeAt(i)?(e="[",i++):(e=null,0===l&&a('"["')),null!==e&&null!==(t=de())?(93===n.charCodeAt(i)?(s="]",i++):(s=null,0===l&&a('"]"')),null!==s?e=[e,t,s]:(e=null,i=o)):(e=null,i=o),null!==e&&(e=function(e){return kn.host_type="IPv6",n.substring(i,e)}(r)),null===e&&(i=r),e}function de(){var e,t,s,r,o,u,c,h,d,_,p,f,m,g,T,C;return g=i,T=i,null!==(e=_e())?(58===n.charCodeAt(i)?(t=":",i++):(t=null,0===l&&a('":"')),null!==t&&null!==(s=_e())?(58===n.charCodeAt(i)?(r=":",i++):(r=null,0===l&&a('":"')),null!==r&&null!==(o=_e())?(58===n.charCodeAt(i)?(u=":",i++):(u=null,0===l&&a('":"')),null!==u&&null!==(c=_e())?(58===n.charCodeAt(i)?(h=":",i++):(h=null,0===l&&a('":"')),null!==h&&null!==(d=_e())?(58===n.charCodeAt(i)?(_=":",i++):(_=null,0===l&&a('":"')),null!==_&&null!==(p=_e())?(58===n.charCodeAt(i)?(f=":",i++):(f=null,0===l&&a('":"')),null!==f&&null!==(m=pe())?e=[e,t,s,r,o,u,c,h,d,_,p,f,m]:(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T),null===e&&(T=i,"::"===n.substr(i,2)?(e="::",i+=2):(e=null,0===l&&a('"::"')),null!==e&&null!==(t=_e())?(58===n.charCodeAt(i)?(s=":",i++):(s=null,0===l&&a('":"')),null!==s&&null!==(r=_e())?(58===n.charCodeAt(i)?(o=":",i++):(o=null,0===l&&a('":"')),null!==o&&null!==(u=_e())?(58===n.charCodeAt(i)?(c=":",i++):(c=null,0===l&&a('":"')),null!==c&&null!==(h=_e())?(58===n.charCodeAt(i)?(d=":",i++):(d=null,0===l&&a('":"')),null!==d&&null!==(_=_e())?(58===n.charCodeAt(i)?(p=":",i++):(p=null,0===l&&a('":"')),null!==p&&null!==(f=pe())?e=[e,t,s,r,o,u,c,h,d,_,p,f]:(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T),null===e&&(T=i,"::"===n.substr(i,2)?(e="::",i+=2):(e=null,0===l&&a('"::"')),null!==e&&null!==(t=_e())?(58===n.charCodeAt(i)?(s=":",i++):(s=null,0===l&&a('":"')),null!==s&&null!==(r=_e())?(58===n.charCodeAt(i)?(o=":",i++):(o=null,0===l&&a('":"')),null!==o&&null!==(u=_e())?(58===n.charCodeAt(i)?(c=":",i++):(c=null,0===l&&a('":"')),null!==c&&null!==(h=_e())?(58===n.charCodeAt(i)?(d=":",i++):(d=null,0===l&&a('":"')),null!==d&&null!==(_=pe())?e=[e,t,s,r,o,u,c,h,d,_]:(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T),null===e&&(T=i,"::"===n.substr(i,2)?(e="::",i+=2):(e=null,0===l&&a('"::"')),null!==e&&null!==(t=_e())?(58===n.charCodeAt(i)?(s=":",i++):(s=null,0===l&&a('":"')),null!==s&&null!==(r=_e())?(58===n.charCodeAt(i)?(o=":",i++):(o=null,0===l&&a('":"')),null!==o&&null!==(u=_e())?(58===n.charCodeAt(i)?(c=":",i++):(c=null,0===l&&a('":"')),null!==c&&null!==(h=pe())?e=[e,t,s,r,o,u,c,h]:(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T),null===e&&(T=i,"::"===n.substr(i,2)?(e="::",i+=2):(e=null,0===l&&a('"::"')),null!==e&&null!==(t=_e())?(58===n.charCodeAt(i)?(s=":",i++):(s=null,0===l&&a('":"')),null!==s&&null!==(r=_e())?(58===n.charCodeAt(i)?(o=":",i++):(o=null,0===l&&a('":"')),null!==o&&null!==(u=pe())?e=[e,t,s,r,o,u]:(e=null,i=T)):(e=null,i=T)):(e=null,i=T),null===e&&(T=i,"::"===n.substr(i,2)?(e="::",i+=2):(e=null,0===l&&a('"::"')),null!==e&&null!==(t=_e())?(58===n.charCodeAt(i)?(s=":",i++):(s=null,0===l&&a('":"')),null!==s&&null!==(r=pe())?e=[e,t,s,r]:(e=null,i=T)):(e=null,i=T),null===e&&(T=i,"::"===n.substr(i,2)?(e="::",i+=2):(e=null,0===l&&a('"::"')),null!==e&&null!==(t=pe())?e=[e,t]:(e=null,i=T),null===e&&(T=i,"::"===n.substr(i,2)?(e="::",i+=2):(e=null,0===l&&a('"::"')),null!==e&&null!==(t=_e())?e=[e,t]:(e=null,i=T),null===e&&(T=i,null!==(e=_e())?("::"===n.substr(i,2)?(t="::",i+=2):(t=null,0===l&&a('"::"')),null!==t&&null!==(s=_e())?(58===n.charCodeAt(i)?(r=":",i++):(r=null,0===l&&a('":"')),null!==r&&null!==(o=_e())?(58===n.charCodeAt(i)?(u=":",i++):(u=null,0===l&&a('":"')),null!==u&&null!==(c=_e())?(58===n.charCodeAt(i)?(h=":",i++):(h=null,0===l&&a('":"')),null!==h&&null!==(d=_e())?(58===n.charCodeAt(i)?(_=":",i++):(_=null,0===l&&a('":"')),null!==_&&null!==(p=pe())?e=[e,t,s,r,o,u,c,h,d,_,p]:(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T),null===e&&(T=i,null!==(e=_e())?(C=i,58===n.charCodeAt(i)?(t=":",i++):(t=null,0===l&&a('":"')),null!==t&&null!==(s=_e())?t=[t,s]:(t=null,i=C),null!==(t=null!==t?t:"")?("::"===n.substr(i,2)?(s="::",i+=2):(s=null,0===l&&a('"::"')),null!==s&&null!==(r=_e())?(58===n.charCodeAt(i)?(o=":",i++):(o=null,0===l&&a('":"')),null!==o&&null!==(u=_e())?(58===n.charCodeAt(i)?(c=":",i++):(c=null,0===l&&a('":"')),null!==c&&null!==(h=_e())?(58===n.charCodeAt(i)?(d=":",i++):(d=null,0===l&&a('":"')),null!==d&&null!==(_=pe())?e=[e,t,s,r,o,u,c,h,d,_]:(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T),null===e&&(T=i,null!==(e=_e())?(C=i,58===n.charCodeAt(i)?(t=":",i++):(t=null,0===l&&a('":"')),null!==t&&null!==(s=_e())?t=[t,s]:(t=null,i=C),null!==(t=null!==t?t:"")?(C=i,58===n.charCodeAt(i)?(s=":",i++):(s=null,0===l&&a('":"')),null!==s&&null!==(r=_e())?s=[s,r]:(s=null,i=C),null!==(s=null!==s?s:"")?("::"===n.substr(i,2)?(r="::",i+=2):(r=null,0===l&&a('"::"')),null!==r&&null!==(o=_e())?(58===n.charCodeAt(i)?(u=":",i++):(u=null,0===l&&a('":"')),null!==u&&null!==(c=_e())?(58===n.charCodeAt(i)?(h=":",i++):(h=null,0===l&&a('":"')),null!==h&&null!==(d=pe())?e=[e,t,s,r,o,u,c,h,d]:(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T),null===e&&(T=i,null!==(e=_e())?(C=i,58===n.charCodeAt(i)?(t=":",i++):(t=null,0===l&&a('":"')),null!==t&&null!==(s=_e())?t=[t,s]:(t=null,i=C),null!==(t=null!==t?t:"")?(C=i,58===n.charCodeAt(i)?(s=":",i++):(s=null,0===l&&a('":"')),null!==s&&null!==(r=_e())?s=[s,r]:(s=null,i=C),null!==(s=null!==s?s:"")?(C=i,58===n.charCodeAt(i)?(r=":",i++):(r=null,0===l&&a('":"')),null!==r&&null!==(o=_e())?r=[r,o]:(r=null,i=C),null!==(r=null!==r?r:"")?("::"===n.substr(i,2)?(o="::",i+=2):(o=null,0===l&&a('"::"')),null!==o&&null!==(u=_e())?(58===n.charCodeAt(i)?(c=":",i++):(c=null,0===l&&a('":"')),null!==c&&null!==(h=pe())?e=[e,t,s,r,o,u,c,h]:(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T),null===e&&(T=i,null!==(e=_e())?(C=i,58===n.charCodeAt(i)?(t=":",i++):(t=null,0===l&&a('":"')),null!==t&&null!==(s=_e())?t=[t,s]:(t=null,i=C),null!==(t=null!==t?t:"")?(C=i,58===n.charCodeAt(i)?(s=":",i++):(s=null,0===l&&a('":"')),null!==s&&null!==(r=_e())?s=[s,r]:(s=null,i=C),null!==(s=null!==s?s:"")?(C=i,58===n.charCodeAt(i)?(r=":",i++):(r=null,0===l&&a('":"')),null!==r&&null!==(o=_e())?r=[r,o]:(r=null,i=C),null!==(r=null!==r?r:"")?(C=i,58===n.charCodeAt(i)?(o=":",i++):(o=null,0===l&&a('":"')),null!==o&&null!==(u=_e())?o=[o,u]:(o=null,i=C),null!==(o=null!==o?o:"")?("::"===n.substr(i,2)?(u="::",i+=2):(u=null,0===l&&a('"::"')),null!==u&&null!==(c=pe())?e=[e,t,s,r,o,u,c]:(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T),null===e&&(T=i,null!==(e=_e())?(C=i,58===n.charCodeAt(i)?(t=":",i++):(t=null,0===l&&a('":"')),null!==t&&null!==(s=_e())?t=[t,s]:(t=null,i=C),null!==(t=null!==t?t:"")?(C=i,58===n.charCodeAt(i)?(s=":",i++):(s=null,0===l&&a('":"')),null!==s&&null!==(r=_e())?s=[s,r]:(s=null,i=C),null!==(s=null!==s?s:"")?(C=i,58===n.charCodeAt(i)?(r=":",i++):(r=null,0===l&&a('":"')),null!==r&&null!==(o=_e())?r=[r,o]:(r=null,i=C),null!==(r=null!==r?r:"")?(C=i,58===n.charCodeAt(i)?(o=":",i++):(o=null,0===l&&a('":"')),null!==o&&null!==(u=_e())?o=[o,u]:(o=null,i=C),null!==(o=null!==o?o:"")?(C=i,58===n.charCodeAt(i)?(u=":",i++):(u=null,0===l&&a('":"')),null!==u&&null!==(c=_e())?u=[u,c]:(u=null,i=C),null!==(u=null!==u?u:"")?("::"===n.substr(i,2)?(c="::",i+=2):(c=null,0===l&&a('"::"')),null!==c&&null!==(h=_e())?e=[e,t,s,r,o,u,c,h]:(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T),null===e&&(T=i,null!==(e=_e())?(C=i,58===n.charCodeAt(i)?(t=":",i++):(t=null,0===l&&a('":"')),null!==t&&null!==(s=_e())?t=[t,s]:(t=null,i=C),null!==(t=null!==t?t:"")?(C=i,58===n.charCodeAt(i)?(s=":",i++):(s=null,0===l&&a('":"')),null!==s&&null!==(r=_e())?s=[s,r]:(s=null,i=C),null!==(s=null!==s?s:"")?(C=i,58===n.charCodeAt(i)?(r=":",i++):(r=null,0===l&&a('":"')),null!==r&&null!==(o=_e())?r=[r,o]:(r=null,i=C),null!==(r=null!==r?r:"")?(C=i,58===n.charCodeAt(i)?(o=":",i++):(o=null,0===l&&a('":"')),null!==o&&null!==(u=_e())?o=[o,u]:(o=null,i=C),null!==(o=null!==o?o:"")?(C=i,58===n.charCodeAt(i)?(u=":",i++):(u=null,0===l&&a('":"')),null!==u&&null!==(c=_e())?u=[u,c]:(u=null,i=C),null!==(u=null!==u?u:"")?(C=i,58===n.charCodeAt(i)?(c=":",i++):(c=null,0===l&&a('":"')),null!==c&&null!==(h=_e())?c=[c,h]:(c=null,i=C),null!==(c=null!==c?c:"")?("::"===n.substr(i,2)?(h="::",i+=2):(h=null,0===l&&a('"::"')),null!==h?e=[e,t,s,r,o,u,c,h]:(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T)):(e=null,i=T))))))))))))))),null!==e&&(e=function(e){return kn.host_type="IPv6",n.substring(i,e)}(g)),null===e&&(i=g),e}function _e(){var e,t,n,s,r;return r=i,null!==(e=_())&&null!==(t=null!==(t=_())?t:"")&&null!==(n=null!==(n=_())?n:"")&&null!==(s=null!==(s=_())?s:"")?e=[e,t,n,s]:(e=null,i=r),e}function pe(){var e,t,s,r;return r=i,null!==(e=_e())?(58===n.charCodeAt(i)?(t=":",i++):(t=null,0===l&&a('":"')),null!==t&&null!==(s=_e())?e=[e,t,s]:(e=null,i=r)):(e=null,i=r),null===e&&(e=fe()),e}function fe(){var e,t,s,r,o,u,c,h,d;return h=i,d=i,null!==(e=me())?(46===n.charCodeAt(i)?(t=".",i++):(t=null,0===l&&a('"."')),null!==t&&null!==(s=me())?(46===n.charCodeAt(i)?(r=".",i++):(r=null,0===l&&a('"."')),null!==r&&null!==(o=me())?(46===n.charCodeAt(i)?(u=".",i++):(u=null,0===l&&a('"."')),null!==u&&null!==(c=me())?e=[e,t,s,r,o,u,c]:(e=null,i=d)):(e=null,i=d)):(e=null,i=d)):(e=null,i=d),null!==e&&(e=function(e){return kn.host_type="IPv4",n.substring(i,e)}(h)),null===e&&(i=h),e}function me(){var e,t,s,r;return r=i,"25"===n.substr(i,2)?(e="25",i+=2):(e=null,0===l&&a('"25"')),null!==e?(/^[0-5]/.test(n.charAt(i))?(t=n.charAt(i),i++):(t=null,0===l&&a("[0-5]")),null!==t?e=[e,t]:(e=null,i=r)):(e=null,i=r),null===e&&(r=i,50===n.charCodeAt(i)?(e="2",i++):(e=null,0===l&&a('"2"')),null!==e?(/^[0-4]/.test(n.charAt(i))?(t=n.charAt(i),i++):(t=null,0===l&&a("[0-4]")),null!==t&&null!==(s=h())?e=[e,t,s]:(e=null,i=r)):(e=null,i=r),null===e&&(r=i,49===n.charCodeAt(i)?(e="1",i++):(e=null,0===l&&a('"1"')),null!==e&&null!==(t=h())&&null!==(s=h())?e=[e,t,s]:(e=null,i=r),null===e&&(r=i,/^[1-9]/.test(n.charAt(i))?(e=n.charAt(i),i++):(e=null,0===l&&a("[1-9]")),null!==e&&null!==(t=h())?e=[e,t]:(e=null,i=r),null===e&&(e=h())))),e}function ge(){var e,t,n,s,r,l,o,u;return l=i,o=i,null!==(e=null!==(e=h())?e:"")&&null!==(t=null!==(t=h())?t:"")&&null!==(n=null!==(n=h())?n:"")&&null!==(s=null!==(s=h())?s:"")&&null!==(r=null!==(r=h())?r:"")?e=[e,t,n,s,r]:(e=null,i=o),null!==e&&(u=e,u=parseInt(u.join("")),kn.port=u,e=u),null===e&&(i=l),e}function Te(){var e,t,s,r;for(e=[],r=i,59===n.charCodeAt(i)?(t=";",i++):(t=null,0===l&&a('";"')),null!==t&&null!==(s=Ce())?t=[t,s]:(t=null,i=r);null!==t;)e.push(t),r=i,59===n.charCodeAt(i)?(t=";",i++):(t=null,0===l&&a('";"')),null!==t&&null!==(s=Ce())?t=[t,s]:(t=null,i=r);return e}function Ce(){var e;return null===(e=ve())&&null===(e=Ee())&&null===(e=Se())&&null===(e=Ae())&&null===(e=Re())&&null===(e=be())&&(e=ye()),e}function ve(){var e,t,s,r,o;return s=i,r=i,"transport="===n.substr(i,10).toLowerCase()?(e=n.substr(i,10),i+=10):(e=null,0===l&&a('"transport="')),null!==e?("udp"===n.substr(i,3).toLowerCase()?(t=n.substr(i,3),i+=3):(t=null,0===l&&a('"udp"')),null===t&&("tcp"===n.substr(i,3).toLowerCase()?(t=n.substr(i,3),i+=3):(t=null,0===l&&a('"tcp"')),null===t&&("sctp"===n.substr(i,4).toLowerCase()?(t=n.substr(i,4),i+=4):(t=null,0===l&&a('"sctp"')),null===t&&("tls"===n.substr(i,3).toLowerCase()?(t=n.substr(i,3),i+=3):(t=null,0===l&&a('"tls"')),null===t&&(t=U())))),null!==t?e=[e,t]:(e=null,i=r)):(e=null,i=r),null!==e&&(o=e[1],kn.uri_params||(kn.uri_params={}),e=void(kn.uri_params.transport=o.toLowerCase())),null===e&&(i=s),e}function Ee(){var e,t,s,r,o;return s=i,r=i,"user="===n.substr(i,5).toLowerCase()?(e=n.substr(i,5),i+=5):(e=null,0===l&&a('"user="')),null!==e?("phone"===n.substr(i,5).toLowerCase()?(t=n.substr(i,5),i+=5):(t=null,0===l&&a('"phone"')),null===t&&("ip"===n.substr(i,2).toLowerCase()?(t=n.substr(i,2),i+=2):(t=null,0===l&&a('"ip"')),null===t&&(t=U())),null!==t?e=[e,t]:(e=null,i=r)):(e=null,i=r),null!==e&&(o=e[1],kn.uri_params||(kn.uri_params={}),e=void(kn.uri_params.user=o.toLowerCase())),null===e&&(i=s),e}function Se(){var e,t,s,r,o;return s=i,r=i,"method="===n.substr(i,7).toLowerCase()?(e=n.substr(i,7),i+=7):(e=null,0===l&&a('"method="')),null!==e&&null!==(t=ct())?e=[e,t]:(e=null,i=r),null!==e&&(o=e[1],kn.uri_params||(kn.uri_params={}),e=void(kn.uri_params.method=o)),null===e&&(i=s),e}function Ae(){var e,t,s,r,o;return s=i,r=i,"ttl="===n.substr(i,4).toLowerCase()?(e=n.substr(i,4),i+=4):(e=null,0===l&&a('"ttl="')),null!==e&&null!==(t=bn())?e=[e,t]:(e=null,i=r),null!==e&&(o=e[1],kn.params||(kn.params={}),e=void(kn.params.ttl=o)),null===e&&(i=s),e}function Re(){var e,t,s,r,o;return s=i,r=i,"maddr="===n.substr(i,6).toLowerCase()?(e=n.substr(i,6),i+=6):(e=null,0===l&&a('"maddr="')),null!==e&&null!==(t=oe())?e=[e,t]:(e=null,i=r),null!==e&&(o=e[1],kn.uri_params||(kn.uri_params={}),e=void(kn.uri_params.maddr=o)),null===e&&(i=s),e}function be(){var e,t,s,r,o,u;return r=i,o=i,"lr"===n.substr(i,2).toLowerCase()?(e=n.substr(i,2),i+=2):(e=null,0===l&&a('"lr"')),null!==e?(u=i,61===n.charCodeAt(i)?(t="=",i++):(t=null,0===l&&a('"="')),null!==t&&null!==(s=U())?t=[t,s]:(t=null,i=u),null!==(t=null!==t?t:"")?e=[e,t]:(e=null,i=o)):(e=null,i=o),null!==e&&(kn.uri_params||(kn.uri_params={}),e=void(kn.uri_params.lr=void 0)),null===e&&(i=r),e}function ye(){var e,t,s,r,o,u,c,h;return r=i,o=i,null!==(e=we())?(u=i,61===n.charCodeAt(i)?(t="=",i++):(t=null,0===l&&a('"="')),null!==t&&null!==(s=Ie())?t=[t,s]:(t=null,i=u),null!==(t=null!==t?t:"")?e=[e,t]:(e=null,i=o)):(e=null,i=o),null!==e&&(c=e[0],h=e[1],kn.uri_params||(kn.uri_params={}),h=void 0===h?void 0:h[1],e=void(kn.uri_params[c.toLowerCase()]=h)),null===e&&(i=r),e}function we(){var e,t,n;if(n=i,null!==(t=Ne()))for(e=[];null!==t;)e.push(t),t=Ne();else e=null;return null!==e&&(e=e.join("")),null===e&&(i=n),e}function Ie(){var e,t,n;if(n=i,null!==(t=Ne()))for(e=[];null!==t;)e.push(t),t=Ne();else e=null;return null!==e&&(e=e.join("")),null===e&&(i=n),e}function Ne(){var e;return null===(e=Oe())&&null===(e=E())&&(e=A()),e}function Oe(){var e;return 91===n.charCodeAt(i)?(e="[",i++):(e=null,0===l&&a('"["')),null===e&&(93===n.charCodeAt(i)?(e="]",i++):(e=null,0===l&&a('"]"')),null===e&&(47===n.charCodeAt(i)?(e="/",i++):(e=null,0===l&&a('"/"')),null===e&&(58===n.charCodeAt(i)?(e=":",i++):(e=null,0===l&&a('":"')),null===e&&(38===n.charCodeAt(i)?(e="&",i++):(e=null,0===l&&a('"&"')),null===e&&(43===n.charCodeAt(i)?(e="+",i++):(e=null,0===l&&a('"+"')),null===e&&(36===n.charCodeAt(i)?(e="$",i++):(e=null,0===l&&a('"$"')))))))),e}function Ue(){var e,t,s,r,o,u,c;if(u=i,63===n.charCodeAt(i)?(e="?",i++):(e=null,0===l&&a('"?"')),null!==e)if(null!==(t=xe())){for(s=[],c=i,38===n.charCodeAt(i)?(r="&",i++):(r=null,0===l&&a('"&"')),null!==r&&null!==(o=xe())?r=[r,o]:(r=null,i=c);null!==r;)s.push(r),c=i,38===n.charCodeAt(i)?(r="&",i++):(r=null,0===l&&a('"&"')),null!==r&&null!==(o=xe())?r=[r,o]:(r=null,i=c);null!==s?e=[e,t,s]:(e=null,i=u)}else e=null,i=u;else e=null,i=u;return e}function xe(){var e,t,s,r,o,u,c;return r=i,o=i,null!==(e=De())?(61===n.charCodeAt(i)?(t="=",i++):(t=null,0===l&&a('"="')),null!==t&&null!==(s=Pe())?e=[e,t,s]:(e=null,i=o)):(e=null,i=o),null!==e&&(u=e[0],c=e[2],u=u.join("").toLowerCase(),c=c.join(""),kn.uri_headers||(kn.uri_headers={}),e=void(kn.uri_headers[u]?kn.uri_headers[u].push(c):kn.uri_headers[u]=[c])),null===e&&(i=r),e}function De(){var e,t;if(null===(t=qe())&&null===(t=E())&&(t=A()),null!==t)for(e=[];null!==t;)e.push(t),null===(t=qe())&&null===(t=E())&&(t=A());else e=null;return e}function Pe(){var e,t;for(e=[],null===(t=qe())&&null===(t=E())&&(t=A());null!==t;)e.push(t),null===(t=qe())&&null===(t=E())&&(t=A());return e}function qe(){var e;return 91===n.charCodeAt(i)?(e="[",i++):(e=null,0===l&&a('"["')),null===e&&(93===n.charCodeAt(i)?(e="]",i++):(e=null,0===l&&a('"]"')),null===e&&(47===n.charCodeAt(i)?(e="/",i++):(e=null,0===l&&a('"/"')),null===e&&(63===n.charCodeAt(i)?(e="?",i++):(e=null,0===l&&a('"?"')),null===e&&(58===n.charCodeAt(i)?(e=":",i++):(e=null,0===l&&a('":"')),null===e&&(43===n.charCodeAt(i)?(e="+",i++):(e=null,0===l&&a('"+"')),null===e&&(36===n.charCodeAt(i)?(e="$",i++):(e=null,0===l&&a('"$"')))))))),e}function Le(){var e,t,n,s,r,l;return l=i,null!==(e=ct())&&null!==(t=g())&&null!==(n=Me())&&null!==(s=g())&&null!==(r=et())?e=[e,t,n,s,r]:(e=null,i=l),e}function Me(){var e;return null===(e=Q())&&(e=He()),e}function He(){var e,t,s,r;return r=i,null!==(e=Ye())?(58===n.charCodeAt(i)?(t=":",i++):(t=null,0===l&&a('":"')),null!==t?(null===(s=$e())&&(s=je()),null!==s?e=[e,t,s]:(e=null,i=r)):(e=null,i=r)):(e=null,i=r),e}function $e(){var e,t,s,r,o;return r=i,null===(e=Fe())&&(e=ke()),null!==e?(o=i,63===n.charCodeAt(i)?(t="?",i++):(t=null,0===l&&a('"?"')),null!==t&&null!==(s=Ze())?t=[t,s]:(t=null,i=o),null!==(t=null!==t?t:"")?e=[e,t]:(e=null,i=r)):(e=null,i=r),e}function Fe(){var e,t,s,r;return r=i,"//"===n.substr(i,2)?(e="//",i+=2):(e=null,0===l&&a('"//"')),null!==e&&null!==(t=Xe())&&null!==(s=null!==(s=ke())?s:"")?e=[e,t,s]:(e=null,i=r),e}function ke(){var e,t,s;return s=i,47===n.charCodeAt(i)?(e="/",i++):(e=null,0===l&&a('"/"')),null!==e&&null!==(t=Ve())?e=[e,t]:(e=null,i=s),e}function je(){var e,t,n,s;if(s=i,null!==(e=We())){for(t=[],n=Ge();null!==n;)t.push(n),n=Ge();null!==t?e=[e,t]:(e=null,i=s)}else e=null,i=s;return e}function Ge(){var e;return null===(e=v())&&null===(e=E())&&(e=A()),e}function We(){var e;return null===(e=E())&&null===(e=A())&&(59===n.charCodeAt(i)?(e=";",i++):(e=null,0===l&&a('";"')),null===e&&(63===n.charCodeAt(i)?(e="?",i++):(e=null,0===l&&a('"?"')),null===e&&(58===n.charCodeAt(i)?(e=":",i++):(e=null,0===l&&a('":"')),null===e&&(64===n.charCodeAt(i)?(e="@",i++):(e=null,0===l&&a('"@"')),null===e&&(38===n.charCodeAt(i)?(e="&",i++):(e=null,0===l&&a('"&"')),null===e&&(61===n.charCodeAt(i)?(e="=",i++):(e=null,0===l&&a('"="')),null===e&&(43===n.charCodeAt(i)?(e="+",i++):(e=null,0===l&&a('"+"')),null===e&&(36===n.charCodeAt(i)?(e="$",i++):(e=null,0===l&&a('"$"')),null===e&&(44===n.charCodeAt(i)?(e=",",i++):(e=null,0===l&&a('","'))))))))))),e}function Ve(){var e,t,s,r,o,u;if(o=i,null!==(e=Be())){for(t=[],u=i,47===n.charCodeAt(i)?(s="/",i++):(s=null,0===l&&a('"/"')),null!==s&&null!==(r=Be())?s=[s,r]:(s=null,i=u);null!==s;)t.push(s),u=i,47===n.charCodeAt(i)?(s="/",i++):(s=null,0===l&&a('"/"')),null!==s&&null!==(r=Be())?s=[s,r]:(s=null,i=u);null!==t?e=[e,t]:(e=null,i=o)}else e=null,i=o;return e}function Be(){var e,t,s,r,o,u;for(o=i,e=[],t=Ke();null!==t;)e.push(t),t=Ke();if(null!==e){for(t=[],u=i,59===n.charCodeAt(i)?(s=";",i++):(s=null,0===l&&a('";"')),null!==s&&null!==(r=ze())?s=[s,r]:(s=null,i=u);null!==s;)t.push(s),u=i,59===n.charCodeAt(i)?(s=";",i++):(s=null,0===l&&a('";"')),null!==s&&null!==(r=ze())?s=[s,r]:(s=null,i=u);null!==t?e=[e,t]:(e=null,i=o)}else e=null,i=o;return e}function ze(){var e,t;for(e=[],t=Ke();null!==t;)e.push(t),t=Ke();return e}function Ke(){var e;return null===(e=E())&&null===(e=A())&&(58===n.charCodeAt(i)?(e=":",i++):(e=null,0===l&&a('":"')),null===e&&(64===n.charCodeAt(i)?(e="@",i++):(e=null,0===l&&a('"@"')),null===e&&(38===n.charCodeAt(i)?(e="&",i++):(e=null,0===l&&a('"&"')),null===e&&(61===n.charCodeAt(i)?(e="=",i++):(e=null,0===l&&a('"="')),null===e&&(43===n.charCodeAt(i)?(e="+",i++):(e=null,0===l&&a('"+"')),null===e&&(36===n.charCodeAt(i)?(e="$",i++):(e=null,0===l&&a('"$"')),null===e&&(44===n.charCodeAt(i)?(e=",",i++):(e=null,0===l&&a('","'))))))))),e}function Ye(){var e,t,s,r,o;if(r=i,o=i,null!==(e=d())){for(t=[],null===(s=d())&&null===(s=h())&&(43===n.charCodeAt(i)?(s="+",i++):(s=null,0===l&&a('"+"')),null===s&&(45===n.charCodeAt(i)?(s="-",i++):(s=null,0===l&&a('"-"')),null===s&&(46===n.charCodeAt(i)?(s=".",i++):(s=null,0===l&&a('"."')))));null!==s;)t.push(s),null===(s=d())&&null===(s=h())&&(43===n.charCodeAt(i)?(s="+",i++):(s=null,0===l&&a('"+"')),null===s&&(45===n.charCodeAt(i)?(s="-",i++):(s=null,0===l&&a('"-"')),null===s&&(46===n.charCodeAt(i)?(s=".",i++):(s=null,0===l&&a('"."')))));null!==t?e=[e,t]:(e=null,i=o)}else e=null,i=o;return null!==e&&(e=function(e){kn.scheme=n.substring(i,e)}(r)),null===e&&(i=r),e}function Xe(){var e;return null===(e=Je())&&(e=Qe()),e}function Je(){var e,t,s,r;return s=i,r=i,null!==(e=ne())?(64===n.charCodeAt(i)?(t="@",i++):(t=null,0===l&&a('"@"')),null!==t?e=[e,t]:(e=null,i=r)):(e=null,i=r),null!==(e=null!==e?e:"")&&null!==(t=le())?e=[e,t]:(e=null,i=s),e=null!==e?e:""}function Qe(){var e,t;if(null===(t=E())&&null===(t=A())&&(36===n.charCodeAt(i)?(t="$",i++):(t=null,0===l&&a('"$"')),null===t&&(44===n.charCodeAt(i)?(t=",",i++):(t=null,0===l&&a('","')),null===t&&(59===n.charCodeAt(i)?(t=";",i++):(t=null,0===l&&a('";"')),null===t&&(58===n.charCodeAt(i)?(t=":",i++):(t=null,0===l&&a('":"')),null===t&&(64===n.charCodeAt(i)?(t="@",i++):(t=null,0===l&&a('"@"')),null===t&&(38===n.charCodeAt(i)?(t="&",i++):(t=null,0===l&&a('"&"')),null===t&&(61===n.charCodeAt(i)?(t="=",i++):(t=null,0===l&&a('"="')),null===t&&(43===n.charCodeAt(i)?(t="+",i++):(t=null,0===l&&a('"+"')))))))))),null!==t)for(e=[];null!==t;)e.push(t),null===(t=E())&&null===(t=A())&&(36===n.charCodeAt(i)?(t="$",i++):(t=null,0===l&&a('"$"')),null===t&&(44===n.charCodeAt(i)?(t=",",i++):(t=null,0===l&&a('","')),null===t&&(59===n.charCodeAt(i)?(t=";",i++):(t=null,0===l&&a('";"')),null===t&&(58===n.charCodeAt(i)?(t=":",i++):(t=null,0===l&&a('":"')),null===t&&(64===n.charCodeAt(i)?(t="@",i++):(t=null,0===l&&a('"@"')),null===t&&(38===n.charCodeAt(i)?(t="&",i++):(t=null,0===l&&a('"&"')),null===t&&(61===n.charCodeAt(i)?(t="=",i++):(t=null,0===l&&a('"="')),null===t&&(43===n.charCodeAt(i)?(t="+",i++):(t=null,0===l&&a('"+"'))))))))));else e=null;return e}function Ze(){var e,t;for(e=[],t=Ge();null!==t;)e.push(t),t=Ge();return e}function et(){var e,t,s,r,o,u,c,d;if(c=i,d=i,"sip"===n.substr(i,3).toLowerCase()?(e=n.substr(i,3),i+=3):(e=null,0===l&&a('"SIP"')),null!==e)if(47===n.charCodeAt(i)?(t="/",i++):(t=null,0===l&&a('"/"')),null!==t){if(null!==(r=h()))for(s=[];null!==r;)s.push(r),r=h();else s=null;if(null!==s)if(46===n.charCodeAt(i)?(r=".",i++):(r=null,0===l&&a('"."')),null!==r){if(null!==(u=h()))for(o=[];null!==u;)o.push(u),u=h();else o=null;null!==o?e=[e,t,s,r,o]:(e=null,i=d)}else e=null,i=d;else e=null,i=d}else e=null,i=d;else e=null,i=d;return null!==e&&(e=function(e){kn.sip_version=n.substring(i,e)}(c)),null===e&&(i=c),e}function tt(){var e;return"INVITE"===n.substr(i,6)?(e="INVITE",i+=6):(e=null,0===l&&a('"INVITE"')),e}function nt(){var e;return"ACK"===n.substr(i,3)?(e="ACK",i+=3):(e=null,0===l&&a('"ACK"')),e}function st(){var e;return"OPTIONS"===n.substr(i,7)?(e="OPTIONS",i+=7):(e=null,0===l&&a('"OPTIONS"')),e}function rt(){var e;return"BYE"===n.substr(i,3)?(e="BYE",i+=3):(e=null,0===l&&a('"BYE"')),e}function it(){var e;return"CANCEL"===n.substr(i,6)?(e="CANCEL",i+=6):(e=null,0===l&&a('"CANCEL"')),e}function lt(){var e;return"REGISTER"===n.substr(i,8)?(e="REGISTER",i+=8):(e=null,0===l&&a('"REGISTER"')),e}function ot(){var e;return"SUBSCRIBE"===n.substr(i,9)?(e="SUBSCRIBE",i+=9):(e=null,0===l&&a('"SUBSCRIBE"')),e}function ut(){var e;return"NOTIFY"===n.substr(i,6)?(e="NOTIFY",i+=6):(e=null,0===l&&a('"NOTIFY"')),e}function at(){var e;return"REFER"===n.substr(i,5)?(e="REFER",i+=5):(e=null,0===l&&a('"REFER"')),e}function ct(){var e,t;return t=i,null===(e=tt())&&null===(e=nt())&&null===(e=st())&&null===(e=rt())&&null===(e=it())&&null===(e=lt())&&null===(e=ot())&&null===(e=ut())&&null===(e=at())&&(e=U()),null!==e&&(e=function(e){return kn.method=n.substring(i,e),kn.method}(t)),null===e&&(i=t),e}function ht(){var e,t,n,s,r,l;return l=i,null!==(e=et())&&null!==(t=g())&&null!==(n=dt())&&null!==(s=g())&&null!==(r=pt())?e=[e,t,n,s,r]:(e=null,i=l),e}function dt(){var e,t,n;return t=i,null!==(e=_t())&&(n=e,e=void(kn.status_code=parseInt(n.join("")))),null===e&&(i=t),e}function _t(){var e,t,n,s;return s=i,null!==(e=h())&&null!==(t=h())&&null!==(n=h())?e=[e,t,n]:(e=null,i=s),e}function pt(){var e,t,s;for(s=i,e=[],null===(t=v())&&null===(t=E())&&null===(t=A())&&null===(t=N())&&null===(t=O())&&null===(t=g())&&(t=T());null!==t;)e.push(t),null===(t=v())&&null===(t=E())&&null===(t=A())&&null===(t=N())&&null===(t=O())&&null===(t=g())&&(t=T());return null!==e&&(e=function(e){kn.reason_phrase=n.substring(i,e)}(s)),null===e&&(i=s),e}function ft(){var e,t,n,s,r,l,o;if(r=i,l=i,null===(e=J())&&(e=mt()),null!==e){for(t=[],o=i,null!==(n=j())&&null!==(s=Tt())?n=[n,s]:(n=null,i=o);null!==n;)t.push(n),o=i,null!==(n=j())&&null!==(s=Tt())?n=[n,s]:(n=null,i=o);null!==t?e=[e,t]:(e=null,i=l)}else e=null,i=l;return null!==e&&(e=function(e){var t;kn.multi_header||(kn.multi_header=[]);try{t=new Fn(kn.uri,kn.display_name,kn.params),delete kn.uri,delete kn.display_name,delete kn.params}catch(e){t=null}kn.multi_header.push({possition:i,offset:e,parsed:t})}(r)),null===e&&(i=r),e}function mt(){var e,t,n,s,r;return r=i,null!==(e=null!==(e=gt())?e:"")&&null!==(t=F())&&null!==(n=Q())&&null!==(s=$())?e=[e,t,n,s]:(e=null,i=r),e}function gt(){var e,t,n,s,r,l,o,u;if(r=i,l=i,null!==(e=U())){for(t=[],o=i,null!==(n=R())&&null!==(s=U())?n=[n,s]:(n=null,i=o);null!==n;)t.push(n),o=i,null!==(n=R())&&null!==(s=U())?n=[n,s]:(n=null,i=o);null!==t?e=[e,t]:(e=null,i=l)}else e=null,i=l;return null===e&&(e=K()),null!==e&&(u=e,e=void(kn.display_name="string"==typeof u?u:u[1].reduce(function(e,t){return e+t[0]+t[1]},u[0]))),null===e&&(i=r),e}function Tt(){var e;return null===(e=Ct())&&null===(e=vt())&&(e=At()),e}function Ct(){var e,t,s,r,o,u;return r=i,o=i,"q"===n.substr(i,1).toLowerCase()?(e=n.substr(i,1),i++):(e=null,0===l&&a('"q"')),null!==e&&null!==(t=L())&&null!==(s=St())?e=[e,t,s]:(e=null,i=o),null!==e&&(u=e[2],kn.params||(kn.params={}),e=void(kn.params.q=u)),null===e&&(i=r),e}function vt(){var e,t,s,r,o,u;return r=i,o=i,"expires"===n.substr(i,7).toLowerCase()?(e=n.substr(i,7),i+=7):(e=null,0===l&&a('"expires"')),null!==e&&null!==(t=L())&&null!==(s=Et())?e=[e,t,s]:(e=null,i=o),null!==e&&(u=e[2],kn.params||(kn.params={}),e=void(kn.params.expires=u)),null===e&&(i=r),e}function Et(){var e,t,n;if(n=i,null!==(t=h()))for(e=[];null!==t;)e.push(t),t=h();else e=null;return null!==e&&(e=parseInt(e.join(""))),null===e&&(i=n),e}function St(){var e,t,s,r,o,u,c,d;return u=i,c=i,48===n.charCodeAt(i)?(e="0",i++):(e=null,0===l&&a('"0"')),null!==e?(d=i,46===n.charCodeAt(i)?(t=".",i++):(t=null,0===l&&a('"."')),null!==t&&null!==(s=null!==(s=h())?s:"")&&null!==(r=null!==(r=h())?r:"")&&null!==(o=null!==(o=h())?o:"")?t=[t,s,r,o]:(t=null,i=d),null!==(t=null!==t?t:"")?e=[e,t]:(e=null,i=c)):(e=null,i=c),null!==e&&(e=function(e){return parseFloat(n.substring(i,e))}(u)),null===e&&(i=u),e}function At(){var e,t,n,s,r,l,o,u;return s=i,r=i,null!==(e=U())?(l=i,null!==(t=L())&&null!==(n=Rt())?t=[t,n]:(t=null,i=l),null!==(t=null!==t?t:"")?e=[e,t]:(e=null,i=r)):(e=null,i=r),null!==e&&(o=e[0],u=e[1],kn.params||(kn.params={}),u=void 0===u?void 0:u[1],e=void(kn.params[o.toLowerCase()]=u)),null===e&&(i=s),e}function Rt(){var e;return null===(e=U())&&null===(e=oe())&&(e=z()),e}function bt(){var e;return"render"===n.substr(i,6).toLowerCase()?(e=n.substr(i,6),i+=6):(e=null,0===l&&a('"render"')),null===e&&("session"===n.substr(i,7).toLowerCase()?(e=n.substr(i,7),i+=7):(e=null,0===l&&a('"session"')),null===e&&("icon"===n.substr(i,4).toLowerCase()?(e=n.substr(i,4),i+=4):(e=null,0===l&&a('"icon"')),null===e&&("alert"===n.substr(i,5).toLowerCase()?(e=n.substr(i,5),i+=5):(e=null,0===l&&a('"alert"')),null===e&&(e=U())))),e}function yt(){var e;return null===(e=wt())&&(e=At()),e}function wt(){var e,t,s,r;return r=i,"handling"===n.substr(i,8).toLowerCase()?(e=n.substr(i,8),i+=8):(e=null,0===l&&a('"handling"')),null!==e&&null!==(t=L())?("optional"===n.substr(i,8).toLowerCase()?(s=n.substr(i,8),i+=8):(s=null,0===l&&a('"optional"')),null===s&&("required"===n.substr(i,8).toLowerCase()?(s=n.substr(i,8),i+=8):(s=null,0===l&&a('"required"')),null===s&&(s=U())),null!==s?e=[e,t,s]:(e=null,i=r)):(e=null,i=r),e}function It(){var e,t,n,s,r,l,o,u;if(o=i,null!==(e=Nt()))if(null!==(t=q()))if(null!==(n=Pt())){for(s=[],u=i,null!==(r=j())&&null!==(l=qt())?r=[r,l]:(r=null,i=u);null!==r;)s.push(r),u=i,null!==(r=j())&&null!==(l=qt())?r=[r,l]:(r=null,i=u);null!==s?e=[e,t,n,s]:(e=null,i=o)}else e=null,i=o;else e=null,i=o;else e=null,i=o;return e}function Nt(){var e;return null===(e=Ot())&&(e=Ut()),e}function Ot(){var e;return"text"===n.substr(i,4).toLowerCase()?(e=n.substr(i,4),i+=4):(e=null,0===l&&a('"text"')),null===e&&("image"===n.substr(i,5).toLowerCase()?(e=n.substr(i,5),i+=5):(e=null,0===l&&a('"image"')),null===e&&("audio"===n.substr(i,5).toLowerCase()?(e=n.substr(i,5),i+=5):(e=null,0===l&&a('"audio"')),null===e&&("video"===n.substr(i,5).toLowerCase()?(e=n.substr(i,5),i+=5):(e=null,0===l&&a('"video"')),null===e&&("application"===n.substr(i,11).toLowerCase()?(e=n.substr(i,11),i+=11):(e=null,0===l&&a('"application"')),null===e&&(e=xt()))))),e}function Ut(){var e;return"message"===n.substr(i,7).toLowerCase()?(e=n.substr(i,7),i+=7):(e=null,0===l&&a('"message"')),null===e&&("multipart"===n.substr(i,9).toLowerCase()?(e=n.substr(i,9),i+=9):(e=null,0===l&&a('"multipart"')),null===e&&(e=xt())),e}function xt(){var e;return null===(e=U())&&(e=Dt()),e}function Dt(){var e,t,s;return s=i,"x-"===n.substr(i,2).toLowerCase()?(e=n.substr(i,2),i+=2):(e=null,0===l&&a('"x-"')),null!==e&&null!==(t=U())?e=[e,t]:(e=null,i=s),e}function Pt(){var e;return null===(e=xt())&&(e=U()),e}function qt(){var e,t,n,s;return s=i,null!==(e=U())&&null!==(t=L())&&null!==(n=Lt())?e=[e,t,n]:(e=null,i=s),e}function Lt(){var e;return null===(e=U())&&(e=z()),e}function Mt(){var e,t,n,s;if(n=i,null!==(t=h()))for(e=[];null!==t;)e.push(t),t=h();else e=null;return null!==e&&(s=e,e=void(kn.value=parseInt(s.join("")))),null===e&&(i=n),e}function Ht(){var e,t,s,r,o,u;if(o=i,null!==(e=x())){for(t=[],u=i,46===n.charCodeAt(i)?(s=".",i++):(s=null,0===l&&a('"."')),null!==s&&null!==(r=x())?s=[s,r]:(s=null,i=u);null!==s;)t.push(s),u=i,46===n.charCodeAt(i)?(s=".",i++):(s=null,0===l&&a('"."')),null!==s&&null!==(r=x())?s=[s,r]:(s=null,i=u);null!==t?e=[e,t]:(e=null,i=o)}else e=null,i=o;return e}function $t(){var e;return null===(e=Ft())&&(e=At()),e}function Ft(){var e,t,s,r,o,u;return r=i,o=i,"tag"===n.substr(i,3).toLowerCase()?(e=n.substr(i,3),i+=3):(e=null,0===l&&a('"tag"')),null!==e&&null!==(t=L())&&null!==(s=U())?e=[e,t,s]:(e=null,i=o),null!==e&&(u=e[2],e=void(kn.tag=u)),null===e&&(i=r),e}function kt(){var e,t,s,r,o,u,c,h;if(c=i,"digest"===n.substr(i,6).toLowerCase()?(e=n.substr(i,6),i+=6):(e=null,0===l&&a('"Digest"')),null!==e)if(null!==(t=R()))if(null!==(s=Wt())){for(r=[],h=i,null!==(o=k())&&null!==(u=Wt())?o=[o,u]:(o=null,i=h);null!==o;)r.push(o),h=i,null!==(o=k())&&null!==(u=Wt())?o=[o,u]:(o=null,i=h);null!==r?e=[e,t,s,r]:(e=null,i=c)}else e=null,i=c;else e=null,i=c;else e=null,i=c;return null===e&&(e=jt()),e}function jt(){var e,t,n,s,r,l,o,u;if(o=i,null!==(e=U()))if(null!==(t=R()))if(null!==(n=Gt())){for(s=[],u=i,null!==(r=k())&&null!==(l=Gt())?r=[r,l]:(r=null,i=u);null!==r;)s.push(r),u=i,null!==(r=k())&&null!==(l=Gt())?r=[r,l]:(r=null,i=u);null!==s?e=[e,t,n,s]:(e=null,i=o)}else e=null,i=o;else e=null,i=o;else e=null,i=o;return e}function Gt(){var e,t,n,s;return s=i,null!==(e=U())&&null!==(t=L())?(null===(n=U())&&(n=z()),null!==n?e=[e,t,n]:(e=null,i=s)):(e=null,i=s),e}function Wt(){var e;return null===(e=Vt())&&null===(e=zt())&&null===(e=Yt())&&null===(e=Jt())&&null===(e=Qt())&&null===(e=Zt())&&null===(e=en())&&(e=Gt()),e}function Vt(){var e,t,s,r;return r=i,"realm"===n.substr(i,5).toLowerCase()?(e=n.substr(i,5),i+=5):(e=null,0===l&&a('"realm"')),null!==e&&null!==(t=L())&&null!==(s=Bt())?e=[e,t,s]:(e=null,i=r),e}function Bt(){var e,t,n;return t=i,null!==(e=K())&&(n=e,e=void(kn.realm=n)),null===e&&(i=t),e}function zt(){var e,t,s,r,o,u,c,h,d;if(h=i,"domain"===n.substr(i,6).toLowerCase()?(e=n.substr(i,6),i+=6):(e=null,0===l&&a('"domain"')),null!==e)if(null!==(t=L()))if(null!==(s=W()))if(null!==(r=Kt())){if(o=[],d=i,null!==(c=g()))for(u=[];null!==c;)u.push(c),c=g();else u=null;for(null!==u&&null!==(c=Kt())?u=[u,c]:(u=null,i=d);null!==u;){if(o.push(u),d=i,null!==(c=g()))for(u=[];null!==c;)u.push(c),c=g();else u=null;null!==u&&null!==(c=Kt())?u=[u,c]:(u=null,i=d)}null!==o&&null!==(u=V())?e=[e,t,s,r,o,u]:(e=null,i=h)}else e=null,i=h;else e=null,i=h;else e=null,i=h;else e=null,i=h;return e}function Kt(){var e;return null===(e=He())&&(e=ke()),e}function Yt(){var e,t,s,r;return r=i,"nonce"===n.substr(i,5).toLowerCase()?(e=n.substr(i,5),i+=5):(e=null,0===l&&a('"nonce"')),null!==e&&null!==(t=L())&&null!==(s=Xt())?e=[e,t,s]:(e=null,i=r),e}function Xt(){var e,t,n;return t=i,null!==(e=K())&&(n=e,e=void(kn.nonce=n)),null===e&&(i=t),e}function Jt(){var e,t,s,r,o,u;return r=i,o=i,"opaque"===n.substr(i,6).toLowerCase()?(e=n.substr(i,6),i+=6):(e=null,0===l&&a('"opaque"')),null!==e&&null!==(t=L())&&null!==(s=K())?e=[e,t,s]:(e=null,i=o),null!==e&&(u=e[2],e=void(kn.opaque=u)),null===e&&(i=r),e}function Qt(){var e,t,s,r,o;return r=i,"stale"===n.substr(i,5).toLowerCase()?(e=n.substr(i,5),i+=5):(e=null,0===l&&a('"stale"')),null!==e&&null!==(t=L())?(o=i,"true"===n.substr(i,4).toLowerCase()?(s=n.substr(i,4),i+=4):(s=null,0===l&&a('"true"')),null!==s&&(s=void(kn.stale=!0)),null===s&&(i=o),null===s&&(o=i,"false"===n.substr(i,5).toLowerCase()?(s=n.substr(i,5),i+=5):(s=null,0===l&&a('"false"')),null!==s&&(s=void(kn.stale=!1)),null===s&&(i=o)),null!==s?e=[e,t,s]:(e=null,i=r)):(e=null,i=r),e}function Zt(){var e,t,s,r,o,u;return r=i,o=i,"algorithm"===n.substr(i,9).toLowerCase()?(e=n.substr(i,9),i+=9):(e=null,0===l&&a('"algorithm"')),null!==e&&null!==(t=L())?("md5"===n.substr(i,3).toLowerCase()?(s=n.substr(i,3),i+=3):(s=null,0===l&&a('"MD5"')),null===s&&("md5-sess"===n.substr(i,8).toLowerCase()?(s=n.substr(i,8),i+=8):(s=null,0===l&&a('"MD5-sess"')),null===s&&(s=U())),null!==s?e=[e,t,s]:(e=null,i=o)):(e=null,i=o),null!==e&&(u=e[2],e=void(kn.algorithm=u.toUpperCase())),null===e&&(i=r),e}function en(){var e,t,s,r,o,u,c,h,d,_;if(h=i,"qop"===n.substr(i,3).toLowerCase()?(e=n.substr(i,3),i+=3):(e=null,0===l&&a('"qop"')),null!==e)if(null!==(t=L()))if(null!==(s=W())){if(d=i,null!==(r=tn())){for(o=[],_=i,44===n.charCodeAt(i)?(u=",",i++):(u=null,0===l&&a('","')),null!==u&&null!==(c=tn())?u=[u,c]:(u=null,i=_);null!==u;)o.push(u),_=i,44===n.charCodeAt(i)?(u=",",i++):(u=null,0===l&&a('","')),null!==u&&null!==(c=tn())?u=[u,c]:(u=null,i=_);null!==o?r=[r,o]:(r=null,i=d)}else r=null,i=d;null!==r&&null!==(o=V())?e=[e,t,s,r,o]:(e=null,i=h)}else e=null,i=h;else e=null,i=h;else e=null,i=h;return e}function tn(){var e,t,s;return t=i,"auth-int"===n.substr(i,8).toLowerCase()?(e=n.substr(i,8),i+=8):(e=null,0===l&&a('"auth-int"')),null===e&&("auth"===n.substr(i,4).toLowerCase()?(e=n.substr(i,4),i+=4):(e=null,0===l&&a('"auth"')),null===e&&(e=U())),null!==e&&(s=e,kn.qop||(kn.qop=[]),e=void kn.qop.push(s.toLowerCase())),null===e&&(i=t),e}function nn(){var e,t,n,s,r,l,o;if(r=i,l=i,null!==(e=mt())){for(t=[],o=i,null!==(n=j())&&null!==(s=At())?n=[n,s]:(n=null,i=o);null!==n;)t.push(n),o=i,null!==(n=j())&&null!==(s=At())?n=[n,s]:(n=null,i=o);null!==t?e=[e,t]:(e=null,i=l)}else e=null,i=l;return null!==e&&(e=function(e){var t;kn.multi_header||(kn.multi_header=[]);try{t=new Fn(kn.uri,kn.display_name,kn.params),delete kn.uri,delete kn.display_name,delete kn.params}catch(e){t=null}kn.multi_header.push({possition:i,offset:e,parsed:t})}(r)),null===e&&(i=r),e}function sn(){var e;return null===(e=rn())&&(e=At()),e}function rn(){var e,t,s,r,o,u,c;if(o=i,u=i,"cause"===n.substr(i,5).toLowerCase()?(e=n.substr(i,5),i+=5):(e=null,0===l&&a('"cause"')),null!==e)if(null!==(t=L())){if(null!==(r=h()))for(s=[];null!==r;)s.push(r),r=h();else s=null;null!==s?e=[e,t,s]:(e=null,i=u)}else e=null,i=u;else e=null,i=u;return null!==e&&(c=e[2],e=void(kn.cause=parseInt(c.join("")))),null===e&&(i=o),e}function ln(){var e,t,n,s,r,l;if(r=i,null!==(e=mt())){for(t=[],l=i,null!==(n=j())&&null!==(s=At())?n=[n,s]:(n=null,i=l);null!==n;)t.push(n),l=i,null!==(n=j())&&null!==(s=At())?n=[n,s]:(n=null,i=l);null!==t?e=[e,t]:(e=null,i=r)}else e=null,i=r;return e}function on(){var e,t;return t=i,"active"===n.substr(i,6).toLowerCase()?(e=n.substr(i,6),i+=6):(e=null,0===l&&a('"active"')),null===e&&("pending"===n.substr(i,7).toLowerCase()?(e=n.substr(i,7),i+=7):(e=null,0===l&&a('"pending"')),null===e&&("terminated"===n.substr(i,10).toLowerCase()?(e=n.substr(i,10),i+=10):(e=null,0===l&&a('"terminated"')),null===e&&(e=U()))),null!==e&&(e=function(e){kn.state=n.substring(i,e)}(t)),null===e&&(i=t),e}function un(){var e,t,s,r,o,u,c,h;return r=i,o=i,"reason"===n.substr(i,6).toLowerCase()?(e=n.substr(i,6),i+=6):(e=null,0===l&&a('"reason"')),null!==e&&null!==(t=L())&&null!==(s=an())?e=[e,t,s]:(e=null,i=o),null!==e&&(e=void(void 0!==(u=e[2])&&(kn.reason=u))),null===e&&(i=r),null===e&&(r=i,o=i,"expires"===n.substr(i,7).toLowerCase()?(e=n.substr(i,7),i+=7):(e=null,0===l&&a('"expires"')),null!==e&&null!==(t=L())&&null!==(s=Et())?e=[e,t,s]:(e=null,i=o),null!==e&&(e=void(void 0!==(h=e[2])&&(kn.expires=h))),null===e&&(i=r),null===e&&(r=i,o=i,"retry_after"===n.substr(i,11).toLowerCase()?(e=n.substr(i,11),i+=11):(e=null,0===l&&a('"retry_after"')),null!==e&&null!==(t=L())&&null!==(s=Et())?e=[e,t,s]:(e=null,i=o),null!==e&&(e=void(void 0!==(c=e[2])&&(kn.retry_after=c))),null===e&&(i=r),null===e&&(e=At()))),e}function an(){var e;return"deactivated"===n.substr(i,11).toLowerCase()?(e=n.substr(i,11),i+=11):(e=null,0===l&&a('"deactivated"')),null===e&&("probation"===n.substr(i,9).toLowerCase()?(e=n.substr(i,9),i+=9):(e=null,0===l&&a('"probation"')),null===e&&("rejected"===n.substr(i,8).toLowerCase()?(e=n.substr(i,8),i+=8):(e=null,0===l&&a('"rejected"')),null===e&&("timeout"===n.substr(i,7).toLowerCase()?(e=n.substr(i,7),i+=7):(e=null,0===l&&a('"timeout"')),null===e&&("giveup"===n.substr(i,6).toLowerCase()?(e=n.substr(i,6),i+=6):(e=null,0===l&&a('"giveup"')),null===e&&("noresource"===n.substr(i,10).toLowerCase()?(e=n.substr(i,10),i+=10):(e=null,0===l&&a('"noresource"')),null===e&&("invariant"===n.substr(i,9).toLowerCase()?(e=n.substr(i,9),i+=9):(e=null,0===l&&a('"invariant"')),null===e&&(e=U()))))))),e}function cn(){var e;return null===(e=Ft())&&(e=At()),e}function hn(){var e,t,n,s,r,l,o,u;if(o=i,null!==(e=Cn()))if(null!==(t=R()))if(null!==(n=Sn())){for(s=[],u=i,null!==(r=j())&&null!==(l=dn())?r=[r,l]:(r=null,i=u);null!==r;)s.push(r),u=i,null!==(r=j())&&null!==(l=dn())?r=[r,l]:(r=null,i=u);null!==s?e=[e,t,n,s]:(e=null,i=o)}else e=null,i=o;else e=null,i=o;else e=null,i=o;return e}function dn(){var e;return null===(e=_n())&&null===(e=pn())&&null===(e=fn())&&null===(e=mn())&&null===(e=gn())&&(e=At()),e}function _n(){var e,t,s,r,o,u;return r=i,o=i,"ttl"===n.substr(i,3).toLowerCase()?(e=n.substr(i,3),i+=3):(e=null,0===l&&a('"ttl"')),null!==e&&null!==(t=L())&&null!==(s=bn())?e=[e,t,s]:(e=null,i=o),null!==e&&(u=e[2],e=void(kn.ttl=u)),null===e&&(i=r),e}function pn(){var e,t,s,r,o,u;return r=i,o=i,"maddr"===n.substr(i,5).toLowerCase()?(e=n.substr(i,5),i+=5):(e=null,0===l&&a('"maddr"')),null!==e&&null!==(t=L())&&null!==(s=oe())?e=[e,t,s]:(e=null,i=o),null!==e&&(u=e[2],e=void(kn.maddr=u)),null===e&&(i=r),e}function fn(){var e,t,s,r,o,u;return r=i,o=i,"received"===n.substr(i,8).toLowerCase()?(e=n.substr(i,8),i+=8):(e=null,0===l&&a('"received"')),null!==e&&null!==(t=L())?(null===(s=fe())&&(s=de()),null!==s?e=[e,t,s]:(e=null,i=o)):(e=null,i=o),null!==e&&(u=e[2],e=void(kn.received=u)),null===e&&(i=r),e}function mn(){var e,t,s,r,o,u;return r=i,o=i,"branch"===n.substr(i,6).toLowerCase()?(e=n.substr(i,6),i+=6):(e=null,0===l&&a('"branch"')),null!==e&&null!==(t=L())&&null!==(s=U())?e=[e,t,s]:(e=null,i=o),null!==e&&(u=e[2],e=void(kn.branch=u)),null===e&&(i=r),e}function gn(){var e,t,s,r,o;return r=i,"rport"===n.substr(i,5).toLowerCase()?(e=n.substr(i,5),i+=5):(e=null,0===l&&a('"rport"')),null!==e?(o=i,null!==(t=L())&&null!==(s=Tn())?t=[t,s]:(t=null,i=o),null!==(t=null!==t?t:"")?e=[e,t]:(e=null,i=r)):(e=null,i=r),e}function Tn(){var e,t,n,s,r,l,o,u;return l=i,o=i,null!==(e=null!==(e=h())?e:"")&&null!==(t=null!==(t=h())?t:"")&&null!==(n=null!==(n=h())?n:"")&&null!==(s=null!==(s=h())?s:"")&&null!==(r=null!==(r=h())?r:"")?e=[e,t,n,s,r]:(e=null,i=o),null!==e&&(u=e,e=void(kn.rport=parseInt(u.join("")))),null===e&&(i=l),e}function Cn(){var e,t,n,s,r,l;return l=i,null!==(e=vn())&&null!==(t=q())&&null!==(n=U())&&null!==(s=q())&&null!==(r=En())?e=[e,t,n,s,r]:(e=null,i=l),e}function vn(){var e,t,s;return t=i,"sip"===n.substr(i,3).toLowerCase()?(e=n.substr(i,3),i+=3):(e=null,0===l&&a('"SIP"')),null===e&&(e=U()),null!==e&&(s=e,e=void(kn.protocol=s)),null===e&&(i=t),e}function En(){var e,t,s;return t=i,"udp"===n.substr(i,3).toLowerCase()?(e=n.substr(i,3),i+=3):(e=null,0===l&&a('"UDP"')),null===e&&("tcp"===n.substr(i,3).toLowerCase()?(e=n.substr(i,3),i+=3):(e=null,0===l&&a('"TCP"')),null===e&&("tls"===n.substr(i,3).toLowerCase()?(e=n.substr(i,3),i+=3):(e=null,0===l&&a('"TLS"')),null===e&&("sctp"===n.substr(i,4).toLowerCase()?(e=n.substr(i,4),i+=4):(e=null,0===l&&a('"SCTP"')),null===e&&(e=U())))),null!==e&&(s=e,e=void(kn.transport=s)),null===e&&(i=t),e}function Sn(){var e,t,n,s,r;return s=i,null!==(e=An())?(r=i,null!==(t=G())&&null!==(n=Rn())?t=[t,n]:(t=null,i=r),null!==(t=null!==t?t:"")?e=[e,t]:(e=null,i=s)):(e=null,i=s),e}function An(){var e,t;return t=i,null===(e=fe())&&null===(e=he())&&(e=ue()),null!==e&&(e=function(e){kn.host=n.substring(i,e)}(t)),null===e&&(i=t),e}function Rn(){var e,t,n,s,r,l,o,u;return l=i,o=i,null!==(e=null!==(e=h())?e:"")&&null!==(t=null!==(t=h())?t:"")&&null!==(n=null!==(n=h())?n:"")&&null!==(s=null!==(s=h())?s:"")&&null!==(r=null!==(r=h())?r:"")?e=[e,t,n,s,r]:(e=null,i=o),null!==e&&(u=e,e=void(kn.port=parseInt(u.join("")))),null===e&&(i=l),e}function bn(){var e,t,n,s,r;return s=i,r=i,null!==(e=h())&&null!==(t=null!==(t=h())?t:"")&&null!==(n=null!==(n=h())?n:"")?e=[e,t,n]:(e=null,i=r),null!==e&&(e=parseInt(e.join(""))),null===e&&(i=s),e}function yn(){var e,t,n;return t=i,null!==(e=Et())&&(n=e,e=void(kn.expires=n)),null===e&&(i=t),e}function wn(){var e;return null===(e=In())&&(e=At()),e}function In(){var e,t,s,r,o,u;return r=i,o=i,"refresher"===n.substr(i,9).toLowerCase()?(e=n.substr(i,9),i+=9):(e=null,0===l&&a('"refresher"')),null!==e&&null!==(t=L())?("uac"===n.substr(i,3).toLowerCase()?(s=n.substr(i,3),i+=3):(s=null,0===l&&a('"uac"')),null===s&&("uas"===n.substr(i,3).toLowerCase()?(s=n.substr(i,3),i+=3):(s=null,0===l&&a('"uas"'))),null!==s?e=[e,t,s]:(e=null,i=o)):(e=null,i=o),null!==e&&(u=e[2],e=void(kn.refresher=u.toLowerCase())),null===e&&(i=r),e}function Nn(){var e,t;for(e=[],null===(t=I())&&null===(t=O())&&(t=R());null!==t;)e.push(t),null===(t=I())&&null===(t=O())&&(t=R());return e}function On(){var e,t,s,r,o,u,c,h,d,_,p;return _=i,p=i,null!==(e=xn())?(45===n.charCodeAt(i)?(t="-",i++):(t=null,0===l&&a('"-"')),null!==t&&null!==(s=Un())?(45===n.charCodeAt(i)?(r="-",i++):(r=null,0===l&&a('"-"')),null!==r&&null!==(o=Un())?(45===n.charCodeAt(i)?(u="-",i++):(u=null,0===l&&a('"-"')),null!==u&&null!==(c=Un())?(45===n.charCodeAt(i)?(h="-",i++):(h=null,0===l&&a('"-"')),null!==h&&null!==(d=Dn())?e=[e,t,s,r,o,u,c,h,d]:(e=null,i=p)):(e=null,i=p)):(e=null,i=p)):(e=null,i=p)):(e=null,i=p),null!==e&&(e=function(e){kn=n.substring(i+5,e)}(_,e[0])),null===e&&(i=_),e}function Un(){var e,t,n,s,r;return r=i,null!==(e=_())&&null!==(t=_())&&null!==(n=_())&&null!==(s=_())?e=[e,t,n,s]:(e=null,i=r),e}function xn(){var e,t,n;return n=i,null!==(e=Un())&&null!==(t=Un())?e=[e,t]:(e=null,i=n),e}function Dn(){var e,t,n,s;return s=i,null!==(e=Un())&&null!==(t=Un())&&null!==(n=Un())?e=[e,t,n]:(e=null,i=s),e}function Pn(){var e,t,s,r,o,u;return r=i,o=i,null!==(e=D())?(u=i,64===n.charCodeAt(i)?(t="@",i++):(t=null,0===l&&a('"@"')),null!==t&&null!==(s=D())?t=[t,s]:(t=null,i=u),null!==(t=null!==t?t:"")?e=[e,t]:(e=null,i=o)):(e=null,i=o),null!==e&&(e=function(e){kn.call_id=n.substring(i,e)}(r)),null===e&&(i=r),e}function qn(){var e;return null===(e=Ln())&&null===(e=Mn())&&null===(e=Hn())&&(e=At()),e}function Ln(){var e,t,s,r,o,u;return r=i,o=i,"to-tag"===n.substr(i,6)?(e="to-tag",i+=6):(e=null,0===l&&a('"to-tag"')),null!==e&&null!==(t=L())&&null!==(s=U())?e=[e,t,s]:(e=null,i=o),null!==e&&(u=e[2],e=void(kn.to_tag=u)),null===e&&(i=r),e}function Mn(){var e,t,s,r,o,u;return r=i,o=i,"from-tag"===n.substr(i,8)?(e="from-tag",i+=8):(e=null,0===l&&a('"from-tag"')),null!==e&&null!==(t=L())&&null!==(s=U())?e=[e,t,s]:(e=null,i=o),null!==e&&(u=e[2],e=void(kn.from_tag=u)),null===e&&(i=r),e}function Hn(){var e,t;return t=i,"early-only"===n.substr(i,10)?(e="early-only",i+=10):(e=null,0===l&&a('"early-only"')),null!==e&&(e=void(kn.early_only=!0)),null===e&&(i=t),e}var $n=e("./URI"),Fn=e("./NameAddrHeader"),kn={};if(null===r[s]()||i!==n.length){var jn=Math.max(i,o),Gn=jn<n.length?n.charAt(jn):null,Wn=function(){for(var e=1,t=1,s=!1,r=0;r<Math.max(i,o);r++){var l=n.charAt(r);"\n"===l?(s||e++,t=1,s=!1):"\r"===l||"\u2028"===l||"\u2029"===l?(e++,t=1,s=!0):(t++,s=!1)}return{line:e,column:t}}();return new this.SyntaxError(function(e){e.sort();for(var t=null,n=[],s=0;s<e.length;s++)e[s]!==t&&(n.push(e[s]),t=e[s]);return n}(u),Gn,jn,Wn.line,Wn.column),-1}return kn},toSource:function(){return this._source},SyntaxError:function(e,n,s,r,i){this.name="SyntaxError",this.expected=e,this.found=n,this.message=function(e,n){var s;switch(e.length){case 0:s="end of input";break;case 1:s=e[0];break;default:s=e.slice(0,e.length-1).join(", ")+" or "+e[e.length-1]}return"Expected "+s+" but "+(n?t(n):"end of input")+" found."}(e,n),this.offset=s,this.line=r,this.column=i}};return n.SyntaxError.prototype=Error.prototype,n}()},{"./NameAddrHeader":13,"./URI":29}],10:[function(e,t,n){const s=e("../package.json"),r=e("./Constants"),i=e("./Exceptions"),l=e("./Utils"),o=e("./UA"),u=e("./URI"),a=e("./NameAddrHeader"),c=e("./Grammar"),h=e("./WebSocketInterface");e("debug")("JsSIP")("version %s",s.version),t.exports={C:r,Exceptions:i,Utils:l,UA:o,URI:u,NameAddrHeader:a,WebSocketInterface:h,Grammar:c,debug:e("debug"),get name(){return s.title},get version(){return s.version}}},{"../package.json":40,"./Constants":4,"./Exceptions":8,"./Grammar":9,"./NameAddrHeader":13,"./UA":28,"./URI":29,"./Utils":30,"./WebSocketInterface":31,debug:33}],11:[function(e,t,n){const s=e("debug"),r="JsSIP";t.exports=class{constructor(e){e?(this._debug=s.default(`${r}:${e}`),this._warn=s.default(`${r}:WARN:${e}`),this._error=s.default(`${r}:ERROR:${e}`)):(this._debug=s.default(r),this._warn=s.default(`${r}:WARN`),this._error=s.default(`${r}:ERROR`)),this._debug.log=console.info.bind(console),this._warn.log=console.warn.bind(console),this._error.log=console.error.bind(console)}get debug(){return this._debug}get warn(){return this._warn}get error(){return this._error}}},{debug:33}],12:[function(e,t,n){const s=e("events").EventEmitter,r=e("./Logger"),i=e("./Constants"),l=e("./SIPMessage"),o=e("./Utils"),u=e("./RequestSender"),a=e("./Exceptions"),c=e("./URI"),h=new r("Message");t.exports=class extends s{constructor(e){super(),this._ua=e,this._request=null,this._closed=!1,this._direction=null,this._local_identity=null,this._remote_identity=null,this._is_replied=!1,this._data={}}get direction(){return this._direction}get local_identity(){return this._local_identity}get remote_identity(){return this._remote_identity}send(e,t,n={}){const s=e;if(void 0===e||void 0===t)throw new TypeError("Not enough arguments");if(!(e=this._ua.normalizeTarget(e)))throw new TypeError(`Invalid target: ${s}`);const r=o.cloneArray(n.extraHeaders),a=o.cloneObject(n.eventHandlers),h=n.contentType||"text/plain",d={};n.fromUserName&&(d.from_uri=new c("sip",n.fromUserName,this._ua.configuration.uri.host),r.push(`P-Preferred-Identity: ${this._ua.configuration.uri.toString()}`)),n.fromDisplayName&&(d.from_display_name=n.fromDisplayName);for(const e in a)Object.prototype.hasOwnProperty.call(a,e)&&this.on(e,a[e]);r.push(`Content-Type: ${h}`),this._request=new l.OutgoingRequest(i.MESSAGE,e,this._ua,d,r),t&&(this._request.body=t);const _=new u(this._ua,this._request,{onRequestTimeout:()=>{this._onRequestTimeout()},onTransportError:()=>{this._onTransportError()},onReceiveResponse:e=>{this._receiveResponse(e)}});this._newMessage("local",this._request),_.send()}init_incoming(e){this._request=e,this._newMessage("remote",e),this._is_replied||(this._is_replied=!0,e.reply(200)),this._close()}accept(e={}){const t=o.cloneArray(e.extraHeaders),n=e.body;if("incoming"!==this._direction)throw new a.NotSupportedError('"accept" not supported for outgoing Message');if(this._is_replied)throw new Error("incoming Message already replied");this._is_replied=!0,this._request.reply(200,null,t,n)}reject(e={}){const t=e.status_code||480,n=e.reason_phrase,s=o.cloneArray(e.extraHeaders),r=e.body;if("incoming"!==this._direction)throw new a.NotSupportedError('"reject" not supported for outgoing Message');if(this._is_replied)throw new Error("incoming Message already replied");if(t<300||t>=700)throw new TypeError(`Invalid status_code: ${t}`);this._is_replied=!0,this._request.reply(t,n,s,r)}_receiveResponse(e){if(!this._closed)switch(!0){case/^1[0-9]{2}$/.test(e.status_code):break;case/^2[0-9]{2}$/.test(e.status_code):this._succeeded("remote",e);break;default:{const t=o.sipErrorCause(e.status_code);this._failed("remote",e,t);break}}}_onRequestTimeout(){this._closed||this._failed("system",null,i.causes.REQUEST_TIMEOUT)}_onTransportError(){this._closed||this._failed("system",null,i.causes.CONNECTION_ERROR)}_close(){this._closed=!0,this._ua.destroyMessage(this)}_newMessage(e,t){"remote"===e?(this._direction="incoming",this._local_identity=t.to,this._remote_identity=t.from):"local"===e&&(this._direction="outgoing",this._local_identity=t.from,this._remote_identity=t.to),this._ua.newMessage(this,{originator:e,message:this,request:t})}_failed(e,t,n){h.debug("MESSAGE failed"),this._close(),h.debug('emit "failed"'),this.emit("failed",{originator:e,response:t||null,cause:n})}_succeeded(e,t){h.debug("MESSAGE succeeded"),this._close(),h.debug('emit "succeeded"'),this.emit("succeeded",{originator:e,response:t})}}},{"./Constants":4,"./Exceptions":8,"./Logger":11,"./RequestSender":22,"./SIPMessage":23,"./URI":29,"./Utils":30,events:1}],13:[function(e,t,n){const s=e("./URI"),r=e("./Grammar");t.exports=class e{static parse(e){return-1!==(e=r.parse(e,"Name_Addr_Header"))?e:void 0}constructor(e,t,n){if(!(e&&e instanceof s))throw new TypeError('missing or invalid "uri" parameter');this._uri=e,this._parameters={},this.display_name=t;for(const e in n)Object.prototype.hasOwnProperty.call(n,e)&&this.setParam(e,n[e])}get uri(){return this._uri}get display_name(){return this._display_name}set display_name(e){this._display_name=0===e?"0":e}setParam(e,t){e&&(this._parameters[e.toLowerCase()]=null==t?null:t.toString())}getParam(e){if(e)return this._parameters[e.toLowerCase()]}hasParam(e){if(e)return!!this._parameters.hasOwnProperty(e.toLowerCase())}deleteParam(e){if(e=e.toLowerCase(),this._parameters.hasOwnProperty(e)){const t=this._parameters[e];return delete this._parameters[e],t}}clearParams(){this._parameters={}}clone(){return new e(this._uri.clone(),this._display_name,JSON.parse(JSON.stringify(this._parameters)))}_quote(e){return e.replace(/\\/g,"\\\\").replace(/"/g,'\\"')}toString(){let e=this._display_name?`"${this._quote(this._display_name)}" `:"";e+=`<${this._uri.toString()}>`;for(const t in this._parameters)Object.prototype.hasOwnProperty.call(this._parameters,t)&&(e+=`;${t}`,null!==this._parameters[t]&&(e+=`=${this._parameters[t]}`));return e}}},{"./Grammar":9,"./URI":29}],14:[function(e,t,n){const s=e("events").EventEmitter,r=e("./Logger"),i=e("./Constants"),l=e("./SIPMessage"),o=e("./Utils"),u=e("./RequestSender"),a=e("./Exceptions"),c=new r("Options");t.exports=class extends s{constructor(e){super(),this._ua=e,this._request=null,this._closed=!1,this._direction=null,this._local_identity=null,this._remote_identity=null,this._is_replied=!1,this._data={}}get direction(){return this._direction}get local_identity(){return this._local_identity}get remote_identity(){return this._remote_identity}send(e,t,n={}){const s=e;if(void 0===e)throw new TypeError("A target is required for OPTIONS");if(!(e=this._ua.normalizeTarget(e)))throw new TypeError(`Invalid target: ${s}`);const r=o.cloneArray(n.extraHeaders),a=o.cloneObject(n.eventHandlers),c=n.contentType||"application/sdp";for(const e in a)Object.prototype.hasOwnProperty.call(a,e)&&this.on(e,a[e]);r.push(`Content-Type: ${c}`),this._request=new l.OutgoingRequest(i.OPTIONS,e,this._ua,null,r),t&&(this._request.body=t);const h=new u(this._ua,this._request,{onRequestTimeout:()=>{this._onRequestTimeout()},onTransportError:()=>{this._onTransportError()},onReceiveResponse:e=>{this._receiveResponse(e)}});this._newOptions("local",this._request),h.send()}init_incoming(e){this._request=e,this._newOptions("remote",e),this._is_replied||(this._is_replied=!0,e.reply(200)),this._close()}accept(e={}){const t=o.cloneArray(e.extraHeaders),n=e.body;if("incoming"!==this._direction)throw new a.NotSupportedError('"accept" not supported for outgoing Options');if(this._is_replied)throw new Error("incoming Options already replied");this._is_replied=!0,this._request.reply(200,null,t,n)}reject(e={}){const t=e.status_code||480,n=e.reason_phrase,s=o.cloneArray(e.extraHeaders),r=e.body;if("incoming"!==this._direction)throw new a.NotSupportedError('"reject" not supported for outgoing Options');if(this._is_replied)throw new Error("incoming Options already replied");if(t<300||t>=700)throw new TypeError(`Invalid status_code: ${t}`);this._is_replied=!0,this._request.reply(t,n,s,r)}_receiveResponse(e){if(!this._closed)switch(!0){case/^1[0-9]{2}$/.test(e.status_code):break;case/^2[0-9]{2}$/.test(e.status_code):this._succeeded("remote",e);break;default:{const t=o.sipErrorCause(e.status_code);this._failed("remote",e,t);break}}}_onRequestTimeout(){this._closed||this._failed("system",null,i.causes.REQUEST_TIMEOUT)}_onTransportError(){this._closed||this._failed("system",null,i.causes.CONNECTION_ERROR)}_close(){this._closed=!0,this._ua.destroyMessage(this)}_newOptions(e,t){"remote"===e?(this._direction="incoming",this._local_identity=t.to,this._remote_identity=t.from):"local"===e&&(this._direction="outgoing",this._local_identity=t.from,this._remote_identity=t.to),this._ua.newOptions(this,{originator:e,message:this,request:t})}_failed(e,t,n){c.debug("OPTIONS failed"),this._close(),c.debug('emit "failed"'),this.emit("failed",{originator:e,response:t||null,cause:n})}_succeeded(e,t){c.debug("OPTIONS succeeded"),this._close(),c.debug('emit "succeeded"'),this.emit("succeeded",{originator:e,response:t})}}},{"./Constants":4,"./Exceptions":8,"./Logger":11,"./RequestSender":22,"./SIPMessage":23,"./Utils":30,events:1}],15:[function(e,t,n){const s=e("./Logger"),r=e("./Grammar"),i=e("./SIPMessage"),l=new s("Parser");function o(e,t){let n=t,s=0,r=0;if(e.substring(n,n+2).match(/(^\r\n)/))return-2;for(;0===s;){if(r=e.indexOf("\r\n",n),-1===r)return r;!e.substring(r+2,r+4).match(/(^\r\n)/)&&e.charAt(r+2).match(/(^\s+)/)?n=r+2:s=r}return s}function u(e,t,n,s){let l;const o=t.indexOf(":",n),u=t.substring(n,o).trim(),a=t.substring(o+1,s).trim();switch(u.toLowerCase()){case"via":case"v":e.addHeader("via",a),1===e.getHeaders("via").length?(l=e.parseHeader("Via"),l&&(e.via=l,e.via_branch=l.branch)):l=0;break;case"from":case"f":e.setHeader("from",a),l=e.parseHeader("from"),l&&(e.from=l,e.from_tag=l.getParam("tag"));break;case"to":case"t":e.setHeader("to",a),l=e.parseHeader("to"),l&&(e.to=l,e.to_tag=l.getParam("tag"));break;case"record-route":if(l=r.parse(a,"Record_Route"),-1===l)l=void 0;else for(const t of l)e.addHeader("record-route",a.substring(t.possition,t.offset)),e.headers["Record-Route"][e.getHeaders("record-route").length-1].parsed=t.parsed;break;case"call-id":case"i":e.setHeader("call-id",a),l=e.parseHeader("call-id"),l&&(e.call_id=a);break;case"contact":case"m":if(l=r.parse(a,"Contact"),-1===l)l=void 0;else for(const t of l)e.addHeader("contact",a.substring(t.possition,t.offset)),e.headers.Contact[e.getHeaders("contact").length-1].parsed=t.parsed;break;case"content-length":case"l":e.setHeader("content-length",a),l=e.parseHeader("content-length");break;case"content-type":case"c":e.setHeader("content-type",a),l=e.parseHeader("content-type");break;case"cseq":e.setHeader("cseq",a),l=e.parseHeader("cseq"),l&&(e.cseq=l.value),e instanceof i.IncomingResponse&&(e.method=l.method);break;case"max-forwards":e.setHeader("max-forwards",a),l=e.parseHeader("max-forwards");break;case"www-authenticate":e.setHeader("www-authenticate",a),l=e.parseHeader("www-authenticate");break;case"proxy-authenticate":e.setHeader("proxy-authenticate",a),l=e.parseHeader("proxy-authenticate");break;case"session-expires":case"x":e.setHeader("session-expires",a),l=e.parseHeader("session-expires"),l&&(e.session_expires=l.expires,e.session_expires_refresher=l.refresher);break;case"refer-to":case"r":e.setHeader("refer-to",a),l=e.parseHeader("refer-to"),l&&(e.refer_to=l);break;case"replaces":e.setHeader("replaces",a),l=e.parseHeader("replaces"),l&&(e.replaces=l);break;case"event":case"o":e.setHeader("event",a),l=e.parseHeader("event"),l&&(e.event=l);break;default:e.addHeader(u,a),l=0}return void 0!==l||{error:`error parsing header "${u}"`}}n.parseMessage=(e,t)=>{let n,s,a=e.indexOf("\r\n");if(-1===a)return void l.warn("parseMessage() | no CRLF found, not a SIP message");const c=e.substring(0,a);let h=r.parse(c,"Request_Response");if(-1===h)return void l.warn(`parseMessage() | error parsing first line of SIP message: "${c}"`);h.status_code?(n=new i.IncomingResponse,n.status_code=h.status_code,n.reason_phrase=h.reason_phrase):(n=new i.IncomingRequest(t),n.method=h.method,n.ruri=h.uri),n.data=e;let d=a+2;for(;;){if(a=o(e,d),-2===a){s=d+2;break}if(-1===a)return void l.warn("parseMessage() | malformed message");if(h=u(n,e,d,a),!0!==h)return void l.warn("parseMessage() |",h.error);d=a+2}if(n.hasHeader("content-length")){const t=n.getHeader("content-length");n.body=e.substr(s,t)}else n.body=e.substring(s);return n}},{"./Grammar":9,"./Logger":11,"./SIPMessage":23}],16:[function(e,t,n){const s=e("events").EventEmitter,r=e("sdp-transform"),i=e("./Logger"),l=e("./Constants"),o=e("./Exceptions"),u=e("./Transactions"),a=e("./Utils"),c=e("./Timers"),h=e("./SIPMessage"),d=e("./Dialog"),_=e("./RequestSender"),p=e("./RTCSession/DTMF"),f=e("./RTCSession/Info"),m=e("./RTCSession/ReferNotifier"),g=e("./RTCSession/ReferSubscriber"),T=e("./URI"),C=new i("RTCSession"),v={STATUS_NULL:0,STATUS_INVITE_SENT:1,STATUS_1XX_RECEIVED:2,STATUS_INVITE_RECEIVED:3,STATUS_WAITING_FOR_ANSWER:4,STATUS_ANSWERED:5,STATUS_WAITING_FOR_ACK:6,STATUS_CANCELED:7,STATUS_TERMINATED:8,STATUS_CONFIRMED:9},E=["audio","video"];t.exports=class e extends s{static get C(){return v}constructor(e){C.debug("new"),super(),this._id=null,this._ua=e,this._status=v.STATUS_NULL,this._dialog=null,this._earlyDialogs={},this._contact=null,this._from_tag=null,this._to_tag=null,this._connection=null,this._connectionPromiseQueue=Promise.resolve(),this._request=null,this._is_canceled=!1,this._cancel_reason="",this._is_confirmed=!1,this._late_sdp=!1,this._rtcOfferConstraints=null,this._rtcAnswerConstraints=null,this._localMediaStream=null,this._localMediaStreamLocallyGenerated=!1,this._rtcReady=!0,this._iceReady=!1,this._timers={ackTimer:null,expiresTimer:null,invite2xxTimer:null,userNoAnswerTimer:null},this._direction=null,this._local_identity=null,this._remote_identity=null,this._start_time=null,this._end_time=null,this._tones=null,this._audioMuted=!1,this._videoMuted=!1,this._localHold=!1,this._remoteHold=!1,this._sessionTimers={enabled:this._ua.configuration.session_timers,refreshMethod:this._ua.configuration.session_timers_refresh_method,defaultExpires:l.SESSION_EXPIRES,currentExpires:null,running:!1,refresher:!1,timer:null},this._referSubscribers={},this._data={}}get C(){return v}get causes(){return l.causes}get id(){return this._id}get connection(){return this._connection}get contact(){return this._contact}get direction(){return this._direction}get local_identity(){return this._local_identity}get remote_identity(){return this._remote_identity}get start_time(){return this._start_time}get end_time(){return this._end_time}get data(){return this._data}set data(e){this._data=e}get status(){return this._status}isInProgress(){switch(this._status){case v.STATUS_NULL:case v.STATUS_INVITE_SENT:case v.STATUS_1XX_RECEIVED:case v.STATUS_INVITE_RECEIVED:case v.STATUS_WAITING_FOR_ANSWER:return!0;default:return!1}}isEstablished(){switch(this._status){case v.STATUS_ANSWERED:case v.STATUS_WAITING_FOR_ACK:case v.STATUS_CONFIRMED:return!0;default:return!1}}isEnded(){switch(this._status){case v.STATUS_CANCELED:case v.STATUS_TERMINATED:return!0;default:return!1}}isMuted(){return{audio:this._audioMuted,video:this._videoMuted}}isOnHold(){return{local:this._localHold,remote:this._remoteHold}}connect(e,t={},n){C.debug("connect()");const s=e,r=a.cloneObject(t.eventHandlers),i=a.cloneArray(t.extraHeaders),u=a.cloneObject(t.mediaConstraints,{audio:!0,video:!0}),c=t.mediaStream||null,d=a.cloneObject(t.pcConfig,{iceServers:[]}),_=t.rtcConstraints||null,p=t.rtcOfferConstraints||null;if(this._rtcOfferConstraints=p,this._rtcAnswerConstraints=t.rtcAnswerConstraints||null,this._data=t.data||this._data,void 0===e)throw new TypeError("Not enough arguments");if(this._status!==v.STATUS_NULL)throw new o.InvalidStateError(this._status);if(!window.RTCPeerConnection)throw new o.NotSupportedError("WebRTC not supported");if(!(e=this._ua.normalizeTarget(e)))throw new TypeError(`Invalid target: ${s}`);this._sessionTimers.enabled&&a.isDecimal(t.sessionTimersExpires)&&(t.sessionTimersExpires>=l.MIN_SESSION_EXPIRES?this._sessionTimers.defaultExpires=t.sessionTimersExpires:this._sessionTimers.defaultExpires=l.SESSION_EXPIRES);for(const e in r)Object.prototype.hasOwnProperty.call(r,e)&&this.on(e,r[e]);this._from_tag=a.newTag();const f=t.anonymous||!1,m={from_tag:this._from_tag};this._contact=this._ua.contact.toString({anonymous:f,outbound:!0}),f?(m.from_display_name="Anonymous",m.from_uri=new T("sip","anonymous","anonymous.invalid"),i.push(`P-Preferred-Identity: ${this._ua.configuration.uri.toString()}`),i.push("Privacy: id")):t.fromUserName&&(m.from_uri=new T("sip",t.fromUserName,this._ua.configuration.uri.host),i.push(`P-Preferred-Identity: ${this._ua.configuration.uri.toString()}`)),t.fromDisplayName&&(m.from_display_name=t.fromDisplayName),i.push(`Contact: ${this._contact}`),i.push("Content-Type: application/sdp"),this._sessionTimers.enabled&&i.push(`Session-Expires: ${this._sessionTimers.defaultExpires}${this._ua.configuration.session_timers_force_refresher?";refresher=uac":""}`),this._request=new h.InitialOutgoingInviteRequest(e,this._ua,m,i),this._id=this._request.call_id+this._from_tag,this._createRTCConnection(d,_),this._direction="outgoing",this._local_identity=this._request.from,this._remote_identity=this._request.to,n&&n(this),this._newRTCSession("local",this._request),this._sendInitialRequest(u,p,c)}init_incoming(e,t){let n;C.debug("init_incoming()");const s=e.hasHeader("Content-Type")?e.getHeader("Content-Type").toLowerCase():void 0;e.body&&"application/sdp"!==s?e.reply(415):(this._status=v.STATUS_INVITE_RECEIVED,this._from_tag=e.from_tag,this._id=e.call_id+this._from_tag,this._request=e,this._contact=this._ua.contact.toString(),e.hasHeader("expires")&&(n=1e3*e.getHeader("expires")),e.to_tag=a.newTag(),this._createDialog(e,"UAS",!0)?(e.body?this._late_sdp=!1:this._late_sdp=!0,this._status=v.STATUS_WAITING_FOR_ANSWER,this._timers.userNoAnswerTimer=setTimeout(()=>{e.reply(408),this._failed("local",null,l.causes.NO_ANSWER)},this._ua.configuration.no_answer_timeout),n&&(this._timers.expiresTimer=setTimeout(()=>{this._status===v.STATUS_WAITING_FOR_ANSWER&&(e.reply(487),this._failed("system",null,l.causes.EXPIRES))},n)),this._direction="incoming",this._local_identity=e.to,this._remote_identity=e.from,t&&t(this),this._newRTCSession("remote",e),this._status!==v.STATUS_TERMINATED&&(e.reply(180,null,[`Contact: ${this._contact}`]),this._progress("local",null))):e.reply(500,"Missing Contact header field"))}answer(e={}){C.debug("answer()");const t=this._request,n=a.cloneArray(e.extraHeaders),s=a.cloneObject(e.mediaConstraints),r=e.mediaStream||null,i=a.cloneObject(e.pcConfig,{iceServers:[]}),u=e.rtcConstraints||null,c=e.rtcAnswerConstraints||null,h=a.cloneObject(e.rtcOfferConstraints);let d,_=!1,p=!1,f=!1,m=!1;if(this._rtcAnswerConstraints=c,this._rtcOfferConstraints=e.rtcOfferConstraints||null,this._data=e.data||this._data,"incoming"!==this._direction)throw new o.NotSupportedError('"answer" not supported for outgoing RTCSession');if(this._status!==v.STATUS_WAITING_FOR_ANSWER)throw new o.InvalidStateError(this._status);if(this._sessionTimers.enabled&&a.isDecimal(e.sessionTimersExpires)&&(e.sessionTimersExpires>=l.MIN_SESSION_EXPIRES?this._sessionTimers.defaultExpires=e.sessionTimersExpires:this._sessionTimers.defaultExpires=l.SESSION_EXPIRES),this._status=v.STATUS_ANSWERED,!this._createDialog(t,"UAS"))return void t.reply(500,"Error creating dialog");clearTimeout(this._timers.userNoAnswerTimer),n.unshift(`Contact: ${this._contact}`);const g=t.parseSDP();Array.isArray(g.media)||(g.media=[g.media]);for(const e of g.media)"audio"===e.type&&(_=!0,e.direction&&"sendrecv"!==e.direction||(f=!0)),"video"===e.type&&(p=!0,e.direction&&"sendrecv"!==e.direction||(m=!0));if(r&&!1===s.audio){d=r.getAudioTracks();for(const e of d)r.removeTrack(e)}if(r&&!1===s.video){d=r.getVideoTracks();for(const e of d)r.removeTrack(e)}r||void 0!==s.audio||(s.audio=f),r||void 0!==s.video||(s.video=m),r||_||h.offerToReceiveAudio||(s.audio=!1),r||p||h.offerToReceiveVideo||(s.video=!1),this._createRTCConnection(i,u),Promise.resolve().then(()=>r||(s.audio||s.video?(this._localMediaStreamLocallyGenerated=!0,navigator.mediaDevices.getUserMedia(s).catch(e=>{if(this._status===v.STATUS_TERMINATED)throw new Error("terminated");throw t.reply(480),this._failed("local",null,l.causes.USER_DENIED_MEDIA_ACCESS),C.warn('emit "getusermediafailed" [error:%o]',e),this.emit("getusermediafailed",e),new Error("getUserMedia() failed")})):void 0)).then(e=>{if(this._status===v.STATUS_TERMINATED)throw new Error("terminated");this._localMediaStream=e,e&&e.getTracks().forEach(t=>{this._connection.addTrack(t,e)})}).then(()=>{if(this._late_sdp)return;const e={originator:"remote",type:"offer",sdp:t.body};C.debug('emit "sdp"'),this.emit("sdp",e);const n=new RTCSessionDescription({type:"offer",sdp:e.sdp});return this._connectionPromiseQueue=this._connectionPromiseQueue.then(()=>this._connection.setRemoteDescription(n)).catch(e=>{throw t.reply(488),this._failed("system",null,l.causes.WEBRTC_ERROR),C.warn('emit "peerconnection:setremotedescriptionfailed" [error:%o]',e),this.emit("peerconnection:setremotedescriptionfailed",e),new Error("peerconnection.setRemoteDescription() failed")}),this._connectionPromiseQueue}).then(()=>{if(this._status===v.STATUS_TERMINATED)throw new Error("terminated");return this._connecting(t),this._late_sdp?this._createLocalDescription("offer",this._rtcOfferConstraints).catch(()=>{throw t.reply(500),new Error("_createLocalDescription() failed")}):this._createLocalDescription("answer",c).catch(()=>{throw t.reply(500),new Error("_createLocalDescription() failed")})}).then(e=>{if(this._status===v.STATUS_TERMINATED)throw new Error("terminated");this._handleSessionTimersInIncomingRequest(t,n),t.reply(200,null,n,e,()=>{this._status=v.STATUS_WAITING_FOR_ACK,this._setInvite2xxTimer(t,e),this._setACKTimer(),this._accepted("local")},()=>{this._failed("system",null,l.causes.CONNECTION_ERROR)})}).catch(e=>{this._status!==v.STATUS_TERMINATED&&C.warn(e)})}terminate(e={}){C.debug("terminate()");const t=e.cause||l.causes.BYE,n=a.cloneArray(e.extraHeaders),s=e.body;let r,i=e.status_code,c=e.reason_phrase;if(this._status===v.STATUS_TERMINATED)throw new o.InvalidStateError(this._status);switch(this._status){case v.STATUS_NULL:case v.STATUS_INVITE_SENT:case v.STATUS_1XX_RECEIVED:if(C.debug("canceling session"),i&&(i<200||i>=700))throw new TypeError(`Invalid status_code: ${i}`);i&&(c=c||l.REASON_PHRASE[i]||"",r=`SIP ;cause=${i} ;text="${c}"`),this._status===v.STATUS_NULL||this._status===v.STATUS_INVITE_SENT?(this._is_canceled=!0,this._cancel_reason=r):this._status===v.STATUS_1XX_RECEIVED&&this._request.cancel(r),this._status=v.STATUS_CANCELED,this._failed("local",null,l.causes.CANCELED);break;case v.STATUS_WAITING_FOR_ANSWER:case v.STATUS_ANSWERED:if(C.debug("rejecting session"),i=i||480,i<300||i>=700)throw new TypeError(`Invalid status_code: ${i}`);this._request.reply(i,c,n,s),this._failed("local",null,l.causes.REJECTED);break;case v.STATUS_WAITING_FOR_ACK:case v.STATUS_CONFIRMED:if(C.debug("terminating session"),c=e.reason_phrase||l.REASON_PHRASE[i]||"",i&&(i<200||i>=700))throw new TypeError(`Invalid status_code: ${i}`);if(i&&n.push(`Reason: SIP ;cause=${i}; text="${c}"`),this._status===v.STATUS_WAITING_FOR_ACK&&"incoming"===this._direction&&this._request.server_transaction.state!==u.C.STATUS_TERMINATED){const e=this._dialog;this.receiveRequest=({method:t})=>{t===l.ACK&&(this.sendRequest(l.BYE,{extraHeaders:n,body:s}),e.terminate())},this._request.server_transaction.on("stateChanged",()=>{this._request.server_transaction.state===u.C.STATUS_TERMINATED&&(this.sendRequest(l.BYE,{extraHeaders:n,body:s}),e.terminate())}),this._ended("local",null,t),this._dialog=e,this._ua.newDialog(e)}else this.sendRequest(l.BYE,{extraHeaders:n,body:s}),this._ended("local",null,t)}}sendDTMF(e,t={}){C.debug("sendDTMF() | tones: %s",e);let n=0,s=t.duration||null,r=t.interToneGap||null;const i=t.transportType||l.DTMF_TRANSPORT.INFO;if(void 0===e)throw new TypeError("Not enough arguments");if(this._status!==v.STATUS_CONFIRMED&&this._status!==v.STATUS_WAITING_FOR_ACK&&this._status!==v.STATUS_1XX_RECEIVED)throw new o.InvalidStateError(this._status);if(i!==l.DTMF_TRANSPORT.INFO&&i!==l.DTMF_TRANSPORT.RFC2833)throw new TypeError(`invalid transportType: ${i}`);if("number"==typeof e&&(e=e.toString()),!e||"string"!=typeof e||!e.match(/^[0-9A-DR#*,]+$/i))throw new TypeError(`Invalid tones: ${e}`);if(s&&!a.isDecimal(s))throw new TypeError(`Invalid tone duration: ${s}`);if(s?s<p.C.MIN_DURATION?(C.debug(`"duration" value is lower than the minimum allowed, setting it to ${p.C.MIN_DURATION} milliseconds`),s=p.C.MIN_DURATION):s>p.C.MAX_DURATION?(C.debug(`"duration" value is greater than the maximum allowed, setting it to ${p.C.MAX_DURATION} milliseconds`),s=p.C.MAX_DURATION):s=Math.abs(s):s=p.C.DEFAULT_DURATION,t.duration=s,r&&!a.isDecimal(r))throw new TypeError(`Invalid interToneGap: ${r}`);if(r?r<p.C.MIN_INTER_TONE_GAP?(C.debug(`"interToneGap" value is lower than the minimum allowed, setting it to ${p.C.MIN_INTER_TONE_GAP} milliseconds`),r=p.C.MIN_INTER_TONE_GAP):r=Math.abs(r):r=p.C.DEFAULT_INTER_TONE_GAP,i===l.DTMF_TRANSPORT.RFC2833){const t=this._getDTMFRTPSender();return void(t&&(e=t.toneBuffer+e,t.insertDTMF(e,s,r)))}this._tones?this._tones+=e:(this._tones=e,function e(){let i;if(this._status===v.STATUS_TERMINATED||!this._tones||n>=this._tones.length)return void(this._tones=null);const l=this._tones[n];if(n+=1,","===l)i=2e3;else{const e=new p(this);t.eventHandlers={onFailed:()=>{this._tones=null}},e.send(l,t),i=s+r}setTimeout(e.bind(this),i)}.call(this))}sendInfo(e,t,n={}){if(C.debug("sendInfo()"),this._status!==v.STATUS_CONFIRMED&&this._status!==v.STATUS_WAITING_FOR_ACK&&this._status!==v.STATUS_1XX_RECEIVED)throw new o.InvalidStateError(this._status);new f(this).send(e,t,n)}mute(e={audio:!0,video:!1}){C.debug("mute()");let t=!1,n=!1;!1===this._audioMuted&&e.audio&&(t=!0,this._audioMuted=!0,this._toggleMuteAudio(!0)),!1===this._videoMuted&&e.video&&(n=!0,this._videoMuted=!0,this._toggleMuteVideo(!0)),!0!==t&&!0!==n||this._onmute({audio:t,video:n})}unmute(e={audio:!0,video:!0}){C.debug("unmute()");let t=!1,n=!1;!0===this._audioMuted&&e.audio&&(t=!0,this._audioMuted=!1,!1===this._localHold&&this._toggleMuteAudio(!1)),!0===this._videoMuted&&e.video&&(n=!0,this._videoMuted=!1,!1===this._localHold&&this._toggleMuteVideo(!1)),!0!==t&&!0!==n||this._onunmute({audio:t,video:n})}hold(e={},t){if(C.debug("hold()"),this._status!==v.STATUS_WAITING_FOR_ACK&&this._status!==v.STATUS_CONFIRMED)return!1;if(!0===this._localHold)return!1;if(!this._isReadyToReOffer())return!1;this._localHold=!0,this._onhold("local");const n={succeeded:()=>{t&&t()},failed:()=>{this.terminate({cause:l.causes.WEBRTC_ERROR,status_code:500,reason_phrase:"Hold Failed"})}};return e.useUpdate?this._sendUpdate({sdpOffer:!0,eventHandlers:n,extraHeaders:e.extraHeaders}):this._sendReinvite({eventHandlers:n,extraHeaders:e.extraHeaders}),!0}unhold(e={},t){if(C.debug("unhold()"),this._status!==v.STATUS_WAITING_FOR_ACK&&this._status!==v.STATUS_CONFIRMED)return!1;if(!1===this._localHold)return!1;if(!this._isReadyToReOffer())return!1;this._localHold=!1,this._onunhold("local");const n={succeeded:()=>{t&&t()},failed:()=>{this.terminate({cause:l.causes.WEBRTC_ERROR,status_code:500,reason_phrase:"Unhold Failed"})}};return e.useUpdate?this._sendUpdate({sdpOffer:!0,eventHandlers:n,extraHeaders:e.extraHeaders}):this._sendReinvite({eventHandlers:n,extraHeaders:e.extraHeaders}),!0}renegotiate(e={},t){C.debug("renegotiate()");const n=e.rtcOfferConstraints||null;if(this._status!==v.STATUS_WAITING_FOR_ACK&&this._status!==v.STATUS_CONFIRMED)return!1;if(!this._isReadyToReOffer())return!1;const s={succeeded:()=>{t&&t()},failed:()=>{this.terminate({cause:l.causes.WEBRTC_ERROR,status_code:500,reason_phrase:"Media Renegotiation Failed"})}};return this._setLocalMediaStatus(),e.useUpdate?this._sendUpdate({sdpOffer:!0,eventHandlers:s,rtcOfferConstraints:n,extraHeaders:e.extraHeaders}):this._sendReinvite({eventHandlers:s,rtcOfferConstraints:n,extraHeaders:e.extraHeaders}),!0}refer(e,t){C.debug("refer()");const n=e;if(this._status!==v.STATUS_WAITING_FOR_ACK&&this._status!==v.STATUS_CONFIRMED)return!1;if(!(e=this._ua.normalizeTarget(e)))throw new TypeError(`Invalid target: ${n}`);const s=new g(this);s.sendRefer(e,t);const r=s.id;return this._referSubscribers[r]=s,s.on("requestFailed",()=>{delete this._referSubscribers[r]}),s.on("accepted",()=>{delete this._referSubscribers[r]}),s.on("failed",()=>{delete this._referSubscribers[r]}),s}sendRequest(e,t){return C.debug("sendRequest()"),this._dialog.sendRequest(e,t)}receiveRequest(e){if(C.debug("receiveRequest()"),e.method===l.CANCEL)this._status!==v.STATUS_WAITING_FOR_ANSWER&&this._status!==v.STATUS_ANSWERED||(this._status=v.STATUS_CANCELED,this._request.reply(487),this._failed("remote",e,l.causes.CANCELED));else switch(e.method){case l.ACK:if(this._status!==v.STATUS_WAITING_FOR_ACK)return;if(this._status=v.STATUS_CONFIRMED,clearTimeout(this._timers.ackTimer),clearTimeout(this._timers.invite2xxTimer),this._late_sdp){if(!e.body){this.terminate({cause:l.causes.MISSING_SDP,status_code:400});break}const t={originator:"remote",type:"answer",sdp:e.body};C.debug('emit "sdp"'),this.emit("sdp",t);const n=new RTCSessionDescription({type:"answer",sdp:t.sdp});this._connectionPromiseQueue=this._connectionPromiseQueue.then(()=>this._connection.setRemoteDescription(n)).then(()=>{this._is_confirmed||this._confirmed("remote",e)}).catch(e=>{this.terminate({cause:l.causes.BAD_MEDIA_DESCRIPTION,status_code:488}),C.warn('emit "peerconnection:setremotedescriptionfailed" [error:%o]',e),this.emit("peerconnection:setremotedescriptionfailed",e)})}else this._is_confirmed||this._confirmed("remote",e);break;case l.BYE:this._status===v.STATUS_CONFIRMED||this._status===v.STATUS_WAITING_FOR_ACK?(e.reply(200),this._ended("remote",e,l.causes.BYE)):this._status===v.STATUS_INVITE_RECEIVED||this._status===v.STATUS_WAITING_FOR_ANSWER?(e.reply(200),this._request.reply(487,"BYE Received"),this._ended("remote",e,l.causes.BYE)):e.reply(403,"Wrong Status");break;case l.INVITE:this._status===v.STATUS_CONFIRMED?e.hasHeader("replaces")?this._receiveReplaces(e):this._receiveReinvite(e):e.reply(403,"Wrong Status");break;case l.INFO:if(this._status===v.STATUS_1XX_RECEIVED||this._status===v.STATUS_WAITING_FOR_ANSWER||this._status===v.STATUS_ANSWERED||this._status===v.STATUS_WAITING_FOR_ACK||this._status===v.STATUS_CONFIRMED){const t=e.hasHeader("Content-Type")?e.getHeader("Content-Type").toLowerCase():void 0;t&&t.match(/^application\/dtmf-relay/i)?new p(this).init_incoming(e):void 0!==t?new f(this).init_incoming(e):e.reply(415)}else e.reply(403,"Wrong Status");break;case l.UPDATE:this._status===v.STATUS_CONFIRMED?this._receiveUpdate(e):e.reply(403,"Wrong Status");break;case l.REFER:this._status===v.STATUS_CONFIRMED?this._receiveRefer(e):e.reply(403,"Wrong Status");break;case l.NOTIFY:this._status===v.STATUS_CONFIRMED?this._receiveNotify(e):e.reply(403,"Wrong Status");break;default:e.reply(501)}}onTransportError(){C.warn("onTransportError()"),this._status!==v.STATUS_TERMINATED&&this.terminate({status_code:500,reason_phrase:l.causes.CONNECTION_ERROR,cause:l.causes.CONNECTION_ERROR})}onRequestTimeout(){C.warn("onRequestTimeout()"),this._status!==v.STATUS_TERMINATED&&this.terminate({status_code:408,reason_phrase:l.causes.REQUEST_TIMEOUT,cause:l.causes.REQUEST_TIMEOUT})}onDialogError(){C.warn("onDialogError()"),this._status!==v.STATUS_TERMINATED&&this.terminate({status_code:500,reason_phrase:l.causes.DIALOG_ERROR,cause:l.causes.DIALOG_ERROR})}newDTMF(e){C.debug("newDTMF()"),this.emit("newDTMF",e)}newInfo(e){C.debug("newInfo()"),this.emit("newInfo",e)}_isReadyToReOffer(){return this._rtcReady?this._dialog?!0!==this._dialog.uac_pending_reply&&!0!==this._dialog.uas_pending_reply||(C.debug("_isReadyToReOffer() | there is another INVITE/UPDATE transaction in progress"),!1):(C.debug("_isReadyToReOffer() | session not established yet"),!1):(C.debug("_isReadyToReOffer() | internal WebRTC status not ready"),!1)}_close(){if(C.debug("close()"),this._localMediaStream&&this._localMediaStreamLocallyGenerated&&(C.debug("close() | closing local MediaStream"),a.closeMediaStream(this._localMediaStream)),this._status!==v.STATUS_TERMINATED){if(this._status=v.STATUS_TERMINATED,this._connection)try{this._connection.close()}catch(e){C.warn("close() | error closing the RTCPeerConnection: %o",e)}for(const e in this._timers)Object.prototype.hasOwnProperty.call(this._timers,e)&&clearTimeout(this._timers[e]);clearTimeout(this._sessionTimers.timer),this._dialog&&(this._dialog.terminate(),delete this._dialog);for(const e in this._earlyDialogs)Object.prototype.hasOwnProperty.call(this._earlyDialogs,e)&&(this._earlyDialogs[e].terminate(),delete this._earlyDialogs[e]);for(const e in this._referSubscribers)Object.prototype.hasOwnProperty.call(this._referSubscribers,e)&&delete this._referSubscribers[e];this._ua.destroyRTCSession(this)}}_setInvite2xxTimer(e,t){let n=c.T1;this._timers.invite2xxTimer=setTimeout(function s(){this._status===v.STATUS_WAITING_FOR_ACK&&(e.reply(200,null,[`Contact: ${this._contact}`],t),n<c.T2&&(n*=2,n>c.T2&&(n=c.T2)),this._timers.invite2xxTimer=setTimeout(s.bind(this),n))}.bind(this),n)}_setACKTimer(){this._timers.ackTimer=setTimeout(()=>{this._status===v.STATUS_WAITING_FOR_ACK&&(C.debug("no ACK received, terminating the session"),clearTimeout(this._timers.invite2xxTimer),this.sendRequest(l.BYE),this._ended("remote",null,l.causes.NO_ACK))},c.TIMER_H)}_createRTCConnection(e,t){this._connection=new RTCPeerConnection(e,t),this._connection.addEventListener("iceconnectionstatechange",()=>{"failed"===this._connection.iceConnectionState&&this.terminate({cause:l.causes.RTP_TIMEOUT,status_code:408,reason_phrase:l.causes.RTP_TIMEOUT})}),C.debug('emit "peerconnection"'),this.emit("peerconnection",{peerconnection:this._connection})}_createLocalDescription(e,t){if(C.debug("createLocalDescription()"),"offer"!==e&&"answer"!==e)throw new Error(`createLocalDescription() | invalid type "${e}"`);const n=this._connection;return this._rtcReady=!1,Promise.resolve().then(()=>"offer"===e?n.createOffer(t).catch(e=>(C.warn('emit "peerconnection:createofferfailed" [error:%o]',e),this.emit("peerconnection:createofferfailed",e),Promise.reject(e))):n.createAnswer(t).catch(e=>(C.warn('emit "peerconnection:createanswerfailed" [error:%o]',e),this.emit("peerconnection:createanswerfailed",e),Promise.reject(e)))).then(e=>n.setLocalDescription(e).catch(e=>(this._rtcReady=!0,C.warn('emit "peerconnection:setlocaldescriptionfailed" [error:%o]',e),this.emit("peerconnection:setlocaldescriptionfailed",e),Promise.reject(e)))).then(()=>{const s=t&&t.iceRestart;if("complete"===n.iceGatheringState&&!s||"gathering"===n.iceGatheringState&&this._iceReady){this._rtcReady=!0;const t={originator:"local",type:e,sdp:n.localDescription.sdp};return C.debug('emit "sdp"'),this.emit("sdp",t),Promise.resolve(t.sdp)}return new Promise(t=>{let s,r,i=!1;this._iceReady=!1;const l=()=>{n.removeEventListener("icecandidate",s),n.removeEventListener("icegatheringstatechange",r),i=!0,this._rtcReady=!0,this._iceReady=!0;const l={originator:"local",type:e,sdp:n.localDescription.sdp};C.debug('emit "sdp"'),this.emit("sdp",l),t(l.sdp)};n.addEventListener("icecandidate",s=e=>{const t=e.candidate;t?this.emit("icecandidate",{candidate:t,ready:l}):i||l()}),n.addEventListener("icegatheringstatechange",r=()=>{"complete"!==n.iceGatheringState||i||l()})})})}_createDialog(e,t,n){const s="UAS"===t?e.to_tag:e.from_tag,r="UAS"===t?e.from_tag:e.to_tag,i=e.call_id+s+r;let o=this._earlyDialogs[i];if(n)return!!o||(o=new d(this,e,t,d.C.STATUS_EARLY),o.error?(C.debug(o.error),this._failed("remote",e,l.causes.INTERNAL_ERROR),!1):(this._earlyDialogs[i]=o,!0));{if(this._from_tag=e.from_tag,this._to_tag=e.to_tag,o)return o.update(e,t),this._dialog=o,delete this._earlyDialogs[i],!0;const n=new d(this,e,t);return n.error?(C.debug(n.error),this._failed("remote",e,l.causes.INTERNAL_ERROR),!1):(this._dialog=n,!0)}}_receiveReinvite(e){C.debug("receiveReinvite()");const t=e.hasHeader("Content-Type")?e.getHeader("Content-Type").toLowerCase():void 0,n={request:e,callback:void 0,reject:function(t={}){s=!0;const n=t.status_code||403,r=t.reason_phrase||"",i=a.cloneArray(t.extraHeaders);if(this._status!==v.STATUS_CONFIRMED)return!1;if(n<300||n>=700)throw new TypeError(`Invalid status_code: ${n}`);e.reply(n,r,i)}.bind(this)};let s=!1;if(this.emit("reinvite",n),!s){if(this._late_sdp=!1,!e.body)return this._late_sdp=!0,this._remoteHold&&(this._remoteHold=!1,this._onunhold("remote")),void(this._connectionPromiseQueue=this._connectionPromiseQueue.then(()=>this._createLocalDescription("offer",this._rtcOfferConstraints)).then(e=>{r.call(this,e)}).catch(()=>{e.reply(500)}));if("application/sdp"!==t)return C.debug("invalid Content-Type"),void e.reply(415);this._processInDialogSdpOffer(e).then(e=>{this._status!==v.STATUS_TERMINATED&&r.call(this,e)}).catch(e=>{C.warn(e)})}function r(t){const s=[`Contact: ${this._contact}`];this._handleSessionTimersInIncomingRequest(e,s),this._late_sdp&&(t=this._mangleOffer(t)),e.reply(200,null,s,t,()=>{this._status=v.STATUS_WAITING_FOR_ACK,this._setInvite2xxTimer(e,t),this._setACKTimer()}),"function"==typeof n.callback&&n.callback()}}_receiveUpdate(e){C.debug("receiveUpdate()");const t=e.hasHeader("Content-Type")?e.getHeader("Content-Type").toLowerCase():void 0,n={request:e,callback:void 0,reject:function(t={}){s=!0;const n=t.status_code||403,r=t.reason_phrase||"",i=a.cloneArray(t.extraHeaders);if(this._status!==v.STATUS_CONFIRMED)return!1;if(n<300||n>=700)throw new TypeError(`Invalid status_code: ${n}`);e.reply(n,r,i)}.bind(this)};let s=!1;if(this.emit("update",n),!s)if(e.body){if("application/sdp"!==t)return C.debug("invalid Content-Type"),void e.reply(415);this._processInDialogSdpOffer(e).then(e=>{this._status!==v.STATUS_TERMINATED&&r.call(this,e)}).catch(e=>{C.warn(e)})}else r.call(this,null);function r(t){const s=[`Contact: ${this._contact}`];this._handleSessionTimersInIncomingRequest(e,s),e.reply(200,null,s,t),"function"==typeof n.callback&&n.callback()}}_processInDialogSdpOffer(e){C.debug("_processInDialogSdpOffer()");const t=e.parseSDP();let n=!1;for(const e of t.media){if(-1===E.indexOf(e.type))continue;const s=e.direction||t.direction||"sendrecv";if("sendonly"!==s&&"inactive"!==s){n=!1;break}n=!0}const s={originator:"remote",type:"offer",sdp:e.body};C.debug('emit "sdp"'),this.emit("sdp",s);const r=new RTCSessionDescription({type:"offer",sdp:s.sdp});return this._connectionPromiseQueue=this._connectionPromiseQueue.then(()=>{if(this._status===v.STATUS_TERMINATED)throw new Error("terminated");return this._connection.setRemoteDescription(r).catch(t=>{throw e.reply(488),C.warn('emit "peerconnection:setremotedescriptionfailed" [error:%o]',t),this.emit("peerconnection:setremotedescriptionfailed",t),t})}).then(()=>{if(this._status===v.STATUS_TERMINATED)throw new Error("terminated");!0===this._remoteHold&&!1===n?(this._remoteHold=!1,this._onunhold("remote")):!1===this._remoteHold&&!0===n&&(this._remoteHold=!0,this._onhold("remote"))}).then(()=>{if(this._status===v.STATUS_TERMINATED)throw new Error("terminated");return this._createLocalDescription("answer",this._rtcAnswerConstraints).catch(t=>{throw e.reply(500),C.warn('emit "peerconnection:createtelocaldescriptionfailed" [error:%o]',t),t})}).catch(e=>{C.warn("_processInDialogSdpOffer() failed [error: %o]",e)}),this._connectionPromiseQueue}_receiveRefer(t){if(C.debug("receiveRefer()"),!t.refer_to)return C.debug("no Refer-To header field present in REFER"),void t.reply(400);if(t.refer_to.uri.scheme!==l.SIP)return C.debug("Refer-To header field points to a non-SIP URI scheme"),void t.reply(416);t.reply(202);const n=new m(this,t.cseq);function s(s,r={}){if(s="function"==typeof s?s:null,this._status!==v.STATUS_WAITING_FOR_ACK&&this._status!==v.STATUS_CONFIRMED)return!1;const i=new e(this._ua);if(i.on("progress",({response:e})=>{n.notify(e.status_code,e.reason_phrase)}),i.on("accepted",({response:e})=>{n.notify(e.status_code,e.reason_phrase)}),i.on("_failed",({message:e,cause:t})=>{e?n.notify(e.status_code,e.reason_phrase):n.notify(487,t)}),t.refer_to.uri.hasHeader("replaces")){const e=decodeURIComponent(t.refer_to.uri.getHeader("replaces"));r.extraHeaders=a.cloneArray(r.extraHeaders),r.extraHeaders.push(`Replaces: ${e}`)}i.connect(t.refer_to.uri.toAor(),r,s)}function r(){n.notify(603)}C.debug('emit "refer"'),this.emit("refer",{request:t,accept:(e,t)=>{s.call(this,e,t)},reject:()=>{r.call(this)}})}_receiveNotify(e){switch(C.debug("receiveNotify()"),e.event||e.reply(400),e.event.event){case"refer":{let t,n;if(e.event.params&&e.event.params.id)t=e.event.params.id,n=this._referSubscribers[t];else{if(1!==Object.keys(this._referSubscribers).length)return void e.reply(400,"Missing event id parameter");n=this._referSubscribers[Object.keys(this._referSubscribers)[0]]}if(!n)return void e.reply(481,"Subscription does not exist");n.receiveNotify(e),e.reply(200);break}default:e.reply(489)}}_receiveReplaces(t){function n(n){if(this._status!==v.STATUS_WAITING_FOR_ACK&&this._status!==v.STATUS_CONFIRMED)return!1;const s=new e(this._ua);s.on("confirmed",()=>{this.terminate()}),s.init_incoming(t,n)}function s(){C.debug("Replaced INVITE rejected by the user"),t.reply(486)}C.debug("receiveReplaces()"),this.emit("replaces",{request:t,accept:e=>{n.call(this,e)},reject:()=>{s.call(this)}})}_sendInitialRequest(e,t,n){const s=new _(this._ua,this._request,{onRequestTimeout:()=>{this.onRequestTimeout()},onTransportError:()=>{this.onTransportError()},onAuthenticated:e=>{this._request=e},onReceiveResponse:e=>{this._receiveInviteResponse(e)}});Promise.resolve().then(()=>n||(e.audio||e.video?(this._localMediaStreamLocallyGenerated=!0,navigator.mediaDevices.getUserMedia(e).catch(e=>{if(this._status===v.STATUS_TERMINATED)throw new Error("terminated");throw this._failed("local",null,l.causes.USER_DENIED_MEDIA_ACCESS),C.warn('emit "getusermediafailed" [error:%o]',e),this.emit("getusermediafailed",e),e})):void 0)).then(e=>{if(this._status===v.STATUS_TERMINATED)throw new Error("terminated");return this._localMediaStream=e,e&&e.getTracks().forEach(t=>{this._connection.addTrack(t,e)}),this._connecting(this._request),this._createLocalDescription("offer",t).catch(e=>{throw this._failed("local",null,l.causes.WEBRTC_ERROR),e})}).then(e=>{if(this._is_canceled||this._status===v.STATUS_TERMINATED)throw new Error("terminated");this._request.body=e,this._status=v.STATUS_INVITE_SENT,C.debug('emit "sending" [request:%o]',this._request),this.emit("sending",{request:this._request}),s.send()}).catch(e=>{this._status!==v.STATUS_TERMINATED&&C.warn(e)})}_getDTMFRTPSender(){const e=this._connection.getSenders().find(e=>e.track&&"audio"===e.track.kind);if(e&&e.dtmf)return e.dtmf;C.warn("sendDTMF() | no local audio track to send DTMF with")}_receiveInviteResponse(e){if(C.debug("receiveInviteResponse()"),this._dialog&&e.status_code>=200&&e.status_code<=299){if(this._dialog.id.call_id===e.call_id&&this._dialog.id.local_tag===e.from_tag&&this._dialog.id.remote_tag===e.to_tag)return void this.sendRequest(l.ACK);{const t=new d(this,e,"UAC");return void 0!==t.error?void C.debug(t.error):(this.sendRequest(l.ACK),void this.sendRequest(l.BYE))}}if(this._is_canceled)e.status_code>=100&&e.status_code<200?this._request.cancel(this._cancel_reason):e.status_code>=200&&e.status_code<299&&this._acceptAndTerminate(e);else if(this._status===v.STATUS_INVITE_SENT||this._status===v.STATUS_1XX_RECEIVED)switch(!0){case/^100$/.test(e.status_code):this._status=v.STATUS_1XX_RECEIVED;break;case/^1[0-9]{2}$/.test(e.status_code):{if(!e.to_tag){C.debug("1xx response received without to tag");break}if(e.hasHeader("contact")&&!this._createDialog(e,"UAC",!0))break;if(this._status=v.STATUS_1XX_RECEIVED,!e.body){this._progress("remote",e);break}const t={originator:"remote",type:"answer",sdp:e.body};C.debug('emit "sdp"'),this.emit("sdp",t);const n=new RTCSessionDescription({type:"answer",sdp:t.sdp});this._connectionPromiseQueue=this._connectionPromiseQueue.then(()=>this._connection.setRemoteDescription(n)).then(()=>this._progress("remote",e)).catch(e=>{C.warn('emit "peerconnection:setremotedescriptionfailed" [error:%o]',e),this.emit("peerconnection:setremotedescriptionfailed",e)});break}case/^2[0-9]{2}$/.test(e.status_code):{if(this._status=v.STATUS_CONFIRMED,!e.body){this._acceptAndTerminate(e,400,l.causes.MISSING_SDP),this._failed("remote",e,l.causes.BAD_MEDIA_DESCRIPTION);break}if(!this._createDialog(e,"UAC"))break;const t={originator:"remote",type:"answer",sdp:e.body};C.debug('emit "sdp"'),this.emit("sdp",t);const n=new RTCSessionDescription({type:"answer",sdp:t.sdp});this._connectionPromiseQueue=this._connectionPromiseQueue.then(()=>{if("stable"===this._connection.signalingState)return this._connection.createOffer(this._rtcOfferConstraints).then(e=>this._connection.setLocalDescription(e)).catch(t=>{this._acceptAndTerminate(e,500,t.toString()),this._failed("local",e,l.causes.WEBRTC_ERROR)})}).then(()=>{this._connection.setRemoteDescription(n).then(()=>{this._handleSessionTimersInIncomingResponse(e),this._accepted("remote",e),this.sendRequest(l.ACK),this._confirmed("local",null)}).catch(t=>{this._acceptAndTerminate(e,488,"Not Acceptable Here"),this._failed("remote",e,l.causes.BAD_MEDIA_DESCRIPTION),C.warn('emit "peerconnection:setremotedescriptionfailed" [error:%o]',t),this.emit("peerconnection:setremotedescriptionfailed",t)})});break}default:{const t=a.sipErrorCause(e.status_code);this._failed("remote",e,t)}}}_sendReinvite(e={}){C.debug("sendReinvite()");const t=a.cloneArray(e.extraHeaders),n=a.cloneObject(e.eventHandlers),s=e.rtcOfferConstraints||this._rtcOfferConstraints||null;let r=!1;function i(e){if(this._status===v.STATUS_TERMINATED)return;if(this.sendRequest(l.ACK),r)return;if(this._handleSessionTimersInIncomingResponse(e),!e.body)return void o.call(this);if(!e.hasHeader("Content-Type")||"application/sdp"!==e.getHeader("Content-Type").toLowerCase())return void o.call(this);const t={originator:"remote",type:"answer",sdp:e.body};C.debug('emit "sdp"'),this.emit("sdp",t);const s=new RTCSessionDescription({type:"answer",sdp:t.sdp});this._connectionPromiseQueue=this._connectionPromiseQueue.then(()=>this._connection.setRemoteDescription(s)).then(()=>{n.succeeded&&n.succeeded(e)}).catch(e=>{o.call(this),C.warn('emit "peerconnection:setremotedescriptionfailed" [error:%o]',e),this.emit("peerconnection:setremotedescriptionfailed",e)})}function o(e){n.failed&&n.failed(e)}t.push(`Contact: ${this._contact}`),t.push("Content-Type: application/sdp"),this._sessionTimers.running&&t.push(`Session-Expires: ${this._sessionTimers.currentExpires};refresher=${this._sessionTimers.refresher?"uac":"uas"}`),this._connectionPromiseQueue=this._connectionPromiseQueue.then(()=>this._createLocalDescription("offer",s)).then(e=>{const n={originator:"local",type:"offer",sdp:e=this._mangleOffer(e)};C.debug('emit "sdp"'),this.emit("sdp",n),this.sendRequest(l.INVITE,{extraHeaders:t,body:e,eventHandlers:{onSuccessResponse:e=>{i.call(this,e),r=!0},onErrorResponse:e=>{o.call(this,e)},onTransportError:()=>{this.onTransportError()},onRequestTimeout:()=>{this.onRequestTimeout()},onDialogError:()=>{this.onDialogError()}}})}).catch(()=>{o()})}_sendUpdate(e={}){C.debug("sendUpdate()");const t=a.cloneArray(e.extraHeaders),n=a.cloneObject(e.eventHandlers),s=e.rtcOfferConstraints||this._rtcOfferConstraints||null,r=e.sdpOffer||!1;let i=!1;function o(e){if(this._status!==v.STATUS_TERMINATED&&!i)if(this._handleSessionTimersInIncomingResponse(e),r){if(!e.body)return void u.call(this);if(!e.hasHeader("Content-Type")||"application/sdp"!==e.getHeader("Content-Type").toLowerCase())return void u.call(this);const t={originator:"remote",type:"answer",sdp:e.body};C.debug('emit "sdp"'),this.emit("sdp",t);const s=new RTCSessionDescription({type:"answer",sdp:t.sdp});this._connectionPromiseQueue=this._connectionPromiseQueue.then(()=>this._connection.setRemoteDescription(s)).then(()=>{n.succeeded&&n.succeeded(e)}).catch(e=>{u.call(this),C.warn('emit "peerconnection:setremotedescriptionfailed" [error:%o]',e),this.emit("peerconnection:setremotedescriptionfailed",e)})}else n.succeeded&&n.succeeded(e)}function u(e){n.failed&&n.failed(e)}t.push(`Contact: ${this._contact}`),this._sessionTimers.running&&t.push(`Session-Expires: ${this._sessionTimers.currentExpires};refresher=${this._sessionTimers.refresher?"uac":"uas"}`),r?(t.push("Content-Type: application/sdp"),this._connectionPromiseQueue=this._connectionPromiseQueue.then(()=>this._createLocalDescription("offer",s)).then(e=>{const n={originator:"local",type:"offer",sdp:e=this._mangleOffer(e)};C.debug('emit "sdp"'),this.emit("sdp",n),this.sendRequest(l.UPDATE,{extraHeaders:t,body:e,eventHandlers:{onSuccessResponse:e=>{o.call(this,e),i=!0},onErrorResponse:e=>{u.call(this,e)},onTransportError:()=>{this.onTransportError()},onRequestTimeout:()=>{this.onRequestTimeout()},onDialogError:()=>{this.onDialogError()}}})}).catch(()=>{u.call(this)})):this.sendRequest(l.UPDATE,{extraHeaders:t,eventHandlers:{onSuccessResponse:e=>{o.call(this,e)},onErrorResponse:e=>{u.call(this,e)},onTransportError:()=>{this.onTransportError()},onRequestTimeout:()=>{this.onRequestTimeout()},onDialogError:()=>{this.onDialogError()}}})}_acceptAndTerminate(e,t,n){C.debug("acceptAndTerminate()");const s=[];t&&(n=n||l.REASON_PHRASE[t]||"",s.push(`Reason: SIP ;cause=${t}; text="${n}"`)),(this._dialog||this._createDialog(e,"UAC"))&&(this.sendRequest(l.ACK),this.sendRequest(l.BYE,{extraHeaders:s})),this._status=v.STATUS_TERMINATED}_mangleOffer(e){if(!this._localHold&&!this._remoteHold)return e;if(e=r.parse(e),this._localHold&&!this._remoteHold){C.debug("mangleOffer() | me on hold, mangling offer");for(const t of e.media)-1!==E.indexOf(t.type)&&(t.direction?"sendrecv"===t.direction?t.direction="sendonly":"recvonly"===t.direction&&(t.direction="inactive"):t.direction="sendonly")}else if(this._localHold&&this._remoteHold){C.debug("mangleOffer() | both on hold, mangling offer");for(const t of e.media)-1!==E.indexOf(t.type)&&(t.direction="inactive")}else if(this._remoteHold){C.debug("mangleOffer() | remote on hold, mangling offer");for(const t of e.media)-1!==E.indexOf(t.type)&&(t.direction?"sendrecv"===t.direction?t.direction="recvonly":"recvonly"===t.direction&&(t.direction="inactive"):t.direction="recvonly")}return r.write(e)}_setLocalMediaStatus(){let e=!0,t=!0;(this._localHold||this._remoteHold)&&(e=!1,t=!1),this._audioMuted&&(e=!1),this._videoMuted&&(t=!1),this._toggleMuteAudio(!e),this._toggleMuteVideo(!t)}_handleSessionTimersInIncomingRequest(e,t){if(!this._sessionTimers.enabled)return;let n;e.session_expires&&e.session_expires>=l.MIN_SESSION_EXPIRES?(this._sessionTimers.currentExpires=e.session_expires,n=e.session_expires_refresher||"uas"):(this._sessionTimers.currentExpires=this._sessionTimers.defaultExpires,n="uas"),t.push(`Session-Expires: ${this._sessionTimers.currentExpires};refresher=${n}`),this._sessionTimers.refresher="uas"===n,this._runSessionTimer()}_handleSessionTimersInIncomingResponse(e){if(!this._sessionTimers.enabled)return;let t;e.session_expires&&e.session_expires>=l.MIN_SESSION_EXPIRES?(this._sessionTimers.currentExpires=e.session_expires,t=e.session_expires_refresher||"uac"):(this._sessionTimers.currentExpires=this._sessionTimers.defaultExpires,t="uac"),this._sessionTimers.refresher="uac"===t,this._runSessionTimer()}_runSessionTimer(){const e=this._sessionTimers.currentExpires;this._sessionTimers.running=!0,clearTimeout(this._sessionTimers.timer),this._sessionTimers.refresher?this._sessionTimers.timer=setTimeout(()=>{this._status!==v.STATUS_TERMINATED&&this._isReadyToReOffer()&&(C.debug("runSessionTimer() | sending session refresh request"),this._sessionTimers.refreshMethod===l.UPDATE?this._sendUpdate():this._sendReinvite())},500*e):this._sessionTimers.timer=setTimeout(()=>{this._status!==v.STATUS_TERMINATED&&(C.warn("runSessionTimer() | timer expired, terminating the session"),this.terminate({cause:l.causes.REQUEST_TIMEOUT,status_code:408,reason_phrase:"Session Timer Expired"}))},1100*e)}_toggleMuteAudio(e){const t=this._connection.getSenders().filter(e=>e.track&&"audio"===e.track.kind);for(const n of t)n.track.enabled=!e}_toggleMuteVideo(e){const t=this._connection.getSenders().filter(e=>e.track&&"video"===e.track.kind);for(const n of t)n.track.enabled=!e}_newRTCSession(e,t){C.debug("newRTCSession()"),this._ua.newRTCSession(this,{originator:e,session:this,request:t})}_connecting(e){C.debug("session connecting"),C.debug('emit "connecting"'),this.emit("connecting",{request:e})}_progress(e,t){C.debug("session progress"),C.debug('emit "progress"'),this.emit("progress",{originator:e,response:t||null})}_accepted(e,t){C.debug("session accepted"),this._start_time=new Date,C.debug('emit "accepted"'),this.emit("accepted",{originator:e,response:t||null})}_confirmed(e,t){C.debug("session confirmed"),this._is_confirmed=!0,C.debug('emit "confirmed"'),this.emit("confirmed",{originator:e,ack:t||null})}_ended(e,t,n){C.debug("session ended"),this._end_time=new Date,this._close(),C.debug('emit "ended"'),this.emit("ended",{originator:e,message:t||null,cause:n})}_failed(e,t,n){C.debug("session failed"),C.debug('emit "_failed"'),this.emit("_failed",{originator:e,message:t||null,cause:n}),this._close(),C.debug('emit "failed"'),this.emit("failed",{originator:e,message:t||null,cause:n})}_onhold(e){C.debug("session onhold"),this._setLocalMediaStatus(),C.debug('emit "hold"'),this.emit("hold",{originator:e})}_onunhold(e){C.debug("session onunhold"),this._setLocalMediaStatus(),C.debug('emit "unhold"'),this.emit("unhold",{originator:e})}_onmute({audio:e,video:t}){C.debug("session onmute"),this._setLocalMediaStatus(),C.debug('emit "muted"'),this.emit("muted",{audio:e,video:t})}_onunmute({audio:e,video:t}){C.debug("session onunmute"),this._setLocalMediaStatus(),C.debug('emit "unmuted"'),this.emit("unmuted",{audio:e,video:t})}}},{"./Constants":4,"./Dialog":5,"./Exceptions":8,"./Logger":11,"./RTCSession/DTMF":17,"./RTCSession/Info":18,"./RTCSession/ReferNotifier":19,"./RTCSession/ReferSubscriber":20,"./RequestSender":22,"./SIPMessage":23,"./Timers":25,"./Transactions":26,"./URI":29,"./Utils":30,events:1,"sdp-transform":37}],17:[function(e,t,n){const s=e("events").EventEmitter,r=e("../Logger"),i=e("../Constants"),l=e("../Exceptions"),o=e("../Utils"),u=new r("RTCSession:DTMF"),a={MIN_DURATION:70,MAX_DURATION:6e3,DEFAULT_DURATION:100,MIN_INTER_TONE_GAP:50,DEFAULT_INTER_TONE_GAP:500};t.exports=class extends s{constructor(e){super(),this._session=e,this._direction=null,this._tone=null,this._duration=null,this._request=null}get tone(){return this._tone}get duration(){return this._duration}send(e,t={}){if(void 0===e)throw new TypeError("Not enough arguments");if(this._direction="outgoing",this._session.status!==this._session.C.STATUS_CONFIRMED&&this._session.status!==this._session.C.STATUS_WAITING_FOR_ACK)throw new l.InvalidStateError(this._session.status);const n=o.cloneArray(t.extraHeaders);if(this.eventHandlers=o.cloneObject(t.eventHandlers),"string"==typeof e)e=e.toUpperCase();else{if("number"!=typeof e)throw new TypeError(`Invalid tone: ${e}`);e=e.toString()}if(!e.match(/^[0-9A-DR#*]$/))throw new TypeError(`Invalid tone: ${e}`);this._tone=e,this._duration=t.duration,n.push("Content-Type: application/dtmf-relay");let s=`Signal=${this._tone}\r\n`;s+=`Duration=${this._duration}`,this._session.newDTMF({originator:"local",dtmf:this,request:this._request}),this._session.sendRequest(i.INFO,{extraHeaders:n,eventHandlers:{onSuccessResponse:e=>{this.emit("succeeded",{originator:"remote",response:e})},onErrorResponse:e=>{this.eventHandlers.onFailed&&this.eventHandlers.onFailed(),this.emit("failed",{originator:"remote",response:e})},onRequestTimeout:()=>{this._session.onRequestTimeout()},onTransportError:()=>{this._session.onTransportError()},onDialogError:()=>{this._session.onDialogError()}},body:s})}init_incoming(e){const t=/^(Signal\s*?=\s*?)([0-9A-D#*]{1})(\s)?.*/,n=/^(Duration\s?=\s?)([0-9]{1,4})(\s)?.*/;if(this._direction="incoming",this._request=e,e.reply(200),e.body){const s=e.body.split("\n");s.length>=1&&t.test(s[0])&&(this._tone=s[0].replace(t,"$2")),s.length>=2&&n.test(s[1])&&(this._duration=parseInt(s[1].replace(n,"$2"),10))}this._duration||(this._duration=a.DEFAULT_DURATION),this._tone?this._session.newDTMF({originator:"remote",dtmf:this,request:e}):u.debug("invalid INFO DTMF received, discarded")}},t.exports.C=a},{"../Constants":4,"../Exceptions":8,"../Logger":11,"../Utils":30,events:1}],18:[function(e,t,n){const s=e("events").EventEmitter,r=e("../Constants"),i=e("../Exceptions"),l=e("../Utils");t.exports=class extends s{constructor(e){super(),this._session=e,this._direction=null,this._contentType=null,this._body=null}get contentType(){return this._contentType}get body(){return this._body}send(e,t,n={}){if(this._direction="outgoing",void 0===e)throw new TypeError("Not enough arguments");if(this._session.status!==this._session.C.STATUS_CONFIRMED&&this._session.status!==this._session.C.STATUS_WAITING_FOR_ACK)throw new i.InvalidStateError(this._session.status);this._contentType=e,this._body=t;const s=l.cloneArray(n.extraHeaders);s.push(`Content-Type: ${e}`),this._session.newInfo({originator:"local",info:this,request:this.request}),this._session.sendRequest(r.INFO,{extraHeaders:s,eventHandlers:{onSuccessResponse:e=>{this.emit("succeeded",{originator:"remote",response:e})},onErrorResponse:e=>{this.emit("failed",{originator:"remote",response:e})},onTransportError:()=>{this._session.onTransportError()},onRequestTimeout:()=>{this._session.onRequestTimeout()},onDialogError:()=>{this._session.onDialogError()}},body:t})}init_incoming(e){this._direction="incoming",this.request=e,e.reply(200),this._contentType=e.hasHeader("Content-Type")?e.getHeader("Content-Type").toLowerCase():void 0,this._body=e.body,this._session.newInfo({originator:"remote",info:this,request:e})}}},{"../Constants":4,"../Exceptions":8,"../Utils":30,events:1}],19:[function(e,t,n){const s=e("../Logger"),r=e("../Constants"),i=new s("RTCSession:ReferNotifier"),l="refer",o="message/sipfrag;version=2.0",u=300;t.exports=class{constructor(e,t,n){this._session=e,this._id=t,this._expires=n||u,this._active=!0,this.notify(100)}notify(e,t){if(i.debug("notify()"),!1===this._active)return;let n;t=t||r.REASON_PHRASE[e]||"",n=e>=200?"terminated;reason=noresource":`active;expires=${this._expires}`,this._session.sendRequest(r.NOTIFY,{extraHeaders:[`Event: ${l};id=${this._id}`,`Subscription-State: ${n}`,`Content-Type: ${o}`],body:`SIP/2.0 ${e} ${t}`,eventHandlers:{onErrorResponse(){this._active=!1}}})}}},{"../Constants":4,"../Logger":11}],20:[function(e,t,n){const s=e("events").EventEmitter,r=e("../Logger"),i=e("../Constants"),l=e("../Grammar"),o=e("../Utils"),u=new r("RTCSession:ReferSubscriber");t.exports=class extends s{constructor(e){super(),this._id=null,this._session=e}get id(){return this._id}sendRefer(e,t={}){u.debug("sendRefer()");const n=o.cloneArray(t.extraHeaders),s=o.cloneObject(t.eventHandlers);for(const e in s)Object.prototype.hasOwnProperty.call(s,e)&&this.on(e,s[e]);let r=null;t.replaces&&(r=t.replaces._request.call_id,r+=`;to-tag=${t.replaces._to_tag}`,r+=`;from-tag=${t.replaces._from_tag}`,r=encodeURIComponent(r));const l=`Refer-To: <${e}${r?`?Replaces=${r}`:""}>`;if(n.push(l),!n.some(e=>e.toLowerCase().startsWith("referred-by:"))){const e=`Referred-By: <${this._session._ua._configuration.uri._scheme}:${this._session._ua._configuration.uri._user}@${this._session._ua._configuration.uri._host}>`;n.push(e)}n.push(`Contact: ${this._session.contact}`);const a=this._session.sendRequest(i.REFER,{extraHeaders:n,eventHandlers:{onSuccessResponse:e=>{this._requestSucceeded(e)},onErrorResponse:e=>{this._requestFailed(e,i.causes.REJECTED)},onTransportError:()=>{this._requestFailed(null,i.causes.CONNECTION_ERROR)},onRequestTimeout:()=>{this._requestFailed(null,i.causes.REQUEST_TIMEOUT)},onDialogError:()=>{this._requestFailed(null,i.causes.DIALOG_ERROR)}}});this._id=a.cseq}receiveNotify(e){if(u.debug("receiveNotify()"),!e.body)return;const t=l.parse(e.body.trim(),"Status_Line");if(-1!==t)switch(!0){case/^100$/.test(t.status_code):this.emit("trying",{request:e,status_line:t});break;case/^1[0-9]{2}$/.test(t.status_code):this.emit("progress",{request:e,status_line:t});break;case/^2[0-9]{2}$/.test(t.status_code):this.emit("accepted",{request:e,status_line:t});break;default:this.emit("failed",{request:e,status_line:t})}else u.debug(`receiveNotify() | error parsing NOTIFY body: "${e.body}"`)}_requestSucceeded(e){u.debug("REFER succeeded"),u.debug('emit "requestSucceeded"'),this.emit("requestSucceeded",{response:e})}_requestFailed(e,t){u.debug("REFER failed"),u.debug('emit "requestFailed"'),this.emit("requestFailed",{response:e||null,cause:t})}}},{"../Constants":4,"../Grammar":9,"../Logger":11,"../Utils":30,events:1}],21:[function(e,t,n){const s=e("./Logger"),r=e("./Utils"),i=e("./Constants"),l=e("./SIPMessage"),o=e("./RequestSender"),u=new s("Registrator");t.exports=class{constructor(e,t){this._reg_id=1,this._ua=e,this._transport=t,this._registrar=e.configuration.registrar_server,this._expires=e.configuration.register_expires,this._call_id=r.createRandomToken(22),this._cseq=0,this._to_uri=e.configuration.uri,this._registrationTimer=null,this._registering=!1,this._registered=!1,this._contact=this._ua.contact.toString(),this._contact+=";+sip.ice",this._extraHeaders=[],this._extraContactParams="",this._sipInstance=`"<urn:uuid:${this._ua.configuration.instance_id}>"`,this._contact+=`;reg-id=${this._reg_id}`,this._contact+=`;+sip.instance=${this._sipInstance}`}get registered(){return this._registered}setExtraHeaders(e){Array.isArray(e)||(e=[]),this._extraHeaders=e.slice()}setExtraContactParams(e){e instanceof Object||(e={}),this._extraContactParams="";for(const t in e)if(Object.prototype.hasOwnProperty.call(e,t)){const n=e[t];this._extraContactParams+=`;${t}`,n&&(this._extraContactParams+=`=${n}`)}}register(){if(this._registering)return void u.debug("Register request in progress...");const e=this._extraHeaders.slice();e.push(`Contact: ${this._contact};expires=${this._expires}${this._extraContactParams}`),e.push(`Expires: ${this._expires}`);const t=new l.OutgoingRequest(i.REGISTER,this._registrar,this._ua,{to_uri:this._to_uri,call_id:this._call_id,cseq:this._cseq+=1},e),n=new o(this._ua,t,{onRequestTimeout:()=>{this._registrationFailure(null,i.causes.REQUEST_TIMEOUT)},onTransportError:()=>{this._registrationFailure(null,i.causes.CONNECTION_ERROR)},onAuthenticated:()=>{this._cseq+=1},onReceiveResponse:e=>{if(e.cseq===this._cseq)switch(null!==this._registrationTimer&&(clearTimeout(this._registrationTimer),this._registrationTimer=null),!0){case/^1[0-9]{2}$/.test(e.status_code):break;case/^2[0-9]{2}$/.test(e.status_code):{if(this._registering=!1,!e.hasHeader("Contact")){u.debug("no Contact header in response to REGISTER, response ignored");break}const t=e.headers.Contact.reduce((e,t)=>e.concat(t.parsed),[]);let n=t.find(e=>this._sipInstance===e.getParam("+sip.instance")&&this._reg_id===parseInt(e.getParam("reg-id")));if(n||(n=t.find(e=>e.uri.user===this._ua.contact.uri.user)),!n){u.debug("no Contact header pointing to us, response ignored");break}let s=n.getParam("expires");!s&&e.hasHeader("expires")&&(s=e.getHeader("expires")),s||(s=this._expires),s=Number(s),s<10&&(s=10);const r=s>64?1e3*s/2+Math.floor(1e3*(s/2-32)*Math.random()):1e3*s-5e3;this._registrationTimer=setTimeout(()=>{this._registrationTimer=null,0===this._ua.listeners("registrationExpiring").length?this.register():this._ua.emit("registrationExpiring")},r),n.hasParam("temp-gruu")&&(this._ua.contact.temp_gruu=n.getParam("temp-gruu").replace(/"/g,"")),n.hasParam("pub-gruu")&&(this._ua.contact.pub_gruu=n.getParam("pub-gruu").replace(/"/g,"")),this._registered||(this._registered=!0,this._ua.registered({response:e}));break}case/^423$/.test(e.status_code):e.hasHeader("min-expires")?(this._expires=Number(e.getHeader("min-expires")),this._expires<10&&(this._expires=10),this.register()):(u.debug("423 response received for REGISTER without Min-Expires"),this._registrationFailure(e,i.causes.SIP_FAILURE_CODE));break;default:{const t=r.sipErrorCause(e.status_code);this._registrationFailure(e,t)}}}});this._registering=!0,n.send()}unregister(e={}){if(!this._registered)return void u.debug("already unregistered");this._registered=!1,null!==this._registrationTimer&&(clearTimeout(this._registrationTimer),this._registrationTimer=null);const t=this._extraHeaders.slice();e.all?t.push(`Contact: *${this._extraContactParams}`):t.push(`Contact: ${this._contact};expires=0${this._extraContactParams}`),t.push("Expires: 0");const n=new l.OutgoingRequest(i.REGISTER,this._registrar,this._ua,{to_uri:this._to_uri,call_id:this._call_id,cseq:this._cseq+=1},t);new o(this._ua,n,{onRequestTimeout:()=>{this._unregistered(null,i.causes.REQUEST_TIMEOUT)},onTransportError:()=>{this._unregistered(null,i.causes.CONNECTION_ERROR)},onAuthenticated:()=>{this._cseq+=1},onReceiveResponse:e=>{switch(!0){case/^1[0-9]{2}$/.test(e.status_code):break;case/^2[0-9]{2}$/.test(e.status_code):this._unregistered(e);break;default:{const t=r.sipErrorCause(e.status_code);this._unregistered(e,t)}}}}).send()}close(){this._registered&&this.unregister()}onTransportClosed(){this._registering=!1,null!==this._registrationTimer&&(clearTimeout(this._registrationTimer),this._registrationTimer=null),this._registered&&(this._registered=!1,this._ua.unregistered({}))}_registrationFailure(e,t){this._registering=!1,this._ua.registrationFailed({response:e||null,cause:t}),this._registered&&(this._registered=!1,this._ua.unregistered({response:e||null,cause:t}))}_unregistered(e,t){this._registering=!1,this._registered=!1,this._ua.unregistered({response:e||null,cause:t||null})}}},{"./Constants":4,"./Logger":11,"./RequestSender":22,"./SIPMessage":23,"./Utils":30}],22:[function(e,t,n){const s=e("./Logger"),r=e("./Constants"),i=e("./DigestAuthentication"),l=e("./Transactions"),o=new s("RequestSender"),u={onRequestTimeout:()=>{},onTransportError:()=>{},onReceiveResponse:()=>{},onAuthenticated:()=>{}};t.exports=class{constructor(e,t,n){this._ua=e,this._eventHandlers=n,this._method=t.method,this._request=t,this._auth=null,this._challenged=!1,this._staled=!1;for(const e in u)Object.prototype.hasOwnProperty.call(u,e)&&(this._eventHandlers[e]||(this._eventHandlers[e]=u[e]));e.status!==e.C.STATUS_USER_CLOSED||this._method===r.BYE&&this._method===r.ACK||this._eventHandlers.onTransportError()}send(){const e={onRequestTimeout:()=>{this._eventHandlers.onRequestTimeout()},onTransportError:()=>{this._eventHandlers.onTransportError()},onReceiveResponse:e=>{this._receiveResponse(e)}};switch(this._method){case"INVITE":this.clientTransaction=new l.InviteClientTransaction(this._ua,this._ua.transport,this._request,e);break;case"ACK":this.clientTransaction=new l.AckClientTransaction(this._ua,this._ua.transport,this._request,e);break;default:this.clientTransaction=new l.NonInviteClientTransaction(this._ua,this._ua.transport,this._request,e)}this._ua._configuration.authorization_jwt&&this._request.setHeader("Authorization",this._ua._configuration.authorization_jwt),this.clientTransaction.send()}_receiveResponse(e){let t,n;const s=e.status_code;if(401!==s&&407!==s||null===this._ua.configuration.password&&null===this._ua.configuration.ha1)this._eventHandlers.onReceiveResponse(e);else{if(401===e.status_code?(t=e.parseHeader("www-authenticate"),n="authorization"):(t=e.parseHeader("proxy-authenticate"),n="proxy-authorization"),!t)return o.debug(`${e.status_code} with wrong or missing challenge, cannot authenticate`),void this._eventHandlers.onReceiveResponse(e);if(!this._challenged||!this._staled&&!0===t.stale){if(this._auth||(this._auth=new i({username:this._ua.configuration.authorization_user,password:this._ua.configuration.password,realm:this._ua.configuration.realm,ha1:this._ua.configuration.ha1})),!this._auth.authenticate(this._request,t))return void this._eventHandlers.onReceiveResponse(e);this._challenged=!0,this._ua.set("realm",this._auth.get("realm")),this._ua.set("ha1",this._auth.get("ha1")),t.stale&&(this._staled=!0),this._request=this._request.clone(),this._request.cseq+=1,this._request.setHeader("cseq",`${this._request.cseq} ${this._method}`),this._request.setHeader(n,this._auth.toString()),this._eventHandlers.onAuthenticated(this._request),this.send()}else this._eventHandlers.onReceiveResponse(e)}}}},{"./Constants":4,"./DigestAuthentication":7,"./Logger":11,"./Transactions":26}],23:[function(e,t,n){const s=e("sdp-transform"),r=e("./Logger"),i=e("./Constants"),l=e("./Utils"),o=e("./NameAddrHeader"),u=e("./Grammar"),a=new r("SIPMessage");class c{constructor(e,t,n,s,r,u){if(!e||!t||!n)return null;s=s||{},this.ua=n,this.headers={},this.method=e,this.ruri=t,this.body=u,this.extraHeaders=l.cloneArray(r),s.route_set?this.setHeader("route",s.route_set):n.configuration.use_preloaded_route&&this.setHeader("route",`<${n.transport.sip_uri};lr>`),this.setHeader("via",""),this.setHeader("max-forwards",i.MAX_FORWARDS);const a=s.to_uri||t,c=s.to_tag?{tag:s.to_tag}:null,h=void 0!==s.to_display_name?s.to_display_name:null;this.to=new o(a,h,c),this.setHeader("to",this.to.toString());const d=s.from_uri||n.configuration.uri,_={tag:s.from_tag||l.newTag()};let p;p=void 0!==s.from_display_name?s.from_display_name:n.configuration.display_name?n.configuration.display_name:null,this.from=new o(d,p,_),this.setHeader("from",this.from.toString());const f=s.call_id||n.configuration.jssip_id+l.createRandomToken(15);this.call_id=f,this.setHeader("call-id",f);const m=s.cseq||Math.floor(1e4*Math.random());this.cseq=m,this.setHeader("cseq",`${m} ${e}`)}setHeader(e,t){const n=new RegExp(`^\\s*${e}\\s*:`,"i");for(let e=0;e<this.extraHeaders.length;e++)n.test(this.extraHeaders[e])&&this.extraHeaders.splice(e,1);this.headers[l.headerize(e)]=Array.isArray(t)?t:[t]}getHeader(e){const t=this.headers[l.headerize(e)];if(t){if(t[0])return t[0]}else{const t=new RegExp(`^\\s*${e}\\s*:`,"i");for(const e of this.extraHeaders)if(t.test(e))return e.substring(e.indexOf(":")+1).trim()}}getHeaders(e){const t=this.headers[l.headerize(e)],n=[];if(t){for(const e of t)n.push(e);return n}{const t=new RegExp(`^\\s*${e}\\s*:`,"i");for(const e of this.extraHeaders)t.test(e)&&n.push(e.substring(e.indexOf(":")+1).trim());return n}}hasHeader(e){if(this.headers[l.headerize(e)])return!0;{const t=new RegExp(`^\\s*${e}\\s*:`,"i");for(const e of this.extraHeaders)if(t.test(e))return!0}return!1}parseSDP(e){return!e&&this.sdp||(this.sdp=s.parse(this.body||"")),this.sdp}toString(){let e=`${this.method} ${this.ruri} SIP/2.0\r\n`;for(const t in this.headers)if(Object.prototype.hasOwnProperty.call(this.headers,t))for(const n of this.headers[t])e+=`${t}: ${n}\r\n`;for(const t of this.extraHeaders)e+=`${t.trim()}\r\n`;const t=[];switch(this.method){case i.REGISTER:t.push("path","gruu");break;case i.INVITE:this.ua.configuration.session_timers&&t.push("timer"),(this.ua.contact.pub_gruu||this.ua.contact.temp_gruu)&&t.push("gruu"),t.push("ice","replaces");break;case i.UPDATE:this.ua.configuration.session_timers&&t.push("timer"),t.push("ice")}t.push("outbound");const n=this.ua.configuration.user_agent||i.USER_AGENT;if(e+=`Allow: ${i.ALLOWED_METHODS}\r\n`,e+=`Supported: ${t}\r\n`,e+=`User-Agent: ${n}\r\n`,this.body){e+=`Content-Length: ${l.str_utf8_length(this.body)}\r\n\r\n`,e+=this.body}else e+="Content-Length: 0\r\n\r\n";return e}clone(){const e=new c(this.method,this.ruri,this.ua);return Object.keys(this.headers).forEach(function(t){e.headers[t]=this.headers[t].slice()},this),e.body=this.body,e.extraHeaders=l.cloneArray(this.extraHeaders),e.to=this.to,e.from=this.from,e.call_id=this.call_id,e.cseq=this.cseq,e}}class h extends c{constructor(e,t,n,s,r){super(i.INVITE,e,t,n,s,r),this.transaction=null}cancel(e){this.transaction.cancel(e)}clone(){const e=new h(this.ruri,this.ua);return Object.keys(this.headers).forEach(function(t){e.headers[t]=this.headers[t].slice()},this),e.body=this.body,e.extraHeaders=l.cloneArray(this.extraHeaders),e.to=this.to,e.from=this.from,e.call_id=this.call_id,e.cseq=this.cseq,e.transaction=this.transaction,e}}class d{constructor(){this.data=null,this.headers=null,this.method=null,this.via=null,this.via_branch=null,this.call_id=null,this.cseq=null,this.from=null,this.from_tag=null,this.to=null,this.to_tag=null,this.body=null,this.sdp=null}addHeader(e,t){const n={raw:t};e=l.headerize(e),this.headers[e]?this.headers[e].push(n):this.headers[e]=[n]}getHeader(e){const t=this.headers[l.headerize(e)];if(t)return t[0]?t[0].raw:void 0}getHeaders(e){const t=this.headers[l.headerize(e)],n=[];if(!t)return[];for(const e of t)n.push(e.raw);return n}hasHeader(e){return!!this.headers[l.headerize(e)]}parseHeader(e,t=0){if(e=l.headerize(e),!this.headers[e])return void a.debug(`header "${e}" not present`);if(t>=this.headers[e].length)return void a.debug(`not so many "${e}" headers present`);const n=this.headers[e][t],s=n.raw;if(n.parsed)return n.parsed;const r=u.parse(s,e.replace(/-/g,"_"));return-1===r?(this.headers[e].splice(t,1),void a.debug(`error parsing "${e}" header field with value "${s}"`)):(n.parsed=r,r)}s(e,t){return this.parseHeader(e,t)}setHeader(e,t){const n={raw:t};this.headers[l.headerize(e)]=[n]}parseSDP(e){return!e&&this.sdp||(this.sdp=s.parse(this.body||"")),this.sdp}toString(){return this.data}}t.exports={OutgoingRequest:c,InitialOutgoingInviteRequest:h,IncomingRequest:class extends d{constructor(e){super(),this.ua=e,this.headers={},this.ruri=null,this.transport=null,this.server_transaction=null}reply(e,t,n,s,r,o){const u=[];let a=this.getHeader("To");if(t=t||null,!(e=e||null)||e<100||e>699)throw new TypeError(`Invalid status_code: ${e}`);if(t&&"string"!=typeof t&&!(t instanceof String))throw new TypeError(`Invalid reason_phrase: ${t}`);t=t||i.REASON_PHRASE[e]||"",n=l.cloneArray(n);let c=`SIP/2.0 ${e} ${t}\r\n`;if(this.method===i.INVITE&&e>100&&e<=200){const e=this.getHeaders("record-route");for(const t of e)c+=`Record-Route: ${t}\r\n`}const h=this.getHeaders("via");for(const e of h)c+=`Via: ${e}\r\n`;!this.to_tag&&e>100?a+=`;tag=${l.newTag()}`:this.to_tag&&!this.s("to").hasParam("tag")&&(a+=`;tag=${this.to_tag}`),c+=`To: ${a}\r\n`,c+=`From: ${this.getHeader("From")}\r\n`,c+=`Call-ID: ${this.call_id}\r\n`,c+=`CSeq: ${this.cseq} ${this.method}\r\n`;for(const e of n)c+=`${e.trim()}\r\n`;switch(this.method){case i.INVITE:this.ua.configuration.session_timers&&u.push("timer"),(this.ua.contact.pub_gruu||this.ua.contact.temp_gruu)&&u.push("gruu"),u.push("ice","replaces");break;case i.UPDATE:this.ua.configuration.session_timers&&u.push("timer"),s&&u.push("ice"),u.push("replaces")}if(u.push("outbound"),this.method===i.OPTIONS?(c+=`Allow: ${i.ALLOWED_METHODS}\r\n`,c+=`Accept: ${i.ACCEPTED_BODY_TYPES}\r\n`):405===e?c+=`Allow: ${i.ALLOWED_METHODS}\r\n`:415===e&&(c+=`Accept: ${i.ACCEPTED_BODY_TYPES}\r\n`),c+=`Supported: ${u}\r\n`,s){c+="Content-Type: application/sdp\r\n",c+=`Content-Length: ${l.str_utf8_length(s)}\r\n\r\n`,c+=s}else c+="Content-Length: 0\r\n\r\n";this.server_transaction.receiveResponse(e,c,r,o)}reply_sl(e=null,t=null){const n=this.getHeaders("via");if(!e||e<100||e>699)throw new TypeError(`Invalid status_code: ${e}`);if(t&&"string"!=typeof t&&!(t instanceof String))throw new TypeError(`Invalid reason_phrase: ${t}`);let s=`SIP/2.0 ${e} ${t=t||i.REASON_PHRASE[e]||""}\r\n`;for(const e of n)s+=`Via: ${e}\r\n`;let r=this.getHeader("To");!this.to_tag&&e>100?r+=`;tag=${l.newTag()}`:this.to_tag&&!this.s("to").hasParam("tag")&&(r+=`;tag=${this.to_tag}`),s+=`To: ${r}\r\n`,s+=`From: ${this.getHeader("From")}\r\n`,s+=`Call-ID: ${this.call_id}\r\n`,s+=`CSeq: ${this.cseq} ${this.method}\r\n`,s+="Content-Length: 0\r\n\r\n",this.transport.send(s)}},IncomingResponse:class extends d{constructor(){super(),this.headers={},this.status_code=null,this.reason_phrase=null}}}},{"./Constants":4,"./Grammar":9,"./Logger":11,"./NameAddrHeader":13,"./Utils":30,"sdp-transform":37}],24:[function(e,t,n){const s=e("./Logger"),r=e("./Utils"),i=e("./Grammar"),l=new s("Socket");n.isSocket=e=>{if(Array.isArray(e))return!1;if(void 0===e)return l.warn("undefined JsSIP.Socket instance"),!1;try{if(!r.isString(e.url))throw l.warn("missing or invalid JsSIP.Socket url property"),new Error("Missing or invalid JsSIP.Socket url property");if(!r.isString(e.via_transport))throw l.warn("missing or invalid JsSIP.Socket via_transport property"),new Error("Missing or invalid JsSIP.Socket via_transport property");if(-1===i.parse(e.sip_uri,"SIP_URI"))throw l.warn("missing or invalid JsSIP.Socket sip_uri property"),new Error("missing or invalid JsSIP.Socket sip_uri property")}catch(e){return!1}try{["connect","disconnect","send"].forEach(t=>{if(!r.isFunction(e[t]))throw l.warn(`missing or invalid JsSIP.Socket method: ${t}`),new Error(`Missing or invalid JsSIP.Socket method: ${t}`)})}catch(e){return!1}return!0}},{"./Grammar":9,"./Logger":11,"./Utils":30}],25:[function(e,t,n){const s=500;t.exports={T1:s,T2:4e3,T4:5e3,TIMER_B:32e3,TIMER_D:0,TIMER_F:32e3,TIMER_H:32e3,TIMER_I:0,TIMER_J:0,TIMER_K:0,TIMER_L:32e3,TIMER_M:32e3,PROVISIONAL_RESPONSE_INTERVAL:6e4}},{}],26:[function(e,t,n){const s=e("events").EventEmitter,r=e("./Logger"),i=e("./Constants"),l=e("./SIPMessage"),o=e("./Timers"),u=new r("NonInviteClientTransaction"),a=new r("InviteClientTransaction"),c=new r("AckClientTransaction"),h=new r("NonInviteServerTransaction"),d=new r("InviteServerTransaction"),_={STATUS_TRYING:1,STATUS_PROCEEDING:2,STATUS_CALLING:3,STATUS_ACCEPTED:4,STATUS_COMPLETED:5,STATUS_TERMINATED:6,STATUS_CONFIRMED:7,NON_INVITE_CLIENT:"nict",NON_INVITE_SERVER:"nist",INVITE_CLIENT:"ict",INVITE_SERVER:"ist"};t.exports={C:_,NonInviteClientTransaction:class extends s{constructor(e,t,n,s){super(),this.type=_.NON_INVITE_CLIENT,this.id=`z9hG4bK${Math.floor(1e7*Math.random())}`,this.ua=e,this.transport=t,this.request=n,this.eventHandlers=s;let r=`SIP/2.0/${t.via_transport}`;r+=` ${e.configuration.via_host};branch=${this.id}`,this.request.setHeader("via",r),this.ua.newTransaction(this)}get C(){return _}stateChanged(e){this.state=e,this.emit("stateChanged")}send(){this.stateChanged(_.STATUS_TRYING),this.F=setTimeout(()=>{this.timer_F()},o.TIMER_F),this.transport.send(this.request)||this.onTransportError()}onTransportError(){u.debug(`transport error occurred, deleting transaction ${this.id}`),clearTimeout(this.F),clearTimeout(this.K),this.stateChanged(_.STATUS_TERMINATED),this.ua.destroyTransaction(this),this.eventHandlers.onTransportError()}timer_F(){u.debug(`Timer F expired for transaction ${this.id}`),this.stateChanged(_.STATUS_TERMINATED),this.ua.destroyTransaction(this),this.eventHandlers.onRequestTimeout()}timer_K(){this.stateChanged(_.STATUS_TERMINATED),this.ua.destroyTransaction(this)}receiveResponse(e){const t=e.status_code;if(t<200)switch(this.state){case _.STATUS_TRYING:case _.STATUS_PROCEEDING:this.stateChanged(_.STATUS_PROCEEDING),this.eventHandlers.onReceiveResponse(e)}else switch(this.state){case _.STATUS_TRYING:case _.STATUS_PROCEEDING:this.stateChanged(_.STATUS_COMPLETED),clearTimeout(this.F),408===t?this.eventHandlers.onRequestTimeout():this.eventHandlers.onReceiveResponse(e),this.K=setTimeout(()=>{this.timer_K()},o.TIMER_K)}}},InviteClientTransaction:class extends s{constructor(e,t,n,s){super(),this.type=_.INVITE_CLIENT,this.id=`z9hG4bK${Math.floor(1e7*Math.random())}`,this.ua=e,this.transport=t,this.request=n,this.eventHandlers=s,n.transaction=this;let r=`SIP/2.0/${t.via_transport}`;r+=` ${e.configuration.via_host};branch=${this.id}`,this.request.setHeader("via",r),this.ua.newTransaction(this)}get C(){return _}stateChanged(e){this.state=e,this.emit("stateChanged")}send(){this.stateChanged(_.STATUS_CALLING),this.B=setTimeout(()=>{this.timer_B()},o.TIMER_B),this.transport.send(this.request)||this.onTransportError()}onTransportError(){clearTimeout(this.B),clearTimeout(this.D),clearTimeout(this.M),this.state!==_.STATUS_ACCEPTED&&(a.debug(`transport error occurred, deleting transaction ${this.id}`),this.eventHandlers.onTransportError()),this.stateChanged(_.STATUS_TERMINATED),this.ua.destroyTransaction(this)}timer_M(){a.debug(`Timer M expired for transaction ${this.id}`),this.state===_.STATUS_ACCEPTED&&(clearTimeout(this.B),this.stateChanged(_.STATUS_TERMINATED),this.ua.destroyTransaction(this))}timer_B(){a.debug(`Timer B expired for transaction ${this.id}`),this.state===_.STATUS_CALLING&&(this.stateChanged(_.STATUS_TERMINATED),this.ua.destroyTransaction(this),this.eventHandlers.onRequestTimeout())}timer_D(){a.debug(`Timer D expired for transaction ${this.id}`),clearTimeout(this.B),this.stateChanged(_.STATUS_TERMINATED),this.ua.destroyTransaction(this)}sendACK(e){const t=new l.OutgoingRequest(i.ACK,this.request.ruri,this.ua,{route_set:this.request.getHeaders("route"),call_id:this.request.getHeader("call-id"),cseq:this.request.cseq});t.setHeader("from",this.request.getHeader("from")),t.setHeader("via",this.request.getHeader("via")),t.setHeader("to",e.getHeader("to")),this.D=setTimeout(()=>{this.timer_D()},o.TIMER_D),this.transport.send(t)}cancel(e){if(this.state!==_.STATUS_PROCEEDING)return;const t=new l.OutgoingRequest(i.CANCEL,this.request.ruri,this.ua,{route_set:this.request.getHeaders("route"),call_id:this.request.getHeader("call-id"),cseq:this.request.cseq});t.setHeader("from",this.request.getHeader("from")),t.setHeader("via",this.request.getHeader("via")),t.setHeader("to",this.request.getHeader("to")),e&&t.setHeader("reason",e),this.transport.send(t)}receiveResponse(e){const t=e.status_code;if(t>=100&&t<=199)switch(this.state){case _.STATUS_CALLING:this.stateChanged(_.STATUS_PROCEEDING),this.eventHandlers.onReceiveResponse(e);break;case _.STATUS_PROCEEDING:this.eventHandlers.onReceiveResponse(e)}else if(t>=200&&t<=299)switch(this.state){case _.STATUS_CALLING:case _.STATUS_PROCEEDING:this.stateChanged(_.STATUS_ACCEPTED),this.M=setTimeout(()=>{this.timer_M()},o.TIMER_M),this.eventHandlers.onReceiveResponse(e);break;case _.STATUS_ACCEPTED:this.eventHandlers.onReceiveResponse(e)}else if(t>=300&&t<=699)switch(this.state){case _.STATUS_CALLING:case _.STATUS_PROCEEDING:this.stateChanged(_.STATUS_COMPLETED),this.sendACK(e),this.eventHandlers.onReceiveResponse(e);break;case _.STATUS_COMPLETED:this.sendACK(e)}}},AckClientTransaction:class extends s{constructor(e,t,n,s){super(),this.id=`z9hG4bK${Math.floor(1e7*Math.random())}`,this.transport=t,this.request=n,this.eventHandlers=s;let r=`SIP/2.0/${t.via_transport}`;r+=` ${e.configuration.via_host};branch=${this.id}`,this.request.setHeader("via",r)}get C(){return _}send(){this.transport.send(this.request)||this.onTransportError()}onTransportError(){c.debug(`transport error occurred for transaction ${this.id}`),this.eventHandlers.onTransportError()}},NonInviteServerTransaction:class extends s{constructor(e,t,n){super(),this.type=_.NON_INVITE_SERVER,this.id=n.via_branch,this.ua=e,this.transport=t,this.request=n,this.last_response="",n.server_transaction=this,this.state=_.STATUS_TRYING,e.newTransaction(this)}get C(){return _}stateChanged(e){this.state=e,this.emit("stateChanged")}timer_J(){h.debug(`Timer J expired for transaction ${this.id}`),this.stateChanged(_.STATUS_TERMINATED),this.ua.destroyTransaction(this)}onTransportError(){this.transportError||(this.transportError=!0,h.debug(`transport error occurred, deleting transaction ${this.id}`),clearTimeout(this.J),this.stateChanged(_.STATUS_TERMINATED),this.ua.destroyTransaction(this))}receiveResponse(e,t,n,s){if(100===e)switch(this.state){case _.STATUS_TRYING:this.stateChanged(_.STATUS_PROCEEDING),this.transport.send(t)||this.onTransportError();break;case _.STATUS_PROCEEDING:this.last_response=t,this.transport.send(t)?n&&n():(this.onTransportError(),s&&s())}else if(e>=200&&e<=699)switch(this.state){case _.STATUS_TRYING:case _.STATUS_PROCEEDING:this.stateChanged(_.STATUS_COMPLETED),this.last_response=t,this.J=setTimeout(()=>{this.timer_J()},o.TIMER_J),this.transport.send(t)?n&&n():(this.onTransportError(),s&&s())}}},InviteServerTransaction:class extends s{constructor(e,t,n){super(),this.type=_.INVITE_SERVER,this.id=n.via_branch,this.ua=e,this.transport=t,this.request=n,this.last_response="",n.server_transaction=this,this.state=_.STATUS_PROCEEDING,e.newTransaction(this),this.resendProvisionalTimer=null,n.reply(100)}get C(){return _}stateChanged(e){this.state=e,this.emit("stateChanged")}timer_H(){d.debug(`Timer H expired for transaction ${this.id}`),this.state===_.STATUS_COMPLETED&&d.debug("ACK not received, dialog will be terminated"),this.stateChanged(_.STATUS_TERMINATED),this.ua.destroyTransaction(this)}timer_I(){this.stateChanged(_.STATUS_TERMINATED),this.ua.destroyTransaction(this)}timer_L(){d.debug(`Timer L expired for transaction ${this.id}`),this.state===_.STATUS_ACCEPTED&&(this.stateChanged(_.STATUS_TERMINATED),this.ua.destroyTransaction(this))}onTransportError(){this.transportError||(this.transportError=!0,d.debug(`transport error occurred, deleting transaction ${this.id}`),null!==this.resendProvisionalTimer&&(clearInterval(this.resendProvisionalTimer),this.resendProvisionalTimer=null),clearTimeout(this.L),clearTimeout(this.H),clearTimeout(this.I),this.stateChanged(_.STATUS_TERMINATED),this.ua.destroyTransaction(this))}resend_provisional(){this.transport.send(this.last_response)||this.onTransportError()}receiveResponse(e,t,n,s){if(e>=100&&e<=199&&this.state===_.STATUS_PROCEEDING)this.transport.send(t)||this.onTransportError(),this.last_response=t;if(e>100&&e<=199&&this.state===_.STATUS_PROCEEDING)null===this.resendProvisionalTimer&&(this.resendProvisionalTimer=setInterval(()=>{this.resend_provisional()},o.PROVISIONAL_RESPONSE_INTERVAL));else if(e>=200&&e<=299)switch(this.state){case _.STATUS_PROCEEDING:this.stateChanged(_.STATUS_ACCEPTED),this.last_response=t,this.L=setTimeout(()=>{this.timer_L()},o.TIMER_L),null!==this.resendProvisionalTimer&&(clearInterval(this.resendProvisionalTimer),this.resendProvisionalTimer=null);case _.STATUS_ACCEPTED:this.transport.send(t)?n&&n():(this.onTransportError(),s&&s())}else if(e>=300&&e<=699&&this.state===_.STATUS_PROCEEDING)null!==this.resendProvisionalTimer&&(clearInterval(this.resendProvisionalTimer),this.resendProvisionalTimer=null),this.transport.send(t)?(this.stateChanged(_.STATUS_COMPLETED),this.H=setTimeout(()=>{this.timer_H()},o.TIMER_H),n&&n()):(this.onTransportError(),s&&s())}},checkTransaction:function({_transactions:e},t){let n;switch(t.method){case i.INVITE:if(n=e.ist[t.via_branch],n){if(n.state===_.STATUS_PROCEEDING)n.transport.send(n.last_response);return!0}break;case i.ACK:if(n=e.ist[t.via_branch],!n)return!1;if(n.state===_.STATUS_ACCEPTED)return!1;if(n.state===_.STATUS_COMPLETED)return n.state=_.STATUS_CONFIRMED,n.I=setTimeout(()=>{n.timer_I()},o.TIMER_I),!0;break;case i.CANCEL:return n=e.ist[t.via_branch],n?(t.reply_sl(200),n.state!==_.STATUS_PROCEEDING):(t.reply_sl(481),!0);default:if(n=e.nist[t.via_branch],n){switch(n.state){case _.STATUS_TRYING:break;case _.STATUS_PROCEEDING:case _.STATUS_COMPLETED:n.transport.send(n.last_response)}return!0}}}}},{"./Constants":4,"./Logger":11,"./SIPMessage":23,"./Timers":25,events:1}],27:[function(e,t,n){const s=e("./Logger"),r=e("./Socket"),i=e("./Constants"),l=new s("Transport"),o=0,u=1,a=2,c=0,h=1,d={min_interval:i.CONNECTION_RECOVERY_MIN_INTERVAL,max_interval:i.CONNECTION_RECOVERY_MAX_INTERVAL};t.exports=class{constructor(e,t=d){l.debug("new()"),this.status=a,this.socket=null,this.sockets=[],this.recovery_options=t,this.recover_attempts=0,this.recovery_timer=null,this.close_requested=!1;try{this.textDecoder=new TextDecoder("utf8")}catch(e){l.warn(`cannot use TextDecoder: ${e}`)}if(void 0===e)throw new TypeError("Invalid argument. undefined 'sockets' argument");e instanceof Array||(e=[e]),e.forEach(function(e){if(!r.isSocket(e.socket))throw new TypeError("Invalid argument. invalid 'JsSIP.Socket' instance");if(e.weight&&!Number(e.weight))throw new TypeError("Invalid argument. 'weight' attribute is not a number");this.sockets.push({socket:e.socket,weight:e.weight||0,status:c})},this),this._getSocket()}get via_transport(){return this.socket.via_transport}get url(){return this.socket.url}get sip_uri(){return this.socket.sip_uri}connect(){l.debug("connect()"),this.isConnected()?l.debug("Transport is already connected"):this.isConnecting()?l.debug("Transport is connecting"):(this.close_requested=!1,this.status=u,this.onconnecting({socket:this.socket,attempts:this.recover_attempts}),this.close_requested||(this.socket.onconnect=this._onConnect.bind(this),this.socket.ondisconnect=this._onDisconnect.bind(this),this.socket.ondata=this._onData.bind(this),this.socket.connect()))}disconnect(){l.debug("close()"),this.close_requested=!0,this.recover_attempts=0,this.status=a,null!==this.recovery_timer&&(clearTimeout(this.recovery_timer),this.recovery_timer=null),this.socket.onconnect=()=>{},this.socket.ondisconnect=()=>{},this.socket.ondata=()=>{},this.socket.disconnect(),this.ondisconnect({socket:this.socket,error:!1})}send(e){if(l.debug("send()"),!this.isConnected())return l.warn("unable to send message, transport is not connected"),!1;const t=e.toString();return l.debug(`sending message:\n\n${t}\n`),this.socket.send(t)}isConnected(){return this.status===o}isConnecting(){return this.status===u}_reconnect(){this.recover_attempts+=1;let e=Math.floor(Math.random()*Math.pow(2,this.recover_attempts)+1);e<this.recovery_options.min_interval?e=this.recovery_options.min_interval:e>this.recovery_options.max_interval&&(e=this.recovery_options.max_interval),l.debug(`reconnection attempt: ${this.recover_attempts}. next connection attempt in ${e} seconds`),this.recovery_timer=setTimeout(()=>{this.close_requested||this.isConnected()||this.isConnecting()||(this._getSocket(),this.connect())},1e3*e)}_getSocket(){let e=[];if(this.sockets.forEach(t=>{t.status!==h&&(0===e.length?e.push(t):t.weight>e[0].weight?e=[t]:t.weight===e[0].weight&&e.push(t))}),0===e.length)return this.sockets.forEach(e=>{e.status=c}),void this._getSocket();const t=Math.floor(Math.random()*e.length);this.socket=e[t].socket}_onConnect(){this.recover_attempts=0,this.status=o,null!==this.recovery_timer&&(clearTimeout(this.recovery_timer),this.recovery_timer=null),this.onconnect({socket:this})}_onDisconnect(e,t,n){this.status=a,this.ondisconnect({socket:this.socket,error:e,code:t,reason:n}),this.close_requested||(this.sockets.forEach(function(e){this.socket===e.socket&&(e.status=h)},this),this._reconnect(e))}_onData(e){if("\r\n"!==e){if("string"!=typeof e){try{e=this.textDecoder?this.textDecoder.decode(e):String.fromCharCode.apply(null,new Uint8Array(e))}catch(e){return void l.debug("received binary message failed to be converted into string, message discarded")}l.debug(`received binary message:\n\n${e}\n`)}else l.debug(`received text message:\n\n${e}\n`);this.ondata({transport:this,message:e})}else l.debug("received message with CRLF Keep Alive response")}}},{"./Constants":4,"./Logger":11,"./Socket":24}],28:[function(e,t,n){const s=e("events").EventEmitter,r=e("./Logger"),i=e("./Constants"),l=e("./Registrator"),o=e("./RTCSession"),u=e("./Message"),a=e("./Options"),c=e("./Transactions"),h=e("./Transport"),d=e("./Utils"),_=e("./Exceptions"),p=e("./URI"),f=e("./Parser"),m=e("./SIPMessage"),g=e("./sanityCheck"),T=e("./Config"),C=new r("UA"),v={STATUS_INIT:0,STATUS_READY:1,STATUS_USER_CLOSED:2,STATUS_NOT_READY:3,CONFIGURATION_ERROR:1,NETWORK_ERROR:2};function E(e){this.emit("connecting",e)}function S(e){this._status!==v.STATUS_USER_CLOSED&&(this._status=v.STATUS_READY,this._error=null,this.emit("connected",e),this._dynConfiguration.register&&this._registrator.register())}function A(e){const t=["nict","ict","nist","ist"];for(const e of t)for(const t in this._transactions[e])Object.prototype.hasOwnProperty.call(this._transactions[e],t)&&this._transactions[e][t].onTransportError();this.emit("disconnected",e),this._registrator.onTransportClosed(),this._status!==v.STATUS_USER_CLOSED&&(this._status=v.STATUS_NOT_READY,this._error=v.NETWORK_ERROR)}function R(e){const t=e.transport;let n=e.message;if(n=f.parseMessage(n,this),n&&!(this._status===v.STATUS_USER_CLOSED&&n instanceof m.IncomingRequest)&&g(n,this,t))if(n instanceof m.IncomingRequest)n.transport=t,this.receiveRequest(n);else if(n instanceof m.IncomingResponse){let e;switch(n.method){case i.INVITE:e=this._transactions.ict[n.via_branch],e&&e.receiveResponse(n);break;case i.ACK:break;default:e=this._transactions.nict[n.via_branch],e&&e.receiveResponse(n)}}}t.exports=class extends s{static get C(){return v}constructor(e){if(C.debug("new() [configuration:%o]",e),super(),this._cache={credentials:{}},this._configuration=Object.assign({},T.settings),this._dynConfiguration={},this._dialogs={},this._applicants={},this._sessions={},this._transport=null,this._contact=null,this._status=v.STATUS_INIT,this._error=null,this._transactions={nist:{},nict:{},ist:{},ict:{}},this._data={},this._closeTimer=null,void 0===e)throw new TypeError("Not enough arguments");try{this._loadConfig(e)}catch(e){throw this._status=v.STATUS_NOT_READY,this._error=v.CONFIGURATION_ERROR,e}this._registrator=new l(this)}get C(){return v}get status(){return this._status}get contact(){return this._contact}get configuration(){return this._configuration}get transport(){return this._transport}start(){C.debug("start()"),this._status===v.STATUS_INIT?this._transport.connect():this._status===v.STATUS_USER_CLOSED?(C.debug("restarting UA"),null!==this._closeTimer&&(clearTimeout(this._closeTimer),this._closeTimer=null,this._transport.disconnect()),this._status=v.STATUS_INIT,this._transport.connect()):this._status===v.STATUS_READY?C.debug("UA is in READY status, not restarted"):C.debug("ERROR: connection is down, Auto-Recovery system is trying to reconnect"),this._dynConfiguration.register=this._configuration.register}register(){C.debug("register()"),this._dynConfiguration.register=!0,this._registrator.register()}unregister(e){C.debug("unregister()"),this._dynConfiguration.register=!1,this._registrator.unregister(e)}registrator(){return this._registrator}isRegistered(){return this._registrator.registered}isConnected(){return this._transport.isConnected()}call(e,t){C.debug("call()");const n=new o(this);return n.connect(e,t),n}sendMessage(e,t,n){C.debug("sendMessage()");const s=new u(this);return s.send(e,t,n),s}sendOptions(e,t,n){C.debug("sendOptions()");const s=new a(this);return s.send(e,t,n),s}terminateSessions(e){C.debug("terminateSessions()");for(const t in this._sessions)this._sessions[t].isEnded()||this._sessions[t].terminate(e)}stop(){if(C.debug("stop()"),this._dynConfiguration={},this._status===v.STATUS_USER_CLOSED)return void C.debug("UA already closed");this._registrator.close();const e=Object.keys(this._sessions).length;for(const e in this._sessions)if(Object.prototype.hasOwnProperty.call(this._sessions,e)){C.debug(`closing session ${e}`);try{this._sessions[e].terminate()}catch(e){}}for(const e in this._applicants)if(Object.prototype.hasOwnProperty.call(this._applicants,e))try{this._applicants[e].close()}catch(e){}this._status=v.STATUS_USER_CLOSED;0===Object.keys(this._transactions.nict).length+Object.keys(this._transactions.nist).length+Object.keys(this._transactions.ict).length+Object.keys(this._transactions.ist).length&&0===e?this._transport.disconnect():this._closeTimer=setTimeout(()=>{this._closeTimer=null,this._transport.disconnect()},2e3)}normalizeTarget(e){return d.normalizeTarget(e,this._configuration.hostport_params)}get(e){switch(e){case"authorization_user":return this._configuration.authorization_user;case"realm":return this._configuration.realm;case"ha1":return this._configuration.ha1;case"authorization_jwt":return this._configuration.authorization_jwt;default:return void C.warn('get() | cannot get "%s" parameter in runtime',e)}}set(e,t){switch(e){case"authorization_user":this._configuration.authorization_user=String(t);break;case"password":this._configuration.password=String(t);break;case"realm":this._configuration.realm=String(t);break;case"ha1":this._configuration.ha1=String(t),this._configuration.password=null;break;case"authorization_jwt":this._configuration.authorization_jwt=String(t);break;case"display_name":this._configuration.display_name=t;break;default:return C.warn('set() | cannot set "%s" parameter in runtime',e),!1}return!0}newTransaction(e){this._transactions[e.type][e.id]=e,this.emit("newTransaction",{transaction:e})}destroyTransaction(e){delete this._transactions[e.type][e.id],this.emit("transactionDestroyed",{transaction:e})}newDialog(e){this._dialogs[e.id]=e}destroyDialog(e){delete this._dialogs[e.id]}newMessage(e,t){this._applicants[e]=e,this.emit("newMessage",t)}newOptions(e,t){this._applicants[e]=e,this.emit("newOptions",t)}destroyMessage(e){delete this._applicants[e]}newRTCSession(e,t){this._sessions[e.id]=e,this.emit("newRTCSession",t)}destroyRTCSession(e){delete this._sessions[e.id]}registered(e){this.emit("registered",e)}unregistered(e){this.emit("unregistered",e)}registrationFailed(e){this.emit("registrationFailed",e)}receiveRequest(e){const t=e.method;if(e.ruri.user!==this._configuration.uri.user&&e.ruri.user!==this._contact.uri.user)return C.debug("Request-URI does not point to us"),void(e.method!==i.ACK&&e.reply_sl(404));if(e.ruri.scheme===i.SIPS)return void e.reply_sl(416);if(c.checkTransaction(this,e))return;if(t===i.INVITE?new c.InviteServerTransaction(this,this._transport,e):t!==i.ACK&&t!==i.CANCEL&&new c.NonInviteServerTransaction(this,this._transport,e),t===i.OPTIONS){if(0===this.listeners("newOptions").length)return void e.reply(200);new a(this).init_incoming(e)}else if(t===i.MESSAGE){if(0===this.listeners("newMessage").length)return void e.reply(405);new u(this).init_incoming(e)}else if(t===i.INVITE&&!e.to_tag&&0===this.listeners("newRTCSession").length)return void e.reply(405);let n,s;if(e.to_tag)n=this._findDialog(e.call_id,e.from_tag,e.to_tag),n?n.receiveRequest(e):t===i.NOTIFY?(s=this._findSession(e),s?s.receiveRequest(e):(C.debug("received NOTIFY request for a non existent subscription"),e.reply(481,"Subscription does not exist"))):t!==i.ACK&&e.reply(481);else switch(t){case i.INVITE:if(window.RTCPeerConnection)if(e.hasHeader("replaces")){const t=e.replaces;n=this._findDialog(t.call_id,t.from_tag,t.to_tag),n?(s=n.owner,s.isEnded()?e.reply(603):s.receiveRequest(e)):e.reply(481)}else s=new o(this),s.init_incoming(e);else C.warn("INVITE received but WebRTC is not supported"),e.reply(488);break;case i.BYE:e.reply(481);break;case i.CANCEL:s=this._findSession(e),s?s.receiveRequest(e):C.debug("received CANCEL request for a non existent session");break;case i.ACK:break;case i.NOTIFY:this.emit("sipEvent",{event:e.event,request:e}),e.reply(200);break;default:e.reply(405)}}_findSession({call_id:e,from_tag:t,to_tag:n}){const s=e+t,r=this._sessions[s],i=e+n,l=this._sessions[i];return r||(l||null)}_findDialog(e,t,n){let s=e+t+n,r=this._dialogs[s];return r||(s=e+n+t,r=this._dialogs[s],r||null)}_loadConfig(e){try{T.load(this._configuration,e)}catch(e){throw e}0===this._configuration.display_name&&(this._configuration.display_name="0"),this._configuration.instance_id||(this._configuration.instance_id=d.newUUID()),this._configuration.jssip_id=d.createRandomToken(5);const t=this._configuration.uri.clone();t.user=null,this._configuration.hostport_params=t.toString().replace(/^sip:/i,"");try{this._transport=new h(this._configuration.sockets,{max_interval:this._configuration.connection_recovery_max_interval,min_interval:this._configuration.connection_recovery_min_interval}),this._transport.onconnecting=E.bind(this),this._transport.onconnect=S.bind(this),this._transport.ondisconnect=A.bind(this),this._transport.ondata=R.bind(this)}catch(e){throw C.warn(e),new _.ConfigurationError("sockets",this._configuration.sockets)}if(delete this._configuration.sockets,this._configuration.authorization_user||(this._configuration.authorization_user=this._configuration.uri.user),!this._configuration.registrar_server){const e=this._configuration.uri.clone();e.user=null,e.clearParams(),e.clearHeaders(),this._configuration.registrar_server=e}this._configuration.no_answer_timeout*=1e3,this._configuration.contact_uri?this._configuration.via_host=this._configuration.contact_uri.host:this._configuration.contact_uri=new p("sip",d.createRandomToken(8),this._configuration.via_host,null,{transport:"ws"}),this._contact={pub_gruu:null,temp_gruu:null,uri:this._configuration.contact_uri,toString(e={}){const t=e.anonymous||null,n=e.outbound||null;let s="<";return s+=t?this.temp_gruu||"sip:anonymous@anonymous.invalid;transport=ws":this.pub_gruu||this.uri.toString(),!n||(t?this.temp_gruu:this.pub_gruu)||(s+=";ob"),s+=">",s}};const n=["authorization_user","password","realm","ha1","authorization_jwt","display_name","register"];for(const e in this._configuration)Object.prototype.hasOwnProperty.call(this._configuration,e)&&(-1!==n.indexOf(e)?Object.defineProperty(this._configuration,e,{writable:!0,configurable:!1}):Object.defineProperty(this._configuration,e,{writable:!1,configurable:!1}));C.debug("configuration parameters after validation:");for(const e in this._configuration)if(Object.prototype.hasOwnProperty.call(T.settings,e))switch(e){case"uri":case"registrar_server":C.debug(`- ${e}: ${this._configuration[e]}`);break;case"password":case"ha1":case"authorization_jwt":C.debug(`- ${e}: NOT SHOWN`);break;default:C.debug(`- ${e}: ${JSON.stringify(this._configuration[e])}`)}}}},{"./Config":3,"./Constants":4,"./Exceptions":8,"./Logger":11,"./Message":12,"./Options":14,"./Parser":15,"./RTCSession":16,"./Registrator":21,"./SIPMessage":23,"./Transactions":26,"./Transport":27,"./URI":29,"./Utils":30,"./sanityCheck":32,events:1}],29:[function(e,t,n){const s=e("./Constants"),r=e("./Utils"),i=e("./Grammar");t.exports=class e{static parse(e){return-1!==(e=i.parse(e,"SIP_URI"))?e:void 0}constructor(e,t,n,r,i={},l={}){if(!n)throw new TypeError('missing or invalid "host" parameter');this._parameters={},this._headers={},this._scheme=e||s.SIP,this._user=t,this._host=n,this._port=r;for(const e in i)Object.prototype.hasOwnProperty.call(i,e)&&this.setParam(e,i[e]);for(const e in l)Object.prototype.hasOwnProperty.call(l,e)&&this.setHeader(e,l[e])}get scheme(){return this._scheme}set scheme(e){this._scheme=e.toLowerCase()}get user(){return this._user}set user(e){this._user=e}get host(){return this._host}set host(e){this._host=e.toLowerCase()}get port(){return this._port}set port(e){this._port=0===e?e:parseInt(e,10)||null}setParam(e,t){e&&(this._parameters[e.toLowerCase()]=null==t?null:t.toString())}getParam(e){if(e)return this._parameters[e.toLowerCase()]}hasParam(e){if(e)return!!this._parameters.hasOwnProperty(e.toLowerCase())}deleteParam(e){if(e=e.toLowerCase(),this._parameters.hasOwnProperty(e)){const t=this._parameters[e];return delete this._parameters[e],t}}clearParams(){this._parameters={}}setHeader(e,t){this._headers[r.headerize(e)]=Array.isArray(t)?t:[t]}getHeader(e){if(e)return this._headers[r.headerize(e)]}hasHeader(e){if(e)return!!this._headers.hasOwnProperty(r.headerize(e))}deleteHeader(e){if(e=r.headerize(e),this._headers.hasOwnProperty(e)){const t=this._headers[e];return delete this._headers[e],t}}clearHeaders(){this._headers={}}clone(){return new e(this._scheme,this._user,this._host,this._port,JSON.parse(JSON.stringify(this._parameters)),JSON.parse(JSON.stringify(this._headers)))}toString(){const e=[];let t=`${this._scheme}:`;this._user&&(t+=`${r.escapeUser(this._user)}@`),t+=this._host,(this._port||0===this._port)&&(t+=`:${this._port}`);for(const e in this._parameters)Object.prototype.hasOwnProperty.call(this._parameters,e)&&(t+=`;${e}`,null!==this._parameters[e]&&(t+=`=${this._parameters[e]}`));for(const t in this._headers)if(Object.prototype.hasOwnProperty.call(this._headers,t))for(const n of this._headers[t])e.push(`${t}=${n}`);return e.length>0&&(t+=`?${e.join("&")}`),t}toAor(e){let t=`${this._scheme}:`;return this._user&&(t+=`${r.escapeUser(this._user)}@`),t+=this._host,e&&(this._port||0===this._port)&&(t+=`:${this._port}`),t}}},{"./Constants":4,"./Grammar":9,"./Utils":30}],30:[function(e,t,n){const s=e("./Constants"),r=e("./URI"),i=e("./Grammar");n.str_utf8_length=e=>unescape(encodeURIComponent(e)).length;const l=n.isFunction=e=>void 0!==e&&"[object Function]"===Object.prototype.toString.call(e);n.isString=e=>void 0!==e&&"[object String]"===Object.prototype.toString.call(e),n.isDecimal=e=>!isNaN(e)&&parseFloat(e)===parseInt(e,10),n.isEmpty=e=>null===e||""===e||void 0===e||Array.isArray(e)&&0===e.length||"number"==typeof e&&isNaN(e),n.hasMethods=function(e,...t){for(const n of t)if(l(e[n]))return!1;return!0};const o=n.createRandomToken=(e,t=32)=>{let n,s,r="";for(n=0;n<e;n++)s=Math.random()*t|0,r+=s.toString(t);return r};n.newTag=()=>o(10),n.newUUID=()=>"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,e=>{const t=16*Math.random()|0;return("x"===e?t:3&t|8).toString(16)}),n.hostType=e=>{if(e)return-1!==(e=i.parse(e,"host"))?e.host_type:void 0};const u=n.escapeUser=e=>encodeURIComponent(decodeURIComponent(e)).replace(/%3A/gi,":").replace(/%2B/gi,"+").replace(/%3F/gi,"?").replace(/%2F/gi,"/");n.normalizeTarget=(e,t)=>{if(e){if(e instanceof r)return e;if("string"==typeof e){const n=e.split("@");let i,l,o;switch(n.length){case 1:if(!t)return;i=e,l=t;break;case 2:i=n[0],l=n[1];break;default:i=n.slice(0,n.length-1).join("@"),l=n[n.length-1]}return i=i.replace(/^(sips?|tel):/i,""),/^[-.()]*\+?[0-9\-.()]+$/.test(i)&&(i=i.replace(/[-.()]/g,"")),e=`${s.SIP}:${u(i)}@${l}`,(o=r.parse(e))?o:void 0}}else;},n.headerize=e=>{const t={"Call-Id":"Call-ID",Cseq:"CSeq","Www-Authenticate":"WWW-Authenticate"},n=e.toLowerCase().replace(/_/g,"-").split("-");let s="";const r=n.length;let i;for(i=0;i<r;i++)0!==i&&(s+="-"),s+=n[i].charAt(0).toUpperCase()+n[i].substring(1);return t[s]&&(s=t[s]),s},n.sipErrorCause=e=>{for(const t in s.SIP_ERROR_CAUSES)if(-1!==s.SIP_ERROR_CAUSES[t].indexOf(e))return s.causes[t];return s.causes.SIP_FAILURE_CODE},n.getRandomTestNetIP=()=>{return`192.0.2.${e=1,t=254,Math.floor(Math.random()*(t-e+1)+e)}`;var e,t},n.calculateMD5=e=>{function t(e,t){return e<<t|e>>>32-t}function n(e,t){const n=2147483648&e,s=2147483648&t,r=1073741824&e,i=1073741824&t,l=(1073741823&e)+(1073741823&t);return r&i?2147483648^l^n^s:r|i?1073741824&l?3221225472^l^n^s:1073741824^l^n^s:l^n^s}function s(e,s,r,i,l,o,u){return e=n(e,n(n(function(e,t,n){return e&t|~e&n}(s,r,i),l),u)),n(t(e,o),s)}function r(e,s,r,i,l,o,u){return e=n(e,n(n(function(e,t,n){return e&n|t&~n}(s,r,i),l),u)),n(t(e,o),s)}function i(e,s,r,i,l,o,u){return e=n(e,n(n(function(e,t,n){return e^t^n}(s,r,i),l),u)),n(t(e,o),s)}function l(e,s,r,i,l,o,u){return e=n(e,n(n(function(e,t,n){return t^(e|~n)}(s,r,i),l),u)),n(t(e,o),s)}function o(e){let t,n,s="",r="";for(n=0;n<=3;n++)t=e>>>8*n&255,r=`0${t.toString(16)}`,s+=r.substr(r.length-2,2);return s}let u,a,c,h,d,_,p,f,m,g=[];for(e=function(e){e=e.replace(/\r\n/g,"\n");let t="";for(let n=0;n<e.length;n++){const s=e.charCodeAt(n);s<128?t+=String.fromCharCode(s):s>127&&s<2048?(t+=String.fromCharCode(s>>6|192),t+=String.fromCharCode(63&s|128)):(t+=String.fromCharCode(s>>12|224),t+=String.fromCharCode(s>>6&63|128),t+=String.fromCharCode(63&s|128))}return t}(e),g=function(e){let t;const n=e.length,s=n+8,r=16*((s-s%64)/64+1),i=new Array(r-1);let l=0,o=0;for(;o<n;)t=(o-o%4)/4,l=o%4*8,i[t]=i[t]|e.charCodeAt(o)<<l,o++;return t=(o-o%4)/4,l=o%4*8,i[t]=i[t]|128<<l,i[r-2]=n<<3,i[r-1]=n>>>29,i}(e),_=1732584193,p=4023233417,f=2562383102,m=271733878,u=0;u<g.length;u+=16)a=_,c=p,h=f,d=m,_=s(_,p,f,m,g[u+0],7,3614090360),m=s(m,_,p,f,g[u+1],12,3905402710),f=s(f,m,_,p,g[u+2],17,606105819),p=s(p,f,m,_,g[u+3],22,3250441966),_=s(_,p,f,m,g[u+4],7,4118548399),m=s(m,_,p,f,g[u+5],12,1200080426),f=s(f,m,_,p,g[u+6],17,2821735955),p=s(p,f,m,_,g[u+7],22,4249261313),_=s(_,p,f,m,g[u+8],7,1770035416),m=s(m,_,p,f,g[u+9],12,2336552879),f=s(f,m,_,p,g[u+10],17,4294925233),p=s(p,f,m,_,g[u+11],22,2304563134),_=s(_,p,f,m,g[u+12],7,1804603682),m=s(m,_,p,f,g[u+13],12,4254626195),f=s(f,m,_,p,g[u+14],17,2792965006),p=s(p,f,m,_,g[u+15],22,1236535329),_=r(_,p,f,m,g[u+1],5,4129170786),m=r(m,_,p,f,g[u+6],9,3225465664),f=r(f,m,_,p,g[u+11],14,643717713),p=r(p,f,m,_,g[u+0],20,3921069994),_=r(_,p,f,m,g[u+5],5,3593408605),m=r(m,_,p,f,g[u+10],9,38016083),f=r(f,m,_,p,g[u+15],14,3634488961),p=r(p,f,m,_,g[u+4],20,3889429448),_=r(_,p,f,m,g[u+9],5,568446438),m=r(m,_,p,f,g[u+14],9,3275163606),f=r(f,m,_,p,g[u+3],14,4107603335),p=r(p,f,m,_,g[u+8],20,1163531501),_=r(_,p,f,m,g[u+13],5,2850285829),m=r(m,_,p,f,g[u+2],9,4243563512),f=r(f,m,_,p,g[u+7],14,1735328473),p=r(p,f,m,_,g[u+12],20,2368359562),_=i(_,p,f,m,g[u+5],4,4294588738),m=i(m,_,p,f,g[u+8],11,2272392833),f=i(f,m,_,p,g[u+11],16,1839030562),p=i(p,f,m,_,g[u+14],23,4259657740),_=i(_,p,f,m,g[u+1],4,2763975236),m=i(m,_,p,f,g[u+4],11,1272893353),f=i(f,m,_,p,g[u+7],16,4139469664),p=i(p,f,m,_,g[u+10],23,3200236656),_=i(_,p,f,m,g[u+13],4,681279174),m=i(m,_,p,f,g[u+0],11,3936430074),f=i(f,m,_,p,g[u+3],16,3572445317),p=i(p,f,m,_,g[u+6],23,76029189),_=i(_,p,f,m,g[u+9],4,3654602809),m=i(m,_,p,f,g[u+12],11,3873151461),f=i(f,m,_,p,g[u+15],16,530742520),p=i(p,f,m,_,g[u+2],23,3299628645),_=l(_,p,f,m,g[u+0],6,4096336452),m=l(m,_,p,f,g[u+7],10,1126891415),f=l(f,m,_,p,g[u+14],15,2878612391),p=l(p,f,m,_,g[u+5],21,4237533241),_=l(_,p,f,m,g[u+12],6,1700485571),m=l(m,_,p,f,g[u+3],10,2399980690),f=l(f,m,_,p,g[u+10],15,4293915773),p=l(p,f,m,_,g[u+1],21,2240044497),_=l(_,p,f,m,g[u+8],6,1873313359),m=l(m,_,p,f,g[u+15],10,4264355552),f=l(f,m,_,p,g[u+6],15,2734768916),p=l(p,f,m,_,g[u+13],21,1309151649),_=l(_,p,f,m,g[u+4],6,4149444226),m=l(m,_,p,f,g[u+11],10,3174756917),f=l(f,m,_,p,g[u+2],15,718787259),p=l(p,f,m,_,g[u+9],21,3951481745),_=n(_,a),p=n(p,c),f=n(f,h),m=n(m,d);return(o(_)+o(p)+o(f)+o(m)).toLowerCase()},n.closeMediaStream=e=>{if(e)try{let t;if(e.getTracks){t=e.getTracks();for(const e of t)e.stop()}else{t=e.getAudioTracks();for(const e of t)e.stop();t=e.getVideoTracks();for(const e of t)e.stop()}}catch(t){"function"!=typeof e.stop&&"object"!=typeof e.stop||e.stop()}},n.cloneArray=e=>e&&e.slice()||[],n.cloneObject=(e,t={})=>e&&Object.assign({},e)||t},{"./Constants":4,"./Grammar":9,"./URI":29}],31:[function(e,t,n){const s=e("./Logger"),r=e("./Grammar"),i=new s("WebSocketInterface");t.exports=class{constructor(e){i.debug('new() [url:"%s"]',e),this._url=e,this._sip_uri=null,this._via_transport=null,this._ws=null;const t=r.parse(e,"absoluteURI");if(-1===t)throw i.warn(`invalid WebSocket URI: ${e}`),new TypeError(`Invalid argument: ${e}`);if("wss"!==t.scheme&&"ws"!==t.scheme)throw i.warn(`invalid WebSocket URI scheme: ${t.scheme}`),new TypeError(`Invalid argument: ${e}`);this._sip_uri=`sip:${t.host}${t.port?`:${t.port}`:""};transport=ws`,this._via_transport=t.scheme.toUpperCase()}get via_transport(){return this._via_transport}set via_transport(e){this._via_transport=e.toUpperCase()}get sip_uri(){return this._sip_uri}get url(){return this._url}connect(){if(i.debug("connect()"),this.isConnected())i.debug(`WebSocket ${this._url} is already connected`);else if(this.isConnecting())i.debug(`WebSocket ${this._url} is connecting`);else{this._ws&&this.disconnect(),i.debug(`connecting to WebSocket ${this._url}`);try{this._ws=new WebSocket(this._url,"sip"),this._ws.binaryType="arraybuffer",this._ws.onopen=this._onOpen.bind(this),this._ws.onclose=this._onClose.bind(this),this._ws.onmessage=this._onMessage.bind(this),this._ws.onerror=this._onError.bind(this)}catch(e){this._onError(e)}}}disconnect(){i.debug("disconnect()"),this._ws&&(this._ws.onopen=()=>{},this._ws.onclose=()=>{},this._ws.onmessage=()=>{},this._ws.onerror=()=>{},this._ws.close(),this._ws=null)}send(e){return i.debug("send()"),this.isConnected()?(this._ws.send(e),!0):(i.warn("unable to send message, WebSocket is not open"),!1)}isConnected(){return this._ws&&this._ws.readyState===this._ws.OPEN}isConnecting(){return this._ws&&this._ws.readyState===this._ws.CONNECTING}_onOpen(){i.debug(`WebSocket ${this._url} connected`),this.onconnect()}_onClose({wasClean:e,code:t,reason:n}){i.debug(`WebSocket ${this._url} closed`),!1===e&&i.debug("WebSocket abrupt disconnection"),this.ondisconnect(!e,t,n)}_onMessage({data:e}){i.debug("received WebSocket message"),this.ondata(e)}_onError(e){i.warn(`WebSocket ${this._url} error: `,e)}}},{"./Grammar":9,"./Logger":11}],32:[function(e,t,n){const s=e("./Logger"),r=e("./Constants"),i=e("./SIPMessage"),l=e("./Utils"),o=new s("sanityCheck"),u=[function(){const e=["from","to","call_id","cseq","via"];for(const t of e)if(!h.hasHeader(t))return o.debug(`missing mandatory header field : ${t}, dropping the response`),!1}],a=[function(){if("sip"!==h.s("to").uri.scheme)return p(416),!1},function(){if(!h.to_tag&&h.call_id.substr(0,5)===d.configuration.jssip_id)return p(482),!1},function(){const e=l.str_utf8_length(h.body),t=h.getHeader("content-length");if(e<t)return p(400),!1},function(){const e=h.from_tag,t=h.call_id,n=h.cseq;let s;if(h.to_tag)return;if(h.method===r.INVITE){if(d._transactions.ist[h.via_branch])return!1;for(const r in d._transactions.ist)if(Object.prototype.hasOwnProperty.call(d._transactions.ist,r)&&(s=d._transactions.ist[r],s.request.from_tag===e&&s.request.call_id===t&&s.request.cseq===n))return p(482),!1}else{if(d._transactions.nist[h.via_branch])return!1;for(const r in d._transactions.nist)if(Object.prototype.hasOwnProperty.call(d._transactions.nist,r)&&(s=d._transactions.nist[r],s.request.from_tag===e&&s.request.call_id===t&&s.request.cseq===n))return p(482),!1}}],c=[function(){if(h.getHeaders("via").length>1)return o.debug("more than one Via header field present in the response, dropping the response"),!1},function(){const e=l.str_utf8_length(h.body),t=h.getHeader("content-length");if(e<t)return o.debug("message body length is lower than the value in Content-Length header field, dropping the response"),!1}];let h,d,_;function p(e){const t=h.getHeaders("via");let n,s=`SIP/2.0 ${e} ${r.REASON_PHRASE[e]}\r\n`;for(const e of t)s+=`Via: ${e}\r\n`;n=h.getHeader("To"),h.to_tag||(n+=`;tag=${l.newTag()}`),s+=`To: ${n}\r\n`,s+=`From: ${h.getHeader("From")}\r\n`,s+=`Call-ID: ${h.call_id}\r\n`,s+=`CSeq: ${h.cseq} ${h.method}\r\n`,s+="\r\n",_.send(s)}t.exports=(e,t,n)=>{h=e,d=t,_=n;for(const e of u)if(!1===e())return!1;if(h instanceof i.IncomingRequest){for(const e of a)if(!1===e())return!1}else if(h instanceof i.IncomingResponse)for(const e of c)if(!1===e())return!1;return!0}},{"./Constants":4,"./Logger":11,"./SIPMessage":23,"./Utils":30}],33:[function(e,t,n){(function(s){(function(){n.formatArgs=function(e){if(e[0]=(this.useColors?"%c":"")+this.namespace+(this.useColors?" %c":" ")+e[0]+(this.useColors?"%c ":" ")+"+"+t.exports.humanize(this.diff),!this.useColors)return;const n="color: "+this.color;e.splice(1,0,n,"color: inherit");let s=0,r=0;e[0].replace(/%[a-zA-Z%]/g,e=>{"%%"!==e&&(s++,"%c"===e&&(r=s))}),e.splice(r,0,n)},n.save=function(e){try{e?n.storage.setItem("debug",e):n.storage.removeItem("debug")}catch(e){}},n.load=function(){let e;try{e=n.storage.getItem("debug")||n.storage.getItem("DEBUG")}catch(e){}!e&&void 0!==s&&"env"in s&&(e=s.env.DEBUG);return e},n.useColors=function(){if("undefined"!=typeof window&&window.process&&("renderer"===window.process.type||window.process.__nwjs))return!0;if("undefined"!=typeof navigator&&navigator.userAgent&&navigator.userAgent.toLowerCase().match(/(edge|trident)\/(\d+)/))return!1;let e;return"undefined"!=typeof document&&document.documentElement&&document.documentElement.style&&document.documentElement.style.WebkitAppearance||"undefined"!=typeof window&&window.console&&(window.console.firebug||window.console.exception&&window.console.table)||"undefined"!=typeof navigator&&navigator.userAgent&&(e=navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/))&&parseInt(e[1],10)>=31||"undefined"!=typeof navigator&&navigator.userAgent&&navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/)},n.storage=function(){try{return localStorage}catch(e){}}(),n.destroy=(()=>{let e=!1;return()=>{e||(e=!0,console.warn("Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`."))}})(),n.colors=["#0000CC","#0000FF","#0033CC","#0033FF","#0066CC","#0066FF","#0099CC","#0099FF","#00CC00","#00CC33","#00CC66","#00CC99","#00CCCC","#00CCFF","#3300CC","#3300FF","#3333CC","#3333FF","#3366CC","#3366FF","#3399CC","#3399FF","#33CC00","#33CC33","#33CC66","#33CC99","#33CCCC","#33CCFF","#6600CC","#6600FF","#6633CC","#6633FF","#66CC00","#66CC33","#9900CC","#9900FF","#9933CC","#9933FF","#99CC00","#99CC33","#CC0000","#CC0033","#CC0066","#CC0099","#CC00CC","#CC00FF","#CC3300","#CC3333","#CC3366","#CC3399","#CC33CC","#CC33FF","#CC6600","#CC6633","#CC9900","#CC9933","#CCCC00","#CCCC33","#FF0000","#FF0033","#FF0066","#FF0099","#FF00CC","#FF00FF","#FF3300","#FF3333","#FF3366","#FF3399","#FF33CC","#FF33FF","#FF6600","#FF6633","#FF9900","#FF9933","#FFCC00","#FFCC33"],n.log=console.debug||console.log||(()=>{}),t.exports=e("./common")(n);const{formatters:r}=t.exports;r.j=function(e){try{return JSON.stringify(e)}catch(e){return"[UnexpectedJSONParseError]: "+e.message}}}).call(this)}).call(this,e("_process"))},{"./common":34,_process:2}],34:[function(e,t,n){t.exports=function(t){function n(e){let t,r,i,l=null;function o(...e){if(!o.enabled)return;const s=o,r=Number(new Date),i=r-(t||r);s.diff=i,s.prev=t,s.curr=r,t=r,e[0]=n.coerce(e[0]),"string"!=typeof e[0]&&e.unshift("%O");let l=0;e[0]=e[0].replace(/%([a-zA-Z%])/g,(t,r)=>{if("%%"===t)return"%";l++;const i=n.formatters[r];if("function"==typeof i){const n=e[l];t=i.call(s,n),e.splice(l,1),l--}return t}),n.formatArgs.call(s,e);(s.log||n.log).apply(s,e)}return o.namespace=e,o.useColors=n.useColors(),o.color=n.selectColor(e),o.extend=s,o.destroy=n.destroy,Object.defineProperty(o,"enabled",{enumerable:!0,configurable:!1,get:()=>null!==l?l:(r!==n.namespaces&&(r=n.namespaces,i=n.enabled(e)),i),set:e=>{l=e}}),"function"==typeof n.init&&n.init(o),o}function s(e,t){const s=n(this.namespace+(void 0===t?":":t)+e);return s.log=this.log,s}function r(e,t){let n=0,s=0,r=-1,i=0;for(;n<e.length;)if(s<t.length&&(t[s]===e[n]||"*"===t[s]))"*"===t[s]?(r=s,i=n,s++):(n++,s++);else{if(-1===r)return!1;s=r+1,i++,n=i}for(;s<t.length&&"*"===t[s];)s++;return s===t.length}return n.debug=n,n.default=n,n.coerce=function(e){if(e instanceof Error)return e.stack||e.message;return e},n.disable=function(){const e=[...n.names,...n.skips.map(e=>"-"+e)].join(",");return n.enable(""),e},n.enable=function(e){n.save(e),n.namespaces=e,n.names=[],n.skips=[];const t=("string"==typeof e?e:"").trim().replace(/\s+/g,",").split(",").filter(Boolean);for(const e of t)"-"===e[0]?n.skips.push(e.slice(1)):n.names.push(e)},n.enabled=function(e){for(const t of n.skips)if(r(e,t))return!1;for(const t of n.names)if(r(e,t))return!0;return!1},n.humanize=e("ms"),n.destroy=function(){console.warn("Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.")},Object.keys(t).forEach(e=>{n[e]=t[e]}),n.names=[],n.skips=[],n.formatters={},n.selectColor=function(e){let t=0;for(let n=0;n<e.length;n++)t=(t<<5)-t+e.charCodeAt(n),t|=0;return n.colors[Math.abs(t)%n.colors.length]},n.enable(n.load()),n}},{ms:35}],35:[function(e,t,n){var s=1e3,r=60*s,i=60*r,l=24*i,o=7*l,u=365.25*l;function a(e,t,n,s){var r=t>=1.5*n;return Math.round(e/n)+" "+s+(r?"s":"")}t.exports=function(e,t){t=t||{};var n=typeof e;if("string"===n&&e.length>0)return function(e){if((e=String(e)).length>100)return;var t=/^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(e);if(!t)return;var n=parseFloat(t[1]);switch((t[2]||"ms").toLowerCase()){case"years":case"year":case"yrs":case"yr":case"y":return n*u;case"weeks":case"week":case"w":return n*o;case"days":case"day":case"d":return n*l;case"hours":case"hour":case"hrs":case"hr":case"h":return n*i;case"minutes":case"minute":case"mins":case"min":case"m":return n*r;case"seconds":case"second":case"secs":case"sec":case"s":return n*s;case"milliseconds":case"millisecond":case"msecs":case"msec":case"ms":return n;default:return}}(e);if("number"===n&&isFinite(e))return t.long?function(e){var t=Math.abs(e);if(t>=l)return a(e,t,l,"day");if(t>=i)return a(e,t,i,"hour");if(t>=r)return a(e,t,r,"minute");if(t>=s)return a(e,t,s,"second");return e+" ms"}(e):function(e){var t=Math.abs(e);if(t>=l)return Math.round(e/l)+"d";if(t>=i)return Math.round(e/i)+"h";if(t>=r)return Math.round(e/r)+"m";if(t>=s)return Math.round(e/s)+"s";return e+"ms"}(e);throw new Error("val is not a non-empty string or a valid number. val="+JSON.stringify(e))}},{}],36:[function(e,t,n){var s=t.exports={v:[{name:"version",reg:/^(\d*)$/}],o:[{name:"origin",reg:/^(\S*) (\d*) (\d*) (\S*) IP(\d) (\S*)/,names:["username","sessionId","sessionVersion","netType","ipVer","address"],format:"%s %s %d %s IP%d %s"}],s:[{name:"name"}],i:[{name:"description"}],u:[{name:"uri"}],e:[{name:"email"}],p:[{name:"phone"}],z:[{name:"timezones"}],r:[{name:"repeats"}],t:[{name:"timing",reg:/^(\d*) (\d*)/,names:["start","stop"],format:"%d %d"}],c:[{name:"connection",reg:/^IN IP(\d) (\S*)/,names:["version","ip"],format:"IN IP%d %s"}],b:[{push:"bandwidth",reg:/^(TIAS|AS|CT|RR|RS):(\d*)/,names:["type","limit"],format:"%s:%s"}],m:[{reg:/^(\w*) (\d*) ([\w/]*)(?: (.*))?/,names:["type","port","protocol","payloads"],format:"%s %d %s %s"}],a:[{push:"rtp",reg:/^rtpmap:(\d*) ([\w\-.]*)(?:\s*\/(\d*)(?:\s*\/(\S*))?)?/,names:["payload","codec","rate","encoding"],format:function(e){return e.encoding?"rtpmap:%d %s/%s/%s":e.rate?"rtpmap:%d %s/%s":"rtpmap:%d %s"}},{push:"fmtp",reg:/^fmtp:(\d*) ([\S| ]*)/,names:["payload","config"],format:"fmtp:%d %s"},{name:"control",reg:/^control:(.*)/,format:"control:%s"},{name:"rtcp",reg:/^rtcp:(\d*)(?: (\S*) IP(\d) (\S*))?/,names:["port","netType","ipVer","address"],format:function(e){return null!=e.address?"rtcp:%d %s IP%d %s":"rtcp:%d"}},{push:"rtcpFbTrrInt",reg:/^rtcp-fb:(\*|\d*) trr-int (\d*)/,names:["payload","value"],format:"rtcp-fb:%s trr-int %d"},{push:"rtcpFb",reg:/^rtcp-fb:(\*|\d*) ([\w-_]*)(?: ([\w-_]*))?/,names:["payload","type","subtype"],format:function(e){return null!=e.subtype?"rtcp-fb:%s %s %s":"rtcp-fb:%s %s"}},{push:"ext",reg:/^extmap:(\d+)(?:\/(\w+))?(?: (urn:ietf:params:rtp-hdrext:encrypt))? (\S*)(?: (\S*))?/,names:["value","direction","encrypt-uri","uri","config"],format:function(e){return"extmap:%d"+(e.direction?"/%s":"%v")+(e["encrypt-uri"]?" %s":"%v")+" %s"+(e.config?" %s":"")}},{name:"extmapAllowMixed",reg:/^(extmap-allow-mixed)/},{push:"crypto",reg:/^crypto:(\d*) ([\w_]*) (\S*)(?: (\S*))?/,names:["id","suite","config","sessionConfig"],format:function(e){return null!=e.sessionConfig?"crypto:%d %s %s %s":"crypto:%d %s %s"}},{name:"setup",reg:/^setup:(\w*)/,format:"setup:%s"},{name:"connectionType",reg:/^connection:(new|existing)/,format:"connection:%s"},{name:"mid",reg:/^mid:([^\s]*)/,format:"mid:%s"},{name:"msid",reg:/^msid:(.*)/,format:"msid:%s"},{name:"ptime",reg:/^ptime:(\d*(?:\.\d*)*)/,format:"ptime:%d"},{name:"maxptime",reg:/^maxptime:(\d*(?:\.\d*)*)/,format:"maxptime:%d"},{name:"direction",reg:/^(sendrecv|recvonly|sendonly|inactive)/},{name:"icelite",reg:/^(ice-lite)/},{name:"iceUfrag",reg:/^ice-ufrag:(\S*)/,format:"ice-ufrag:%s"},{name:"icePwd",reg:/^ice-pwd:(\S*)/,format:"ice-pwd:%s"},{name:"fingerprint",reg:/^fingerprint:(\S*) (\S*)/,names:["type","hash"],format:"fingerprint:%s %s"},{push:"candidates",reg:/^candidate:(\S*) (\d*) (\S*) (\d*) (\S*) (\d*) typ (\S*)(?: raddr (\S*) rport (\d*))?(?: tcptype (\S*))?(?: generation (\d*))?(?: network-id (\d*))?(?: network-cost (\d*))?/,names:["foundation","component","transport","priority","ip","port","type","raddr","rport","tcptype","generation","network-id","network-cost"],format:function(e){var t="candidate:%s %d %s %d %s %d typ %s";return t+=null!=e.raddr?" raddr %s rport %d":"%v%v",t+=null!=e.tcptype?" tcptype %s":"%v",null!=e.generation&&(t+=" generation %d"),t+=null!=e["network-id"]?" network-id %d":"%v",t+=null!=e["network-cost"]?" network-cost %d":"%v"}},{name:"endOfCandidates",reg:/^(end-of-candidates)/},{name:"remoteCandidates",reg:/^remote-candidates:(.*)/,format:"remote-candidates:%s"},{name:"iceOptions",reg:/^ice-options:(\S*)/,format:"ice-options:%s"},{push:"ssrcs",reg:/^ssrc:(\d*) ([\w_-]*)(?::(.*))?/,names:["id","attribute","value"],format:function(e){var t="ssrc:%d";return null!=e.attribute&&(t+=" %s",null!=e.value&&(t+=":%s")),t}},{push:"ssrcGroups",reg:/^ssrc-group:([\x21\x23\x24\x25\x26\x27\x2A\x2B\x2D\x2E\w]*) (.*)/,names:["semantics","ssrcs"],format:"ssrc-group:%s %s"},{name:"msidSemantic",reg:/^msid-semantic:\s?(\w*) (\S*)/,names:["semantic","token"],format:"msid-semantic: %s %s"},{push:"groups",reg:/^group:(\w*) (.*)/,names:["type","mids"],format:"group:%s %s"},{name:"rtcpMux",reg:/^(rtcp-mux)/},{name:"rtcpRsize",reg:/^(rtcp-rsize)/},{name:"sctpmap",reg:/^sctpmap:([\w_/]*) (\S*)(?: (\S*))?/,names:["sctpmapNumber","app","maxMessageSize"],format:function(e){return null!=e.maxMessageSize?"sctpmap:%s %s %s":"sctpmap:%s %s"}},{name:"xGoogleFlag",reg:/^x-google-flag:([^\s]*)/,format:"x-google-flag:%s"},{push:"rids",reg:/^rid:([\d\w]+) (\w+)(?: ([\S| ]*))?/,names:["id","direction","params"],format:function(e){return e.params?"rid:%s %s %s":"rid:%s %s"}},{push:"imageattrs",reg:new RegExp("^imageattr:(\\d+|\\*)[\\s\\t]+(send|recv)[\\s\\t]+(\\*|\\[\\S+\\](?:[\\s\\t]+\\[\\S+\\])*)(?:[\\s\\t]+(recv|send)[\\s\\t]+(\\*|\\[\\S+\\](?:[\\s\\t]+\\[\\S+\\])*))?"),names:["pt","dir1","attrs1","dir2","attrs2"],format:function(e){return"imageattr:%s %s %s"+(e.dir2?" %s %s":"")}},{name:"simulcast",reg:new RegExp("^simulcast:(send|recv) ([a-zA-Z0-9\\-_~;,]+)(?:\\s?(send|recv) ([a-zA-Z0-9\\-_~;,]+))?$"),names:["dir1","list1","dir2","list2"],format:function(e){return"simulcast:%s %s"+(e.dir2?" %s %s":"")}},{name:"simulcast_03",reg:/^simulcast:[\s\t]+([\S+\s\t]+)$/,names:["value"],format:"simulcast: %s"},{name:"framerate",reg:/^framerate:(\d+(?:$|\.\d+))/,format:"framerate:%s"},{name:"sourceFilter",reg:/^source-filter: *(excl|incl) (\S*) (IP4|IP6|\*) (\S*) (.*)/,names:["filterMode","netType","addressTypes","destAddress","srcList"],format:"source-filter: %s %s %s %s %s"},{name:"bundleOnly",reg:/^(bundle-only)/},{name:"label",reg:/^label:(.+)/,format:"label:%s"},{name:"sctpPort",reg:/^sctp-port:(\d+)$/,format:"sctp-port:%s"},{name:"maxMessageSize",reg:/^max-message-size:(\d+)$/,format:"max-message-size:%s"},{push:"tsRefClocks",reg:/^ts-refclk:([^\s=]*)(?:=(\S*))?/,names:["clksrc","clksrcExt"],format:function(e){return"ts-refclk:%s"+(null!=e.clksrcExt?"=%s":"")}},{name:"mediaClk",reg:/^mediaclk:(?:id=(\S*))? *([^\s=]*)(?:=(\S*))?(?: *rate=(\d+)\/(\d+))?/,names:["id","mediaClockName","mediaClockValue","rateNumerator","rateDenominator"],format:function(e){var t="mediaclk:";return t+=null!=e.id?"id=%s %s":"%v%s",t+=null!=e.mediaClockValue?"=%s":"",t+=null!=e.rateNumerator?" rate=%s":"",t+=null!=e.rateDenominator?"/%s":""}},{name:"keywords",reg:/^keywds:(.+)$/,format:"keywds:%s"},{name:"content",reg:/^content:(.+)/,format:"content:%s"},{name:"bfcpFloorCtrl",reg:/^floorctrl:(c-only|s-only|c-s)/,format:"floorctrl:%s"},{name:"bfcpConfId",reg:/^confid:(\d+)/,format:"confid:%s"},{name:"bfcpUserId",reg:/^userid:(\d+)/,format:"userid:%s"},{name:"bfcpFloorId",reg:/^floorid:(.+) (?:m-stream|mstrm):(.+)/,names:["id","mStream"],format:"floorid:%s mstrm:%s"},{push:"invalid",names:["value"]}]};Object.keys(s).forEach(function(e){s[e].forEach(function(e){e.reg||(e.reg=/(.*)/),e.format||(e.format="%s")})})},{}],37:[function(e,t,n){var s=e("./parser"),r=e("./writer"),i=e("./grammar");n.grammar=i,n.write=r,n.parse=s.parse,n.parseParams=s.parseParams,n.parseFmtpConfig=s.parseFmtpConfig,n.parsePayloads=s.parsePayloads,n.parseRemoteCandidates=s.parseRemoteCandidates,n.parseImageAttributes=s.parseImageAttributes,n.parseSimulcastStreamList=s.parseSimulcastStreamList},{"./grammar":36,"./parser":38,"./writer":39}],38:[function(e,t,n){var s=function(e){return String(Number(e))===e?Number(e):e},r=function(e,t,n){var r=e.name&&e.names;e.push&&!t[e.push]?t[e.push]=[]:r&&!t[e.name]&&(t[e.name]={});var i=e.push?{}:r?t[e.name]:t;!function(e,t,n,r){if(r&&!n)t[r]=s(e[1]);else for(var i=0;i<n.length;i+=1)null!=e[i+1]&&(t[n[i]]=s(e[i+1]))}(n.match(e.reg),i,e.names,e.name),e.push&&t[e.push].push(i)},i=e("./grammar"),l=RegExp.prototype.test.bind(/^([a-z])=(.*)/);n.parse=function(e){var t={},n=[],s=t;return e.split(/(\r\n|\r|\n)/).filter(l).forEach(function(e){var t=e[0],l=e.slice(2);"m"===t&&(n.push({rtp:[],fmtp:[]}),s=n[n.length-1]);for(var o=0;o<(i[t]||[]).length;o+=1){var u=i[t][o];if(u.reg.test(l))return r(u,s,l)}}),t.media=n,t};var o=function(e,t){var n=t.split(/=(.+)/,2);return 2===n.length?e[n[0]]=s(n[1]):1===n.length&&t.length>1&&(e[n[0]]=void 0),e};n.parseParams=function(e){return e.split(/;\s?/).reduce(o,{})},n.parseFmtpConfig=n.parseParams,n.parsePayloads=function(e){return e.toString().split(" ").map(Number)},n.parseRemoteCandidates=function(e){for(var t=[],n=e.split(" ").map(s),r=0;r<n.length;r+=3)t.push({component:n[r],ip:n[r+1],port:n[r+2]});return t},n.parseImageAttributes=function(e){return e.split(" ").map(function(e){return e.substring(1,e.length-1).split(",").reduce(o,{})})},n.parseSimulcastStreamList=function(e){return e.split(";").map(function(e){return e.split(",").map(function(e){var t,n=!1;return"~"!==e[0]?t=s(e):(t=s(e.substring(1,e.length)),n=!0),{scid:t,paused:n}})})}},{"./grammar":36}],39:[function(e,t,n){var s=e("./grammar"),r=/%[sdv%]/g,i=function(e){var t=1,n=arguments,s=n.length;return e.replace(r,function(e){if(t>=s)return e;var r=n[t];switch(t+=1,e){case"%%":return"%";case"%s":return String(r);case"%d":return Number(r);case"%v":return""}})},l=function(e,t,n){var s=[e+"="+(t.format instanceof Function?t.format(t.push?n:n[t.name]):t.format)];if(t.names)for(var r=0;r<t.names.length;r+=1){var l=t.names[r];t.name?s.push(n[t.name][l]):s.push(n[t.names[r]])}else s.push(n[t.name]);return i.apply(null,s)},o=["v","o","s","i","u","e","p","c","b","t","r","z","a"],u=["i","c","b","a"];t.exports=function(e,t){t=t||{},null==e.version&&(e.version=0),null==e.name&&(e.name=" "),e.media.forEach(function(e){null==e.payloads&&(e.payloads="")});var n=t.outerOrder||o,r=t.innerOrder||u,i=[];return n.forEach(function(t){s[t].forEach(function(n){n.name in e&&null!=e[n.name]?i.push(l(t,n,e)):n.push in e&&null!=e[n.push]&&e[n.push].forEach(function(e){i.push(l(t,n,e))})})}),e.media.forEach(function(e){i.push(l("m",s.m[0],e)),r.forEach(function(t){s[t].forEach(function(n){n.name in e&&null!=e[n.name]?i.push(l(t,n,e)):n.push in e&&null!=e[n.push]&&e[n.push].forEach(function(e){i.push(l(t,n,e))})})})}),i.join("\r\n")+"\r\n"}},{"./grammar":36}],40:[function(e,t,n){t.exports={name:"jssip",title:"JsSIP",description:"The Javascript SIP library",version:"3.11.1",homepage:"https://jssip.net",contributors:["José Luis Millán <jmillan@aliax.net> (https://github.com/jmillan)","Iñaki Baz Castillo <ibc@aliax.net> (https://inakibaz.me)"],types:"src/JsSIP.d.ts",main:"src/JsSIP.js",keywords:["sip","websocket","webrtc","node","browser","library"],license:"MIT",repository:{type:"git",url:"https://github.com/versatica/JsSIP.git"},bugs:{url:"https://github.com/versatica/JsSIP/issues"},dependencies:{"@types/events":"^3.0.0","@types/debug":"^4.1.7",debug:"^4.3.1",events:"^3.3.0","sdp-transform":"^2.14.1"},devDependencies:{eslint:"^5.16.0",gulp:"^4.0.2","gulp-expect-file":"^1.0.2","gulp-nodeunit-runner":"^0.2.2",pegjs:"^0.7.0"},scripts:{lint:"node npm-scripts.js lint",test:"node npm-scripts.js test",release:"node npm-scripts.js release"}}},{}]},{},[10])(10)});
+
+/* === arrowz.js === */
+// Copyright (c) 2024, Moataz M Hassan (Arkan Lab)
+// Developer Website: https://arkan.it.com
+// License: MIT
+// For license information, please see license.txt
+
+/**
+ * Arrowz Main JavaScript
+ * Core utilities and integrations
+ */
+
+(function() {
+    'use strict';
+    
+    // Arrowz namespace
+    window.arrowz = window.arrowz || {};
+
+    // Centralized debug logger — silent in production
+    arrowz.debug = {
+        _enabled: (window.dev_server || frappe?.boot?.developer_mode) ? true : false,
+        log: function() { if (this._enabled) console.log('[Arrowz]', ...arguments); },
+        warn: function() { if (this._enabled) console.warn('[Arrowz]', ...arguments); },
+        error: function() { console.error('[Arrowz]', ...arguments); }, // always show errors
+        info: function() { if (this._enabled) console.info('[Arrowz]', ...arguments); },
+    };
+    
+    // Utilities
+    arrowz.utils = {
+        // Format phone number
+        formatPhone(number) {
+            if (!number) return '';
+            
+            // Remove non-digits
+            const digits = number.replace(/\D/g, '');
+            
+            // Format based on length
+            if (digits.length === 10) {
+                return `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
+            } else if (digits.length === 11 && digits[0] === '1') {
+                return `+1 (${digits.slice(1,4)}) ${digits.slice(4,7)}-${digits.slice(7)}`;
+            }
+            
+            return number;
+        },
+        
+        // Format duration
+        formatDuration(seconds) {
+            if (!seconds || seconds <= 0) return '0:00';
+            
+            const hours = Math.floor(seconds / 3600);
+            const mins = Math.floor((seconds % 3600) / 60);
+            const secs = Math.floor(seconds % 60);
+            
+            if (hours > 0) {
+                return `${hours}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            }
+            return `${mins}:${String(secs).padStart(2, '0')}`;
+        },
+        
+        // Play notification sound
+        playSound(type) {
+            const sounds = {
+                'ring': '/assets/arrowz/sounds/ringtone.mp3',
+                'message': '/assets/arrowz/sounds/message.mp3',
+                'notification': '/assets/arrowz/sounds/notification.mp3'
+            };
+            
+            const src = sounds[type];
+            if (src) {
+                const audio = new Audio(src);
+                audio.play().catch(() => {});
+            }
+        },
+        
+        // Show browser notification
+        showNotification(title, options = {}) {
+            if (!("Notification" in window)) return;
+            
+            if (Notification.permission === "granted") {
+                new Notification(title, {
+                    icon: '/assets/arrowz/images/arrowz-icon-animated.svg',
+                    ...options
+                });
+            } else if (Notification.permission !== "denied") {
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                        new Notification(title, options);
+                    }
+                });
+            }
+        }
+    };
+    
+    // Call functions (global shortcuts)
+    arrowz.call = {
+        // Make a call to a number
+        dial(number) {
+            if (arrowz.softphone && arrowz.softphone.registered) {
+                arrowz.softphone.makeCall(number);
+            } else {
+                frappe.show_alert({
+                    message: __('Softphone not ready'),
+                    indicator: 'yellow'
+                });
+            }
+        },
+        
+        // Show call history for a number
+        showHistory(number) {
+            frappe.set_route('List', 'AZ Call Log', {
+                caller_id: ['like', `%${number}%`]
+            });
+        },
+        
+        // Quick dial from doctype
+        fromDoc(doctype, docname, field) {
+            frappe.db.get_value(doctype, docname, field).then(r => {
+                if (r.message && r.message[field]) {
+                    arrowz.call.dial(r.message[field]);
+                }
+            });
+        }
+    };
+    
+    // SMS functions
+    arrowz.sms = {
+        // Send SMS dialog
+        showSendDialog(to_number, party_type, party) {
+            const dialog = new frappe.ui.Dialog({
+                title: __('Send SMS'),
+                fields: [
+                    {
+                        fieldname: 'to_number',
+                        label: __('To'),
+                        fieldtype: 'Data',
+                        default: to_number || '',
+                        reqd: 1
+                    },
+                    {
+                        fieldname: 'message',
+                        label: __('Message'),
+                        fieldtype: 'Text',
+                        reqd: 1,
+                        max_length: 160
+                    },
+                    {
+                        fieldname: 'char_count',
+                        fieldtype: 'HTML',
+                        options: '<div class="text-muted small">0 / 160 characters</div>'
+                    }
+                ],
+                primary_action_label: __('Send'),
+                primary_action: (values) => {
+                    frappe.call({
+                        method: 'arrowz.api.sms.send_sms',
+                        args: {
+                            to_number: values.to_number,
+                            message: values.message,
+                            party_type: party_type,
+                            party: party
+                        },
+                        callback: (r) => {
+                            if (r.message && r.message.status === 'sent') {
+                                frappe.show_alert({
+                                    message: __('SMS sent successfully'),
+                                    indicator: 'green'
+                                });
+                                dialog.hide();
+                            }
+                        }
+                    });
+                }
+            });
+            
+            // Character counter
+            dialog.fields_dict.message.$input.on('input', function() {
+                const len = $(this).val().length;
+                dialog.fields_dict.char_count.$wrapper.html(
+                    `<div class="text-muted small ${len > 160 ? 'text-danger' : ''}">${len} / 160 characters</div>`
+                );
+            });
+            
+            dialog.show();
+        },
+        
+        // Show SMS history
+        showHistory(phone_number) {
+            frappe.set_route('List', 'AZ SMS Message', {
+                phone_number: ['like', `%${phone_number}%`]
+            });
+        }
+    };
+    
+    // Real-time event handlers
+    arrowz.realtime = {
+        init() {
+            // Incoming call
+            frappe.realtime.on('incoming_call', (data) => {
+                arrowz.utils.showNotification(__('Incoming Call'), {
+                    body: data.caller_id || __('Unknown Caller'),
+                    tag: 'arrowz-call'
+                });
+            });
+            
+            // SMS received
+            frappe.realtime.on('sms_received', (data) => {
+                arrowz.utils.playSound('message');
+                arrowz.utils.showNotification(__('New SMS'), {
+                    body: `${data.from}: ${data.content || ''}`.substring(0, 100),
+                    tag: 'arrowz-sms'
+                });
+            });
+            
+            // Call ended
+            frappe.realtime.on('call_ended', (data) => {
+                frappe.show_alert({
+                    message: __('Call ended'),
+                    indicator: 'blue'
+                }, 3);
+            });
+        }
+    };
+    
+    // Form integrations
+    arrowz.forms = {
+        // Add phone action buttons to forms
+        addPhoneActions(frm, phone_field) {
+            if (!frm.doc[phone_field]) return;
+            
+            const number = frm.doc[phone_field];
+            
+            // Add call button
+            frm.add_custom_button(`📞 ${__('Call')}`, () => {
+                arrowz.call.dial(number);
+            }, __('Actions'));
+            
+            // Add SMS button
+            frm.add_custom_button(`💬 ${__('SMS')}`, () => {
+                arrowz.sms.showSendDialog(number, frm.doctype, frm.doc.name);
+            }, __('Actions'));
+            
+            // Add history button
+            frm.add_custom_button(`📋 ${__('Call History')}`, () => {
+                arrowz.call.showHistory(number);
+            }, __('Actions'));
+        },
+        
+        // Add click-to-call to phone fields
+        enableClickToCall(frm, phone_fields) {
+            phone_fields.forEach(field => {
+                const control = frm.fields_dict[field];
+                if (control && control.$input) {
+                    control.$input.css('cursor', 'pointer');
+                    control.$input.attr('title', __('Click to call'));
+                    
+                    // Add phone icon
+                    control.$wrapper.find('.control-input').append(`
+                        <span class="arrowz-call-icon" onclick="arrowz.call.dial('${frm.doc[field] || ''}')">
+                            📞
+                        </span>
+                    `);
+                }
+            });
+        }
+    };
+    
+    // Click to Call - Override phone link behavior
+    arrowz.clickToCall = {
+        init() {
+            // Override default phone field click behavior
+            $(document).on('click', '[data-fieldtype="Phone"] .like-disabled-input, [data-fieldtype="Phone"] .control-value, a[href^="tel:"]', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                let number = '';
+                
+                // Get number from tel: link
+                if ($(this).is('a[href^="tel:"]')) {
+                    number = $(this).attr('href').replace('tel:', '');
+                } else {
+                    // Get from field value
+                    number = $(this).text().trim() || $(this).val();
+                }
+                
+                if (number) {
+                    arrowz.clickToCall.showCallOptions(number, e);
+                }
+            });
+            
+            // Override frappe's phone filter click in list views
+            $(document).on('click', '.filterable[data-filter*="phone"], .filterable[data-filter*="mobile"], .filterable[data-filter*="Phone"], .filterable[data-filter*="Mobile"]', function(e) {
+                // Check if it looks like a phone number
+                const text = $(this).text().trim();
+                if (arrowz.clickToCall.isPhoneNumber(text)) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    arrowz.clickToCall.showCallOptions(text, e);
+                }
+            });
+            
+            // Add click handler to phone-like text in read-only mode
+            $(document).on('click', '.frappe-control[data-fieldtype="Phone"] .control-value, .frappe-control[data-fieldtype="Phone"] .like-disabled-input', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const number = $(this).text().trim();
+                if (number) {
+                    arrowz.clickToCall.showCallOptions(number, e);
+                }
+            });
+        },
+        
+        // Check if string looks like a phone number
+        isPhoneNumber(text) {
+            if (!text) return false;
+            // Remove common formatting
+            const digits = text.replace(/[\s\-\(\)\+\.]/g, '');
+            // Should be 7-15 digits
+            return /^\d{7,15}$/.test(digits);
+        },
+        
+        // Show call options popup
+        showCallOptions(number, event) {
+            // Clean the number
+            const cleanNumber = number.replace(/[^\d\+]/g, '');
+            
+            // Create popup menu
+            const $menu = $(`
+                <div class="arrowz-call-menu dropdown-menu" style="display: block; position: fixed; z-index: 9999;">
+                    <a class="dropdown-item arrowz-dial-option" data-number="${cleanNumber}">
+                        <span style="margin-right: 8px;">📞</span> ${__('Call')} ${number}
+                    </a>
+                    <a class="dropdown-item arrowz-sms-option" data-number="${cleanNumber}">
+                        <span style="margin-right: 8px;">💬</span> ${__('Send SMS')}
+                    </a>
+                    <a class="dropdown-item arrowz-copy-option" data-number="${cleanNumber}">
+                        <span style="margin-right: 8px;">📋</span> ${__('Copy Number')}
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item arrowz-history-option" data-number="${cleanNumber}">
+                        <span style="margin-right: 8px;">📜</span> ${__('Call History')}
+                    </a>
+                </div>
+            `);
+            
+            // Position the menu
+            const x = event.pageX || event.clientX;
+            const y = event.pageY || event.clientY;
+            $menu.css({
+                top: y + 'px',
+                left: x + 'px'
+            });
+            
+            // Remove any existing menus
+            $('.arrowz-call-menu').remove();
+            
+            // Add to body
+            $('body').append($menu);
+            
+            // Handle menu item clicks
+            $menu.find('.arrowz-dial-option').click(function() {
+                const num = $(this).data('number');
+                arrowz.call.dial(num);
+                $menu.remove();
+            });
+            
+            $menu.find('.arrowz-sms-option').click(function() {
+                const num = $(this).data('number');
+                arrowz.sms.showSendDialog(num);
+                $menu.remove();
+            });
+            
+            $menu.find('.arrowz-copy-option').click(function() {
+                const num = $(this).data('number');
+                navigator.clipboard.writeText(num).then(() => {
+                    frappe.show_alert({message: __('Number copied'), indicator: 'green'}, 2);
+                });
+                $menu.remove();
+            });
+            
+            $menu.find('.arrowz-history-option').click(function() {
+                const num = $(this).data('number');
+                arrowz.call.showHistory(num);
+                $menu.remove();
+            });
+            
+            // Close menu on click outside
+            setTimeout(() => {
+                $(document).one('click', function() {
+                    $menu.remove();
+                });
+            }, 100);
+        }
+    };
+    
+    // Initialize on ready
+    $(document).ready(function() {
+        arrowz.realtime.init();
+        arrowz.clickToCall.init();
+        arrowz.topbar.init();
+        
+        // Request notification permission
+        if (frappe.session.user !== 'Guest' && "Notification" in window) {
+            Notification.requestPermission();
+        }
+        
+        console.log('Arrowz: Click to Call enabled');
+    });
+
+    // Topbar shortcuts
+    arrowz.topbar = {
+        initialized: false,
+        
+        init() {
+            if (this.initialized) return;
+            if (frappe.session.user === 'Guest') return;
+            
+            // Wait for navbar to be ready
+            setTimeout(() => {
+                this.addTopbarShortcuts();
+            }, 500);
+            
+            this.initialized = true;
+        },
+        
+        addTopbarShortcuts() {
+            // Find navbar-right or create container
+            let $navbarRight = $('.navbar-right, .navbar-nav.ml-auto, .navbar-nav:last');
+            
+            if (!$navbarRight.length) {
+                $navbarRight = $('.navbar .container, .navbar .container-fluid');
+            }
+            
+            if (!$navbarRight.length) return;
+            
+            // Check if already added
+            if ($('#arrowz-topbar-shortcuts').length) return;
+            
+            // Create shortcuts container
+            const $shortcuts = $(`
+                <div id="arrowz-topbar-shortcuts" class="arrowz-topbar-shortcuts">
+                    <!-- Softphone -->
+                    <button class="arrowz-topbar-btn arrowz-softphone-btn" title="${__('Softphone')}" data-action="softphone">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                        <span class="arrowz-btn-label">${__('Call')}</span>
+                    </button>
+                    
+                    <!-- WhatsApp Chat -->
+                    <button class="arrowz-topbar-btn arrowz-whatsapp-btn" title="${__('WhatsApp')}" data-action="whatsapp">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                        </svg>
+                        <span class="arrowz-btn-label">${__('WhatsApp')}</span>
+                        <span class="arrowz-badge arrowz-whatsapp-badge" style="display:none;">0</span>
+                    </button>
+                    
+                    <!-- Internal Messages -->
+                    <button class="arrowz-topbar-btn arrowz-messages-btn" title="${__('Messages')}" data-action="messages">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        <span class="arrowz-btn-label">${__('Messages')}</span>
+                        <span class="arrowz-badge arrowz-messages-badge" style="display:none;">0</span>
+                    </button>
+                </div>
+            `);
+            
+            // Add styles
+            this.addStyles();
+            
+            // Insert before user menu or at the end
+            const $userMenu = $navbarRight.find('.dropdown-user, .avatar-frame, .navbar-user').first().closest('.nav-item, .dropdown');
+            if ($userMenu.length) {
+                $userMenu.before($shortcuts);
+            } else {
+                $navbarRight.append($shortcuts);
+            }
+            
+            // Setup click handlers
+            this.setupHandlers();
+            
+            // Load unread counts
+            this.loadUnreadCounts();
+            
+            // Subscribe to realtime updates
+            this.subscribeToUpdates();
+        },
+        
+        addStyles() {
+            if ($('#arrowz-topbar-styles').length) return;
+            
+            $('head').append(`
+                <style id="arrowz-topbar-styles">
+                    .arrowz-topbar-shortcuts {
+                        display: flex;
+                        align-items: center;
+                        gap: 4px;
+                        margin-right: 12px;
+                    }
+                    
+                    .arrowz-topbar-btn {
+                        display: flex;
+                        align-items: center;
+                        gap: 6px;
+                        padding: 8px 12px;
+                        background: rgba(255, 255, 255, 0.1);
+                        border: none;
+                        border-radius: 8px;
+                        color: white;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+                        position: relative;
+                        font-size: 13px;
+                        font-weight: 500;
+                    }
+                    
+                    .arrowz-topbar-btn:hover {
+                        background: rgba(255, 255, 255, 0.2);
+                        transform: translateY(-1px);
+                    }
+                    
+                    .arrowz-topbar-btn:active {
+                        transform: translateY(0);
+                    }
+                    
+                    .arrowz-topbar-btn svg {
+                        flex-shrink: 0;
+                    }
+                    
+                    .arrowz-btn-label {
+                        white-space: nowrap;
+                    }
+                    
+                    /* Softphone button - green accent */
+                    .arrowz-softphone-btn {
+                        background: linear-gradient(135deg, rgba(67, 233, 123, 0.3) 0%, rgba(56, 249, 215, 0.3) 100%);
+                    }
+                    
+                    .arrowz-softphone-btn:hover {
+                        background: linear-gradient(135deg, rgba(67, 233, 123, 0.5) 0%, rgba(56, 249, 215, 0.5) 100%);
+                        box-shadow: 0 4px 15px rgba(67, 233, 123, 0.3);
+                    }
+                    
+                    .arrowz-softphone-btn.active,
+                    .arrowz-softphone-btn.in-call {
+                        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+                        animation: pulse-call 1.5s infinite;
+                    }
+                    
+                    @keyframes pulse-call {
+                        0%, 100% { box-shadow: 0 0 0 0 rgba(67, 233, 123, 0.5); }
+                        50% { box-shadow: 0 0 0 10px rgba(67, 233, 123, 0); }
+                    }
+                    
+                    /* WhatsApp button - green */
+                    .arrowz-whatsapp-btn {
+                        background: linear-gradient(135deg, rgba(37, 211, 102, 0.3) 0%, rgba(18, 140, 126, 0.3) 100%);
+                    }
+                    
+                    .arrowz-whatsapp-btn:hover {
+                        background: linear-gradient(135deg, rgba(37, 211, 102, 0.5) 0%, rgba(18, 140, 126, 0.5) 100%);
+                        box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+                    }
+                    
+                    /* Messages button - blue */
+                    .arrowz-messages-btn {
+                        background: linear-gradient(135deg, rgba(79, 172, 254, 0.3) 0%, rgba(0, 242, 254, 0.3) 100%);
+                    }
+                    
+                    .arrowz-messages-btn:hover {
+                        background: linear-gradient(135deg, rgba(79, 172, 254, 0.5) 0%, rgba(0, 242, 254, 0.5) 100%);
+                        box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+                    }
+                    
+                    /* Badge */
+                    .arrowz-badge {
+                        position: absolute;
+                        top: -4px;
+                        right: -4px;
+                        min-width: 18px;
+                        height: 18px;
+                        background: linear-gradient(135deg, #ff6b6b 0%, #ff4757 100%);
+                        color: white;
+                        font-size: 10px;
+                        font-weight: 700;
+                        border-radius: 9px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 0 5px;
+                        box-shadow: 0 2px 8px rgba(255, 71, 87, 0.4);
+                        animation: badge-pop 0.3s ease;
+                    }
+                    
+                    @keyframes badge-pop {
+                        0% { transform: scale(0); }
+                        50% { transform: scale(1.2); }
+                        100% { transform: scale(1); }
+                    }
+                    
+                    /* Responsive */
+                    @media (max-width: 991px) {
+                        .arrowz-btn-label {
+                            display: none;
+                        }
+                        
+                        .arrowz-topbar-btn {
+                            padding: 8px 10px;
+                        }
+                    }
+                    
+                    @media (max-width: 576px) {
+                        .arrowz-topbar-shortcuts {
+                            gap: 2px;
+                            margin-right: 8px;
+                        }
+                        
+                        .arrowz-topbar-btn {
+                            padding: 6px 8px;
+                        }
+                        
+                        .arrowz-topbar-btn svg {
+                            width: 18px;
+                            height: 18px;
+                        }
+                    }
+                </style>
+            `);
+        },
+        
+        setupHandlers() {
+            // Softphone
+            $(document).on('click', '.arrowz-softphone-btn', () => {
+                if (arrowz.softphone && arrowz.softphone.show) {
+                    arrowz.softphone.show();
+                } else {
+                    frappe.set_route('/desk/make-call');
+                }
+            });
+            
+            // WhatsApp
+            $(document).on('click', '.arrowz-whatsapp-btn', () => {
+                this.showWhatsAppPanel();
+            });
+            
+            // Messages
+            $(document).on('click', '.arrowz-messages-btn', () => {
+                this.showMessagesPanel();
+            });
+        },
+        
+        showWhatsAppPanel() {
+            // Try to use omni panel if available
+            if (arrowz.omni_panel && arrowz.omni_panel.toggle) {
+                arrowz.omni_panel.toggle();
+                return;
+            }
+            
+            // Otherwise show conversation list
+            frappe.set_route('List', 'AZ Conversation Session', {
+                channel_type: ['in', ['WhatsApp', 'whatsapp']]
+            });
+        },
+        
+        showMessagesPanel() {
+            // Open internal chat or conversations
+            if (frappe.boot.chat_enabled) {
+                // Use Frappe's built-in chat
+                frappe.chat.open();
+            } else {
+                // Open conversation sessions without channel filter (internal)
+                frappe.set_route('List', 'AZ Conversation Session');
+            }
+        },
+        
+        loadUnreadCounts() {
+            // Load WhatsApp unread count
+            frappe.call({
+                method: 'frappe.client.get_count',
+                args: {
+                    doctype: 'AZ Conversation Session',
+                    filters: {
+                        unread_count: ['>', 0],
+                        channel_type: ['in', ['WhatsApp', 'whatsapp']]
+                    }
+                },
+                async: true,
+                callback: (r) => {
+                    if (r.message) {
+                        this.updateBadge('.arrowz-whatsapp-badge', r.message);
+                    }
+                }
+            });
+            
+            // Load internal messages count
+            frappe.call({
+                method: 'frappe.client.get_count',
+                args: {
+                    doctype: 'AZ Conversation Session',
+                    filters: {
+                        unread_count: ['>', 0],
+                        channel_type: ['not in', ['WhatsApp', 'whatsapp', 'Telegram', 'telegram']]
+                    }
+                },
+                async: true,
+                callback: (r) => {
+                    if (r.message) {
+                        this.updateBadge('.arrowz-messages-badge', r.message);
+                    }
+                }
+            });
+        },
+        
+        updateBadge(selector, count) {
+            const $badge = $(selector);
+            if (count > 0) {
+                $badge.text(count > 99 ? '99+' : count).show();
+            } else {
+                $badge.hide();
+            }
+        },
+        
+        subscribeToUpdates() {
+            // WhatsApp message received
+            frappe.realtime.on('whatsapp_message', () => {
+                this.loadUnreadCounts();
+                arrowz.utils.playSound('message');
+            });
+            
+            // Internal message received
+            frappe.realtime.on('new_message', () => {
+                this.loadUnreadCounts();
+                arrowz.utils.playSound('notification');
+            });
+            
+            // Call status changed
+            frappe.realtime.on('call_started', () => {
+                $('.arrowz-softphone-btn').addClass('in-call');
+            });
+            
+            frappe.realtime.on('call_ended', () => {
+                $('.arrowz-softphone-btn').removeClass('in-call');
+            });
+        }
+    };
+    
+    // Global helper functions
+    window.arrowz_call = arrowz.call.dial;
+    window.arrowz_sms = arrowz.sms.showSendDialog;
+    window.arrowz_show_dialer = () => arrowz.softphone && arrowz.softphone.show();
+    
+})();
+
+
+/* === phone_actions.js === */
+// Copyright (c) 2024, Moataz M Hassan (Arkan Lab)
+// Developer Website: https://arkan.it.com
+// License: MIT
+// For license information, please see license.txt
+
+/**
+ * Arrowz Phone Actions
+ * Smart phone number handling with action icons
+ * Applies to all phone fields across CRM doctypes
+ */
+
+(function() {
+    'use strict';
+    
+    // Phone Actions Module
+    arrowz.phoneActions = {
+        // Configuration
+        config: {
+            // DocTypes to apply phone actions to
+            targetDocTypes: [
+                'Lead', 'Contact', 'Customer', 'Supplier', 'Opportunity',
+                'Prospect', 'Sales Order', 'Purchase Order', 'Quotation',
+                'Employee', 'Address', 'Sales Partner', 'Issue'
+            ],
+            // Phone field names to look for
+            phoneFields: [
+                'mobile_no', 'phone', 'phone_no', 'contact_mobile', 
+                'contact_phone', 'mobile', 'cell_number', 'whatsapp_no',
+                'alternate_phone', 'secondary_phone'
+            ],
+            // Icons configuration - using SVG for brand icons
+            icons: {
+                phone_label: { emoji: '📱', title: 'Show Number', color: '#6c757d' },
+                sms: { emoji: '💬', title: 'Send SMS', color: '#28a745' },
+                whatsapp: { 
+                    emoji: '<svg viewBox="0 0 24 24" width="14" height="14" fill="#25D366" style="vertical-align:middle;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>', 
+                    title: 'WhatsApp', 
+                    color: '#25D366' 
+                },
+                telegram: { 
+                    emoji: '<svg viewBox="0 0 24 24" width="14" height="14" fill="#0088cc" style="vertical-align:middle;"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>', 
+                    title: 'Telegram', 
+                    color: '#0088cc' 
+                },
+                call: { emoji: '📞', title: 'Call via PBX', color: '#007bff' }
+            }
+        },
+        
+        /**
+         * Initialize phone actions
+         */
+        init() {
+            this.setupFormHooks();
+            this.setupListHooks();
+            this.setupGlobalClickHandler();
+            console.log('Arrowz: Phone Actions initialized');
+        },
+        
+        /**
+         * Setup hooks for form views
+         */
+        setupFormHooks() {
+            const self = this;
+            
+            // Hook into form refresh
+            $(document).on('form-refresh', function(e, frm) {
+                if (self.config.targetDocTypes.includes(frm.doctype)) {
+                    setTimeout(() => self.enhanceFormPhoneFields(frm), 100);
+                }
+            });
+            
+            // Also apply on page load
+            if (cur_frm && self.config.targetDocTypes.includes(cur_frm.doctype)) {
+                setTimeout(() => self.enhanceFormPhoneFields(cur_frm), 500);
+            }
+        },
+        
+        /**
+         * Setup hooks for list views
+         */
+        setupListHooks() {
+            const self = this;
+            
+            // Hook into list render
+            $(document).on('list-loaded', function() {
+                setTimeout(() => self.enhanceListPhoneFields(), 100);
+            });
+        },
+        
+        /**
+         * Setup global click handler for phone action buttons
+         */
+        setupGlobalClickHandler() {
+            const self = this;
+            
+            $(document).on('click', '.arrowz-phone-action', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const action = $(this).data('action');
+                const number = $(this).data('number');
+                const doctype = $(this).data('doctype');
+                const docname = $(this).data('docname');
+                
+                self.executeAction(action, number, doctype, docname);
+            });
+        },
+        
+        /**
+         * Enhance phone fields in a form
+         */
+        enhanceFormPhoneFields(frm) {
+            const self = this;
+            
+            this.config.phoneFields.forEach(fieldName => {
+                const field = frm.fields_dict[fieldName];
+                if (!field || !frm.doc[fieldName]) return;
+                
+                const $wrapper = field.$wrapper;
+                const number = frm.doc[fieldName];
+                
+                // Check if already enhanced
+                if ($wrapper.find('.arrowz-phone-actions').length) return;
+                
+                // Create action buttons
+                const $actions = self.createActionButtons(number, frm.doctype, frm.doc.name);
+                
+                // Add to field
+                const $controlValue = $wrapper.find('.control-value, .like-disabled-input');
+                if ($controlValue.length) {
+                    $controlValue.css('display', 'flex').css('align-items', 'center').css('gap', '8px');
+                    $controlValue.append($actions);
+                } else {
+                    // For editable fields, add after input
+                    const $input = $wrapper.find('.control-input');
+                    $input.css('display', 'flex').css('align-items', 'center').css('gap', '8px');
+                    $input.append($actions);
+                }
+            });
+        },
+        
+        /**
+         * Enhance phone fields in list views
+         */
+        enhanceListPhoneFields() {
+            const self = this;
+            
+            // Find phone-like columns in lists
+            $('.list-row [data-field]').each(function() {
+                const $cell = $(this);
+                const fieldName = $cell.data('field');
+                
+                if (!self.config.phoneFields.includes(fieldName)) return;
+                
+                const number = $cell.text().trim();
+                if (!number || !self.isPhoneNumber(number)) return;
+                
+                // Check if already enhanced
+                if ($cell.find('.arrowz-phone-actions').length) return;
+                
+                // Get doctype and name from row
+                const $row = $cell.closest('.list-row');
+                const doctype = $row.data('doctype');
+                const docname = $row.data('name');
+                
+                // Create mini action buttons
+                const $actions = self.createMiniActionButtons(number, doctype, docname);
+                $cell.append($actions);
+            });
+        },
+        
+        /**
+         * Create action buttons for a phone number
+         */
+        createActionButtons(number, doctype, docname) {
+            const cleanNumber = this.cleanPhoneNumber(number);
+            
+            return $(`
+                <span class="arrowz-phone-actions" style="display: inline-flex; gap: 4px; margin-left: 8px;">
+                    <button class="btn btn-xs arrowz-phone-action" 
+                            data-action="show_number" 
+                            data-number="${cleanNumber}"
+                            data-doctype="${doctype || ''}"
+                            data-docname="${docname || ''}"
+                            title="${this.config.icons.phone_label.title}"
+                            style="padding: 2px 6px; font-size: 14px;">
+                        ${this.config.icons.phone_label.emoji}
+                    </button>
+                    <button class="btn btn-xs arrowz-phone-action" 
+                            data-action="sms" 
+                            data-number="${cleanNumber}"
+                            data-doctype="${doctype || ''}"
+                            data-docname="${docname || ''}"
+                            title="${this.config.icons.sms.title}"
+                            style="padding: 2px 6px; font-size: 14px;">
+                        ${this.config.icons.sms.emoji}
+                    </button>
+                    <button class="btn btn-xs arrowz-phone-action" 
+                            data-action="whatsapp" 
+                            data-number="${cleanNumber}"
+                            data-doctype="${doctype || ''}"
+                            data-docname="${docname || ''}"
+                            title="${this.config.icons.whatsapp.title}"
+                            style="padding: 2px 6px; font-size: 14px;">
+                        ${this.config.icons.whatsapp.emoji}
+                    </button>
+                    <button class="btn btn-xs arrowz-phone-action" 
+                            data-action="telegram" 
+                            data-number="${cleanNumber}"
+                            data-doctype="${doctype || ''}"
+                            data-docname="${docname || ''}"
+                            title="${this.config.icons.telegram.title}"
+                            style="padding: 2px 6px; font-size: 14px;">
+                        ${this.config.icons.telegram.emoji}
+                    </button>
+                    <button class="btn btn-xs btn-primary arrowz-phone-action" 
+                            data-action="call" 
+                            data-number="${cleanNumber}"
+                            data-doctype="${doctype || ''}"
+                            data-docname="${docname || ''}"
+                            title="${this.config.icons.call.title}"
+                            style="padding: 2px 6px; font-size: 14px;">
+                        ${this.config.icons.call.emoji}
+                    </button>
+                </span>
+            `);
+        },
+        
+        /**
+         * Create mini action buttons for list views
+         */
+        createMiniActionButtons(number, doctype, docname) {
+            const cleanNumber = this.cleanPhoneNumber(number);
+            
+            return $(`
+                <span class="arrowz-phone-actions arrowz-phone-actions-mini" 
+                      style="display: inline-flex; gap: 2px; margin-left: 4px; opacity: 0.7;">
+                    <span class="arrowz-phone-action" 
+                          data-action="whatsapp" 
+                          data-number="${cleanNumber}"
+                          data-doctype="${doctype || ''}"
+                          data-docname="${docname || ''}"
+                          title="${this.config.icons.whatsapp.title}"
+                          style="cursor: pointer; font-size: 12px;">
+                        ${this.config.icons.whatsapp.emoji}
+                    </span>
+                    <span class="arrowz-phone-action" 
+                          data-action="call" 
+                          data-number="${cleanNumber}"
+                          data-doctype="${doctype || ''}"
+                          data-docname="${docname || ''}"
+                          title="${this.config.icons.call.title}"
+                          style="cursor: pointer; font-size: 12px;">
+                        ${this.config.icons.call.emoji}
+                    </span>
+                </span>
+            `);
+        },
+        
+        /**
+         * Execute action based on button clicked
+         */
+        executeAction(action, number, doctype, docname) {
+            switch(action) {
+                case 'show_number':
+                    this.showNumberPopup(number);
+                    break;
+                case 'sms':
+                    this.sendSMS(number, doctype, docname);
+                    break;
+                case 'whatsapp':
+                    this.openWhatsApp(number);
+                    break;
+                case 'telegram':
+                    this.openTelegram(number);
+                    break;
+                case 'call':
+                    this.makeCall(number);
+                    break;
+            }
+        },
+        
+        /**
+         * Show number in a popup with copy option
+         */
+        showNumberPopup(number) {
+            const formattedNumber = this.formatPhoneNumber(number);
+            
+            const dialog = new frappe.ui.Dialog({
+                title: __('Phone Number'),
+                fields: [
+                    {
+                        fieldtype: 'HTML',
+                        options: `
+                            <div class="text-center">
+                                <h2 style="font-family: monospace; margin: 20px 0;">${formattedNumber}</h2>
+                                <p class="text-muted">${number}</p>
+                            </div>
+                        `
+                    }
+                ],
+                primary_action_label: __('Copy'),
+                primary_action: () => {
+                    navigator.clipboard.writeText(number).then(() => {
+                        frappe.show_alert({message: __('Number copied!'), indicator: 'green'}, 2);
+                        dialog.hide();
+                    });
+                }
+            });
+            dialog.show();
+        },
+        
+        /**
+         * Open SMS dialog
+         */
+        sendSMS(number, doctype, docname) {
+            if (arrowz.sms && arrowz.sms.showSendDialog) {
+                arrowz.sms.showSendDialog(number, doctype, docname);
+            } else {
+                // Fallback to basic SMS dialog
+                const dialog = new frappe.ui.Dialog({
+                    title: __('Send SMS'),
+                    fields: [
+                        {
+                            fieldname: 'to_number',
+                            label: __('To'),
+                            fieldtype: 'Data',
+                            default: number,
+                            read_only: 1
+                        },
+                        {
+                            fieldname: 'message',
+                            label: __('Message'),
+                            fieldtype: 'Small Text',
+                            reqd: 1
+                        }
+                    ],
+                    primary_action_label: __('Send'),
+                    primary_action: (values) => {
+                        frappe.call({
+                            method: 'arrowz.api.sms.send_sms',
+                            args: {
+                                to_number: number,
+                                message: values.message,
+                                party_type: doctype,
+                                party: docname
+                            },
+                            callback: (r) => {
+                                if (!r.exc) {
+                                    frappe.show_alert({message: __('SMS sent!'), indicator: 'green'});
+                                    dialog.hide();
+                                }
+                            }
+                        });
+                    }
+                });
+                dialog.show();
+            }
+        },
+        
+        /**
+         * Open WhatsApp with the number
+         */
+        openWhatsApp(number) {
+            // Clean number and ensure international format
+            let cleanNumber = (number || '').toString().replace(/[^\d+]/g, '');
+            // Remove leading + if present for WhatsApp API
+            if (cleanNumber.startsWith('+')) {
+                cleanNumber = cleanNumber.substring(1);
+            }
+            // Open WhatsApp
+            const url = `https://wa.me/${cleanNumber}`;
+            window.open(url, '_blank');
+        },
+        
+        /**
+         * Open Telegram with the number
+         */
+        openTelegram(number) {
+            // Clean number
+            let cleanNumber = (number || '').toString().replace(/[^\d+]/g, '');
+            // Open Telegram
+            const url = `https://t.me/${cleanNumber}`;
+            window.open(url, '_blank');
+        },
+        
+        /**
+         * Make a call via PBX
+         */
+        makeCall(number) {
+            console.log('Arrowz phoneActions: makeCall called with:', number);
+            
+            // Clean the number first
+            let cleanNumber = (number || '').toString().replace(/[^\d+]/g, '');
+            if (!cleanNumber) {
+                frappe.show_alert({
+                    message: __('Invalid phone number'),
+                    indicator: 'red'
+                });
+                return;
+            }
+            
+            console.log('Arrowz phoneActions: cleaned number:', cleanNumber);
+            console.log('Arrowz phoneActions: softphone available:', !!(arrowz.softphone && arrowz.softphone.makeCall));
+            console.log('Arrowz phoneActions: softphone registered:', arrowz.softphone?.registered);
+            
+            if (arrowz.call && arrowz.call.dial) {
+                console.log('Arrowz phoneActions: Using arrowz.call.dial');
+                arrowz.call.dial(cleanNumber);
+            } else if (arrowz.softphone) {
+                console.log('Arrowz phoneActions: Using arrowz.softphone');
+                // Show softphone first
+                arrowz.softphone.show();
+                // Wait for dialog to be ready, then make call
+                setTimeout(() => {
+                    if (arrowz.softphone.registered) {
+                        // Set number in input and show active call UI
+                        const input = document.getElementById('arrowz-dial-input');
+                        if (input) {
+                            input.value = cleanNumber;
+                        }
+                        arrowz.softphone.showActiveCallUI(cleanNumber);
+                        arrowz.softphone.makeCall(cleanNumber);
+                    } else {
+                        frappe.show_alert({
+                            message: __('Softphone not registered. Please wait and try again.'),
+                            indicator: 'yellow'
+                        });
+                    }
+                }, 500);
+            } else {
+                frappe.show_alert({
+                    message: __('Softphone not available'),
+                    indicator: 'yellow'
+                });
+            }
+        },
+        
+        /**
+         * Check if text looks like a phone number
+         */
+        isPhoneNumber(text) {
+            if (!text) return false;
+            const digits = text.replace(/[\s\-\(\)\+\.]/g, '');
+            return /^\d{7,15}$/.test(digits);
+        },
+        
+        /**
+         * Clean phone number to digits only
+         */
+        cleanPhoneNumber(number) {
+            if (!number) return '';
+            return number.replace(/[^\d+]/g, '');
+        },
+        
+        /**
+         * Format phone number for display
+         */
+        formatPhoneNumber(number) {
+            if (!number) return '';
+            const digits = number.replace(/\D/g, '');
+            
+            // Format based on length
+            if (digits.length === 10) {
+                return `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
+            } else if (digits.length === 11 && digits[0] === '1') {
+                return `+1 (${digits.slice(1,4)}) ${digits.slice(4,7)}-${digits.slice(7)}`;
+            }
+            
+            return number;
+        }
+    };
+    
+    // Initialize when document is ready
+    $(document).ready(function() {
+        // Wait for frappe to be ready
+        if (typeof frappe !== 'undefined' && frappe.session.user !== 'Guest') {
+            arrowz.phoneActions.init();
+        }
+    });
+    
+})();
+
+
+/* === softphone_v2.js === */
+// Copyright (c) 2024, Moataz M Hassan (Arkan Lab)
+// Developer Website: https://arkan.it.com
+// License: MIT
+// For license information, please see license.txt
+
+/**
+ * Arrowz Softphone V2 - Professional Navbar Integration
+ * Features:
+ * - Dropdown on desktop, modal on mobile
+ * - Multi-extension support with quick switcher
+ * - Real-time status indicators (SMS, Calls, Line status)
+ * - Contact search across all linked DocTypes
+ * - Responsive design
+ *
+ * BUILD: 2024-02-24-v3-openrelay-turn
+ */
+
+(function() {
+    'use strict';
+
+    // Version check - helps confirm browser has latest code
+    console.log('%c[Arrowz Softphone] BUILD: 2024-02-24-v3-openrelay-turn', 'color: #00ff00; font-weight: bold;');
+
+    // Arrowz namespace
+    window.arrowz = window.arrowz || {};
+
+    // ========== Cross-Tab Leader Election ==========
+    // Ensures only ONE tab registers with Asterisk at a time.
+    // Uses BroadcastChannel + localStorage for leader election.
+    const TAB_LEADER_KEY = 'arrowz_softphone_leader';
+    const TAB_HEARTBEAT_KEY = 'arrowz_softphone_heartbeat';
+    const TAB_ID = Math.random().toString(36).substring(2, 10) + '_' + Date.now();
+    const HEARTBEAT_INTERVAL = 2000; // ms
+    const LEADER_TIMEOUT = 6000; // ms - if no heartbeat for this long, leader is dead
+
+    let _tabChannel = null;
+    let _heartbeatTimer = null;
+    let _isLeader = false;
+
+    function _initTabChannel() {
+        try {
+            _tabChannel = new BroadcastChannel('arrowz_softphone');
+            _tabChannel.onmessage = function(ev) {
+                if (ev.data.type === 'leader_claim' && ev.data.tabId !== TAB_ID) {
+                    // Another tab claimed leadership
+                    if (_isLeader) {
+                        // We were leader, yield if their claim is newer
+                        console.log('Arrowz Tab: Another tab claimed leadership, yielding');
+                        _isLeader = false;
+                        _stopHeartbeat();
+                        // Stop our UA registration
+                        if (arrowz.softphone.ua) {
+                            try {
+                                arrowz.softphone.ua.unregister({ all: true });
+                                arrowz.softphone.ua.stop();
+                            } catch(e) {}
+                            arrowz.softphone.ua = null;
+                            arrowz.softphone.registered = false;
+                            arrowz.softphone.updateNavbarStatus('follower', __('Standby'));
+                        }
+                    }
+                } else if (ev.data.type === 'leader_release') {
+                    // Leader tab is closing, try to become leader
+                    console.log('Arrowz Tab: Leader released, attempting to claim');
+                    setTimeout(() => _tryBecomeLeader(), Math.random() * 500);
+                } else if (ev.data.type === 'call_event' && !_isLeader) {
+                    // Forward call events to non-leader tabs for UI updates
+                    if (ev.data.event === 'incoming') {
+                        arrowz.softphone.showNotification('call', ev.data.data);
+                    }
+                }
+            };
+        } catch (e) {
+            // BroadcastChannel not supported, act as leader always
+            console.warn('Arrowz Tab: BroadcastChannel not supported, assuming leader');
+            _isLeader = true;
+        }
+    }
+
+    function _tryBecomeLeader() {
+        const now = Date.now();
+        const stored = localStorage.getItem(TAB_LEADER_KEY);
+        const heartbeat = parseInt(localStorage.getItem(TAB_HEARTBEAT_KEY) || '0');
+
+        // Become leader if: no leader, or leader heartbeat expired
+        if (!stored || stored === TAB_ID || (now - heartbeat > LEADER_TIMEOUT)) {
+            localStorage.setItem(TAB_LEADER_KEY, TAB_ID);
+            localStorage.setItem(TAB_HEARTBEAT_KEY, String(now));
+
+            // Verify we won (check again after a small delay for race conditions)
+            setTimeout(() => {
+                if (localStorage.getItem(TAB_LEADER_KEY) === TAB_ID) {
+                    _isLeader = true;
+                    _startHeartbeat();
+                    console.log('Arrowz Tab: Became leader (tab=' + TAB_ID + ')');
+                    if (_tabChannel) {
+                        _tabChannel.postMessage({ type: 'leader_claim', tabId: TAB_ID });
+                    }
+                    // If softphone is initialized but UA not started, start it now
+                    if (arrowz.softphone.initialized && !arrowz.softphone.ua && arrowz.softphone.config) {
+                        arrowz.softphone.setupJsSIP();
+                    }
+                }
+            }, 50 + Math.random() * 100);
+        }
+    }
+
+    function _startHeartbeat() {
+        _stopHeartbeat();
+        _heartbeatTimer = setInterval(() => {
+            if (_isLeader) {
+                localStorage.setItem(TAB_HEARTBEAT_KEY, String(Date.now()));
+            }
+        }, HEARTBEAT_INTERVAL);
+    }
+
+    function _stopHeartbeat() {
+        if (_heartbeatTimer) {
+            clearInterval(_heartbeatTimer);
+            _heartbeatTimer = null;
+        }
+    }
+
+    function _releaseLeadership() {
+        if (_isLeader) {
+            _isLeader = false;
+            _stopHeartbeat();
+            localStorage.removeItem(TAB_LEADER_KEY);
+            localStorage.removeItem(TAB_HEARTBEAT_KEY);
+            if (_tabChannel) {
+                try {
+                    _tabChannel.postMessage({ type: 'leader_release', tabId: TAB_ID });
+                } catch(e) {}
+            }
+        }
+    }
+
+    // Initialize leader election immediately
+    _initTabChannel();
+    _tryBecomeLeader();
+    // ========== End Cross-Tab Leader Election ==========
+
+    // Softphone V2
+    arrowz.softphone = {
+        initialized: false,
+        registered: false,
+        ua: null,  // JsSIP User Agent
+        sessions: [],  // Array of active call sessions (multi-line support)
+        session: null,  // Current/primary call session (backwards compatibility)
+        activeLineIndex: 0,  // Currently selected line index
+        maxLines: 4,  // Maximum concurrent lines
+        config: null,
+        allExtensions: [],  // All user's extensions
+        activeExtension: null,  // Current active extension
+        audioPlayer: null,
+        localStream: null,
+        remoteStream: null,
+        callTimer: null,
+        callStartTime: null,
+        callStartTimes: {},  // Track start times per session
+        isDropdownOpen: false,
+        pendingSMS: [],
+        missedCalls: 0,
+
+        // Initialize softphone
+        async init() {
+            if (this.initialized) return;
+
+            try {
+                // Add navbar widget first
+                this.renderNavbarWidget();
+
+                // Load JsSIP if not available
+                if (typeof JsSIP === 'undefined') {
+                    await this.loadJsSIP();
+                }
+
+                // Get all user extensions
+                await this.loadExtensions();
+
+                // Initialize audio
+                this.initAudio();
+
+                // Setup real-time listeners
+                this.setupRealtimeListeners();
+
+                // Check for missed calls/SMS
+                this.checkNotifications();
+
+                // Register cleanup on page unload to prevent stale registrations
+                this.setupUnloadCleanup();
+
+                this.initialized = true;
+
+                // If not leader, don't start JsSIP (loadExtensions calls setupJsSIP)
+                // The leader election will trigger setupJsSIP when this tab becomes leader
+                if (!_isLeader) {
+                    console.log('Arrowz Softphone V2 initialized (standby mode - another tab is leader)');
+                    this.updateNavbarStatus('follower', __('Standby'));
+                    // Stop the UA that loadExtensions may have started
+                    if (this.ua) {
+                        try {
+                            this.ua.unregister({ all: true });
+                            this.ua.stop();
+                        } catch(e) {}
+                        this.ua = null;
+                    }
+                } else {
+                    console.log('Arrowz Softphone V2 initialized (leader)');
+                }
+
+            } catch (error) {
+                console.error('Arrowz Softphone init error:', error);
+                this.updateNavbarStatus('error', 'Error');
+            }
+        },
+
+        // Load JsSIP library
+        loadJsSIP() {
+            return new Promise((resolve, reject) => {
+                if (typeof JsSIP !== 'undefined') {
+                    resolve();
+                    return;
+                }
+                const script = document.createElement('script');
+                script.src = '/assets/arrowz/js/jssip.min.js';
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        },
+
+        // Load user's extensions
+        async loadExtensions() {
+            try {
+                const r = await frappe.call({
+                    method: 'arrowz.api.webrtc.get_webrtc_config'
+                });
+
+                if (!r.message) {
+                    this.updateNavbarStatus('no-config', __('No Extension'));
+                    return;
+                }
+
+                this.config = r.message;
+                this.activeExtension = r.message.extension_name;
+                this.allExtensions = r.message.all_extensions || [];
+
+                // Resolve PBX public IP for SDP rewriting (Docker NAT workaround)
+                // Extract host from websocket URL or SIP domain
+                if (r.message.sip_domain) {
+                    this._pbxHost = r.message.sip_domain;
+                }
+                // Store public IP if provided, or use the SIP domain
+                if (r.message.pbx_public_ip) {
+                    this._pbxPublicIP = r.message.pbx_public_ip;
+                }
+
+                // Setup JsSIP with first/active extension
+                await this.setupJsSIP();
+
+            } catch (e) {
+                console.error('Error loading extensions:', e);
+                this.updateNavbarStatus('error', __('Error'));
+            }
+        },
+
+        // Initialize audio elements
+        initAudio() {
+            // Remote audio
+            if (!document.getElementById('arrowz-remote-audio')) {
+                this.audioPlayer = document.createElement('audio');
+                this.audioPlayer.id = 'arrowz-remote-audio';
+                this.audioPlayer.autoplay = true;
+                this.audioPlayer.playsInline = true;
+                document.body.appendChild(this.audioPlayer);
+            } else {
+                this.audioPlayer = document.getElementById('arrowz-remote-audio');
+            }
+
+            // Ringtone
+            if (!document.getElementById('arrowz-ringtone')) {
+                this.ringtone = document.createElement('audio');
+                this.ringtone.id = 'arrowz-ringtone';
+                this.ringtone.loop = true;
+                this.ringtone.playsInline = true;
+                this.ringtone.src = '/assets/arrowz/sounds/ringtone.mp3';
+                this.ringtone.load();
+                document.body.appendChild(this.ringtone);
+            } else {
+                this.ringtone = document.getElementById('arrowz-ringtone');
+            }
+        },
+
+        // Setup JsSIP User Agent
+        async setupJsSIP() {
+            if (!this.config) return;
+
+            // Only the leader tab should register with Asterisk
+            if (!_isLeader) {
+                console.log('Arrowz: Not leader tab, skipping JsSIP setup');
+                return;
+            }
+
+            // Stop any existing UA before creating a new one
+            if (this.ua) {
+                try {
+                    this.ua.unregister({ all: true });
+                    this.ua.stop();
+                } catch(e) {}
+                this.ua = null;
+            }
+
+            const socket = new JsSIP.WebSocketInterface(this.config.websocket_servers[0]);
+
+            console.log('Arrowz: Setting up JsSIP with URI:', this.config.sip_uri);
+
+            const configuration = {
+                sockets: [socket],
+                uri: this.config.sip_uri,
+                password: this.config.sip_password,
+                display_name: this.config.display_name,
+                register: true,
+                session_timers: false,
+                register_expires: 300,
+                user_agent: 'Arrowz-WebRTC/2.0'
+            };
+
+            if (this.config.outbound_proxy) {
+                configuration.outbound_proxy_set = this.config.outbound_proxy;
+            }
+
+            // Create new UA with unique ID
+            const newUA = new JsSIP.UA(configuration);
+            const uaId = Date.now();
+            newUA._arrowz_id = uaId;
+            this._currentUAId = uaId;
+            this.ua = newUA;
+
+            // Event handlers - check if this is still the current UA
+            const checkCurrentUA = () => this.ua && this.ua._arrowz_id === uaId;
+
+            this.ua.on('connected', () => {
+                if (!checkCurrentUA()) return;
+                console.log('Arrowz: WebSocket connected');
+                this.updateNavbarStatus('connecting', __('Connecting...'));
+            });
+
+            this.ua.on('disconnected', (e) => {
+                if (!checkCurrentUA()) {
+                    console.log('Arrowz: Ignoring disconnected event from old UA');
+                    return;
+                }
+                console.log('Arrowz: WebSocket disconnected', e);
+                this.registered = false;
+                this.updateNavbarStatus('disconnected', __('Offline'));
+
+                // Track disconnection count for SSL certificate warning
+                this._disconnectCount = (this._disconnectCount || 0) + 1;
+                if (this._disconnectCount >= 3 && !this._sslWarningShown) {
+                    this._sslWarningShown = true;
+                    const wsUrl = this.config?.websocket_servers?.[0];
+                    if (wsUrl) {
+                        const pbxHost = wsUrl.replace('wss://', 'https://').replace('/ws', '');
+                        frappe.msgprint({
+                            title: __('WebSocket Connection Failed'),
+                            message: __('Unable to connect to PBX. This may be caused by a self-signed SSL certificate.<br><br>To fix this:<br>1. <a href="{0}" target="_blank">Click here to open the PBX URL</a><br>2. Accept the certificate warning in your browser<br>3. Refresh this page', [pbxHost]),
+                            indicator: 'orange'
+                        });
+                    }
+                }
+            });
+
+            this.ua.on('registered', () => {
+                if (!checkCurrentUA()) return;
+                console.log('Arrowz: SIP registered');
+                this.registered = true;
+                this.updateNavbarStatus('registered', this.config.extension);
+            });
+
+            this.ua.on('unregistered', () => {
+                if (!checkCurrentUA()) {
+                    console.log('Arrowz: Ignoring unregistered event from old UA');
+                    return;
+                }
+                console.log('Arrowz: SIP unregistered');
+                this.registered = false;
+                this.updateNavbarStatus('unregistered', __('Unregistered'));
+            });
+
+            this.ua.on('registrationFailed', (e) => {
+                if (!checkCurrentUA()) return;
+                console.error('Arrowz: Registration failed:', e.cause);
+                this.registered = false;
+                this.updateNavbarStatus('failed', __('Failed'));
+                frappe.show_alert({
+                    message: __('SIP Registration Failed: {0}', [e.cause]),
+                    indicator: 'red'
+                }, 7);
+            });
+
+            this.ua.on('newRTCSession', (e) => {
+                if (!checkCurrentUA()) return;
+                this.handleNewSession(e);
+            });
+
+            this.ua.start();
+        },
+
+        // Cleanup on page unload to prevent stale SIP registrations
+        setupUnloadCleanup() {
+            window.addEventListener('beforeunload', () => {
+                // Release leadership so another tab can take over
+                _releaseLeadership();
+
+                if (this.ua) {
+                    try {
+                        this.ua.unregister({ all: true });
+                        this.ua.stop();
+                    } catch (e) {
+                        // Ignore errors during cleanup
+                    }
+                }
+                // Close any active streams
+                if (this.localStream) {
+                    this.localStream.getTracks().forEach(t => t.stop());
+                }
+                if (this._preGrantedStream) {
+                    this._preGrantedStream.getTracks().forEach(t => t.stop());
+                }
+            });
+        },
+
+        // Setup real-time listeners for notifications
+        setupRealtimeListeners() {
+            // Listen for incoming SMS
+            frappe.realtime.on('arrowz_new_sms', (data) => {
+                this.pendingSMS.push(data);
+                this.updateNavbarBadge();
+                this.showNotification('sms', data);
+            });
+
+            // Listen for missed calls
+            frappe.realtime.on('arrowz_missed_call', (data) => {
+                this.missedCalls++;
+                this.updateNavbarBadge();
+            });
+        },
+
+        // Check for pending notifications
+        async checkNotifications() {
+            try {
+                const r = await frappe.call({
+                    method: 'arrowz.api.notifications.get_pending_notifications'
+                });
+
+                if (r.message) {
+                    this.pendingSMS = r.message.pending_sms || [];
+                    this.missedCalls = r.message.missed_calls || 0;
+                    this.updateNavbarBadge();
+                }
+            } catch (e) {
+                // Notifications API might not exist yet
+            }
+        },
+
+        // Render navbar widget
+        renderNavbarWidget() {
+            // Remove existing widget
+            const existing = document.getElementById('arrowz-softphone-widget');
+            if (existing) existing.remove();
+
+            // Priority 1: Theme topbar (.topbar-right from tavira/flux theme)
+            let navbarContainer = document.querySelector('.topbar-right');
+            let insertMode = 'topbar';
+
+            // Priority 2: Frappe v16 desktop navbar
+            if (!navbarContainer) {
+                navbarContainer = document.querySelector('.navbar-container .flex');
+                insertMode = 'desktop';
+            }
+
+            // Priority 3: Legacy navbar selectors for older Frappe versions
+            if (!navbarContainer) {
+                navbarContainer = document.querySelector('.navbar .navbar-collapse .navbar-nav') ||
+                                  document.querySelector('.navbar-right') ||
+                                  document.querySelector('.navbar-nav') ||
+                                  document.querySelector('#navbar-user')?.parentElement;
+                insertMode = 'legacy';
+            }
+
+            if (!navbarContainer) {
+                // Retry with a limit to prevent infinite loops (e.g., on setup wizard page)
+                this._navRetryCount = (this._navRetryCount || 0) + 1;
+                if (this._navRetryCount < 10) {
+                    setTimeout(() => this.renderNavbarWidget(), 500);
+                }
+                return;
+            }
+            this._navRetryCount = 0;
+
+            // Create widget
+            let widget = document.createElement('div');
+            widget.id = 'arrowz-softphone-widget';
+            widget.className = 'arrowz-softphone-desktop';
+            widget.innerHTML = `
+                <div class="arrowz-sp-trigger" onclick="arrowz.softphone.toggleDropdown()">
+                    <div class="sp-icon-wrapper">
+                        <img class="sp-icon arrowz-logo-animated" src="/assets/arrowz/images/arrowz-icon-animated.svg" alt="Arrowz" />
+                        <span class="sp-status-dot"></span>
+                    </div>
+                    <span class="sp-badge" style="display: none;"></span>
+                    <span class="sp-call-timer" style="display: none;">00:00</span>
+                </div>
+                <div class="arrowz-sp-dropdown" id="arrowz-sp-dropdown">
+                    <!-- Content loaded dynamically -->
+                </div>
+            `;
+
+            if (insertMode === 'topbar') {
+                // Insert as first child of .topbar-right (before avatar/notifications)
+                navbarContainer.insertBefore(widget, navbarContainer.firstChild);
+
+                // Move dropdown to document.body to escape topbar's
+                // overflow:hidden + backdrop-filter containing block
+                const dropdown = widget.querySelector('#arrowz-sp-dropdown');
+                if (dropdown) {
+                    dropdown.remove();
+                    dropdown.classList.add('arrowz-sp-dropdown-portal');
+                    document.body.appendChild(dropdown);
+                }
+            } else if (insertMode === 'desktop') {
+                // Insert before desktop-notifications
+                const notifications = navbarContainer.querySelector('.desktop-notifications');
+                if (notifications) {
+                    navbarContainer.insertBefore(widget, notifications);
+                } else {
+                    navbarContainer.insertBefore(widget, navbarContainer.firstChild);
+                }
+            } else {
+                navbarContainer.insertBefore(widget, navbarContainer.firstChild);
+            }
+
+            // Add styles
+            this.addStyles();
+
+            // Close dropdown on outside click
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('#arrowz-softphone-widget') && !e.target.closest('#arrowz-sp-dropdown')) {
+                    this.closeDropdown();
+                }
+            });
+        },
+
+        // Toggle dropdown/modal
+        toggleDropdown() {
+            if (this.isDropdownOpen) {
+                this.closeDropdown();
+            } else {
+                this.openDropdown();
+            }
+        },
+
+        // Open dropdown
+        openDropdown() {
+            if (this._isIncomingRinging && this.session) {
+                // Incoming call ringing - show answer/reject UI
+                const caller = this._currentCallee || this.session.remote_identity?.display_name || this.session.remote_identity?.uri?.user || __('Unknown');
+                this.showIncomingCallUI(caller);
+            } else if (this.session) {
+                // Active call - show call controls
+                this.showActiveCallUI();
+            } else {
+                // No call - show dialer
+                this.showDialerUI();
+            }
+
+            const dropdown = document.getElementById('arrowz-sp-dropdown');
+            const widget = document.getElementById('arrowz-softphone-widget');
+            if (dropdown) {
+                // Portal mode: dropdown lives in document.body, position it under trigger
+                if (dropdown.classList.contains('arrowz-sp-dropdown-portal') && widget) {
+                    const trigger = widget.querySelector('.arrowz-sp-trigger');
+                    if (trigger) {
+                        const rect = trigger.getBoundingClientRect();
+                        dropdown.style.position = 'fixed';
+                        dropdown.style.top = (rect.bottom + 8) + 'px';
+                        dropdown.style.right = (window.innerWidth - rect.right) + 'px';
+                        dropdown.style.left = 'auto';
+                    }
+                }
+
+                dropdown.classList.add('open');
+
+                // Check if mobile
+                if (window.innerWidth < 768) {
+                    dropdown.classList.add('mobile-modal');
+                    document.body.classList.add('arrowz-modal-open');
+                }
+            }
+
+            this.isDropdownOpen = true;
+        },
+
+        // Close dropdown
+        closeDropdown() {
+            const dropdown = document.getElementById('arrowz-sp-dropdown');
+            if (dropdown) {
+                dropdown.classList.remove('open');
+                dropdown.classList.remove('mobile-modal');
+                document.body.classList.remove('arrowz-modal-open');
+            }
+            this.isDropdownOpen = false;
+        },
+
+        // Show dialer UI
+        showDialerUI() {
+            const dropdown = document.getElementById('arrowz-sp-dropdown');
+            if (!dropdown) return;
+
+            // Build extension buttons if multiple
+            let extensionButtons = '';
+            if (this.allExtensions.length > 1) {
+                extensionButtons = `
+                    <div class="sp-extension-selector" style="padding:4px 10px;background:var(--bg-color);border-bottom:1px solid var(--border-color);">
+                        <div class="sp-ext-buttons" style="display:flex;gap:4px;flex-wrap:wrap;">
+                            ${this.allExtensions.map(ext => `
+                                <button class="sp-ext-btn ${ext.name === this.activeExtension ? 'active' : ''}"
+                                        onclick="arrowz.softphone.switchExtension('${ext.name}')"
+                                        title="${ext.display_name || ext.extension}"
+                                        style="padding:3px 8px;font-size:10px;">
+                                    ${ext.extension}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Active calls indicator
+            const activeCount = this.getActiveSessionCount();
+            let activeCallsIndicator = '';
+            if (activeCount > 0) {
+                activeCallsIndicator = `
+                    <div style="padding:4px 10px;background:rgba(76,175,80,0.1);border-bottom:1px solid var(--border-color);display:flex;align-items:center;justify-content:space-between;">
+                        <span style="font-size:10px;color:#4CAF50;font-weight:500;">
+                            📞 ${activeCount} ${__('active')}
+                        </span>
+                        <button onclick="arrowz.softphone.showMultiLineCallUI()"
+                                style="padding:2px 6px;font-size:10px;background:#4CAF50;color:white;border:none;border-radius:3px;cursor:pointer;">
+                            ${__('View')}
+                        </button>
+                    </div>
+                `;
+            }
+
+            dropdown.innerHTML = `
+                <div class="sp-header" style="padding:6px 10px;">
+                    <div class="sp-header-info">
+                        <span class="sp-status-indicator ${this.registered ? 'online' : 'offline'}"></span>
+                        <span class="sp-ext-number" style="font-size:13px;">${this.config?.extension || '---'}</span>
+                        <span class="sp-status-label" style="font-size:11px;">${this.registered ? __('Ready') : __('Offline')}</span>
+                    </div>
+                    <button class="sp-close-btn" onclick="arrowz.softphone.closeDropdown()" style="font-size:20px;">×</button>
+                </div>
+
+                ${activeCallsIndicator}
+
+                <div class="sp-content">
+                    ${extensionButtons}
+
+                    <div class="sp-dial-display" style="padding:6px 10px;gap:4px;">
+                        <input type="tel" class="sp-dial-input" id="sp-dial-input"
+                               placeholder="${__('Number or search...')}"
+                               style="padding:6px;font-size:15px;"
+                               oninput="arrowz.softphone.handleSearchInput(this.value)"
+                               onkeypress="if(event.key==='Enter')arrowz.softphone.dial()">
+                        <button class="sp-backspace" onclick="arrowz.softphone.backspace()" style="padding:6px 10px;font-size:13px;">⌫</button>
+                    </div>
+                    <div class="sp-search-results" id="sp-search-results" style="margin:0 10px;"></div>
+
+                    <div class="sp-dialpad" style="gap:3px;padding:4px 10px 6px;">
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('1')">1</button>
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('2')">2</button>
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('3')">3</button>
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('4')">4</button>
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('5')">5</button>
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('6')">6</button>
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('7')">7</button>
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('8')">8</button>
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('9')">9</button>
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('*')">*</button>
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('0')">0</button>
+                        <button class="sp-key" onclick="arrowz.softphone.pressKey('#')">#</button>
+                    </div>
+
+                    <div class="sp-actions" style="padding:4px 10px 6px;">
+                        <button class="sp-call-btn ${!this.registered ? 'disabled' : ''}"
+                                onclick="arrowz.softphone.dial()" ${!this.registered ? 'disabled' : ''}
+                                style="width:42px;height:42px;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;">
+                                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="sp-footer" style="padding:0;">
+                    <button class="sp-footer-btn" onclick="arrowz.softphone.showHistory()" style="padding:5px;font-size:9px;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        ${__('History')}
+                    </button>
+                    <button class="sp-footer-btn" onclick="arrowz.softphone.showSettings()" style="padding:5px;font-size:9px;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+                        ${__('Settings')}
+                    </button>
+                </div>
+            `;
+        },
+
+        // Show active call UI
+        showActiveCallUI(number) {
+            const dropdown = document.getElementById('arrowz-sp-dropdown');
+            if (!dropdown) return;
+
+            const callee = number || this._currentCallee || __('Unknown');
+            const activeCount = this.getActiveSessionCount();
+
+            // If more than one call, show multi-line UI
+            if (activeCount > 1) {
+                this.showMultiLineCallUI();
+                return;
+            }
+
+            dropdown.innerHTML = `
+                <div class="sp-call-screen" style="padding:10px;">
+                    <div class="sp-call-header" style="margin-bottom:8px;display:flex;align-items:center;gap:10px;">
+                        <div class="sp-call-avatar" style="width:40px;height:40px;border-radius:50%;background:#5e35b1;color:white;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;">
+                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                            </svg>
+                        </div>
+                        <div class="sp-call-info" style="flex:1;min-width:0;">
+                            <div class="sp-callee-number" style="font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${callee}</div>
+                            <div style="display:flex;align-items:center;gap:6px;">
+                                <span class="sp-call-status" id="sp-call-status" style="font-size:11px;color:var(--text-muted);">${__('Connecting...')}</span>
+                                <span class="sp-call-duration" id="sp-call-duration" style="font-size:13px;font-weight:600;color:#4CAF50;font-family:monospace;">00:00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sp-call-actions" style="display:flex;justify-content:center;gap:6px;margin-bottom:8px;">
+                        <button class="sp-call-action" onclick="arrowz.softphone.toggleMute()" id="sp-mute-btn"
+                                style="padding:6px;width:44px;display:flex;flex-direction:column;align-items:center;gap:1px;border:none;border-radius:6px;background:var(--bg-color);cursor:pointer;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" class="unmuted" style="width:16px;height:16px;">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                            <span style="font-size:8px;">${__('Mute')}</span>
+                        </button>
+                        <button class="sp-call-action" onclick="arrowz.softphone.toggleHold()" id="sp-hold-btn"
+                                style="padding:6px;width:44px;display:flex;flex-direction:column;align-items:center;gap:1px;border:none;border-radius:6px;background:var(--bg-color);cursor:pointer;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;">
+                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                            </svg>
+                            <span style="font-size:8px;">${__('Hold')}</span>
+                        </button>
+                        <button class="sp-call-action" onclick="arrowz.softphone.toggleKeypad()"
+                                style="padding:6px;width:44px;display:flex;flex-direction:column;align-items:center;gap:1px;border:none;border-radius:6px;background:var(--bg-color);cursor:pointer;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;">
+                                <path d="M12 19c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM6 1c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12-8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-6 8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                            </svg>
+                            <span style="font-size:8px;">${__('DTMF')}</span>
+                        </button>
+                        <button class="sp-call-action" onclick="arrowz.softphone.showDialerForNewCall()"
+                                style="padding:6px;width:44px;display:flex;flex-direction:column;align-items:center;gap:1px;border:none;border-radius:6px;background:var(--bg-color);cursor:pointer;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;">
+                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                            </svg>
+                            <span style="font-size:8px;">${__('Add')}</span>
+                        </button>
+                    </div>
+
+                    <div class="sp-keypad-overlay" id="sp-keypad-overlay" style="display:none;padding:6px;border-top:1px solid var(--border-color);">
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;">
+                            <button onclick="arrowz.softphone.sendDTMF('1')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">1</button>
+                            <button onclick="arrowz.softphone.sendDTMF('2')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">2</button>
+                            <button onclick="arrowz.softphone.sendDTMF('3')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">3</button>
+                            <button onclick="arrowz.softphone.sendDTMF('4')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">4</button>
+                            <button onclick="arrowz.softphone.sendDTMF('5')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">5</button>
+                            <button onclick="arrowz.softphone.sendDTMF('6')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">6</button>
+                            <button onclick="arrowz.softphone.sendDTMF('7')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">7</button>
+                            <button onclick="arrowz.softphone.sendDTMF('8')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">8</button>
+                            <button onclick="arrowz.softphone.sendDTMF('9')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">9</button>
+                            <button onclick="arrowz.softphone.sendDTMF('*')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">*</button>
+                            <button onclick="arrowz.softphone.sendDTMF('0')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">0</button>
+                            <button onclick="arrowz.softphone.sendDTMF('#')" style="padding:6px;font-size:12px;border:none;border-radius:4px;background:var(--bg-color);cursor:pointer;">#</button>
+                        </div>
+                    </div>
+
+                    <div class="sp-hangup-section" style="display:flex;justify-content:center;padding:6px 0;">
+                        <button class="sp-hangup-btn" onclick="arrowz.softphone.hangup()"
+                                style="width:42px;height:42px;border-radius:50%;border:none;background:#f44336;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;transform:rotate(135deg);">
+                                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            dropdown.classList.add('open');
+            if (window.innerWidth < 768) {
+                dropdown.classList.add('mobile-modal');
+            }
+            this.isDropdownOpen = true;
+        },
+
+        // Show incoming call UI
+        showIncomingCallUI(caller) {
+            const dropdown = document.getElementById('arrowz-sp-dropdown');
+            if (!dropdown) return;
+
+            dropdown.innerHTML = `
+                <div class="sp-incoming-screen" style="padding:12px;text-align:center;">
+                    <div class="sp-incoming-animation" style="position:relative;width:56px;height:56px;margin:0 auto 10px;">
+                        <div class="sp-pulse-ring" style="position:absolute;width:100%;height:100%;border-radius:50%;border:2px solid #2196F3;animation:pulse-ring 1.5s infinite;"></div>
+                        <div class="sp-caller-avatar" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;border-radius:50%;background:#2196F3;color:white;display:flex;align-items:center;justify-content:center;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;">
+                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="sp-caller-info">
+                        <div class="sp-caller-id" style="font-size:15px;font-weight:600;">${caller}</div>
+                        <div class="sp-incoming-label" style="font-size:11px;color:var(--text-muted);margin-bottom:12px;">${__('Incoming Call')}</div>
+                    </div>
+                    <div class="sp-incoming-actions" style="display:flex;justify-content:center;gap:24px;">
+                        <button class="sp-reject-btn" onclick="arrowz.softphone.rejectCall()"
+                                style="width:42px;height:42px;border-radius:50%;border:none;background:#f44336;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;transform:rotate(135deg);">
+                                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+                            </svg>
+                        </button>
+                        <button class="sp-answer-btn" onclick="arrowz.softphone.answerCall()"
+                                style="width:42px;height:42px;border-radius:50%;border:none;background:#4CAF50;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;animation:pulse-answer 1s infinite;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;">
+                                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            dropdown.classList.add('open', 'incoming');
+            if (window.innerWidth < 768) {
+                dropdown.classList.add('mobile-modal');
+            }
+            this.isDropdownOpen = true;
+        },
+
+        // Handle search input
+        async handleSearchInput(query) {
+            const resultsContainer = document.getElementById('sp-search-results');
+            if (!resultsContainer) return;
+
+            if (query.length < 2) {
+                resultsContainer.style.display = 'none';
+                return;
+            }
+
+            try {
+                const r = await frappe.call({
+                    method: 'arrowz.api.contacts.search_contacts',
+                    args: { query: query, limit: 10 }
+                });
+
+                const contacts = r.message || [];
+
+                if (contacts.length === 0) {
+                    resultsContainer.innerHTML = `
+                        <div class="sp-no-results">${__('No contacts found')}</div>
+                    `;
+                } else {
+                    resultsContainer.innerHTML = contacts.map(c => `
+                        <div class="sp-contact-item" onclick="arrowz.softphone.selectContact('${c.phone}', '${c.name}')">
+                            <div class="sp-contact-avatar">${(c.name || '?')[0].toUpperCase()}</div>
+                            <div class="sp-contact-details">
+                                <div class="sp-contact-name">${c.name || __('Unknown')}</div>
+                                <div class="sp-contact-phone">${c.phone}</div>
+                                <div class="sp-contact-type">${c.doctype}</div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
+                resultsContainer.style.display = 'block';
+
+            } catch (e) {
+                console.error('Search error:', e);
+            }
+        },
+
+        // Select contact from search
+        selectContact(phone, name) {
+            const dialInput = document.getElementById('sp-dial-input');
+            if (dialInput) {
+                dialInput.value = phone;
+            }
+
+            const searchInput = document.getElementById('sp-search-input');
+            if (searchInput) {
+                searchInput.value = name;
+            }
+
+            const resultsContainer = document.getElementById('sp-search-results');
+            if (resultsContainer) {
+                resultsContainer.style.display = 'none';
+            }
+        },
+
+        // Wait for registration with timeout
+        waitForRegistration(timeout = 10000) {
+            return new Promise((resolve, reject) => {
+                // Check if already registered
+                if (this.registered) {
+                    resolve(true);
+                    return;
+                }
+
+                const timeoutId = setTimeout(() => {
+                    cleanup();
+                    reject(new Error('Registration timeout'));
+                }, timeout);
+
+                const onRegistered = () => {
+                    cleanup();
+                    resolve(true);
+                };
+
+                const onFailed = (e) => {
+                    cleanup();
+                    reject(new Error(e?.cause || 'Registration failed'));
+                };
+
+                const cleanup = () => {
+                    clearTimeout(timeoutId);
+                    if (this.ua) {
+                        this.ua.off('registered', onRegistered);
+                        this.ua.off('registrationFailed', onFailed);
+                    }
+                };
+
+                if (this.ua) {
+                    this.ua.on('registered', onRegistered);
+                    this.ua.on('registrationFailed', onFailed);
+                } else {
+                    reject(new Error('No UA available'));
+                }
+            });
+        },
+
+        // Switch extension
+        async switchExtension(extensionName) {
+            if (extensionName === this.activeExtension) return;
+
+            try {
+                // Stop current UA
+                if (this.ua) {
+                    this.ua.stop();
+                    this.registered = false;
+                }
+
+                this.updateNavbarStatus('connecting', __('Switching...'));
+
+                // Get new config
+                const r = await frappe.call({
+                    method: 'arrowz.api.webrtc.get_webrtc_config',
+                    args: { extension_name: extensionName }
+                });
+
+                if (r.message) {
+                    this.config = r.message;
+                    this.activeExtension = extensionName;
+                    await this.setupJsSIP();
+
+                    // Wait for registration to complete
+                    try {
+                        await this.waitForRegistration(10000);
+                    } catch (regError) {
+                        console.warn('Registration wait failed:', regError.message);
+                        // Continue anyway, the UI will show offline status
+                    }
+
+                    // Refresh dropdown
+                    if (this.isDropdownOpen) {
+                        this.showDialerUI();
+                    }
+
+                    frappe.show_alert({
+                        message: __('Switched to extension {0}', [r.message.extension]),
+                        indicator: 'green'
+                    }, 3);
+                }
+
+            } catch (e) {
+                console.error('Switch extension error:', e);
+                frappe.show_alert({
+                    message: __('Failed to switch extension'),
+                    indicator: 'red'
+                });
+            }
+        },
+
+        // Press key on dialpad
+        pressKey(digit) {
+            const input = document.getElementById('sp-dial-input');
+            if (input) {
+                input.value += digit;
+            }
+
+            // Send DTMF if in call
+            if (this.session) {
+                this.sendDTMF(digit);
+            }
+        },
+
+        // Backspace
+        backspace() {
+            const input = document.getElementById('sp-dial-input');
+            if (input) {
+                input.value = input.value.slice(0, -1);
+            }
+        },
+
+        // Make call
+        async dial() {
+            const input = document.getElementById('sp-dial-input');
+            const number = input?.value.trim();
+
+            if (!number) {
+                frappe.show_alert({
+                    message: __('Please enter a number'),
+                    indicator: 'yellow'
+                });
+                return;
+            }
+
+            await this.makeCall(number);
+        },
+
+        // Get active session count
+        getActiveSessionCount() {
+            return this.sessions.filter(s => s && !s.isEnded()).length;
+        },
+
+        // Get session by index
+        getSession(index) {
+            return this.sessions[index] || null;
+        },
+
+        // Find first available line slot
+        findAvailableLine() {
+            for (let i = 0; i < this.maxLines; i++) {
+                if (!this.sessions[i] || this.sessions[i].isEnded()) {
+                    return i;
+                }
+            }
+            return -1;
+        },
+
+        // Switch to specific line
+        switchToLine(index) {
+            if (index < 0 || index >= this.maxLines) return;
+            const session = this.sessions[index];
+            if (!session || session.isEnded()) return;
+
+            // Put current line on hold if different
+            const currentSession = this.sessions[this.activeLineIndex];
+            if (currentSession && !currentSession.isEnded() && this.activeLineIndex !== index) {
+                if (!currentSession.isOnHold().local) {
+                    currentSession.hold();
+                }
+            }
+
+            // Unhold new line
+            this.activeLineIndex = index;
+            this.session = session;
+            if (session.isOnHold().local) {
+                session.unhold();
+            }
+
+            // Update UI
+            if (this.isDropdownOpen) {
+                this.showMultiLineCallUI();
+            }
+            this.updateNavbarStatus('in-call', this._callNumbers[index] || __('Line') + ' ' + (index + 1));
+        },
+
+        // Hold all lines except specified
+        holdAllExcept(exceptIndex) {
+            this.sessions.forEach((s, i) => {
+                if (s && !s.isEnded() && i !== exceptIndex && !s.isOnHold().local) {
+                    s.hold();
+                }
+            });
+        },
+
+        // Initialize call number tracking
+        _callNumbers: {},
+
+        // Make outgoing call
+        async makeCall(number) {
+            if (!this.registered) {
+                frappe.show_alert({
+                    message: __('Softphone not registered'),
+                    indicator: 'red'
+                });
+                return;
+            }
+
+            // Check for available line
+            const lineIndex = this.findAvailableLine();
+            if (lineIndex === -1) {
+                frappe.show_alert({
+                    message: __('All lines busy (max {0})', [this.maxLines]),
+                    indicator: 'yellow'
+                });
+                return;
+            }
+
+            // Put current calls on hold
+            this.holdAllExcept(-1);
+
+            try {
+                this._currentCallee = number;
+
+                // Get microphone access with optimized constraints for WebRTC/VoIP
+                this.localStream = await navigator.mediaDevices.getUserMedia({
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true,
+                        sampleRate: 48000,
+                        channelCount: 1
+                    },
+                    video: false
+                });
+
+                // Show call UI immediately
+                this.showActiveCallUI(number);
+                this.updateNavbarStatus('calling', number);
+
+                // Build ICE servers - include both STUN and TURN for NAT traversal
+                // Start with reliable public TURN servers
+                let iceServers = [
+                    { urls: 'stun:stun.l.google.com:19302' },
+                    { urls: 'stun:stun1.l.google.com:19302' },
+                    // OpenRelay TURN servers (free, reliable)
+                    {
+                        urls: 'turn:openrelay.metered.ca:80',
+                        username: 'openrelayproject',
+                        credential: 'openrelayproject'
+                    },
+                    {
+                        urls: 'turn:openrelay.metered.ca:443',
+                        username: 'openrelayproject',
+                        credential: 'openrelayproject'
+                    },
+                    {
+                        urls: 'turn:openrelay.metered.ca:443?transport=tcp',
+                        username: 'openrelayproject',
+                        credential: 'openrelayproject'
+                    }
+                ];
+
+                // Add configured ICE servers from backend (prepend for priority)
+                if (this.config.ice_servers && this.config.ice_servers.length > 0) {
+                    // Filter out non-working TURN servers
+                    const configuredServers = this.config.ice_servers.filter(s => {
+                        if (s.urls && s.urls.startsWith('stun:')) return true;
+                        if (s.urls && s.urls.includes('157.173.125.136:3478')) {
+                            console.warn('Arrowz: Skipping non-responsive TURN server:', s.urls);
+                            return false;
+                        }
+                        return true;
+                    });
+                    iceServers = [...configuredServers, ...iceServers];
+                }
+
+                console.log('Arrowz: Using ICE servers:', JSON.stringify(iceServers.map(s => s.urls)));
+
+                // WebRTC call options - use 'negotiate' for FreePBX compatibility
+                // FreePBX may not always support RTCP-MUX or BUNDLE strictly
+                const options = {
+                    mediaConstraints: { audio: true, video: false },
+                    mediaStream: this.localStream,
+                    pcConfig: {
+                        iceServers: iceServers,
+                        rtcpMuxPolicy: 'negotiate',    // Negotiate - FreePBX may not support 'require'
+                        bundlePolicy: 'balanced',      // Balanced - don't force bundling
+                        iceTransportPolicy: 'all',     // Allow both relay and direct
+                        iceCandidatePoolSize: 0        // Disable pre-gathering
+                    },
+                    rtcOfferConstraints: {
+                        offerToReceiveAudio: true,
+                        offerToReceiveVideo: false
+                    },
+                    // Session timers for call keep-alive
+                    sessionTimersExpires: 1800
+                };
+
+                // Format number
+                let dialNumber = number.replace(/[^\d+*#]/g, '');
+                if (dialNumber.length >= 10 && /^\d+$/.test(dialNumber)) {
+                    dialNumber = '+' + dialNumber;
+                }
+
+                const targetUri = `sip:${dialNumber}@${this.config.sip_domain}`;
+
+                console.log('Arrowz: Making call to:', targetUri);
+                console.log('Arrowz: Call options:', JSON.stringify(options.pcConfig));
+
+                // Create call log and store reference
+                frappe.call({
+                    method: 'arrowz.api.webrtc.initiate_call',
+                    args: { number: dialNumber },
+                    async: true,
+                    callback: (r) => {
+                        if (r.message?.call_log) {
+                            this._currentCallLog = r.message.call_log;
+                            console.log('Arrowz: Outgoing call log created:', this._currentCallLog);
+                        }
+                    }
+                });
+
+                // Store pending line index BEFORE calling ua.call()
+                // (newRTCSession event fires synchronously inside ua.call())
+                this._pendingOutgoingLineIndex = lineIndex;
+
+                // Make the call
+                const newSession = this.ua.call(targetUri, options);
+
+                // Clear pending line index
+                this._pendingOutgoingLineIndex = undefined;
+
+                // These are now set in handleNewSession, but set them here too for safety
+                newSession._lineIndex = lineIndex;
+                this.sessions[lineIndex] = newSession;
+                this.session = newSession;
+                this.activeLineIndex = lineIndex;
+                this._callNumbers[lineIndex] = number;
+                this.callStartTimes[lineIndex] = null;
+
+                // Safety net: if handleNewSession didn't attach events, do it now
+                if (!newSession._eventsAttached) {
+                    newSession._eventsAttached = true;
+                    this.setupSessionEvents(newSession, lineIndex);
+                }
+                console.log('Arrowz: Call session created on line', lineIndex + 1);
+
+            } catch (error) {
+                this._pendingOutgoingLineIndex = undefined;  // Clear on error
+                console.error('Make call error:', error);
+                frappe.show_alert({
+                    message: __('Failed to access microphone'),
+                    indicator: 'red'
+                });
+                this.endCall();
+            }
+        },
+
+        // Handle new RTC session
+        handleNewSession(e) {
+            const session = e.session;
+
+            // Determine line index based on call direction
+            let lineIndex;
+
+            if (session.direction === 'outgoing') {
+                // For outgoing calls, use the pending line index we stored before ua.call()
+                lineIndex = this._pendingOutgoingLineIndex;
+                if (lineIndex === undefined) {
+                    console.warn('Arrowz: No pending line index for outgoing call, skipping');
+                    return;
+                }
+                // Store line index on session (events will be attached below)
+                session._lineIndex = lineIndex;
+            } else {
+                // For incoming calls, find available line
+                lineIndex = this.findAvailableLine();
+            }
+
+            if (lineIndex === -1 || lineIndex === undefined) {
+                // All lines busy - reject with busy signal
+                session.terminate({ status_code: 486, reason_phrase: 'Busy Here' });
+                frappe.show_alert({
+                    message: __('Incoming call rejected - all lines busy'),
+                    indicator: 'orange'
+                }, 5);
+                return;
+            }
+
+            // Store session in array
+            session._lineIndex = lineIndex;
+            this.sessions[lineIndex] = session;
+            this.session = session;
+            this.activeLineIndex = lineIndex;
+
+            if (session.direction === 'incoming') {
+                const caller = session.remote_identity.display_name || session.remote_identity.uri.user;
+                this._currentCallee = caller;
+                this._callNumbers[lineIndex] = caller;
+                this.callStartTimes[lineIndex] = null;
+                this._isIncomingRinging = true;  // Track ringing state for UI
+
+                this.playRingtone();
+                this.showIncomingCallUI(caller);
+                this.updateNavbarStatus('incoming', caller);
+
+                // Browser notification
+                this.showBrowserNotification(caller);
+
+                // CRITICAL: Pre-request microphone access immediately when call arrives
+                // This reduces answer delay from ~15 seconds to ~1-2 seconds
+                console.log('Arrowz: Pre-requesting microphone access for faster answer...');
+                navigator.mediaDevices.getUserMedia({
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true
+                    },
+                    video: false
+                }).then(stream => {
+                    console.log('Arrowz: Microphone pre-granted, ready for instant answer');
+                    this._preGrantedStream = stream;  // Store for later use
+                }).catch(error => {
+                    console.warn('Arrowz: Microphone pre-request failed:', error.name);
+                    // User will get prompted again when they click Answer
+                    this._preGrantedStream = null;
+                });
+
+                frappe.call({
+                    method: 'arrowz.api.webrtc.on_incoming_call',
+                    args: { caller_id: caller, call_id: session.id },
+                    async: true,
+                    callback: (r) => {
+                        if (r.message?.call_log) {
+                            this._currentCallLog = r.message.call_log;
+                            console.log('Arrowz: Incoming call log created:', this._currentCallLog);
+                        }
+                    }
+                });
+            }
+
+            // Only setup events if not already done (avoid duplicate handlers)
+            if (!session._eventsAttached) {
+                session._eventsAttached = true;
+                this.setupSessionEvents(session, lineIndex);
+            }
+        },
+
+        // Setup session events
+        setupSessionEvents(targetSession, lineIndex) {
+            const session = targetSession || this.session;
+            if (!session) return;
+
+            const idx = lineIndex !== undefined ? lineIndex : this.activeLineIndex;
+            console.log('Arrowz: Setting up session events for line', idx + 1);
+
+            // Log SDP for debugging + fix Docker NAT IPs
+            session.on('sdp', (e) => {
+                console.log('Arrowz: SDP event -', e.originator, 'type:', e.type);
+
+                // Fix remote SDP: Replace Docker internal IPs with public IP
+                // Asterisk inside Docker sends 172.x.x.x as ICE candidates and c= address
+                // These are unreachable from external WebRTC clients
+                if (e.originator === 'remote' && e.sdp) {
+                    const originalSdp = e.sdp;
+
+                    // Get public IP from SIP domain config
+                    // The PBX public IP is resolved from the SIP domain or external_media_address
+                    const pbxPublicIP = this._pbxPublicIP || '157.173.125.136';
+
+                    // Detect Docker/private IPs in the SDP
+                    const privateIPRegex = /\b(172\.\d{1,3}\.\d{1,3}\.\d{1,3})\b/g;
+                    const privateIPs = [...new Set((originalSdp.match(privateIPRegex) || []))];
+
+                    if (privateIPs.length > 0) {
+                        console.warn('Arrowz: ⚠️ Remote SDP contains Docker/private IPs:', privateIPs.join(', '));
+                        console.log('Arrowz: Rewriting SDP to use public IP:', pbxPublicIP);
+
+                        // Replace private IPs in connection line (c=) and ICE candidates (a=candidate:)
+                        let fixedSdp = originalSdp;
+                        privateIPs.forEach(privateIP => {
+                            fixedSdp = fixedSdp.split(privateIP).join(pbxPublicIP);
+                        });
+
+                        e.sdp = fixedSdp;
+
+                        // Log the changes
+                        const newCandidates = fixedSdp.split('\n').filter(l => l.startsWith('a=candidate:'));
+                        console.log('Arrowz: ✅ SDP rewritten - new ICE candidates:');
+                        newCandidates.forEach(c => console.log('  ', c.trim()));
+                    }
+
+                    // Log original candidates for debugging
+                    const candidateLines = e.sdp.split('\n').filter(line => line.startsWith('a=candidate:'));
+                    if (candidateLines.length > 0) {
+                        console.log('Arrowz: Remote ICE candidates:');
+                        candidateLines.forEach(c => console.log('  ', c.trim()));
+                    } else {
+                        console.warn('Arrowz: No ICE candidates in remote SDP - FreePBX may not have ICE enabled');
+                    }
+
+                    // Check connection address
+                    const connectionLine = e.sdp.split('\n').find(line => line.startsWith('c='));
+                    if (connectionLine) {
+                        const match = connectionLine.match(/IN IP4 ([^\s\r]+)/);
+                        if (match) {
+                            console.log('Arrowz: Remote connection IP:', match[1]);
+                        }
+                    }
+                }
+
+                console.log('Arrowz: SDP content (first 500 chars):', e.sdp?.substring(0, 500));
+            });
+
+            session.on('peerconnection', (e) => {
+                console.log('Arrowz: Peerconnection event received for line', idx + 1);
+                const pc = e.peerconnection;
+                let iceFailureTimeout = null;
+                let hostCandidateReceived = false;
+                let relayCandidateReceived = false;
+                let srflxCandidateReceived = false;
+
+                pc.onicecandidate = (event) => {
+                    if (event.candidate) {
+                        const c = event.candidate;
+                        console.log('Arrowz: ICE candidate:', c.type, c.address + ':' + c.port,
+                            c.protocol, 'priority:', c.priority,
+                            c.relatedAddress ? 'relayed from ' + c.relatedAddress : '');
+                        if (c.type === 'host') hostCandidateReceived = true;
+                        if (c.type === 'srflx') srflxCandidateReceived = true;
+                        if (c.type === 'relay') {
+                            relayCandidateReceived = true;
+                            console.log('Arrowz: ✅ TURN relay candidate available - NAT traversal should work');
+                        }
+                    } else {
+                        console.log('Arrowz: ICE gathering complete - host:', hostCandidateReceived,
+                            'srflx:', srflxCandidateReceived, 'relay:', relayCandidateReceived);
+                        if (!relayCandidateReceived) {
+                            console.warn('Arrowz: ⚠️ No TURN relay candidates - TURN server may be down or credentials wrong');
+                            console.warn('Arrowz: Without TURN relay, calls may fail if direct connectivity is not possible');
+                        }
+                        if (!hostCandidateReceived) {
+                            console.warn('Arrowz: No host ICE candidates - may have connectivity issues');
+                        }
+                    }
+                };
+
+                pc.oniceconnectionstatechange = () => {
+                    const state = pc.iceConnectionState;
+                    console.log('Arrowz: ICE connection state:', state);
+
+                    // Log selected candidate pair when connected
+                    if ((state === 'connected' || state === 'completed') && pc.getStats) {
+                        pc.getStats().then(stats => {
+                            stats.forEach(report => {
+                                if (report.type === 'candidate-pair' && report.state === 'succeeded') {
+                                    console.log('Arrowz: Connected via candidate pair:',
+                                        'local:', report.localCandidateId,
+                                        'remote:', report.remoteCandidateId);
+                                }
+                                if (report.type === 'local-candidate') {
+                                    console.log('Arrowz: Local candidate:', report.candidateType, report.address);
+                                }
+                                if (report.type === 'remote-candidate') {
+                                    console.log('Arrowz: Remote candidate:', report.candidateType, report.address);
+                                }
+                            });
+                        }).catch(() => {});
+                    }
+
+                    switch (state) {
+                        case 'connected':
+                        case 'completed':
+                            if (iceFailureTimeout) {
+                                clearTimeout(iceFailureTimeout);
+                                iceFailureTimeout = null;
+                            }
+                            console.log('Arrowz: ICE connection established successfully');
+                            break;
+
+                        case 'failed':
+                            console.error('Arrowz: ICE connection failed - terminating call on line', idx + 1);
+                            // Log stats to understand why it failed
+                            if (pc.getStats) {
+                                pc.getStats().then(stats => {
+                                    let candidatePairs = [];
+                                    stats.forEach(report => {
+                                        if (report.type === 'candidate-pair') {
+                                            candidatePairs.push({
+                                                state: report.state,
+                                                local: report.localCandidateId,
+                                                remote: report.remoteCandidateId
+                                            });
+                                        }
+                                    });
+                                    console.error('Arrowz: ICE failed candidate pairs:', JSON.stringify(candidatePairs));
+                                }).catch(() => {});
+                            }
+                            frappe.show_alert({
+                                message: __('Connection failed - please check your network'),
+                                indicator: 'red'
+                            }, 7);
+                            this.endCallOnLine(idx, 'ICE Connection Failed');
+                            break;
+
+                        case 'disconnected':
+                            console.warn('Arrowz: ICE disconnected on line', idx + 1, '- waiting 5s for recovery');
+                            iceFailureTimeout = setTimeout(() => {
+                                if (pc.iceConnectionState === 'disconnected') {
+                                    console.error('Arrowz: ICE still disconnected after timeout');
+                                    this.endCallOnLine(idx, 'Connection Lost');
+                                }
+                            }, 5000);
+                            break;
+
+                        case 'closed':
+                            if (iceFailureTimeout) {
+                                clearTimeout(iceFailureTimeout);
+                            }
+                            break;
+
+                        case 'checking':
+                            console.log('Arrowz: ICE checking - attempting to connect...');
+                            break;
+                    }
+                };
+
+                pc.onicegatheringstatechange = () => {
+                    console.log('Arrowz: ICE gathering state:', pc.iceGatheringState);
+                };
+
+                pc.onconnectionstatechange = () => {
+                    const state = pc.connectionState;
+                    console.log('Arrowz: Connection state on line', idx + 1, ':', state);
+
+                    if (state === 'failed') {
+                        console.error('Arrowz: PeerConnection failed on line', idx + 1);
+                        if (!this._callConfirmed) {
+                            this.endCallOnLine(idx, 'Connection Failed');
+                        }
+                    }
+                };
+
+                pc.ontrack = (event) => {
+                    console.log('Arrowz: Track received:', event.track.kind);
+                    if (event.streams && event.streams[0]) {
+                        this.remoteStream = event.streams[0];
+                        this.audioPlayer.srcObject = event.streams[0];
+                        this.audioPlayer.play().catch(() => {});
+                    }
+                };
+            });
+
+            session.on('connecting', () => {
+                console.log('Arrowz: Session connecting on line', idx + 1);
+            });
+
+            session.on('sending', (e) => {
+                console.log('Arrowz: Session sending INVITE on line', idx + 1);
+            });
+
+            session.on('progress', () => {
+                this.updateCallStatus(__('Ringing...'));
+                this.updateNavbarStatus('ringing', this._callNumbers[idx] || this._currentCallee);
+            });
+
+            // 'accepted' fires when answer is sent (for incoming) or received (for outgoing)
+            session.on('accepted', () => {
+                console.log('Arrowz: Session accepted on line', idx + 1);
+                this.stopRingtone();  // Stop ringtone immediately on accept
+            });
+
+            session.on('confirmed', () => {
+                console.log('Arrowz: Session confirmed on line', idx + 1);
+                this._callConfirmed = true;   // Mark call as fully connected
+                this._isAnswering = false;    // No longer in answering phase
+                this._isIncomingRinging = false;  // Definitely not ringing anymore
+                this.stopRingtone();  // Also stop here as backup
+                this.callStartTime = new Date();
+                this.callStartTimes[idx] = new Date();
+                this.startCallTimer();
+                this.updateCallStatus(__('Connected'));
+                this.updateNavbarStatus('in-call', this._callNumbers[idx] || this._currentCallee);
+
+                // Show multi-line UI if more than one call
+                if (this.getActiveSessionCount() > 1 && this.isDropdownOpen) {
+                    this.showMultiLineCallUI();
+                }
+
+                // Update call log as answered in database
+                if (this._currentCallLog) {
+                    frappe.call({
+                        method: 'arrowz.api.webrtc.update_call_answered',
+                        args: { call_log: this._currentCallLog },
+                        async: true
+                    }).catch(() => console.warn('Failed to update call answered status'));
+                }
+            });
+
+            session.on('ended', () => {
+                console.log('Arrowz: Session ended on line', idx + 1);
+                this._isIncomingRinging = false;
+                // Update call log in database
+                if (this._currentCallLog) {
+                    frappe.call({
+                        method: 'arrowz.api.webrtc.update_call_ended',
+                        args: { call_log: this._currentCallLog, duration: this.getCallDurationForLine(idx) },
+                        async: true
+                    }).catch(() => {});
+                }
+                this.endCallOnLine(idx);
+            });
+
+            // Handle call rejection by remote party
+            session.on('rejected', (e) => {
+                console.warn('Arrowz: Call rejected on line', idx + 1, ':', e.cause);
+                this._isAnswering = false;
+                this._isIncomingRinging = false;
+                this._callConfirmed = false;
+                this.stopRingtone();
+
+                let reason = 'Call Rejected';
+                if (e.cause === 'Busy Here' || e.message?.status_code === 486) {
+                    reason = __('Busy');
+                } else if (e.message?.status_code === 603) {
+                    reason = __('Declined');
+                }
+                this.endCallOnLine(idx, reason);
+            });
+
+            // Handle call cancellation (FreePBX sends CANCEL before answer)
+            session.on('cancel', () => {
+                console.warn('Arrowz: Call cancelled on line', idx + 1);
+                this._isAnswering = false;
+                this._isIncomingRinging = false;
+                this._callConfirmed = false;
+                this.stopRingtone();
+                this.endCallOnLine(idx, __('Call Cancelled'));
+            });
+
+            // Handle call redirect
+            session.on('redirected', (e) => {
+                console.warn('Arrowz: Call redirected on line', idx + 1);
+                this._isAnswering = false;
+                this._callConfirmed = false;
+                this.endCallOnLine(idx, __('Call Redirected'));
+            });
+
+            // Handle SIP request timeout
+            session.on('transporterror', () => {
+                console.error('Arrowz: Transport error on line', idx + 1);
+                this._isAnswering = false;
+                this._callConfirmed = false;
+                this.endCallOnLine(idx, __('Connection Error'));
+            });
+
+            session.on('failed', (e) => {
+                console.error('Arrowz: Call failed on line', idx + 1, ':', e.cause);
+                console.error('Arrowz: Failure details:', JSON.stringify({
+                    cause: e.cause,
+                    originator: e.originator,
+                    status_code: e.message?.status_code,
+                    reason_phrase: e.message?.reason_phrase
+                }));
+                this._isAnswering = false;    // Reset answering flag
+                this._isIncomingRinging = false;  // Reset ringing flag
+                this._callConfirmed = false;  // Reset confirmed flag
+                this.stopRingtone();  // Stop ringtone immediately on failure
+
+                // Map common causes to user-friendly messages
+                let errorMessage = e.cause;
+                if (e.cause === 'SIP Failure Code') {
+                    const statusCode = e.message?.status_code;
+                    if (statusCode === 486) errorMessage = __('Busy');
+                    else if (statusCode === 480) errorMessage = __('Temporarily Unavailable');
+                    else if (statusCode === 487) errorMessage = __('Request Terminated');
+                    else if (statusCode === 503) errorMessage = __('Extension not registered - check if target phone is online');
+                    else if (statusCode === 408) errorMessage = __('Request Timeout');
+                    else if (statusCode === 404) errorMessage = __('Extension not found');
+                    else if (statusCode === 401 || statusCode === 407) errorMessage = __('Authentication failed');
+                    else errorMessage = e.message?.reason_phrase || e.cause;
+                } else if (e.cause === 'RTP Timeout') {
+                    errorMessage = __('Connection timeout - no audio');
+                } else if (e.cause === 'User Denied Media Access') {
+                    errorMessage = __('Microphone access denied');
+                } else if (e.cause === 'WebRTC Error') {
+                    errorMessage = __('WebRTC Error - FreePBX endpoint needs webrtc=yes');
+                } else if (e.cause === 'Incompatible SDP') {
+                    errorMessage = __('Incompatible SDP - Target extension not WebRTC enabled');
+                } else if (e.cause === 'Bad Media Description') {
+                    errorMessage = __('Media negotiation failed - check FreePBX BUNDLE');
+                } else if (e.cause === 'Canceled') {
+                    errorMessage = __('Call Cancelled');
+                } else if (e.cause === 'Request Timeout') {
+                    errorMessage = __('No response from server');
+                }
+
+                // Update failed call in database
+                if (this._currentCallLog) {
+                    frappe.call({
+                        method: 'arrowz.api.webrtc.update_call_failed',
+                        args: { call_log: this._currentCallLog, reason: errorMessage },
+                        async: true
+                    }).catch(() => {});
+                }
+
+                this.endCallOnLine(idx, errorMessage);
+            });
+
+            session.on('hold', () => {
+                console.log('Arrowz: Line', idx + 1, 'on hold');
+                if (idx === this.activeLineIndex) {
+                    this.updateCallStatus(__('On Hold'));
+                    document.getElementById('sp-hold-btn')?.classList.add('active');
+                }
+            });
+
+            session.on('unhold', () => {
+                console.log('Arrowz: Line', idx + 1, 'resumed');
+                if (idx === this.activeLineIndex) {
+                    this.updateCallStatus(__('Connected'));
+                    document.getElementById('sp-hold-btn')?.classList.remove('active');
+                }
+            });
+        },
+
+        // Answer incoming call
+        async answerCall() {
+            if (!this.session) {
+                console.error('Arrowz: No session to answer');
+                return;
+            }
+
+            try {
+                // Use pre-granted stream if available (instant answer), otherwise request now
+                if (this._preGrantedStream) {
+                    console.log('Arrowz: Using pre-granted microphone stream (instant answer)');
+                    this.localStream = this._preGrantedStream;
+                    this._preGrantedStream = null;  // Clear after use
+                } else {
+                    console.log('Arrowz: Getting microphone access...');
+                    this.localStream = await navigator.mediaDevices.getUserMedia({
+                        audio: {
+                            echoCancellation: true,
+                            noiseSuppression: true,
+                            autoGainControl: true
+                        },
+                        video: false
+                    });
+                }
+
+                // Build ICE servers - include TURN if available for NAT traversal
+                // Start with reliable public STUN/TURN servers as fallback
+                let iceServers = [
+                    { urls: 'stun:stun.l.google.com:19302' },
+                    { urls: 'stun:stun1.l.google.com:19302' },
+                    // OpenRelay TURN servers (free, reliable)
+                    {
+                        urls: 'turn:openrelay.metered.ca:80',
+                        username: 'openrelayproject',
+                        credential: 'openrelayproject'
+                    },
+                    {
+                        urls: 'turn:openrelay.metered.ca:443',
+                        username: 'openrelayproject',
+                        credential: 'openrelayproject'
+                    },
+                    {
+                        urls: 'turn:openrelay.metered.ca:443?transport=tcp',
+                        username: 'openrelayproject',
+                        credential: 'openrelayproject'
+                    }
+                ];
+
+                // Add configured ICE servers from backend (prepend for priority)
+                if (this.config.ice_servers && this.config.ice_servers.length > 0) {
+                    // Filter out non-working TURN servers, keep STUN
+                    const configuredServers = this.config.ice_servers.filter(s => {
+                        // Keep all STUN servers
+                        if (s.urls && s.urls.startsWith('stun:')) return true;
+                        // For TURN, only keep if it's not the non-existent local TURN
+                        if (s.urls && s.urls.includes('157.173.125.136:3478')) {
+                            console.warn('Arrowz: Skipping non-responsive TURN server:', s.urls);
+                            return false;
+                        }
+                        return true;
+                    });
+                    // Prepend configured servers
+                    iceServers = [...configuredServers, ...iceServers];
+                }
+
+                // Log ICE configuration for debugging
+                console.log('Arrowz: Using ICE servers:', JSON.stringify(iceServers.map(s => s.urls)));
+
+                // Log the remote SDP (offer from FreePBX) for debugging
+                const remoteDesc = this.session._request?.body;
+                if (remoteDesc) {
+                    console.log('Arrowz: Incoming SDP (remote offer):', remoteDesc.substring(0, 800));
+                    // Check for common WebRTC issues in the SDP
+                    if (!remoteDesc.includes('ICE') && !remoteDesc.includes('candidate')) {
+                        console.warn('Arrowz: Remote SDP has no ICE candidates - FreePBX endpoint may need ice_support=yes');
+                    }
+                    if (!remoteDesc.includes('fingerprint')) {
+                        console.warn('Arrowz: Remote SDP has no DTLS fingerprint - FreePBX endpoint may need media_encryption=dtls');
+                    }
+                    if (!remoteDesc.includes('setup:')) {
+                        console.warn('Arrowz: Remote SDP has no DTLS setup - not WebRTC compatible');
+                    }
+                }
+
+                const options = {
+                    mediaConstraints: { audio: true, video: false },
+                    mediaStream: this.localStream,
+                    pcConfig: {
+                        iceServers: iceServers,
+                        rtcpMuxPolicy: 'negotiate',
+                        bundlePolicy: 'balanced',  // Use 'balanced' - FreePBX may not support BUNDLE
+                        iceCandidatePoolSize: 0    // Disable pre-gathering for faster call setup
+                    },
+                    // Important: Use Trickle ICE - send candidates as they are discovered
+                    rtcAnswerConstraints: {
+                        offerToReceiveAudio: true,
+                        offerToReceiveVideo: false
+                    }
+                };
+
+                console.log('Arrowz: Answering call with options:', JSON.stringify(options.pcConfig));
+
+                // Listen for the peerconnection:setremotedescriptionfailed event
+                this.session.on('peerconnection:setremotedescriptionfailed', (e) => {
+                    console.error('Arrowz: setRemoteDescription failed:', e.error);
+                    // Log the problematic SDP
+                    const sdp = this.session._request?.body;
+                    if (sdp) {
+                        console.error('Arrowz: Problematic SDP from FreePBX:', sdp);
+                    }
+                    if (e.error?.message?.includes('RTCP-MUX')) {
+                        frappe.show_alert({
+                            message: __('Call failed: FreePBX needs RTCP-MUX enabled in PJSIP settings'),
+                            indicator: 'red'
+                        }, 10);
+                    }
+                });
+
+                // Mark that we're answering (prevents accidental hangup before confirmed)
+                this._isAnswering = true;
+                this._isIncomingRinging = false;  // No longer ringing
+
+                // Answer the call with proper error handling
+                try {
+                    this.session.answer(options);
+                    console.log('Arrowz: session.answer() called successfully');
+                } catch (answerError) {
+                    console.error('Arrowz: session.answer() threw error:', answerError);
+                    this._isAnswering = false;
+                    frappe.show_alert({
+                        message: __('Failed to answer call: ') + answerError.message,
+                        indicator: 'red'
+                    }, 7);
+                    return;
+                }
+
+                this.stopRingtone();
+                this.showActiveCallUI(this._currentCallee);
+
+            } catch (error) {
+                console.error('Answer call error:', error);
+                let errorMessage = __('Failed to access microphone');
+
+                if (error.name === 'NotAllowedError') {
+                    errorMessage = __('Microphone permission denied');
+                } else if (error.name === 'NotFoundError') {
+                    errorMessage = __('No microphone found');
+                } else if (error.message) {
+                    errorMessage = error.message;
+                }
+
+                frappe.show_alert({
+                    message: errorMessage,
+                    indicator: 'red'
+                }, 7);
+
+                // Don't close the call UI, let the user try again or reject
+            }
+        },
+
+        // Reject call
+        rejectCall() {
+            this.stopRingtone();
+            this._isIncomingRinging = false;  // No longer ringing
+
+            // Clean up pre-granted stream if user rejects the call
+            if (this._preGrantedStream) {
+                console.log('Arrowz: Cleaning up pre-granted stream after reject');
+                this._preGrantedStream.getTracks().forEach(track => track.stop());
+                this._preGrantedStream = null;
+            }
+
+            if (this.session) {
+                try {
+                    this.session.terminate({ status_code: 603, reason_phrase: 'Decline' });
+                } catch (e) {}
+                this.session = null;
+            }
+            this.closeDropdown();
+            this.updateNavbarStatus('registered', this.config?.extension || '---');
+        },
+
+        // Hangup call
+        hangup() {
+            // Don't hangup if we're still in the process of answering
+            if (this._isAnswering && !this._callConfirmed) {
+                console.log('Arrowz: Ignoring hangup - call is being answered');
+                return;
+            }
+
+            if (this.session) {
+                try {
+                    this.session.terminate();
+                } catch (e) {
+                    console.error('Arrowz: Error terminating session:', e);
+                    this.endCall();
+                }
+            } else {
+                this.endCall();
+            }
+        },
+
+        // End call on specific line
+        endCallOnLine(lineIndex, reason) {
+            const session = this.sessions[lineIndex];
+
+            // Clean up this specific line
+            this.sessions[lineIndex] = null;
+            this.callStartTimes[lineIndex] = null;
+            delete this._callNumbers[lineIndex];
+
+            // If this was the active line, find another active line
+            if (lineIndex === this.activeLineIndex) {
+                const nextActiveLine = this.sessions.findIndex(s => s && !s.isEnded());
+                if (nextActiveLine !== -1) {
+                    this.activeLineIndex = nextActiveLine;
+                    this.session = this.sessions[nextActiveLine];
+                    // Update UI for new active line
+                    if (this.isDropdownOpen) {
+                        if (this.getActiveSessionCount() > 1) {
+                            this.showMultiLineCallUI();
+                        } else {
+                            this.showActiveCallUI(this._callNumbers[nextActiveLine]);
+                        }
+                    }
+                    this.updateNavbarStatus('in-call', this._callNumbers[nextActiveLine] || __('On Call'));
+                } else {
+                    // No more active calls
+                    this.session = null;
+                    this.activeLineIndex = 0;
+                    this.endCall(reason);
+                    return;
+                }
+            }
+
+            // Update multi-line UI if still have calls
+            if (this.getActiveSessionCount() > 0 && this.isDropdownOpen) {
+                if (this.getActiveSessionCount() > 1) {
+                    this.showMultiLineCallUI();
+                } else {
+                    this.showActiveCallUI(this._callNumbers[this.activeLineIndex]);
+                }
+            }
+
+            if (reason) {
+                frappe.show_alert({
+                    message: __('Line {0}: {1}', [lineIndex + 1, reason]),
+                    indicator: 'orange'
+                }, 3);
+            }
+        },
+
+        // Get call duration for specific line
+        getCallDurationForLine(lineIndex) {
+            const startTime = this.callStartTimes[lineIndex];
+            if (!startTime) return 0;
+            return Math.floor((new Date() - startTime) / 1000);
+        },
+
+        // End call cleanup (all lines)
+        endCall(reason) {
+            this.stopCallTimer();
+            this.stopRingtone();
+
+            // Reset call state flags
+            this._isAnswering = false;
+            this._callConfirmed = false;
+
+            // Clean up pre-granted stream if it wasn't used
+            if (this._preGrantedStream) {
+                console.log('Arrowz: Cleaning up unused pre-granted stream');
+                this._preGrantedStream.getTracks().forEach(track => track.stop());
+                this._preGrantedStream = null;
+            }
+
+            if (this.localStream) {
+                this.localStream.getTracks().forEach(t => t.stop());
+                this.localStream = null;
+            }
+
+            // Clear all sessions
+            this.sessions = [];
+            this.session = null;
+            this.callStartTime = null;
+            this.callStartTimes = {};
+            this._callNumbers = {};
+            this._isIncomingRinging = false;
+            this.activeLineIndex = 0;
+            this._currentCallee = null;
+            this._currentCallLog = null;  // Reset call log reference
+
+            this.updateNavbarStatus('registered', this.config?.extension || '---');
+
+            if (this.isDropdownOpen) {
+                this.showDialerUI();
+            }
+
+            if (reason) {
+                frappe.show_alert({
+                    message: __('Call ended: {0}', [reason]),
+                    indicator: 'orange'
+                }, 3);
+            }
+        },
+
+        // Show multi-line call UI
+        showMultiLineCallUI() {
+            const dropdown = document.getElementById('arrowz-sp-dropdown');
+            if (!dropdown) return;
+
+            const activeCount = this.getActiveSessionCount();
+
+            // Build lines status HTML
+            let linesHtml = '';
+            this.sessions.forEach((session, idx) => {
+                if (!session || session.isEnded()) return;
+
+                const number = this._callNumbers[idx] || __('Unknown');
+                const isActive = idx === this.activeLineIndex;
+                const isHeld = session.isOnHold()?.local;
+                const startTime = this.callStartTimes[idx];
+                let duration = '00:00';
+                if (startTime) {
+                    const elapsed = Math.floor((new Date() - startTime) / 1000);
+                    const mins = Math.floor(elapsed / 60);
+                    const secs = elapsed % 60;
+                    duration = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                }
+
+                linesHtml += `
+                    <div class="sp-line-item ${isActive ? 'active' : ''} ${isHeld ? 'held' : ''}"
+                         onclick="arrowz.softphone.switchToLine(${idx})">
+                        <div class="sp-line-indicator">${idx + 1}</div>
+                        <div class="sp-line-info">
+                            <div class="sp-line-number">${number}</div>
+                            <div class="sp-line-status">${isHeld ? __('On Hold') : __('Active')}</div>
+                        </div>
+                        <div class="sp-line-duration">${duration}</div>
+                        <button class="sp-line-hangup" onclick="event.stopPropagation(); arrowz.softphone.hangupLine(${idx})">
+                            ✕
+                        </button>
+                    </div>
+                `;
+            });
+
+            dropdown.innerHTML = `
+                <div class="sp-header">
+                    <div class="sp-header-info">
+                        <span class="sp-status-indicator online"></span>
+                        <span class="sp-ext-number">${activeCount} ${__('Active Calls')}</span>
+                    </div>
+                    <button class="sp-close-btn" onclick="arrowz.softphone.closeDropdown()">×</button>
+                </div>
+
+                <div class="sp-content sp-multiline">
+                    <div class="sp-lines-container">
+                        ${linesHtml}
+                    </div>
+
+                    <div class="sp-multiline-actions">
+                        <button class="sp-action-compact" onclick="arrowz.softphone.toggleMute()" id="sp-mute-btn" title="${__('Mute')}">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                        </button>
+                        <button class="sp-action-compact" onclick="arrowz.softphone.toggleHold()" id="sp-hold-btn" title="${__('Hold')}">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                            </svg>
+                        </button>
+                        <button class="sp-action-compact" onclick="arrowz.softphone.showDialerForNewCall()" title="${__('New Call')}">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                            </svg>
+                        </button>
+                        <button class="sp-action-compact danger" onclick="arrowz.softphone.hangupAll()" title="${__('Hangup All')}">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                                <path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08c-.18-.17-.29-.42-.29-.7 0-.28.11-.53.29-.71C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.67c.18.18.29.43.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.11-.7-.28-.79-.74-1.69-1.36-2.67-1.85-.33-.16-.56-.5-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            dropdown.classList.add('open');
+            this.isDropdownOpen = true;
+        },
+
+        // Hangup specific line
+        hangupLine(lineIndex) {
+            const session = this.sessions[lineIndex];
+            if (session && !session.isEnded()) {
+                try {
+                    session.terminate();
+                } catch (e) {
+                    console.error('Error terminating line', lineIndex + 1, e);
+                }
+            }
+        },
+
+        // Hangup all lines
+        hangupAll() {
+            this.sessions.forEach((session, idx) => {
+                if (session && !session.isEnded()) {
+                    try {
+                        session.terminate();
+                    } catch (e) {
+                        console.error('Error terminating line', idx + 1, e);
+                    }
+                }
+            });
+        },
+
+        // Show dialer for adding new call
+        showDialerForNewCall() {
+            // Put current call on hold first
+            if (this.session && !this.session.isOnHold().local) {
+                this.session.hold();
+            }
+            this.showDialerUI();
+        },
+
+        // Toggle mute
+        toggleMute() {
+            if (!this.session) return;
+
+            const muteBtn = document.getElementById('sp-mute-btn');
+            if (!muteBtn) return;
+
+            const mutedIcon = muteBtn.querySelector('.muted');
+            const unmutedIcon = muteBtn.querySelector('.unmuted');
+
+            if (this.session.isMuted().audio) {
+                this.session.unmute({ audio: true });
+                muteBtn.classList.remove('muted');
+                if (mutedIcon) mutedIcon.style.display = 'none';
+                if (unmutedIcon) unmutedIcon.style.display = 'block';
+            } else {
+                this.session.mute({ audio: true });
+                muteBtn.classList.add('muted');
+                if (mutedIcon) mutedIcon.style.display = 'block';
+                if (unmutedIcon) unmutedIcon.style.display = 'none';
+            }
+        },
+
+        // Toggle hold
+        toggleHold() {
+            if (!this.session) return;
+
+            if (this.session.isOnHold().local) {
+                this.session.unhold();
+            } else {
+                this.session.hold();
+            }
+        },
+
+        // Toggle keypad
+        toggleKeypad() {
+            const overlay = document.getElementById('sp-keypad-overlay');
+            if (overlay) {
+                overlay.style.display = overlay.style.display === 'none' ? 'block' : 'none';
+            }
+        },
+
+        // Send DTMF
+        sendDTMF(digit) {
+            if (this.session) {
+                this.session.sendDTMF(digit);
+            }
+        },
+
+        // Transfer call
+        transfer() {
+            if (!this.session) return;
+
+            frappe.prompt({
+                fieldtype: 'Data',
+                fieldname: 'target',
+                label: __('Transfer to'),
+                reqd: 1
+            }, (values) => {
+                if (values.target) {
+                    this.session.refer(values.target);
+                    frappe.show_alert({
+                        message: __('Call transferred'),
+                        indicator: 'green'
+                    });
+                }
+            }, __('Transfer Call'));
+        },
+
+        // Update navbar status
+        updateNavbarStatus(status, text) {
+            const dot = document.querySelector('.arrowz-sp-trigger .sp-status-dot');
+            const statusText = document.querySelector('.arrowz-sp-trigger .sp-status-text');
+            const timer = document.querySelector('.arrowz-sp-trigger .sp-call-timer');
+            const trigger = document.querySelector('.arrowz-sp-trigger');
+
+            if (dot) {
+                dot.className = 'sp-status-dot ' + status;
+            }
+
+            if (statusText && timer) {
+                if (['calling', 'ringing', 'in-call', 'incoming'].includes(status)) {
+                    statusText.style.display = 'none';
+                    timer.style.display = 'inline';
+                } else {
+                    statusText.textContent = text || '';
+                    statusText.style.display = 'inline';
+                    timer.style.display = 'none';
+                }
+            }
+
+            if (trigger) {
+                trigger.setAttribute('data-status', status);
+            }
+        },
+
+        // Update call status text
+        updateCallStatus(text) {
+            const el = document.getElementById('sp-call-status');
+            if (el) el.textContent = text;
+        },
+
+        // Update navbar badge
+        updateNavbarBadge() {
+            const badge = document.querySelector('.arrowz-sp-trigger .sp-badge');
+            const count = this.pendingSMS.length + this.missedCalls;
+
+            if (badge) {
+                if (count > 0) {
+                    badge.textContent = count > 99 ? '99+' : count;
+                    badge.style.display = 'block';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+        },
+
+        // Start call timer
+        startCallTimer() {
+            const timerEl = document.getElementById('sp-call-duration');
+            const navTimer = document.querySelector('.sp-call-timer');
+
+            this.callTimer = setInterval(() => {
+                if (this.callStartTime) {
+                    const elapsed = Math.floor((new Date() - this.callStartTime) / 1000);
+                    const mins = Math.floor(elapsed / 60);
+                    const secs = elapsed % 60;
+                    const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+                    if (timerEl) timerEl.textContent = formatted;
+                    if (navTimer) navTimer.textContent = formatted;
+                }
+            }, 1000);
+        },
+
+        // Stop call timer
+        stopCallTimer() {
+            if (this.callTimer) {
+                clearInterval(this.callTimer);
+                this.callTimer = null;
+            }
+        },
+
+        // Get call duration in seconds
+        getCallDuration() {
+            if (!this.callStartTime) return 0;
+            return Math.floor((new Date() - this.callStartTime) / 1000);
+        },
+
+        // Play ringtone
+        playRingtone() {
+            try {
+                this.ringtone.currentTime = 0;
+                this.ringtone.play().catch(() => {
+                    frappe.show_alert({
+                        message: __('📞 Incoming call!'),
+                        indicator: 'green'
+                    }, 10);
+                });
+            } catch (e) {}
+        },
+
+        // Stop ringtone
+        stopRingtone() {
+            try {
+                this.ringtone.pause();
+                this.ringtone.currentTime = 0;
+            } catch (e) {}
+        },
+
+        // Show browser notification
+        showBrowserNotification(caller) {
+            if ('Notification' in window && Notification.permission === 'granted') {
+                const notification = new Notification(__('Incoming Call'), {
+                    body: caller,
+                    icon: '/assets/frappe/images/frappe-favicon.svg',
+                    requireInteraction: true,
+                    tag: 'incoming-call'
+                });
+
+                notification.onclick = () => {
+                    window.focus();
+                    notification.close();
+                };
+
+                this.currentNotification = notification;
+            }
+        },
+
+        // Show notification
+        showNotification(type, data) {
+            if (type === 'sms') {
+                frappe.show_alert({
+                    message: __('New SMS from {0}', [data.from || __('Unknown')]),
+                    indicator: 'blue'
+                }, 5);
+            }
+        },
+
+        // Show call history
+        showHistory() {
+            frappe.set_route('List', 'AZ Call Log');
+            this.closeDropdown();
+        },
+
+        // Show settings
+        showSettings() {
+            frappe.set_route('Form', 'AZ Extension', this.activeExtension);
+            this.closeDropdown();
+        },
+
+        // Public show method
+        show() {
+            this.openDropdown();
+        },
+
+        // Add styles
+        addStyles() {
+            if (document.getElementById('arrowz-softphone-v2-styles')) return;
+
+            const style = document.createElement('style');
+            style.id = 'arrowz-softphone-v2-styles';
+            style.textContent = `
+                /* Frappe v16 Desktop Style Widget */
+                .arrowz-softphone-desktop {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                }
+
+                .arrowz-softphone-desktop .arrowz-sp-trigger {
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 8px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                    background: transparent;
+                }
+
+                .arrowz-softphone-desktop .arrowz-sp-trigger:hover {
+                    background: var(--bg-dark-gray, rgba(0,0,0,0.05));
+                }
+
+                .arrowz-softphone-desktop .sp-icon {
+                    width: 20px;
+                    height: 20px;
+                    color: var(--text-muted, #6c757d);
+                }
+
+                .arrowz-softphone-desktop .arrowz-sp-dropdown {
+                    position: absolute;
+                    top: calc(100% + 8px);
+                    right: 0;
+                    z-index: 1050;
+                }
+
+                /* Legacy Navbar Widget */
+                .arrowz-softphone-nav {
+                    position: relative;
+                    margin-right: 8px;
+                }
+
+                .arrowz-sp-trigger {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 6px 12px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    background: var(--fg-color);
+                    transition: all 0.2s;
+                    user-select: none;
+                }
+
+                .arrowz-sp-trigger:hover {
+                    background: var(--bg-dark-gray);
+                }
+
+                .arrowz-sp-trigger[data-status="in-call"],
+                .arrowz-sp-trigger[data-status="calling"],
+                .arrowz-sp-trigger[data-status="ringing"] {
+                    background: rgba(76, 175, 80, 0.15);
+                    animation: pulse-bg 2s infinite;
+                }
+
+                .arrowz-sp-trigger[data-status="incoming"] {
+                    background: rgba(33, 150, 243, 0.15);
+                    animation: shake-trigger 0.5s infinite;
+                }
+
+                @keyframes pulse-bg {
+                    0%, 100% { background: rgba(76, 175, 80, 0.15); }
+                    50% { background: rgba(76, 175, 80, 0.25); }
+                }
+
+                @keyframes shake-trigger {
+                    0%, 100% { transform: translateX(0); }
+                    25% { transform: translateX(-2px); }
+                    75% { transform: translateX(2px); }
+                }
+
+                .sp-icon-wrapper {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .sp-icon {
+                    width: 18px;
+                    height: 18px;
+                    color: var(--text-color);
+                }
+
+                .sp-status-dot {
+                    position: absolute;
+                    bottom: -2px;
+                    right: -2px;
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    border: 2px solid var(--fg-color);
+                    background: #9e9e9e;
+                    transition: background 0.3s;
+                }
+
+                .sp-status-dot.registered { background: #4CAF50; }
+                .sp-status-dot.connecting { background: #ff9800; animation: blink 1s infinite; }
+                .sp-status-dot.disconnected, .sp-status-dot.failed { background: #f44336; }
+                .sp-status-dot.no-config { background: #2196F3; }
+                .sp-status-dot.calling, .sp-status-dot.ringing { background: #4CAF50; animation: pulse-dot 1s infinite; }
+                .sp-status-dot.in-call { background: #4CAF50; }
+                .sp-status-dot.incoming { background: #2196F3; animation: pulse-dot 0.5s infinite; }
+
+                @keyframes blink {
+                    0%, 100% { opacity: 1; }
+                    50% { opacity: 0.4; }
+                }
+
+                @keyframes pulse-dot {
+                    0%, 100% { transform: scale(1); }
+                    50% { transform: scale(1.3); }
+                }
+
+                .sp-badge {
+                    position: absolute;
+                    top: -4px;
+                    right: -4px;
+                    background: #f44336;
+                    color: white;
+                    font-size: 10px;
+                    font-weight: 600;
+                    padding: 2px 5px;
+                    border-radius: 10px;
+                    min-width: 16px;
+                    text-align: center;
+                }
+
+                .sp-status-text {
+                    font-size: 12px;
+                    font-weight: 500;
+                    color: var(--text-color);
+                }
+
+                .sp-call-timer {
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: #4CAF50;
+                    font-family: monospace;
+                }
+
+                /* Dropdown */
+                .arrowz-sp-dropdown {
+                    position: absolute;
+                    top: 100%;
+                    right: 0;
+                    width: 260px;
+                    background: var(--card-bg);
+                    border: 1px solid var(--border-color);
+                    border-radius: 10px;
+                    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+                    opacity: 0;
+                    visibility: hidden;
+                    transform: translateY(-10px);
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    z-index: 1050;
+                    overflow: hidden;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                /* Portal mode: dropdown appended to body to escape topbar overflow */
+                .arrowz-sp-dropdown.arrowz-sp-dropdown-portal {
+                    position: fixed;
+                    z-index: 1060;
+                }
+
+                .arrowz-sp-dropdown.open {
+                    opacity: 1;
+                    visibility: visible;
+                    transform: translateY(0);
+                }
+
+                /* Mobile Modal */
+                .arrowz-sp-dropdown.mobile-modal {
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    right: auto;
+                    transform: translate(-50%, -50%);
+                    width: 90%;
+                    max-width: 350px;
+                    max-height: 90vh;
+                }
+
+                .arrowz-sp-dropdown.mobile-modal.open {
+                    transform: translate(-50%, -50%);
+                }
+
+                body.arrowz-modal-open::before {
+                    content: '';
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0,0,0,0.5);
+                    z-index: 1040;
+                }
+
+                /* Header */
+                .sp-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 8px 12px;
+                    background: #333333;
+                    color: white;
+                    flex-shrink: 0;
+                    border-radius: 10px 10px 0 0;
+                }
+
+                /* Content wrapper */
+                .sp-content {
+                    flex: 1;
+                    overflow: visible;
+                }
+
+                .sp-header-info {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                }
+
+                .sp-status-indicator {
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    background: #f44336;
+                }
+
+                .sp-status-indicator.online { background: #4CAF50; }
+
+                .sp-ext-number {
+                    font-size: 16px;
+                    font-weight: 600;
+                }
+
+                .sp-status-label {
+                    font-size: 12px;
+                    opacity: 0.8;
+                }
+
+                .sp-close-btn {
+                    background: none;
+                    border: none;
+                    color: white;
+                    font-size: 24px;
+                    cursor: pointer;
+                    padding: 0;
+                    line-height: 1;
+                    opacity: 0.7;
+                    transition: opacity 0.2s;
+                }
+
+                .sp-close-btn:hover { opacity: 1; }
+
+                /* Extension Selector */
+                .sp-extension-selector {
+                    padding: 10px 16px;
+                    background: var(--bg-color);
+                    border-bottom: 1px solid var(--border-color);
+                }
+
+                .sp-ext-label {
+                    font-size: 11px;
+                    color: var(--text-muted);
+                    margin-bottom: 6px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+
+                .sp-ext-buttons {
+                    display: flex;
+                    gap: 6px;
+                    flex-wrap: wrap;
+                }
+
+                .sp-ext-btn {
+                    padding: 6px 12px;
+                    border: 1px solid var(--border-color);
+                    border-radius: 20px;
+                    background: var(--fg-color);
+                    font-size: 12px;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                }
+
+                .sp-ext-btn:hover {
+                    border-color: #5e35b1;
+                    color: #5e35b1;
+                }
+
+                .sp-ext-btn.active {
+                    background: #5e35b1;
+                    border-color: #5e35b1;
+                    color: white;
+                }
+
+                /* Search */
+                .sp-search-container {
+                    padding: 12px 16px;
+                    position: relative;
+                }
+
+                .sp-search-input {
+                    width: 100%;
+                    padding: 10px 14px;
+                    border: 1px solid var(--border-color);
+                    border-radius: 8px;
+                    font-size: 14px;
+                    background: var(--fg-color);
+                    transition: border-color 0.2s;
+                }
+
+                .sp-search-input:focus {
+                    outline: none;
+                    border-color: #5e35b1;
+                }
+
+                .sp-search-results {
+                    position: absolute;
+                    top: 100%;
+                    left: 16px;
+                    right: 16px;
+                    background: var(--card-bg);
+                    border: 1px solid var(--border-color);
+                    border-radius: 8px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                    max-height: 200px;
+                    overflow-y: auto;
+                    z-index: 10;
+                    display: none;
+                }
+
+                .sp-contact-item {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    padding: 10px 12px;
+                    cursor: pointer;
+                    transition: background 0.2s;
+                }
+
+                .sp-contact-item:hover {
+                    background: var(--bg-color);
+                }
+
+                .sp-contact-avatar {
+                    width: 36px;
+                    height: 36px;
+                    border-radius: 50%;
+                    background: #5e35b1;
+                    color: white;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: 600;
+                    font-size: 14px;
+                }
+
+                .sp-contact-details {
+                    flex: 1;
+                    min-width: 0;
+                }
+
+                .sp-contact-name {
+                    font-weight: 500;
+                    font-size: 13px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .sp-contact-phone {
+                    font-size: 12px;
+                    color: var(--text-muted);
+                }
+
+                .sp-contact-type {
+                    font-size: 10px;
+                    color: #5e35b1;
+                    text-transform: uppercase;
+                }
+
+                .sp-no-results {
+                    padding: 16px;
+                    text-align: center;
+                    color: var(--text-muted);
+                    font-size: 13px;
+                }
+
+                /* Dial Display */
+                .sp-dial-display {
+                    display: flex;
+                    padding: 6px 10px;
+                    gap: 6px;
+                }
+
+                .sp-dial-input {
+                    flex: 1;
+                    padding: 8px;
+                    border: 1px solid var(--border-color);
+                    border-radius: 6px;
+                    font-size: 14px;
+                    text-align: center;
+                    letter-spacing: 1px;
+                    font-family: monospace;
+                    background: var(--fg-color);
+                }
+
+                .sp-dial-input:focus {
+                    outline: none;
+                    border-color: #5e35b1;
+                }
+
+                .sp-backspace {
+                    padding: 8px 12px;
+                    border: 1px solid var(--border-color);
+                    border-radius: 6px;
+                    background: var(--fg-color);
+                    font-size: 14px;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                }
+
+                .sp-backspace:hover {
+                    background: var(--bg-color);
+                }
+
+                /* Dialpad */
+                .sp-dialpad {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 4px;
+                    padding: 4px 10px 8px;
+                }
+
+                .sp-key {
+                    height: 32px;
+                    border: none;
+                    border-radius: 6px;
+                    background: var(--bg-color);
+                    font-size: 15px;
+                    font-weight: 500;
+                    cursor: pointer;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.15s;
+                }
+
+                .sp-key:hover {
+                    background: var(--border-color);
+                }
+
+                .sp-key:active {
+                    transform: scale(0.95);
+                    background: #5e35b1;
+                    color: white;
+                }
+
+                .sp-key span {
+                    font-size: 9px;
+                    color: var(--text-muted);
+                    letter-spacing: 1px;
+                }
+
+                .sp-key:active span {
+                    color: rgba(255,255,255,0.7);
+                }
+
+                /* Compact dialpad for in-call */
+                .sp-dialpad.compact {
+                    padding: 10px;
+                }
+
+                .sp-dialpad.compact .sp-key {
+                    aspect-ratio: 1.5;
+                    font-size: 18px;
+                    border-radius: 8px;
+                }
+
+                /* Actions */
+                .sp-actions {
+                    display: flex;
+                    justify-content: center;
+                    padding: 0 16px 16px;
+                }
+
+                .sp-call-btn {
+                    width: 64px;
+                    height: 64px;
+                    border-radius: 50%;
+                    border: none;
+                    background: #4CAF50;
+                    color: white;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.2s;
+                }
+
+                .sp-call-btn:hover {
+                    background: #43a047;
+                    transform: scale(1.05);
+                }
+
+                .sp-call-btn.disabled {
+                    background: #9e9e9e;
+                    cursor: not-allowed;
+                }
+
+                .sp-call-btn svg {
+                    width: 28px;
+                    height: 28px;
+                }
+
+                /* Footer */
+                .sp-footer {
+                    display: flex;
+                    border-top: 1px solid var(--border-color);
+                    background: var(--bg-color);
+                    flex-shrink: 0;
+                    border-radius: 0 0 12px 12px;
+                }
+
+                .sp-footer-btn {
+                    flex: 1;
+                    padding: 12px;
+                    border: none;
+                    background: none;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 6px;
+                    font-size: 12px;
+                    color: var(--text-muted);
+                    cursor: pointer;
+                    transition: all 0.2s;
+                }
+
+                .sp-footer-btn:hover {
+                    background: var(--fg-color);
+                    color: #5e35b1;
+                }
+
+                .sp-footer-btn svg {
+                    width: 16px;
+                    height: 16px;
+                }
+
+                .sp-footer-btn:first-child {
+                    border-right: 1px solid var(--border-color);
+                }
+
+                /* Call Screen */
+                .sp-call-screen {
+                    padding: 20px;
+                    text-align: center;
+                }
+
+                .sp-call-header {
+                    margin-bottom: 20px;
+                }
+
+                .sp-call-avatar {
+                    width: 80px;
+                    height: 80px;
+                    border-radius: 50%;
+                    background: linear-gradient(135deg, #5e35b1, #7c4dff);
+                    color: white;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin: 0 auto 16px;
+                }
+
+                .sp-call-avatar svg {
+                    width: 40px;
+                    height: 40px;
+                }
+
+                .sp-callee-number {
+                    font-size: 22px;
+                    font-weight: 600;
+                }
+
+                #sp-call-status {
+                    font-size: 14px;
+                    color: var(--text-muted);
+                    margin-top: 4px;
+                }
+
+                #sp-call-duration {
+                    font-size: 28px;
+                    font-weight: 300;
+                    font-family: monospace;
+                    color: #4CAF50;
+                    margin-top: 8px;
+                }
+
+                .sp-call-actions {
+                    display: grid;
+                    grid-template-columns: repeat(4, 1fr);
+                    gap: 12px;
+                    margin-bottom: 20px;
+                }
+
+                .sp-call-action {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 12px 8px;
+                    border: none;
+                    border-radius: 12px;
+                    background: var(--bg-color);
+                    cursor: pointer;
+                    transition: all 0.2s;
+                }
+
+                .sp-call-action:hover {
+                    background: var(--border-color);
+                }
+
+                .sp-call-action.active {
+                    background: #f44336;
+                    color: white;
+                }
+
+                .sp-call-action svg {
+                    width: 24px;
+                    height: 24px;
+                }
+
+                .sp-call-action span {
+                    font-size: 11px;
+                }
+
+                .sp-keypad-overlay {
+                    margin-top: 10px;
+                    padding-top: 10px;
+                    border-top: 1px solid var(--border-color);
+                }
+
+                .sp-hangup-section {
+                    margin-top: 10px;
+                }
+
+                .sp-hangup-btn {
+                    width: 64px;
+                    height: 64px;
+                    border-radius: 50%;
+                    border: none;
+                    background: #f44336;
+                    color: white;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.2s;
+                }
+
+                .sp-hangup-btn:hover {
+                    background: #d32f2f;
+                    transform: scale(1.05);
+                }
+
+                .sp-hangup-btn svg {
+                    width: 28px;
+                    height: 28px;
+                    transform: rotate(135deg);
+                }
+
+                /* Incoming Call Screen */
+                .sp-incoming-screen {
+                    padding: 30px 20px;
+                    text-align: center;
+                }
+
+                .sp-incoming-animation {
+                    position: relative;
+                    width: 100px;
+                    height: 100px;
+                    margin: 0 auto 20px;
+                }
+
+                .sp-pulse-ring {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                    border: 3px solid #2196F3;
+                    animation: pulse-ring 1.5s infinite;
+                }
+
+                .sp-pulse-ring.delay {
+                    animation-delay: 0.5s;
+                }
+
+                @keyframes pulse-ring {
+                    0% { transform: scale(0.8); opacity: 1; }
+                    100% { transform: scale(1.5); opacity: 0; }
+                }
+
+                .sp-caller-avatar {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 70px;
+                    height: 70px;
+                    border-radius: 50%;
+                    background: #2196F3;
+                    color: white;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .sp-caller-avatar svg {
+                    width: 35px;
+                    height: 35px;
+                }
+
+                .sp-caller-id {
+                    font-size: 24px;
+                    font-weight: 600;
+                    margin-bottom: 4px;
+                }
+
+                .sp-incoming-label {
+                    font-size: 14px;
+                    color: var(--text-muted);
+                    margin-bottom: 30px;
+                }
+
+                .sp-incoming-actions {
+                    display: flex;
+                    justify-content: center;
+                    gap: 40px;
+                }
+
+                .sp-reject-btn, .sp-answer-btn {
+                    width: 64px;
+                    height: 64px;
+                    border-radius: 50%;
+                    border: none;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.2s;
+                }
+
+                .sp-reject-btn {
+                    background: #f44336;
+                    color: white;
+                }
+
+                .sp-reject-btn:hover {
+                    background: #d32f2f;
+                    transform: scale(1.05);
+                }
+
+                .sp-answer-btn {
+                    background: #4CAF50;
+                    color: white;
+                    animation: pulse-answer 1s infinite;
+                }
+
+                .sp-answer-btn:hover {
+                    background: #43a047;
+                }
+
+                @keyframes pulse-answer {
+                    0%, 100% { transform: scale(1); }
+                    50% { transform: scale(1.08); }
+                }
+
+                .sp-reject-btn svg, .sp-answer-btn svg {
+                    width: 28px;
+                    height: 28px;
+                }
+
+                .sp-reject-btn svg {
+                    transform: rotate(135deg);
+                }
+
+                /* Mobile Responsive */
+                @media (max-width: 768px) {
+                    .sp-status-text {
+                        display: none;
+                    }
+
+                    .arrowz-sp-dropdown {
+                        width: calc(100vw - 40px);
+                        max-height: calc(100vh - 100px);
+                    }
+
+                    .sp-dialpad .sp-key {
+                        aspect-ratio: 1.2;
+                        font-size: 20px;
+                    }
+
+                    .sp-call-actions {
+                        grid-template-columns: repeat(2, 1fr);
+                    }
+                }
+
+                /* ======================================
+                   COMPACT UI - No Scroll Required
+                   ====================================== */
+
+                /* Compact Dialpad */
+                .sp-dialpad {
+                    gap: 4px !important;
+                    padding: 0 12px 8px !important;
+                }
+
+                .sp-key {
+                    aspect-ratio: 1.5 !important;
+                    font-size: 18px !important;
+                    padding: 4px !important;
+                }
+
+                .sp-key span {
+                    font-size: 7px !important;
+                    display: none;
+                }
+
+                /* Compact Search */
+                .sp-search-container {
+                    padding: 8px 12px !important;
+                }
+
+                .sp-search-input {
+                    padding: 8px 12px !important;
+                    font-size: 13px !important;
+                }
+
+                /* Compact Dial Display */
+                .sp-dial-display {
+                    padding: 0 12px 8px !important;
+                }
+
+                .sp-dial-input {
+                    padding: 8px !important;
+                    font-size: 18px !important;
+                }
+
+                .sp-backspace {
+                    padding: 8px 12px !important;
+                    font-size: 16px !important;
+                }
+
+                /* Compact Header */
+                .sp-header {
+                    padding: 8px 12px !important;
+                }
+
+                .sp-ext-number {
+                    font-size: 14px !important;
+                }
+
+                /* Compact Call Button */
+                .sp-actions {
+                    padding: 0 12px 8px !important;
+                }
+
+                .sp-call-btn {
+                    width: 52px !important;
+                    height: 52px !important;
+                }
+
+                .sp-call-btn svg {
+                    width: 24px !important;
+                    height: 24px !important;
+                }
+
+                /* Compact Footer */
+                .sp-footer {
+                    padding: 0 !important;
+                }
+
+                .sp-footer-btn {
+                    padding: 8px !important;
+                    font-size: 11px !important;
+                }
+
+                .sp-footer-btn svg {
+                    width: 14px !important;
+                    height: 14px !important;
+                }
+
+                /* Compact Extension Selector */
+                .sp-extension-selector {
+                    padding: 6px 12px !important;
+                }
+
+                .sp-ext-btn {
+                    padding: 4px 10px !important;
+                    font-size: 11px !important;
+                }
+
+                /* Dropdown max height reduced */
+                .arrowz-sp-dropdown {
+                    max-height: 420px !important;
+                }
+
+                .sp-content {
+                    max-height: calc(420px - 90px) !important;
+                }
+
+                /* ======================================
+                   MULTI-LINE UI Styles
+                   ====================================== */
+
+                .sp-content.sp-multiline {
+                    padding: 8px;
+                }
+
+                .sp-lines-container {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+                    margin-bottom: 10px;
+                }
+
+                .sp-line-item {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    padding: 10px 12px;
+                    background: var(--bg-color);
+                    border-radius: 8px;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                    border: 2px solid transparent;
+                }
+
+                .sp-line-item:hover {
+                    background: var(--border-color);
+                }
+
+                .sp-line-item.active {
+                    border-color: #4CAF50;
+                    background: rgba(76, 175, 80, 0.1);
+                }
+
+                .sp-line-item.held {
+                    opacity: 0.7;
+                }
+
+                .sp-line-indicator {
+                    width: 28px;
+                    height: 28px;
+                    border-radius: 50%;
+                    background: #5e35b1;
+                    color: white;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 12px;
+                    font-weight: 600;
+                }
+
+                .sp-line-item.active .sp-line-indicator {
+                    background: #4CAF50;
+                }
+
+                .sp-line-item.held .sp-line-indicator {
+                    background: #ff9800;
+                }
+
+                .sp-line-info {
+                    flex: 1;
+                    min-width: 0;
+                }
+
+                .sp-line-number {
+                    font-size: 14px;
+                    font-weight: 500;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .sp-line-status {
+                    font-size: 11px;
+                    color: var(--text-muted);
+                }
+
+                .sp-line-item.active .sp-line-status {
+                    color: #4CAF50;
+                }
+
+                .sp-line-item.held .sp-line-status {
+                    color: #ff9800;
+                }
+
+                .sp-line-duration {
+                    font-size: 12px;
+                    font-family: monospace;
+                    color: var(--text-muted);
+                }
+
+                .sp-line-hangup {
+                    width: 24px;
+                    height: 24px;
+                    border-radius: 50%;
+                    border: none;
+                    background: #f44336;
+                    color: white;
+                    font-size: 12px;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.2s;
+                }
+
+                .sp-line-hangup:hover {
+                    background: #d32f2f;
+                    transform: scale(1.1);
+                }
+
+                .sp-multiline-actions {
+                    display: flex;
+                    justify-content: center;
+                    gap: 12px;
+                    padding: 8px 0;
+                }
+
+                .sp-action-compact {
+                    width: 44px;
+                    height: 44px;
+                    border-radius: 50%;
+                    border: none;
+                    background: var(--bg-color);
+                    color: var(--text-color);
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.2s;
+                }
+
+                .sp-action-compact:hover {
+                    background: var(--border-color);
+                    transform: scale(1.05);
+                }
+
+                .sp-action-compact.danger {
+                    background: #f44336;
+                    color: white;
+                }
+
+                .sp-action-compact.danger:hover {
+                    background: #d32f2f;
+                }
+
+                .sp-action-compact.active {
+                    background: #ff9800;
+                    color: white;
+                }
+
+                /* Compact Call Screen */
+                .sp-call-screen {
+                    padding: 12px !important;
+                }
+
+                .sp-call-header {
+                    margin-bottom: 12px !important;
+                }
+
+                .sp-call-avatar {
+                    width: 60px !important;
+                    height: 60px !important;
+                    margin-bottom: 8px !important;
+                }
+
+                .sp-call-avatar svg {
+                    width: 30px !important;
+                    height: 30px !important;
+                }
+
+                .sp-callee-number {
+                    font-size: 18px !important;
+                }
+
+                #sp-call-duration {
+                    font-size: 22px !important;
+                    margin-top: 4px !important;
+                }
+
+                .sp-call-actions {
+                    gap: 8px !important;
+                    margin-bottom: 12px !important;
+                }
+
+                .sp-call-action {
+                    padding: 8px 6px !important;
+                }
+
+                .sp-call-action svg {
+                    width: 20px !important;
+                    height: 20px !important;
+                }
+
+                .sp-call-action span {
+                    font-size: 10px !important;
+                }
+
+                .sp-hangup-btn {
+                    width: 52px !important;
+                    height: 52px !important;
+                }
+
+                .sp-hangup-btn svg {
+                    width: 24px !important;
+                    height: 24px !important;
+                }
+
+                /* Compact Incoming Call */
+                .sp-incoming-screen {
+                    padding: 16px !important;
+                }
+
+                .sp-incoming-animation {
+                    width: 80px !important;
+                    height: 80px !important;
+                    margin-bottom: 12px !important;
+                }
+
+                .sp-caller-avatar {
+                    width: 56px !important;
+                    height: 56px !important;
+                }
+
+                .sp-caller-id {
+                    font-size: 20px !important;
+                }
+
+                .sp-incoming-label {
+                    margin-bottom: 16px !important;
+                }
+
+                .sp-incoming-actions {
+                    gap: 30px !important;
+                }
+
+                .sp-reject-btn, .sp-answer-btn {
+                    width: 52px !important;
+                    height: 52px !important;
+                }
+
+                .sp-reject-btn svg, .sp-answer-btn svg {
+                    width: 24px !important;
+                    height: 24px !important;
+                }
+            `;
+
+            document.head.appendChild(style);
+        }
+    };
+
+    // Initialize on page load
+    $(document).ready(function() {
+        if (frappe.session.user !== 'Guest') {
+            setTimeout(() => {
+                arrowz.softphone.init();
+            }, 1500);
+        }
+    });
+
+})();
+
+
+/* === screen_pop.js === */
+// Copyright (c) 2024, Moataz M Hassan (Arkan Lab)
+// Developer Website: https://arkan.it.com
+// License: MIT
+// For license information, please see license.txt
+
+/**
+ * Arrowz Screen Pop
+ * CRM Screen Pop Integration
+ */
+
+frappe.provide('arrowz.screenpop');
+
+(function() {
+    'use strict';
+    
+    arrowz.screenpop = {
+        // Configuration
+        config: {
+            enabled: true,
+            popup_mode: 'sidebar', // sidebar, modal, newtab
+            auto_link: true,
+            search_doctypes: ['Customer', 'Lead', 'Contact', 'Supplier']
+        },
+        
+        // Current popup state
+        current: null,
+        
+        // Initialize
+        init() {
+            this.loadConfig();
+            this.bindEvents();
+        },
+        
+        // Load config from settings
+        loadConfig() {
+            frappe.db.get_single_value('Arrowz Settings', 'enable_screen_pop').then(enabled => {
+                this.config.enabled = enabled;
+            });
+        },
+        
+        // Bind real-time events
+        bindEvents() {
+            // Incoming call event
+            frappe.realtime.on('arrowz_incoming_call', (data) => {
+                if (this.config.enabled) {
+                    this.show(data.caller_id, data.call_id, 'incoming');
+                }
+            });
+            
+            // Outgoing call answered
+            frappe.realtime.on('arrowz_call_connected', (data) => {
+                if (this.config.enabled && data.remote_number) {
+                    this.show(data.remote_number, data.call_id, 'connected');
+                }
+            });
+        },
+        
+        // Show screen pop for a number
+        async show(phone_number, call_id, event_type) {
+            if (!phone_number) return;
+            
+            const result = await this.search(phone_number);
+            
+            if (result.found) {
+                this.displayResult(result, call_id, event_type);
+            } else {
+                this.displayNotFound(phone_number, call_id, event_type);
+            }
+        },
+        
+        // Search for caller in CRM
+        async search(phone_number) {
+            const result = {
+                found: false,
+                matches: [],
+                phone_number: phone_number
+            };
+            
+            try {
+                const response = await frappe.call({
+                    method: 'arrowz.api.screenpop.search_caller',
+                    args: { phone_number }
+                });
+                
+                if (response.message && response.message.matches) {
+                    result.found = response.message.matches.length > 0;
+                    result.matches = response.message.matches;
+                }
+            } catch (error) {
+                console.error('Screen pop search failed:', error);
+            }
+            
+            return result;
+        },
+        
+        // Display found result
+        displayResult(result, call_id, event_type) {
+            const mode = this.config.popup_mode;
+            
+            if (mode === 'sidebar') {
+                this.showSidebar(result, call_id, event_type);
+            } else if (mode === 'modal') {
+                this.showModal(result, call_id, event_type);
+            } else if (mode === 'newtab') {
+                this.openInNewTab(result);
+            }
+        },
+        
+        // Display not found
+        displayNotFound(phone_number, call_id, event_type) {
+            const mode = this.config.popup_mode;
+            
+            if (mode === 'sidebar') {
+                this.showSidebarUnknown(phone_number, call_id, event_type);
+            } else if (mode === 'modal') {
+                this.showModalUnknown(phone_number, call_id, event_type);
+            }
+        },
+        
+        // Show sidebar screen pop
+        showSidebar(result, call_id, event_type) {
+            // Remove existing sidebar
+            this.closeSidebar();
+            
+            const match = result.matches[0];
+            
+            const sidebar = $(`
+                <div class="screenpop-sidebar arrowz-fade-in">
+                    <div class="screenpop-header">
+                        <div class="screenpop-title">
+                            <span class="event-icon">${event_type === 'incoming' ? '📞' : '📱'}</span>
+                            <span>${event_type === 'incoming' ? __('Incoming Call') : __('Connected')}</span>
+                        </div>
+                        <button class="screenpop-close">&times;</button>
+                    </div>
+                    
+                    <div class="screenpop-body">
+                        <div class="caller-card">
+                            <div class="caller-avatar">
+                                ${match.name ? match.name.charAt(0).toUpperCase() : '?'}
+                            </div>
+                            <div class="caller-details">
+                                <h3 class="caller-name">${match.name || __('Unknown')}</h3>
+                                <div class="caller-type">${match.doctype}</div>
+                                <div class="caller-phone">${arrowz.utils.formatPhone(result.phone_number)}</div>
+                            </div>
+                        </div>
+                        
+                        ${result.matches.length > 1 ? `
+                            <div class="other-matches">
+                                <div class="matches-title">${__('Other Matches')}</div>
+                                ${result.matches.slice(1).map(m => `
+                                    <div class="match-item" data-doctype="${m.doctype}" data-name="${m.name}">
+                                        <span class="match-name">${m.name}</span>
+                                        <span class="match-type">${m.doctype}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                        
+                        <div class="quick-info">
+                            ${match.info ? `
+                                <div class="info-row">
+                                    <span class="info-label">${__('Company')}</span>
+                                    <span class="info-value">${match.info.company || '-'}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">${__('Last Contact')}</span>
+                                    <span class="info-value">${match.info.last_contact || '-'}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">${__('Open Tickets')}</span>
+                                    <span class="info-value">${match.info.open_tickets || '0'}</span>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="screenpop-actions">
+                        <button class="btn btn-primary btn-sm open-record">
+                            ${__('Open Record')}
+                        </button>
+                        <button class="btn btn-secondary btn-sm add-note">
+                            ${__('Add Note')}
+                        </button>
+                    </div>
+                </div>
+            `);
+            
+            // Bind events
+            sidebar.find('.screenpop-close').on('click', () => this.closeSidebar());
+            sidebar.find('.open-record').on('click', () => {
+                frappe.set_route('Form', match.doctype, match.name);
+                this.closeSidebar();
+            });
+            sidebar.find('.add-note').on('click', () => this.showNoteDialog(match, call_id));
+            sidebar.find('.match-item').on('click', function() {
+                frappe.set_route('Form', $(this).data('doctype'), $(this).data('name'));
+            });
+            
+            $('body').append(sidebar);
+            this.current = { sidebar, call_id };
+        },
+        
+        // Show sidebar for unknown caller
+        showSidebarUnknown(phone_number, call_id, event_type) {
+            this.closeSidebar();
+            
+            const sidebar = $(`
+                <div class="screenpop-sidebar arrowz-fade-in">
+                    <div class="screenpop-header">
+                        <div class="screenpop-title">
+                            <span class="event-icon">${event_type === 'incoming' ? '📞' : '📱'}</span>
+                            <span>${event_type === 'incoming' ? __('Incoming Call') : __('Connected')}</span>
+                        </div>
+                        <button class="screenpop-close">&times;</button>
+                    </div>
+                    
+                    <div class="screenpop-body">
+                        <div class="caller-card unknown">
+                            <div class="caller-avatar">?</div>
+                            <div class="caller-details">
+                                <h3 class="caller-name">${__('Unknown Caller')}</h3>
+                                <div class="caller-phone">${arrowz.utils.formatPhone(phone_number)}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="unknown-actions">
+                            <p class="text-muted">${__('No matching records found')}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="screenpop-actions">
+                        <button class="btn btn-primary btn-sm create-lead">
+                            ${__('Create Lead')}
+                        </button>
+                        <button class="btn btn-secondary btn-sm create-contact">
+                            ${__('Create Contact')}
+                        </button>
+                    </div>
+                </div>
+            `);
+            
+            // Bind events
+            sidebar.find('.screenpop-close').on('click', () => this.closeSidebar());
+            sidebar.find('.create-lead').on('click', () => {
+                frappe.new_doc('Lead', { mobile_no: phone_number });
+                this.closeSidebar();
+            });
+            sidebar.find('.create-contact').on('click', () => {
+                frappe.new_doc('Contact', { phone: phone_number });
+                this.closeSidebar();
+            });
+            
+            $('body').append(sidebar);
+            this.current = { sidebar, call_id };
+        },
+        
+        // Close sidebar
+        closeSidebar() {
+            if (this.current && this.current.sidebar) {
+                this.current.sidebar.remove();
+                this.current = null;
+            }
+            $('.screenpop-sidebar').remove();
+        },
+        
+        // Show modal screen pop
+        showModal(result, call_id, event_type) {
+            const match = result.matches[0];
+            
+            const dialog = new frappe.ui.Dialog({
+                title: event_type === 'incoming' ? __('Incoming Call') : __('Call Connected'),
+                indicator: 'green',
+                fields: [
+                    {
+                        fieldtype: 'HTML',
+                        options: `
+                            <div class="screenpop-modal-content">
+                                <div class="caller-card">
+                                    <div class="caller-avatar">
+                                        ${match.name ? match.name.charAt(0).toUpperCase() : '?'}
+                                    </div>
+                                    <div class="caller-details">
+                                        <h3>${match.name}</h3>
+                                        <p>${match.doctype}</p>
+                                        <p>${arrowz.utils.formatPhone(result.phone_number)}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `
+                    }
+                ],
+                primary_action_label: __('Open Record'),
+                primary_action: () => {
+                    frappe.set_route('Form', match.doctype, match.name);
+                    dialog.hide();
+                },
+                secondary_action_label: __('Add Note'),
+                secondary_action: () => {
+                    this.showNoteDialog(match, call_id);
+                    dialog.hide();
+                }
+            });
+            
+            dialog.show();
+        },
+        
+        // Show modal for unknown
+        showModalUnknown(phone_number, call_id, event_type) {
+            const dialog = new frappe.ui.Dialog({
+                title: event_type === 'incoming' ? __('Incoming Call') : __('Call Connected'),
+                indicator: 'yellow',
+                fields: [
+                    {
+                        fieldtype: 'HTML',
+                        options: `
+                            <div class="screenpop-modal-content">
+                                <div class="caller-card unknown">
+                                    <div class="caller-avatar">?</div>
+                                    <div class="caller-details">
+                                        <h3>${__('Unknown Caller')}</h3>
+                                        <p>${arrowz.utils.formatPhone(phone_number)}</p>
+                                    </div>
+                                </div>
+                                <p class="text-muted">${__('No matching records found')}</p>
+                            </div>
+                        `
+                    }
+                ],
+                primary_action_label: __('Create Lead'),
+                primary_action: () => {
+                    frappe.new_doc('Lead', { mobile_no: phone_number });
+                    dialog.hide();
+                },
+                secondary_action_label: __('Create Contact'),
+                secondary_action: () => {
+                    frappe.new_doc('Contact', { phone: phone_number });
+                    dialog.hide();
+                }
+            });
+            
+            dialog.show();
+        },
+        
+        // Open in new tab
+        openInNewTab(result) {
+            const match = result.matches[0];
+            const url = `/desk/${frappe.router.slug(match.doctype)}/${match.name}`;
+            window.open(url, '_blank');
+        },
+        
+        // Show note dialog
+        showNoteDialog(match, call_id) {
+            const dialog = new frappe.ui.Dialog({
+                title: __('Add Call Note'),
+                fields: [
+                    {
+                        fieldname: 'note',
+                        label: __('Note'),
+                        fieldtype: 'Text',
+                        reqd: 1
+                    }
+                ],
+                primary_action_label: __('Save'),
+                primary_action: (values) => {
+                    frappe.call({
+                        method: 'arrowz.api.call.add_call_note',
+                        args: {
+                            call_id: call_id,
+                            note: values.note
+                        },
+                        callback: () => {
+                            frappe.show_alert({
+                                message: __('Note saved'),
+                                indicator: 'green'
+                            });
+                            dialog.hide();
+                        }
+                    });
+                }
+            });
+            
+            dialog.show();
+        },
+        
+        // Manual trigger
+        trigger(phone_number) {
+            if (phone_number) {
+                this.show(phone_number, null, 'manual');
+            }
+        }
+    };
+    
+    // Initialize on ready
+    $(document).ready(function() {
+        arrowz.screenpop.init();
+    });
+    
+})();
+
+
+/* === omni_panel.js === */
+// Copyright (c) 2024, Moataz M Hassan (Arkan Lab)
+// Developer Website: https://arkan.it.com
+// License: MIT
+// For license information, please see license.txt
+
+// Arrowz Omni-Channel Communication Panel
+// Vue.js component for unified communications view across all DocTypes
+
+frappe.provide("arrowz.omni");
+
+arrowz.omni.CommunicationPanel = class CommunicationPanel {
+    constructor(opts) {
+        this.wrapper = opts.wrapper;
+        this.frm = opts.frm;
+        this.doctype = opts.doctype;
+        this.docname = opts.docname;
+        
+        this.channels = ["WhatsApp", "Telegram", "Email", "Phone", "Video"];
+        this.active_channel = null;
+        this.active_session = null;
+        this.communications = [];
+        this.stats = {};
+        
+        this.setup();
+    }
+    
+    setup() {
+        this.render_panel();
+        this.setup_realtime();
+        this.load_data();
+    }
+    
+    render_panel() {
+        this.wrapper.innerHTML = `
+            <div class="arrowz-omni-panel">
+                <!-- Channel Tabs -->
+                <div class="omni-channel-tabs">
+                    <div class="channel-tab active" data-channel="all">
+                        <span class="channel-icon">📱</span>
+                        <span class="channel-name">${__("All")}</span>
+                        <span class="channel-badge total-badge">0</span>
+                    </div>
+                    <div class="channel-tab" data-channel="WhatsApp">
+                        <span class="channel-icon">💬</span>
+                        <span class="channel-name">WhatsApp</span>
+                        <span class="channel-badge whatsapp-badge">0</span>
+                    </div>
+                    <div class="channel-tab" data-channel="Telegram">
+                        <span class="channel-icon">✈️</span>
+                        <span class="channel-name">Telegram</span>
+                        <span class="channel-badge telegram-badge">0</span>
+                    </div>
+                    <div class="channel-tab" data-channel="Email">
+                        <span class="channel-icon">📧</span>
+                        <span class="channel-name">${__("Email")}</span>
+                        <span class="channel-badge email-badge">0</span>
+                    </div>
+                    <div class="channel-tab" data-channel="Phone">
+                        <span class="channel-icon">📞</span>
+                        <span class="channel-name">${__("Phone")}</span>
+                        <span class="channel-badge phone-badge">0</span>
+                    </div>
+                    <div class="channel-tab" data-channel="Video">
+                        <span class="channel-icon">🎥</span>
+                        <span class="channel-name">${__("Video")}</span>
+                        <span class="channel-badge video-badge">0</span>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="omni-quick-actions">
+                    <button class="btn btn-xs btn-primary action-whatsapp" title="Send WhatsApp">
+                        <i class="fa fa-whatsapp"></i>
+                    </button>
+                    <button class="btn btn-xs btn-info action-telegram" title="Send Telegram">
+                        <i class="fa fa-telegram"></i>
+                    </button>
+                    <button class="btn btn-xs btn-default action-email" title="Send Email">
+                        <i class="fa fa-envelope"></i>
+                    </button>
+                    <button class="btn btn-xs btn-success action-call" title="Make Call">
+                        <i class="fa fa-phone"></i>
+                    </button>
+                    <button class="btn btn-xs btn-warning action-meeting" title="Schedule Meeting">
+                        <i class="fa fa-video-camera"></i>
+                    </button>
+                </div>
+                
+                <!-- Communications List -->
+                <div class="omni-communications-list">
+                    <div class="loading-indicator">
+                        <i class="fa fa-spinner fa-spin"></i> ${__("Loading...")}
+                    </div>
+                </div>
+                
+                <!-- Chat View (Hidden by default) -->
+                <div class="omni-chat-view" style="display: none;">
+                    <div class="chat-header">
+                        <button class="btn btn-xs btn-default chat-back">
+                            <i class="fa fa-arrow-left"></i>
+                        </button>
+                        <div class="chat-contact-info">
+                            <div class="chat-contact-name"></div>
+                            <div class="chat-contact-number"></div>
+                        </div>
+                        <div class="chat-actions">
+                            <button class="btn btn-xs btn-default chat-assign" title="${__("Assign")}">
+                                <i class="fa fa-user-plus"></i>
+                            </button>
+                            <button class="btn btn-xs btn-danger chat-close" title="${__("Close")}">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chat-messages"></div>
+                    <div class="chat-input">
+                        <div class="chat-quick-replies"></div>
+                        <div class="chat-input-row">
+                            <button class="btn btn-xs btn-default chat-attach">
+                                <i class="fa fa-paperclip"></i>
+                            </button>
+                            <input type="text" class="form-control chat-message-input" 
+                                   placeholder="${__("Type a message...")}" />
+                            <button class="btn btn-primary chat-send">
+                                <i class="fa fa-send"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        this.bind_events();
+    }
+    
+    bind_events() {
+        const panel = this.wrapper.querySelector('.arrowz-omni-panel');
+        
+        // Channel tab switching
+        panel.querySelectorAll('.channel-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                this.switch_channel(tab.dataset.channel);
+            });
+        });
+        
+        // Quick actions
+        panel.querySelector('.action-whatsapp').addEventListener('click', () => {
+            this.open_whatsapp_dialog();
+        });
+        
+        panel.querySelector('.action-telegram').addEventListener('click', () => {
+            this.open_telegram_dialog();
+        });
+        
+        panel.querySelector('.action-email').addEventListener('click', () => {
+            this.open_email_composer();
+        });
+        
+        panel.querySelector('.action-call').addEventListener('click', () => {
+            this.initiate_call();
+        });
+        
+        panel.querySelector('.action-meeting').addEventListener('click', () => {
+            this.schedule_meeting();
+        });
+        
+        // Chat view events
+        panel.querySelector('.chat-back').addEventListener('click', () => {
+            this.close_chat_view();
+        });
+        
+        panel.querySelector('.chat-send').addEventListener('click', () => {
+            this.send_chat_message();
+        });
+        
+        panel.querySelector('.chat-message-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                this.send_chat_message();
+            }
+        });
+        
+        panel.querySelector('.chat-assign').addEventListener('click', () => {
+            this.assign_conversation();
+        });
+        
+        panel.querySelector('.chat-close').addEventListener('click', () => {
+            this.close_conversation();
+        });
+    }
+    
+    setup_realtime() {
+        // Listen for new messages
+        frappe.realtime.on("new_message", (data) => {
+            if (data.reference_doctype === this.doctype && 
+                data.reference_name === this.docname) {
+                this.handle_new_message(data);
+            }
+        });
+        
+        // Listen for message status updates
+        frappe.realtime.on("message_status", (data) => {
+            this.update_message_status(data);
+        });
+        
+        // Listen for conversation updates
+        frappe.realtime.on("conversation_update", (data) => {
+            this.load_data();
+        });
+    }
+    
+    async load_data() {
+        try {
+            const response = await frappe.call({
+                method: "arrowz.api.communications.get_communication_history",
+                args: {
+                    doctype: this.doctype,
+                    docname: this.docname,
+                    channels: this.active_channel === 'all' ? null : [this.active_channel]
+                }
+            });
+            
+            if (response.message) {
+                this.communications = response.message.communications;
+                this.stats = response.message.stats;
+                this.render_communications();
+                this.update_badges();
+            }
+        } catch (error) {
+            console.error("Error loading communications:", error);
+            this.show_error(__("Failed to load communications"));
+        }
+    }
+    
+    render_communications() {
+        const list = this.wrapper.querySelector('.omni-communications-list');
+        
+        if (!this.communications || this.communications.length === 0) {
+            list.innerHTML = `
+                <div class="empty-state">
+                    <i class="fa fa-comments-o fa-3x"></i>
+                    <p>${__("No communications yet")}</p>
+                </div>
+            `;
+            return;
+        }
+        
+        let html = '';
+        
+        for (const comm of this.communications) {
+            html += this.render_communication_item(comm);
+        }
+        
+        list.innerHTML = html;
+        
+        // Bind click events
+        list.querySelectorAll('.comm-item').forEach(item => {
+            item.addEventListener('click', () => {
+                this.open_communication(item.dataset);
+            });
+        });
+    }
+    
+    render_communication_item(comm) {
+        const icon = this.get_channel_icon(comm.channel);
+        const time = frappe.datetime.prettyDate(comm.last_activity);
+        const unread = comm.unread_count > 0 ? `<span class="unread-badge">${comm.unread_count}</span>` : '';
+        
+        let preview = '';
+        let subtitle = '';
+        
+        switch (comm.type) {
+            case 'conversation':
+                preview = comm.messages && comm.messages[0] ? 
+                    this.truncate(comm.messages[0].content, 50) : '';
+                subtitle = comm.contact_name || comm.contact_number;
+                break;
+            case 'email':
+                preview = comm.subject;
+                subtitle = comm.direction === 'outgoing' ? `To: ${comm.to}` : `From: ${comm.from}`;
+                break;
+            case 'call':
+                preview = `${comm.call_type} - ${this.format_duration(comm.duration)}`;
+                subtitle = comm.direction === 'outgoing' ? comm.receiver : comm.caller;
+                break;
+            case 'meeting':
+                preview = comm.room_name;
+                subtitle = `${comm.participants} participants`;
+                break;
+        }
+        
+        return `
+            <div class="comm-item ${comm.unread_count > 0 ? 'unread' : ''}" 
+                 data-type="${comm.type}" 
+                 data-channel="${comm.channel}"
+                 data-id="${comm.session_id || comm.id}">
+                <div class="comm-icon">${icon}</div>
+                <div class="comm-content">
+                    <div class="comm-header">
+                        <span class="comm-subtitle">${subtitle}</span>
+                        <span class="comm-time">${time}</span>
+                    </div>
+                    <div class="comm-preview">${preview}</div>
+                </div>
+                <div class="comm-status">
+                    ${unread}
+                    ${this.get_status_icon(comm.status)}
+                </div>
+            </div>
+        `;
+    }
+    
+    get_channel_icon(channel) {
+        const icons = {
+            'WhatsApp': '💬',
+            'Telegram': '✈️',
+            'Email': '📧',
+            'Phone': '📞',
+            'Video': '🎥'
+        };
+        return icons[channel] || '📱';
+    }
+    
+    get_status_icon(status) {
+        const icons = {
+            'Active': '<i class="fa fa-circle text-success"></i>',
+            'Pending': '<i class="fa fa-circle text-warning"></i>',
+            'Closed': '<i class="fa fa-circle text-muted"></i>',
+            'Scheduled': '<i class="fa fa-clock-o text-info"></i>',
+            'In Progress': '<i class="fa fa-spinner text-primary"></i>',
+            'Ended': '<i class="fa fa-check text-success"></i>'
+        };
+        return icons[status] || '';
+    }
+    
+    update_badges() {
+        const channels = this.stats.channels || {};
+        
+        // Total badge
+        this.wrapper.querySelector('.total-badge').textContent = 
+            this.stats.total_unread || 0;
+        
+        // WhatsApp badge
+        if (channels.whatsapp) {
+            this.wrapper.querySelector('.whatsapp-badge').textContent = 
+                channels.whatsapp.unread || 0;
+        }
+        
+        // Telegram badge
+        if (channels.telegram) {
+            this.wrapper.querySelector('.telegram-badge').textContent = 
+                channels.telegram.unread || 0;
+        }
+        
+        // Email badge
+        if (channels.email) {
+            this.wrapper.querySelector('.email-badge').textContent = 
+                channels.email.unread || 0;
+        }
+        
+        // Phone badge (missed calls)
+        if (channels.phone) {
+            this.wrapper.querySelector('.phone-badge').textContent = 
+                channels.phone.missed || 0;
+        }
+        
+        // Video badge (upcoming meetings)
+        if (channels.video) {
+            this.wrapper.querySelector('.video-badge').textContent = 
+                channels.video.upcoming || 0;
+        }
+    }
+    
+    switch_channel(channel) {
+        // Update active tab
+        this.wrapper.querySelectorAll('.channel-tab').forEach(tab => {
+            tab.classList.toggle('active', tab.dataset.channel === channel);
+        });
+        
+        this.active_channel = channel === 'all' ? null : channel;
+        this.load_data();
+    }
+    
+    open_communication(data) {
+        if (data.type === 'conversation') {
+            this.open_chat_view(data.id);
+        } else if (data.type === 'email') {
+            frappe.set_route('Form', 'Communication', data.id);
+        } else if (data.type === 'call') {
+            frappe.set_route('Form', 'Call Log', data.id);
+        } else if (data.type === 'meeting') {
+            frappe.set_route('Form', 'AZ Meeting Room', data.id);
+        }
+    }
+    
+    async open_chat_view(session_id) {
+        this.active_session = session_id;
+        
+        // Hide list, show chat
+        this.wrapper.querySelector('.omni-communications-list').style.display = 'none';
+        this.wrapper.querySelector('.omni-quick-actions').style.display = 'none';
+        this.wrapper.querySelector('.omni-chat-view').style.display = 'flex';
+        
+        // Load messages
+        try {
+            const response = await frappe.call({
+                method: "arrowz.api.communications.get_conversation_messages",
+                args: { session_id }
+            });
+            
+            if (response.message) {
+                this.render_chat(response.message);
+                this.load_quick_replies(response.message.session.channel_type);
+                
+                // Mark as read
+                frappe.call({
+                    method: "arrowz.api.communications.mark_messages_read",
+                    args: { session_id }
+                });
+            }
+        } catch (error) {
+            console.error("Error loading chat:", error);
+            frappe.msgprint(__("Failed to load conversation"));
+        }
+    }
+    
+    render_chat(data) {
+        const session = data.session;
+        const messages = data.messages;
+        
+        // Update header
+        this.wrapper.querySelector('.chat-contact-name').textContent = 
+            session.contact_name || __("Unknown");
+        this.wrapper.querySelector('.chat-contact-number').textContent = 
+            session.contact_number;
+        
+        // Render messages
+        const container = this.wrapper.querySelector('.chat-messages');
+        let html = '';
+        
+        for (const msg of messages) {
+            html += this.render_chat_message(msg);
+        }
+        
+        container.innerHTML = html;
+        container.scrollTop = container.scrollHeight;
+    }
+    
+    render_chat_message(msg) {
+        const direction = msg.direction.toLowerCase();
+        const time = frappe.datetime.str_to_user(msg.timestamp, true);
+        const status = this.get_message_status_icon(msg.status);
+        
+        let content = '';
+        
+        switch (msg.message_type.toLowerCase()) {
+            case 'text':
+                content = `<div class="msg-text">${frappe.utils.escape_html(msg.content)}</div>`;
+                break;
+            case 'image':
+                content = `
+                    <div class="msg-image">
+                        <img src="${msg.media_url}" alt="Image" />
+                        ${msg.content ? `<div class="msg-caption">${msg.content}</div>` : ''}
+                    </div>
+                `;
+                break;
+            case 'document':
+                content = `
+                    <div class="msg-document">
+                        <i class="fa fa-file"></i>
+                        <a href="${msg.media_url}" target="_blank">${msg.media_filename || 'Document'}</a>
+                    </div>
+                `;
+                break;
+            case 'audio':
+                content = `
+                    <div class="msg-audio">
+                        <audio controls src="${msg.media_url}"></audio>
+                    </div>
+                `;
+                break;
+            case 'video':
+                content = `
+                    <div class="msg-video">
+                        <video controls src="${msg.media_url}"></video>
+                    </div>
+                `;
+                break;
+            case 'location':
+                content = `
+                    <div class="msg-location">
+                        <i class="fa fa-map-marker"></i>
+                        <a href="${msg.content}" target="_blank">${__("View Location")}</a>
+                    </div>
+                `;
+                break;
+            default:
+                content = `<div class="msg-text">${msg.content || `[${msg.message_type}]`}</div>`;
+        }
+        
+        return `
+            <div class="chat-message ${direction}" data-id="${msg.message_id}">
+                ${content}
+                <div class="msg-meta">
+                    <span class="msg-time">${time}</span>
+                    ${direction === 'outgoing' ? `<span class="msg-status">${status}</span>` : ''}
+                </div>
+            </div>
+        `;
+    }
+    
+    get_message_status_icon(status) {
+        const icons = {
+            'Sent': '✓',
+            'Delivered': '✓✓',
+            'Read': '<span class="text-primary">✓✓</span>',
+            'Failed': '<span class="text-danger">!</span>'
+        };
+        return icons[status] || '';
+    }
+    
+    async load_quick_replies(channel_type) {
+        try {
+            const response = await frappe.call({
+                method: "arrowz.api.communications.get_quick_replies",
+                args: { channel_type }
+            });
+            
+            if (response.message) {
+                const container = this.wrapper.querySelector('.chat-quick-replies');
+                container.innerHTML = response.message.map(reply => 
+                    `<button class="btn btn-xs btn-default quick-reply" data-message="${reply.message}">
+                        ${reply.label}
+                    </button>`
+                ).join('');
+                
+                container.querySelectorAll('.quick-reply').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        this.wrapper.querySelector('.chat-message-input').value = btn.dataset.message;
+                    });
+                });
+            }
+        } catch (error) {
+            console.error("Error loading quick replies:", error);
+        }
+    }
+    
+    async send_chat_message() {
+        const input = this.wrapper.querySelector('.chat-message-input');
+        const message = input.value.trim();
+        
+        if (!message || !this.active_session) return;
+        
+        input.value = '';
+        
+        try {
+            // Get session details
+            const session = await frappe.db.get_doc("AZ Conversation Session", this.active_session);
+            
+            const response = await frappe.call({
+                method: "arrowz.api.communications.send_message",
+                args: {
+                    channel: session.channel_type,
+                    recipient: session.contact_number,
+                    message: message,
+                    reference_doctype: this.doctype,
+                    reference_name: this.docname
+                }
+            });
+            
+            if (response.message && response.message.success) {
+                // Refresh chat
+                this.open_chat_view(this.active_session);
+            } else {
+                frappe.msgprint(__("Failed to send message"));
+            }
+        } catch (error) {
+            console.error("Error sending message:", error);
+            frappe.msgprint(__("Failed to send message"));
+        }
+    }
+    
+    close_chat_view() {
+        this.active_session = null;
+        
+        // Show list, hide chat
+        this.wrapper.querySelector('.omni-communications-list').style.display = 'block';
+        this.wrapper.querySelector('.omni-quick-actions').style.display = 'flex';
+        this.wrapper.querySelector('.omni-chat-view').style.display = 'none';
+        
+        // Reload data
+        this.load_data();
+    }
+    
+    handle_new_message(data) {
+        if (this.active_session === data.session_id) {
+            // Append message to chat
+            const container = this.wrapper.querySelector('.chat-messages');
+            container.innerHTML += this.render_chat_message(data.message);
+            container.scrollTop = container.scrollHeight;
+        } else {
+            // Update badges
+            this.load_data();
+        }
+    }
+    
+    update_message_status(data) {
+        const msgEl = this.wrapper.querySelector(`[data-id="${data.message_id}"]`);
+        if (msgEl) {
+            const statusEl = msgEl.querySelector('.msg-status');
+            if (statusEl) {
+                statusEl.innerHTML = this.get_message_status_icon(data.status);
+            }
+        }
+    }
+    
+    // Quick Actions
+    
+    open_whatsapp_dialog() {
+        const phone = this.get_contact_phone();
+        
+        const dialog = new frappe.ui.Dialog({
+            title: __("Send WhatsApp Message"),
+            fields: [
+                {
+                    fieldname: "phone",
+                    fieldtype: "Data",
+                    label: __("Phone Number"),
+                    default: phone,
+                    reqd: 1
+                },
+                {
+                    fieldname: "use_template",
+                    fieldtype: "Check",
+                    label: __("Use Template (required if 24h window expired)")
+                },
+                {
+                    fieldname: "template_section",
+                    fieldtype: "Section Break",
+                    depends_on: "eval:doc.use_template"
+                },
+                {
+                    fieldname: "template",
+                    fieldtype: "Link",
+                    label: __("Template"),
+                    options: "WhatsApp Templates",
+                    depends_on: "eval:doc.use_template"
+                },
+                {
+                    fieldname: "message_section",
+                    fieldtype: "Section Break",
+                    depends_on: "eval:!doc.use_template"
+                },
+                {
+                    fieldname: "message",
+                    fieldtype: "Small Text",
+                    label: __("Message"),
+                    depends_on: "eval:!doc.use_template"
+                }
+            ],
+            primary_action_label: __("Send"),
+            primary_action: async (values) => {
+                try {
+                    const response = await frappe.call({
+                        method: "arrowz.api.communications.send_message",
+                        args: {
+                            channel: "WhatsApp",
+                            recipient: values.phone,
+                            message: values.message,
+                            message_type: values.use_template ? "template" : "text",
+                            template_name: values.template,
+                            reference_doctype: this.doctype,
+                            reference_name: this.docname
+                        }
+                    });
+                    
+                    if (response.message && response.message.success) {
+                        frappe.show_alert({
+                            message: __("Message sent successfully"),
+                            indicator: "green"
+                        });
+                        dialog.hide();
+                        this.load_data();
+                    } else {
+                        frappe.msgprint(response.message.message || __("Failed to send message"));
+                    }
+                } catch (error) {
+                    frappe.msgprint(__("Failed to send message"));
+                }
+            }
+        });
+        
+        dialog.show();
+    }
+    
+    open_telegram_dialog() {
+        const dialog = new frappe.ui.Dialog({
+            title: __("Send Telegram Message"),
+            fields: [
+                {
+                    fieldname: "chat_id",
+                    fieldtype: "Data",
+                    label: __("Chat ID / Username"),
+                    reqd: 1
+                },
+                {
+                    fieldname: "message",
+                    fieldtype: "Small Text",
+                    label: __("Message"),
+                    reqd: 1
+                }
+            ],
+            primary_action_label: __("Send"),
+            primary_action: async (values) => {
+                try {
+                    const response = await frappe.call({
+                        method: "arrowz.api.communications.send_message",
+                        args: {
+                            channel: "Telegram",
+                            recipient: values.chat_id,
+                            message: values.message,
+                            reference_doctype: this.doctype,
+                            reference_name: this.docname
+                        }
+                    });
+                    
+                    if (response.message && response.message.success) {
+                        frappe.show_alert({
+                            message: __("Message sent successfully"),
+                            indicator: "green"
+                        });
+                        dialog.hide();
+                        this.load_data();
+                    }
+                } catch (error) {
+                    frappe.msgprint(__("Failed to send message"));
+                }
+            }
+        });
+        
+        dialog.show();
+    }
+    
+    open_email_composer() {
+        const email = this.get_contact_email();
+        
+        new frappe.views.CommunicationComposer({
+            doc: this.frm.doc,
+            frm: this.frm,
+            subject: `${this.frm.doc.doctype}: ${this.frm.doc.name}`,
+            recipients: email,
+            attach_document_print: false
+        });
+    }
+    
+    initiate_call() {
+        const phone = this.get_contact_phone();
+        
+        if (phone && window.arrowz && window.arrowz.softphone) {
+            window.arrowz.softphone.makeCall(phone);
+        } else {
+            frappe.msgprint(__("Softphone not available or no phone number found"));
+        }
+    }
+    
+    schedule_meeting() {
+        const dialog = new frappe.ui.Dialog({
+            title: __("Schedule Video Meeting"),
+            fields: [
+                {
+                    fieldname: "room_name",
+                    fieldtype: "Data",
+                    label: __("Meeting Name"),
+                    default: `Meeting - ${this.frm.doc.name}`,
+                    reqd: 1
+                },
+                {
+                    fieldname: "scheduled_start",
+                    fieldtype: "Datetime",
+                    label: __("Start Time"),
+                    default: frappe.datetime.now_datetime(),
+                    reqd: 1
+                },
+                {
+                    fieldname: "scheduled_end",
+                    fieldtype: "Datetime",
+                    label: __("End Time")
+                },
+                {
+                    fieldname: "participants_section",
+                    fieldtype: "Section Break",
+                    label: __("Participants")
+                },
+                {
+                    fieldname: "participants",
+                    fieldtype: "Table",
+                    label: __("Participants"),
+                    fields: [
+                        {
+                            fieldname: "name",
+                            fieldtype: "Data",
+                            label: __("Name"),
+                            in_list_view: 1
+                        },
+                        {
+                            fieldname: "email",
+                            fieldtype: "Data",
+                            label: __("Email"),
+                            in_list_view: 1,
+                            reqd: 1
+                        },
+                        {
+                            fieldname: "is_moderator",
+                            fieldtype: "Check",
+                            label: __("Moderator"),
+                            in_list_view: 1
+                        }
+                    ]
+                }
+            ],
+            primary_action_label: __("Schedule"),
+            primary_action: async (values) => {
+                try {
+                    const response = await frappe.call({
+                        method: "arrowz.api.communications.schedule_meeting",
+                        args: {
+                            reference_doctype: this.doctype,
+                            reference_name: this.docname,
+                            room_name: values.room_name,
+                            scheduled_start: values.scheduled_start,
+                            scheduled_end: values.scheduled_end,
+                            participants: values.participants
+                        }
+                    });
+                    
+                    if (response.message && response.message.success) {
+                        frappe.show_alert({
+                            message: __("Meeting scheduled successfully"),
+                            indicator: "green"
+                        });
+                        dialog.hide();
+                        this.load_data();
+                        
+                        // Open the meeting room
+                        frappe.set_route('Form', 'AZ Meeting Room', response.message.room_id);
+                    }
+                } catch (error) {
+                    frappe.msgprint(__("Failed to schedule meeting"));
+                }
+            }
+        });
+        
+        dialog.show();
+    }
+    
+    assign_conversation() {
+        if (!this.active_session) return;
+        
+        const dialog = new frappe.ui.Dialog({
+            title: __("Assign Conversation"),
+            fields: [
+                {
+                    fieldname: "user",
+                    fieldtype: "Link",
+                    label: __("Assign To"),
+                    options: "User",
+                    reqd: 1
+                }
+            ],
+            primary_action_label: __("Assign"),
+            primary_action: async (values) => {
+                try {
+                    await frappe.call({
+                        method: "arrowz.api.communications.assign_conversation",
+                        args: {
+                            session_id: this.active_session,
+                            user: values.user
+                        }
+                    });
+                    
+                    frappe.show_alert({
+                        message: __("Conversation assigned"),
+                        indicator: "green"
+                    });
+                    dialog.hide();
+                } catch (error) {
+                    frappe.msgprint(__("Failed to assign conversation"));
+                }
+            }
+        });
+        
+        dialog.show();
+    }
+    
+    close_conversation() {
+        if (!this.active_session) return;
+        
+        frappe.confirm(
+            __("Are you sure you want to close this conversation?"),
+            async () => {
+                try {
+                    await frappe.call({
+                        method: "arrowz.api.communications.close_conversation",
+                        args: { session_id: this.active_session }
+                    });
+                    
+                    frappe.show_alert({
+                        message: __("Conversation closed"),
+                        indicator: "green"
+                    });
+                    
+                    this.close_chat_view();
+                } catch (error) {
+                    frappe.msgprint(__("Failed to close conversation"));
+                }
+            }
+        );
+    }
+    
+    // Helpers
+    
+    get_contact_phone() {
+        const doc = this.frm.doc;
+        
+        // Try to find phone number from different fields
+        const phone_fields = ['mobile_no', 'phone', 'contact_mobile', 'contact_phone', 
+                             'cell_number', 'mobile', 'whatsapp_number'];
+        
+        for (const field of phone_fields) {
+            if (doc[field]) {
+                return doc[field];
+            }
+        }
+        
+        return '';
+    }
+    
+    get_contact_email() {
+        const doc = this.frm.doc;
+        
+        // Try to find email from different fields
+        const email_fields = ['email_id', 'email', 'contact_email', 'personal_email',
+                             'company_email', 'email_address'];
+        
+        for (const field of email_fields) {
+            if (doc[field]) {
+                return doc[field];
+            }
+        }
+        
+        return '';
+    }
+    
+    truncate(str, length) {
+        if (!str) return '';
+        return str.length > length ? str.substring(0, length) + '...' : str;
+    }
+    
+    format_duration(seconds) {
+        if (!seconds) return '0:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+    
+    show_error(message) {
+        this.wrapper.querySelector('.omni-communications-list').innerHTML = `
+            <div class="error-state">
+                <i class="fa fa-exclamation-triangle text-danger"></i>
+                <p>${message}</p>
+                <button class="btn btn-xs btn-default" onclick="this.parentElement.parentElement.querySelector('.omni-panel').load_data()">
+                    ${__("Retry")}
+                </button>
+            </div>
+        `;
+    }
+};
+
+
+/* === omni_doctype_extension.js === */
+// Copyright (c) 2024, Moataz M Hassan (Arkan Lab)
+// Developer Website: https://arkan.it.com
+// License: MIT
+// For license information, please see license.txt
+
+// Arrowz Omni-Channel DocType Extension
+// Injects communication panel into supported DocTypes
+
+frappe.provide("arrowz.omni");
+
+// List of supported DocTypes
+arrowz.omni.supported_doctypes = [
+    "Lead",
+    "Customer",
+    "Contact",
+    "Opportunity",
+    "Prospect",
+    "Supplier",
+    "Sales Order",
+    "Purchase Order",
+    "Quotation",
+    "Employee",
+    "Address",
+    "Sales Partner",
+    "Issue",
+    "Project",
+    "Task"
+];
+
+// Initialize panel for each DocType
+arrowz.omni.init = function(frm) {
+    if (!arrowz.omni.supported_doctypes.includes(frm.doctype)) {
+        return;
+    }
+    
+    // Don't show for new documents
+    if (frm.is_new()) {
+        return;
+    }
+    
+    // Add Omni-Channel section to sidebar or main form
+    arrowz.omni.add_panel_section(frm);
+    
+    // Initialize the panel
+    if (frm.omni_panel_wrapper) {
+        frm.omni_panel = new arrowz.omni.CommunicationPanel({
+            wrapper: frm.omni_panel_wrapper,
+            frm: frm,
+            doctype: frm.doctype,
+            docname: frm.docname
+        });
+    }
+};
+
+arrowz.omni.add_panel_section = function(frm) {
+    // Check if section already exists
+    if (frm.omni_panel_wrapper) {
+        return;
+    }
+    
+    // Create a new section in the form
+    const section = frm.dashboard.add_section(
+        `<div class="omni-panel-container"></div>`,
+        __("Communications")
+    );
+    
+    if (section) {
+        frm.omni_panel_wrapper = section.find('.omni-panel-container')[0];
+    } else {
+        // Fallback: Add after the form fields
+        const wrapper = $('<div class="omni-panel-section frappe-control"></div>');
+        wrapper.append(`
+            <div class="section-head">${__("Communications")}</div>
+            <div class="omni-panel-container"></div>
+        `);
+        
+        frm.fields_dict[Object.keys(frm.fields_dict).pop()].$wrapper.after(wrapper);
+        frm.omni_panel_wrapper = wrapper.find('.omni-panel-container')[0];
+    }
+};
+
+// Refresh panel when document is refreshed
+arrowz.omni.refresh = function(frm) {
+    if (frm.omni_panel && !frm.is_new()) {
+        frm.omni_panel.load_data();
+    }
+};
+
+// Global DocType event handlers
+$(document).on('app_ready', function() {
+    // Hook into form events for all supported DocTypes
+    arrowz.omni.supported_doctypes.forEach(doctype => {
+        frappe.ui.form.on(doctype, {
+            refresh: function(frm) {
+                arrowz.omni.init(frm);
+            },
+            after_save: function(frm) {
+                arrowz.omni.refresh(frm);
+            }
+        });
+    });
+});
+
+// Communication stats indicator in list views
+arrowz.omni.add_list_indicator = function(listview) {
+    // Add unread count indicator to list items
+    listview.page.add_inner_button(__("Unread Messages"), function() {
+        // Filter by documents with unread messages
+        frappe.call({
+            method: "arrowz.api.communications.get_documents_with_unread",
+            args: {
+                doctype: listview.doctype
+            },
+            callback: function(r) {
+                if (r.message && r.message.length) {
+                    listview.filter_area.add([
+                        [listview.doctype, "name", "in", r.message]
+                    ]);
+                } else {
+                    frappe.msgprint(__("No documents with unread messages"));
+                }
+            }
+        });
+    });
+};
+
+// Quick communication actions for list view
+arrowz.omni.list_actions = {
+    whatsapp: function(doctype, docnames) {
+        if (docnames.length !== 1) {
+            frappe.msgprint(__("Please select exactly one document"));
+            return;
+        }
+        
+        frappe.call({
+            method: "frappe.client.get_value",
+            args: {
+                doctype: doctype,
+                name: docnames[0],
+                fieldname: ["mobile_no", "phone", "contact_mobile"]
+            },
+            callback: function(r) {
+                if (r.message) {
+                    const phone = r.message.mobile_no || r.message.phone || r.message.contact_mobile;
+                    if (phone) {
+                        // Open WhatsApp dialog
+                        arrowz.omni.open_whatsapp_quick(phone, doctype, docnames[0]);
+                    } else {
+                        frappe.msgprint(__("No phone number found"));
+                    }
+                }
+            }
+        });
+    },
+    
+    telegram: function(doctype, docnames) {
+        frappe.msgprint(__("Telegram bulk messaging coming soon"));
+    },
+    
+    call: function(doctype, docnames) {
+        if (docnames.length !== 1) {
+            frappe.msgprint(__("Please select exactly one document"));
+            return;
+        }
+        
+        frappe.call({
+            method: "frappe.client.get_value",
+            args: {
+                doctype: doctype,
+                name: docnames[0],
+                fieldname: ["mobile_no", "phone"]
+            },
+            callback: function(r) {
+                if (r.message) {
+                    const phone = r.message.mobile_no || r.message.phone;
+                    if (phone && window.arrowz && window.arrowz.softphone) {
+                        window.arrowz.softphone.makeCall(phone);
+                    } else {
+                        frappe.msgprint(__("Softphone not available or no phone number found"));
+                    }
+                }
+            }
+        });
+    }
+};
+
+arrowz.omni.open_whatsapp_quick = function(phone, doctype, docname) {
+    const dialog = new frappe.ui.Dialog({
+        title: __("Send WhatsApp Message"),
+        fields: [
+            {
+                fieldname: "phone",
+                fieldtype: "Data",
+                label: __("Phone Number"),
+                default: phone,
+                read_only: 1
+            },
+            {
+                fieldname: "template",
+                fieldtype: "Link",
+                label: __("Template"),
+                options: "WhatsApp Templates",
+                description: __("Template required for new conversations")
+            },
+            {
+                fieldname: "message",
+                fieldtype: "Small Text",
+                label: __("Message (for active conversations)")
+            }
+        ],
+        primary_action_label: __("Send"),
+        primary_action: function(values) {
+            frappe.call({
+                method: "arrowz.api.communications.send_message",
+                args: {
+                    channel: "WhatsApp",
+                    recipient: values.phone,
+                    message: values.message,
+                    message_type: values.template ? "template" : "text",
+                    template_name: values.template,
+                    reference_doctype: doctype,
+                    reference_name: docname
+                },
+                callback: function(r) {
+                    if (r.message && r.message.success) {
+                        frappe.show_alert({
+                            message: __("Message sent"),
+                            indicator: "green"
+                        });
+                        dialog.hide();
+                    } else {
+                        frappe.msgprint(r.message.message || __("Failed to send"));
+                    }
+                }
+            });
+        }
+    });
+    
+    dialog.show();
+};
+
+// Notification badge in navbar
+arrowz.omni.NotificationBadge = class NotificationBadge {
+    constructor() {
+        this.unread_count = 0;
+        this.init();
+    }
+    
+    init() {
+        this.render();
+        this.setup_realtime();
+        this.fetch_count();
+    }
+    
+    render() {
+        // Add to navbar - Frappe v15 uses .navbar-nav inside .collapse.navbar-collapse
+        let navbar = document.querySelector('.navbar .navbar-collapse .navbar-nav');
+        if (!navbar) {
+            navbar = document.querySelector('.navbar-right') || document.querySelector('.navbar-nav');
+        }
+        if (!navbar) return;
+        
+        this.badge_wrapper = document.createElement('li');
+        this.badge_wrapper.className = 'nav-item dropdown omni-notification-badge';
+        this.badge_wrapper.innerHTML = `
+            <a class="nav-link" href="#" data-toggle="dropdown">
+                <span class="omni-bell">💬</span>
+                <span class="omni-badge" style="display: none;">0</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right omni-notifications-dropdown">
+                <div class="dropdown-header">${__("Messages")}</div>
+                <div class="omni-notifications-list">
+                    <div class="text-center text-muted p-3">${__("No new messages")}</div>
+                </div>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item text-center" href="/desk/az-conversation-session">
+                    ${__("View All Conversations")}
+                </a>
+            </div>
+        `;
+        
+        navbar.insertBefore(this.badge_wrapper, navbar.firstChild);
+        
+        this.badge_el = this.badge_wrapper.querySelector('.omni-badge');
+        this.notifications_list = this.badge_wrapper.querySelector('.omni-notifications-list');
+    }
+    
+    setup_realtime() {
+        frappe.realtime.on("new_message", (data) => {
+            this.fetch_count();
+            this.show_notification(data);
+        });
+        
+        frappe.realtime.on("conversation_update", () => {
+            this.fetch_count();
+        });
+    }
+    
+    async fetch_count() {
+        try {
+            const response = await frappe.call({
+                method: "arrowz.api.communications.get_active_conversations",
+                args: { 
+                    user: frappe.session.user,
+                    limit: 5 
+                }
+            });
+            
+            if (response.message) {
+                const conversations = response.message;
+                let total_unread = 0;
+                
+                conversations.forEach(c => {
+                    total_unread += c.unread_count || 0;
+                });
+                
+                this.update_badge(total_unread);
+                this.update_list(conversations);
+            }
+        } catch (error) {
+            console.error("Error fetching notification count:", error);
+        }
+    }
+    
+    update_badge(count) {
+        this.unread_count = count;
+        
+        if (!this.badge_el) return;
+        
+        if (count > 0) {
+            this.badge_el.textContent = count > 99 ? '99+' : count;
+            this.badge_el.style.display = 'inline-block';
+        } else {
+            this.badge_el.style.display = 'none';
+        }
+    }
+    
+    update_list(conversations) {
+        if (!this.notifications_list) return;
+        
+        if (!conversations || conversations.length === 0) {
+            this.notifications_list.innerHTML = `
+                <div class="text-center text-muted p-3">${__("No new messages")}</div>
+            `;
+            return;
+        }
+        
+        let html = '';
+        
+        for (const conv of conversations) {
+            const icon = conv.channel_type === 'WhatsApp' ? '💬' : 
+                        conv.channel_type === 'Telegram' ? '✈️' : '📱';
+            const badge = conv.unread_count > 0 ? 
+                `<span class="badge badge-primary">${conv.unread_count}</span>` : '';
+            
+            html += `
+                <a class="dropdown-item omni-notification-item" 
+                   href="/desk/az-conversation-session/${conv.name}">
+                    <span class="notification-icon">${icon}</span>
+                    <div class="notification-content">
+                        <div class="notification-title">
+                            ${conv.contact_name || conv.contact_number}
+                            ${badge}
+                        </div>
+                        <div class="notification-preview">${conv.last_message || ''}</div>
+                    </div>
+                </a>
+            `;
+        }
+        
+        this.notifications_list.innerHTML = html;
+    }
+    
+    show_notification(data) {
+        if (Notification.permission === 'granted') {
+            new Notification(`New ${data.channel} message`, {
+                body: data.preview,
+                icon: '/assets/arrowz/images/arrowz-icon-animated.svg',
+                tag: data.session_id
+            });
+        }
+        
+        // Also show frappe notification
+        frappe.show_alert({
+            message: `${data.contact_name || data.contact_number}: ${data.preview}`,
+            indicator: 'blue'
+        }, 5);
+    }
+};
+
+// Initialize notification badge on page load
+$(document).on('app_ready', function() {
+    if (frappe.session.user !== 'Guest') {
+        new arrowz.omni.NotificationBadge();
+    }
+});
+
+// Styles for notification badge
+$('<style>')
+    .text(`
+        .omni-notification-badge .omni-bell {
+            font-size: 18px;
+        }
+        
+        .omni-notification-badge .omni-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--red);
+            color: white;
+            font-size: 10px;
+            padding: 2px 5px;
+            border-radius: 10px;
+            min-width: 16px;
+            text-align: center;
+        }
+        
+        .omni-notifications-dropdown {
+            width: 320px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .omni-notification-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 15px !important;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .notification-icon {
+            font-size: 24px;
+        }
+        
+        .notification-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .notification-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+        }
+        
+        .notification-preview {
+            font-size: var(--text-sm);
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    `)
+    .appendTo('head');
+
