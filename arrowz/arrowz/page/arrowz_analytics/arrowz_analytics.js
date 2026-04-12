@@ -471,6 +471,14 @@ class ArrowzAnalytics {
         this.page.add_inner_button(__('Export PDF'), () => {
             frappe.msgprint(__('PDF export feature coming soon!'));
         });
+
+        this.page.add_inner_button(__('❓ Help'), () => {
+            if (typeof arkan_help !== 'undefined' && arkan_help.widget) {
+                arkan_help.widget.show({ route: 'arrowz-analytics' });
+            } else {
+                frappe.msgprint({ title: __('Analytics Help'), message: __('Track call volumes, average handle time, agent performance, and resolution rates. Use the date filters at the top to adjust the reporting period.'), indicator: 'blue' });
+            }
+        });
     }
     
     render_layout() {

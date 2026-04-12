@@ -447,6 +447,14 @@ class ArrowzAgentDashboard {
         }, 'call');
         
         this.page.set_secondary_action(__('Refresh'), () => this.refresh(), 'refresh');
+
+        this.page.add_inner_button(__('❓ Help'), () => {
+            if (typeof arkan_help !== 'undefined' && arkan_help.widget) {
+                arkan_help.widget.show({ route: 'arrowz-agent-dashboard' });
+            } else {
+                frappe.msgprint({ title: __('Agent Dashboard Help'), message: __('Your personal call center dashboard. View your call statistics, availability status, and performance goals. Click "Make Call" to dial using the WebRTC softphone.'), indicator: 'blue' });
+            }
+        });
     }
     
     render_layout() {

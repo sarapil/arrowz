@@ -28,9 +28,21 @@ class ArrowzCommunications {
     
     init() {
         this.add_styles();
+        this.setup_page_actions();
         this.render_layout();
         this.setup_events();
         this.refresh();
+    }
+
+    setup_page_actions() {
+        this.page.set_secondary_action(__('Refresh'), () => this.refresh(), 'refresh');
+        this.page.add_inner_button(__('❓ Help'), () => {
+            if (typeof arkan_help !== 'undefined' && arkan_help.widget) {
+                arkan_help.widget.show({ route: 'arrowz-communications' });
+            } else {
+                frappe.msgprint({ title: __('Communications Hub Help'), message: __('Unified inbox for all your communication channels: calls, WhatsApp, Telegram, and SMS. Switch tabs to view each channel. Click any conversation to open the full thread.'), indicator: 'blue' });
+            }
+        });
     }
     
     add_styles() {

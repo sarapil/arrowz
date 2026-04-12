@@ -496,6 +496,14 @@ class ArrowzWallboard {
                 elem.requestFullscreen();
             }
         });
+
+        this.page.add_inner_button(__('❓ Help'), () => {
+            if (typeof arkan_help !== 'undefined' && arkan_help.widget) {
+                arkan_help.widget.show({ route: 'arrowz-wallboard' });
+            } else {
+                frappe.msgprint({ title: __('Wallboard Help'), message: __('The wallboard displays real-time call center metrics: active calls, agent availability, queue depths, and SLA compliance. Data refreshes every 10 seconds automatically.'), indicator: 'blue' });
+            }
+        });
     }
     
     render_layout() {

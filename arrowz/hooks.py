@@ -429,12 +429,34 @@ notification_config = "arrowz.notifications.get_notification_config"
 # CAPS Integration — Capability-Based Access Control
 # ------------------------------------------------------------
 caps_capabilities = [
-    {"name": "AZ_manage_extensions", "category": "Module", "description": "Manage SIP extensions"},
+    # ── VoIP & Telephony ─────────────────────────────────────────
+    {"name": "AZ_manage_extensions", "category": "Module", "description": "Manage SIP extensions and devices"},
+    {"name": "AZ_manage_trunks", "category": "Module", "description": "Manage SIP trunks and carriers"},
+    {"name": "AZ_manage_call_routing", "category": "Module", "description": "Manage inbound/outbound call routing rules"},
+    {"name": "AZ_use_softphone", "category": "Action", "description": "Use WebRTC softphone for calls"},
+    {"name": "AZ_make_calls", "category": "Action", "description": "Initiate outbound calls"},
+    {"name": "AZ_transfer_calls", "category": "Action", "description": "Transfer and hold calls"},
+    # ── Call Records & Analytics ──────────────────────────────────
     {"name": "AZ_manage_calls", "category": "Module", "description": "View and manage call logs"},
-    {"name": "AZ_use_softphone", "category": "Action", "description": "Use WebRTC softphone"},
-    {"name": "AZ_manage_omni", "category": "Module", "description": "Manage omni-channel messaging"},
-    {"name": "AZ_manage_meetings", "category": "Module", "description": "Manage video meetings"},
-    {"name": "AZ_manage_network", "category": "Module", "description": "Manage network devices"},
     {"name": "AZ_view_cdr", "category": "Report", "description": "View call detail records"},
-    {"name": "AZ_admin_settings", "category": "Module", "description": "Configure Arrowz settings"},
+    {"name": "AZ_export_cdr", "category": "Report", "description": "Export call detail records to Excel/PDF"},
+    {"name": "AZ_view_analytics", "category": "Report", "description": "View call analytics and performance reports"},
+    {"name": "AZ_view_recordings", "category": "Action", "description": "Listen to call recordings"},
+    {"name": "AZ_delete_recordings", "category": "Action", "description": "Delete call recordings"},
+    # ── Omni-Channel & Messaging ──────────────────────────────────
+    {"name": "AZ_manage_omni", "category": "Module", "description": "Manage omni-channel messaging (WhatsApp/Telegram)"},
+    {"name": "AZ_manage_omni_providers", "category": "Module", "description": "Configure WhatsApp and Telegram providers"},
+    {"name": "AZ_send_sms", "category": "Action", "description": "Send SMS messages via configured providers"},
+    # ── Meetings & Collaboration ──────────────────────────────────
+    {"name": "AZ_manage_meetings", "category": "Module", "description": "Manage OpenMeetings video rooms"},
+    {"name": "AZ_start_meetings", "category": "Action", "description": "Start and host video meetings"},
+    # ── Network & Infrastructure ──────────────────────────────────
+    {"name": "AZ_manage_network", "category": "Module", "description": "View and manage network devices (MikroTik, Arrowz Box)"},
+    {"name": "AZ_configure_network", "category": "Action", "description": "Modify network device configuration"},
+    {"name": "AZ_manage_wifi", "category": "Module", "description": "Manage WiFi networks and access points"},
+    {"name": "AZ_manage_vpn", "category": "Module", "description": "Manage VPN servers, peers, and tunnels"},
+    {"name": "AZ_manage_firewall", "category": "Module", "description": "Manage firewall zones and rules"},
+    {"name": "AZ_view_bandwidth", "category": "Report", "description": "View bandwidth usage and monitoring"},
+    # ── Administration ────────────────────────────────────────────
+    {"name": "AZ_admin_settings", "category": "Module", "description": "Configure Arrowz global settings and PBX server"},
 ]

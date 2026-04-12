@@ -84,14 +84,22 @@ class ArrowzTopology {
 
 	/* ─── Engine Loading ─────────────────────────────────────── */
 	async loadEngine() {
-		if (!frappe.visual || !frappe.visual.engine) {
+		// Ensure frappe_visual bundle is loaded then use frappe.visual.GraphEngine directly
+		if (!frappe.visual || !frappe.visual.GraphEngine) {
+			await new Promise((resolve, reject) => {
+				frappe.require("frappe_visual.bundle.js", () => {
+					if (frappe.visual && frappe.visual.GraphEngine) {
+						resolve();
+					} else {
+						reject(new Error(__("frappe_visual is not installed")));
+					}
+				});
+			});
+		}
+		if (!frappe.visual || !frappe.visual.GraphEngine) {
 			throw new Error(__("frappe_visual is not installed"));
 		}
-		const GraphEngine = await frappe.visual.engine();
-		if (!GraphEngine) {
-			throw new Error(__("Failed to load visual engine"));
-		}
-		this.GraphEngine = GraphEngine;
+		this.GraphEngine = frappe.visual.GraphEngine;
 		this.ColorSystem = frappe.visual.ColorSystem;
 		this.FloatingWindow = frappe.visual.FloatingWindow;
 		this.registerNodeTypes();
@@ -1121,6 +1129,15 @@ class ArrowzTopology {
 		// Refresh
 		document.getElementById("btn-refresh")?.addEventListener("click", () => {
 			this.refresh();
+		});
+
+		// Help button
+		this.page.add_inner_button(__('❓ Help'), () => {
+			if (typeof arkan_help !== 'undefined' && arkan_help.widget) {
+				arkan_help.widget.show({ route: 'arrowz-topology' });
+			} else {
+				frappe.msgprint({ title: __('Topology Help'), message: __('Use the topology map to visualize all your network devices, VoIP extensions, VPN tunnels, and WiFi networks. Click any node to view details and quick-actions.'), indicator: 'blue' });
+			}
 		});
 
 		// Quick-add
