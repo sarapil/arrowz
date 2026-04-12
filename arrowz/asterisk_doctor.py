@@ -92,32 +92,24 @@ class AsteriskDoctor:
     def _sudo_grep(self, pattern: str, filepath: str,
                    invert: str = None, count_only: bool = False) -> str:
         """Run grep with sudo on a PBX file."""
-        cmd = ["sudo", "grep", "-i", pattern, filepath]
-        if invert:
-            cmd = ["sudo", "grep", "-i", pattern, filepath,
-                   "|", "grep", "-v", invert]
-            # Use shell for pipe
-            shell_cmd = f"sudo grep -i '{pattern}' '{filepath}'"
-            if invert:
-                shell_cmd += f" | grep -v '{invert}'"
-            if count_only:
-                shell_cmd += " | wc -l"
-            try:
-                result = subprocess.run(
-                    shell_cmd, shell=True,
-                    capture_output=True, text=True, timeout=30
-                )
-                return result.stdout.strip()
-            except (subprocess.TimeoutExpired, FileNotFoundError):
-                return ""
-
-        if count_only:
-            cmd.insert(2, "-c")
         try:
-            result = subprocess.run(
-                cmd, capture_output=True, text=True, timeout=30
+            grep_result = subprocess.run(
+                ["sudo", "grep", "-i", pattern, filepath],
+                capture_output=True, text=True, timeout=30
             )
-            return result.stdout.strip()
+            output = grep_result.stdout
+
+            if invert and output:
+                invert_result = subprocess.run(
+                    ["grep", "-v", invert],
+                    input=output, capture_output=True, text=True, timeout=10
+                )
+                output = invert_result.stdout
+
+            if count_only:
+                return str(len(output.strip().splitlines())) if output.strip() else "0"
+
+            return output.strip()
         except (subprocess.TimeoutExpired, FileNotFoundError):
             return ""
 
@@ -385,13 +377,18 @@ class AsteriskDoctor:
             log_file, count_only=True
         )
 
-        # Get unique attacker IPs
-        ip_output = subprocess.run(
-            f"sudo grep -i 'failed for' '{log_file}' 2>/dev/null | "
-            f"grep -oP \"'[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+\" | sort -u",
-            shell=True, capture_output=True, text=True, timeout=30
-        ).stdout.strip()
-        attacker_ips = [ip.strip("'") for ip in ip_output.split("\n") if ip]
+        # Get unique attacker IPs (no shell=True — pipe in Python)
+        try:
+            grep_out = subprocess.run(
+                ["sudo", "grep", "-i", "failed for", log_file],
+                capture_output=True, text=True, timeout=30
+            ).stdout
+            attacker_ips = sorted(set(
+                m.group(0)
+                for m in re.finditer(r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", grep_out)
+            ))
+        except (subprocess.TimeoutExpired, FileNotFoundError):
+            attacker_ips = []
 
         try:
             brute_int = int(brute_count) if brute_count.isdigit() else 0
