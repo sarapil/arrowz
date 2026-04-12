@@ -276,6 +276,8 @@ def get_customer_info(customer_name: str) -> dict:
 
 @frappe.whitelist()
 def get_caller_history(phone_number: str, limit: int = 10) -> list:
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+def get_caller_history(phone_number: str, limit: int = 10) -> list:
     """
     Get call history for a phone number
     
@@ -307,6 +309,8 @@ def get_caller_history(phone_number: str, limit: int = 10) -> list:
 
 
 @frappe.whitelist()
+def get_caller_tickets(party_type: str, party: str) -> list:
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
 def get_caller_tickets(party_type: str, party: str) -> list:
     """
     Get open tickets/issues for a party
@@ -349,6 +353,8 @@ def get_caller_tickets(party_type: str, party: str) -> list:
 
 @frappe.whitelist()
 def get_caller_orders(party_type: str, party: str) -> list:
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+def get_caller_orders(party_type: str, party: str) -> list:
     """
     Get recent orders for a party
     
@@ -385,6 +391,8 @@ def get_caller_orders(party_type: str, party: str) -> list:
 
 
 @frappe.whitelist()
+def link_call_to_party(call_log: str, party_type: str, party: str) -> bool:
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
 def link_call_to_party(call_log: str, party_type: str, party: str) -> bool:
     """
     Link a call log to a CRM party

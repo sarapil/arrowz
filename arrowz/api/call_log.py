@@ -15,6 +15,8 @@ from frappe.utils import nowdate, add_days, getdate
 
 @frappe.whitelist()
 def get_call_history(extension=None, call_type=None, date_range="today", limit=50):
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+def get_call_history(extension=None, call_type=None, date_range="today", limit=50):
     """
     Get call history with filters
     
@@ -108,6 +110,8 @@ def get_user_extensions():
 
 
 @frappe.whitelist()
+def get_call_statistics(extension=None, date_range="today"):
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
 def get_call_statistics(extension=None, date_range="today"):
     """
     Get call statistics for dashboard

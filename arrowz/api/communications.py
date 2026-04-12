@@ -27,6 +27,8 @@ import json
 
 @frappe.whitelist()
 def get_communication_history(doctype, docname, channels=None, limit=50, offset=0):
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+def get_communication_history(doctype, docname, channels=None, limit=50, offset=0):
     """
     Get unified communication history for a document
     
@@ -373,6 +375,10 @@ def get_communication_stats(doctype, docname):
 # =============================================================================
 
 @frappe.whitelist()
+def send_message(channel, recipient, message, message_type="text", 
+                 media_url=None, reference_doctype=None, reference_name=None,
+                 template_name=None, template_params=None):
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
 def send_message(channel, recipient, message, message_type="text", 
                  media_url=None, reference_doctype=None, reference_name=None,
                  template_name=None, template_params=None):
@@ -746,6 +752,10 @@ def get_quick_replies(channel_type):
 
 
 @frappe.whitelist()
+def schedule_meeting(reference_doctype, reference_name, participants, 
+                     room_name, scheduled_start, scheduled_end=None,
+                     room_type="Temporary", allow_recording=False):
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
 def schedule_meeting(reference_doctype, reference_name, participants, 
                      room_name, scheduled_start, scheduled_end=None,
                      room_type="Temporary", allow_recording=False):

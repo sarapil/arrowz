@@ -266,6 +266,8 @@ def get_user_extensions():
 
 @frappe.whitelist()
 def initiate_call(number, video=False, extension_name=None):
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+def initiate_call(number, video=False, extension_name=None):
     """
     Initiate an outbound call.
     

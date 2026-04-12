@@ -377,6 +377,8 @@ def test_connection():
 
 @frappe.whitelist()
 def get_topology_node():
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+def get_topology_node():
     """
     Get Dinstar device data formatted for the topology graph.
     

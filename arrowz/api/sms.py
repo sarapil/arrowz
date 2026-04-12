@@ -15,6 +15,8 @@ from frappe.utils import now_datetime
 
 @frappe.whitelist()
 def send_sms(to_number, message, provider=None, party_type=None, party=None, related_call=None):
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+def send_sms(to_number, message, provider=None, party_type=None, party=None, related_call=None):
     """
     Send an SMS message.
     

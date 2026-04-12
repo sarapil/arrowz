@@ -16,6 +16,8 @@ from frappe import _
 
 @frappe.whitelist()
 def search_contacts(query, limit=10):
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
+def search_contacts(query, limit=10):
     """
     Search for contacts across multiple DocTypes.
     
@@ -182,6 +184,8 @@ def search_contacts(query, limit=10):
 
 
 @frappe.whitelist()
+def get_contact_info(phone):
+    frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
 def get_contact_info(phone):
     """
     Get contact information for a phone number.
