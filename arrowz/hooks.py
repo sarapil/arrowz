@@ -87,10 +87,10 @@ app_home = "/desk/arrowz-topology"
 # -----------------------------------------------------------------------------
 
 # Include JS in all pages
-app_include_js = ["/assets/arrowz/js/arrowz_combined.js"]
+# CODESPACES: app_include_js = ["/assets/arrowz/js/arrowz_combined.js"]
 
 # Include CSS in all pages
-app_include_css = ["/assets/arrowz/css/arrowz_combined.css"]
+# CODESPACES: app_include_css = ["/assets/arrowz/css/arrowz_combined.css"]
 
 # -----------------------------------------------------------------------------
 # DocType-specific JavaScript
