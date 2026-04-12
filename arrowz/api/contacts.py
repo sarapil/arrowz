@@ -33,6 +33,7 @@ def search_contacts(query, limit=10):
     Returns:
         List of contacts with name, phone, doctype
     """
+    frappe.has_permission("Contact", "read", throw=True)
     frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
 
     if not query or len(query) < 2:

@@ -40,6 +40,7 @@ def get_communication_history(doctype, docname, channels=None, limit=50, offset=
     Returns:
         Dict with communications list and metadata
     """
+    frappe.has_permission("AZ Call Log", "read", throw=True)
     frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     if isinstance(channels, str):
         channels = json.loads(channels) if channels else None
@@ -392,6 +393,7 @@ def send_message(channel, recipient, message, message_type="text",
     Returns:
         Message status and ID
     """
+    frappe.has_permission("AZ Conversation Session", "write", throw=True)
     frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     if isinstance(template_params, str):
         template_params = json.loads(template_params) if template_params else None
@@ -760,6 +762,7 @@ def schedule_meeting(reference_doctype, reference_name, participants,
         room_type: "Permanent" or "Temporary"
         allow_recording: Whether recording is allowed
     """
+    frappe.has_permission("AZ Meeting Room", "create", throw=True)
     frappe.only_for(["System Manager", "Arrowz Manager", "Arrowz User"])
     if isinstance(participants, str):
         participants = json.loads(participants)

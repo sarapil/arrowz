@@ -277,6 +277,7 @@ def initiate_call(number, video=False, extension_name=None):
     Returns:
         Call log details and session info
     """
+    frappe.has_permission("AZ Extension", "read", throw=True)
     frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
 
     user = frappe.session.user

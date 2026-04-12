@@ -27,6 +27,7 @@ def get_call_history(extension=None, call_type=None, date_range="today", limit=5
     Returns:
         List of call log records
     """
+    frappe.has_permission("AZ Call Log", "read", throw=True)
     frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
 
     filters = {}

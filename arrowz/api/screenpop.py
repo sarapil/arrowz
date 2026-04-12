@@ -397,6 +397,7 @@ def link_call_to_party(call_log: str, party_type: str, party: str) -> bool:
     Returns:
         Success status
     """
+    frappe.has_permission("AZ Call Log", "write", throw=True)
     frappe.only_for(["AZ User", "AZ Manager", "System Manager"])
 
     if not frappe.db.exists("AZ Call Log", call_log):
