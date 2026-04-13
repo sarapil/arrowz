@@ -25,7 +25,7 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "\ud83d\uddfa\ufe0f Network Topology",
+   "label": "🗺️ Network Topology",
    "link_count": 0,
    "link_to": "arrowz-topology",
    "link_type": "Page",
@@ -35,7 +35,7 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "\ud83d\udcde Communications",
+   "label": "📞 Communications",
    "link_count": 0,
    "link_to": "arrowz-communications",
    "link_type": "Page",
@@ -45,7 +45,7 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "\ud83d\udcca Analytics",
+   "label": "📊 Analytics",
    "link_count": 0,
    "link_to": "arrowz-analytics",
    "link_type": "Page",
@@ -55,7 +55,7 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "\ud83d\udccb Wallboard",
+   "label": "📋 Wallboard",
    "link_count": 0,
    "link_to": "arrowz-wallboard",
    "link_type": "Page",
@@ -65,7 +65,7 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "\ud83e\uddd1\u200d\ud83d\udcbc Agent Dashboard",
+   "label": "🧑‍💼 Agent Dashboard",
    "link_count": 0,
    "link_to": "arrowz-agent-dashboard",
    "link_type": "Page",
@@ -75,7 +75,7 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "\ud83d\udcf1 Dinstar Gateway",
+   "label": "📱 Dinstar Gateway",
    "link_count": 0,
    "link_to": "dinstar-dashboard",
    "link_type": "Page",
@@ -85,7 +85,7 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "\ud83d\udcde Make Call",
+   "label": "📞 Make Call",
    "link_count": 0,
    "link_to": "make-call",
    "link_type": "Page",
@@ -95,7 +95,7 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "\ud83d\udcda Documentation",
+   "label": "📚 Documentation",
    "link_count": 0,
    "link_to": "arrowz-docs",
    "link_type": "Page",
@@ -910,7 +910,7 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Arrowz Settings",
+   "label": "Settings",
    "link_count": 0,
    "link_to": "Arrowz Settings",
    "link_type": "DocType",
@@ -930,7 +930,7 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Arrowz Boxes",
+   "label": "Boxes",
    "link_count": 0,
    "link_to": "Arrowz Box",
    "link_type": "DocType",

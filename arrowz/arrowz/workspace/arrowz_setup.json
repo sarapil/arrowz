@@ -22,7 +22,7 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Arrowz Settings",
+   "label": "Settings",
    "link_to": "Arrowz Settings",
    "link_type": "DocType",
    "onboard": 1,
@@ -40,7 +40,7 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Arrowz Boxes",
+   "label": "Boxes",
    "link_to": "Arrowz Box",
    "link_type": "DocType",
    "onboard": 1,
