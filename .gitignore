@@ -141,7 +141,8 @@ bower_components/
 
 # Gatsby files
 .cache/
-public/
+# NOTE: public/ is NOT ignored here — arrowz/public/ contains source assets
+# (css, js, icons, images, sounds) that must be tracked in git.
 
 # vuepress build output
 .vuepress/dist
