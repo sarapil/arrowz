@@ -309,3 +309,10 @@ MIT License - See [LICENSE](LICENSE) file.
 <p align="center">
   Built with ❤️ for the Frappe community
 </p>
+
+## Contact
+
+For support and inquiries:
+- Phone: +201508268982
+- WhatsApp: https://wa.me/201508268982
+
